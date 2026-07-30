@@ -1,0 +1,13 @@
+---
+deployment:
+  tasks:
+    # 1. Set this to the document root of growthcred.co.za on your cPanel.
+    #    For the primary domain it is /home/<your-cpanel-username>/public_html/
+    #    Find <your-cpanel-username> in cPanel top-right, or under "General
+    #    Information". Keep the trailing slash. Replace the placeholder below.
+    - export DEPLOYPATH=/home/YOUR_CPANEL_USERNAME/public_html/
+    # 2. Copy the built site into place.
+    - /bin/cp -R dist/* $DEPLOYPATH
+    # 3. Copy the SPA .htaccess explicitly (dist/* skips dotfiles, and without
+    #    this file every route except "/" would 404 on Apache).
+    - /bin/cp dist/.htaccess $DEPLOYPATH

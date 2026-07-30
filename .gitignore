@@ -1,0 +1,13 @@
+node_modules
+dist-ssr
+*.local
+# NOTE: dist/ is intentionally committed. cPanel's Git deploy copies dist/* to
+# public_html (see .cpanel.yml), so the built site must be in the repo.
+.env
+.env.local
+.env.*.local
+.DS_Store
+*.log
+
+# TypeScript build cache
+*.tsbuildinfo

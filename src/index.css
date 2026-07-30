@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+/* ============================================================
+   GrowthCred design tokens
+   Palette: midnight base, gold accent, cream on dark, paper light.
+   Type:    Manrope (headings) / DM Sans (body) / DM Mono (labels, numbers).
+   ============================================================ */
+@theme {
+  --color-midnight: #1a1a24;
+  --color-midnight-soft: #262633;
+  --color-gold: #c8a04a;
+  --color-gold-soft: #dab963;
+  --color-cream: #e8e0d0;
+  --color-paper: #faf9f6;
+  --color-ink: #3a3948;
+  --color-muted: #74737f;
+  --color-faint: #c3bcae;
+
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.03;
+    color: var(--color-midnight);
+  }
+  /* Visible focus for keyboard users on every interactive element. */
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 3px solid var(--color-gold);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* One-question-at-a-time entrance. Disabled under reduced-motion below. */
+@keyframes gcStepIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.gc-step-in {
+  animation: gcStepIn 0.38s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
