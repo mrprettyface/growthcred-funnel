@@ -24,9 +24,8 @@ export default function DownsellPage() {
       });
     }
     track(accepted ? "downsell_accept" : "downsell_decline");
-    // Accepting the trial = getting Done With You, so skip the Build It for You
-    // offer. Declining means they passed on DWY entirely, so offer Build It for You.
-    navigate(accepted ? "/thank-you" : "/build");
+    // Everyone now passes through the custom-system offer before the thank-you.
+    navigate("/build");
   }
 
   return (

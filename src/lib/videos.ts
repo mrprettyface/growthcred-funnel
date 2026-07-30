@@ -60,10 +60,11 @@ export function file(src: string): VideoSource {
    YOUR VIDEOS. Replace null with youtube("...") / vimeo("...") / file("...").
    ========================================================================= */
 export const VIDEOS: Record<string, VideoSource> = {
-  workshopVsl: youtube("https://youtu.be/TDvgjpY-OrQ"), // Workshop VSL hero, "/"
-  freeClass: youtube("https://youtu.be/3Qg1U1gyGOQ"), // Free class after opt-in, "/class"
-  upsell: youtube("https://youtu.be/XRliPVrPfMI"), // Done With You, "/upsell"
-  thankYou: null, // Reassurance on order confirmation, "/thank-you" (awaiting link)
+  workshopVsl: youtube("https://youtu.be/TDvgjpY-OrQ"), // "Workshop" video, landing page "/"
+  upsell: youtube("https://youtu.be/3Qg1U1gyGOQ"), // "Operators Intensive" video, "/upsell"
+  customSystem: youtube("https://youtu.be/XRliPVrPfMI"), // "Custom System" video, "/build"
+  freeClass: null, // Free class, "/class" (no video yet)
+  thankYou: null, // Order confirmation, "/thank-you" (no video, by design)
 };
 
 /** Builds the embed URL for iframe hosts. Files are handled by the player. */

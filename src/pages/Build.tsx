@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Section, Eyebrow, H1, Faint, Button, CheckList, cn } from "../components/ui";
+import { Section, Eyebrow, H1, Faint, Button, ButtonLink, CheckList, VideoSlot, cn } from "../components/ui";
 import { useOrder } from "../lib/order";
 import { submitBuildRequest, isSupabaseConfigured } from "../lib/supabase";
 import { track } from "../lib/analytics";
+import { mailtoHref } from "../lib/mailto";
 
 /**
- * "BUILD IT FOR YOU", the top of the ladder.
- * Shown only to buyers who DECLINED the Done With You upsell and downsell.
- * It is not sold in the cart: it is a mini application to qualify, so we can
- * audit their business and industry and reach out. No price, no bank details.
+ * CUSTOM SYSTEM ("Build It for You"), the top of the ladder.
+ * Everyone passes through this before the thank-you page. It is not sold in the
+ * cart: they answer a few questions, then send a prewritten "I want a custom
+ * system" email that carries their answers, so we can audit and reach out.
+ * (The database is not on yet, so that email is how we hear about it.)
  * Decline goes to the workshop confirmation.
  */
 
@@ -24,28 +26,28 @@ export default function BuildPage() {
   const [whatsapp, setWhatsapp] = useState("");
   const [availability, setAvailability] = useState("");
   const [notes, setNotes] = useState("");
-  const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
-  const [message, setMessage] = useState("");
+  const [state, setState] = useState<"idle" | "done">("idle");
 
   useEffect(() => track("build_view"), []);
 
   const ready = timing !== "" && industry.trim() !== "" && whatsapp.trim() !== "";
 
-  function markDecision(applied: boolean) {
-    if (order) setOrder({ ...order, buildDecision: applied ? "applied" : "declined" });
-  }
+  const customSystemEmail = mailtoHref("I want a custom system", [
+    "Hey, I want a custom system.",
+    "",
+    `Order reference: ${order?.reference ?? ""}`,
+    `Name: ${order?.name ?? ""}`,
+    `Email: ${order?.email ?? ""}`,
+    `Industry: ${industry}`,
+    `When I want to start: ${timing}`,
+    `Availability for an audit call: ${availability}`,
+    `WhatsApp: ${whatsapp}`,
+    `Notes: ${notes}`,
+  ]);
 
-  function decline() {
-    markDecision(false);
-    track("build_decline");
-    navigate("/thank-you");
-  }
-
-  async function apply(e: React.FormEvent) {
-    e.preventDefault();
-    if (!ready) return;
-    setState("sending");
-    const result = await submitBuildRequest({
+  function handleApply() {
+    // Fire-and-forget save for when the database is on later; harmless when off.
+    void submitBuildRequest({
       reference: order?.reference ?? "NO-REF",
       name: order?.name ?? "",
       email: order?.email ?? "",
@@ -55,14 +57,15 @@ export default function BuildPage() {
       availability,
       notes,
     });
-    if (!result.ok && result.error !== "not_configured") {
-      setState("error");
-      setMessage("That did not send. Please try again, or WhatsApp us on 066 283 0289.");
-      return;
-    }
-    markDecision(true);
+    if (order) setOrder({ ...order, buildDecision: "applied" });
     track("build_apply", { timing, configured: isSupabaseConfigured });
     setState("done");
+  }
+
+  function decline() {
+    if (order) setOrder({ ...order, buildDecision: "declined" });
+    track("build_decline");
+    navigate("/thank-you");
   }
 
   /* ---------------- Confirmation ---------------- */
@@ -70,14 +73,18 @@ export default function BuildPage() {
     return (
       <Section className="pt-10 md:pt-16">
         <div className="mx-auto max-w-[720px] text-center">
-          <Eyebrow>Application received</Eyebrow>
+          <Eyebrow>Almost there</Eyebrow>
           <H1 className="mx-auto mt-5 max-w-[18ch]">
-            Thanks{order?.name ? `, ${order.name.split(" ")[0]}` : ""}.{" "}
-            <Faint>We take it from here.</Faint>
+            One quick <Faint>send.</Faint>
           </H1>
-          <p className="mx-auto mt-5 max-w-[50ch] text-ink">
-            We will audit your business and your industry, then reach out on WhatsApp to see if we
-            are the right fit to build it for you. In the meantime, your workshop is still yours.
+          <p className="mx-auto mt-5 max-w-[52ch] text-ink">
+            We&rsquo;ve opened a prewritten email with your details. Just hit send, and we&rsquo;ll
+            audit your business and reach out to build your custom system. If your email app
+            didn&rsquo;t open, email{" "}
+            <a href="mailto:info@growthcred.co.za" className="text-midnight underline decoration-gold">
+              info@growthcred.co.za
+            </a>{" "}
+            and say you want a custom system.
           </p>
           <div className="mt-8">
             <Button onClick={() => navigate("/thank-you")}>
@@ -105,6 +112,10 @@ export default function BuildPage() {
           </p>
         </div>
 
+        <div className="mx-auto mt-9 max-w-[760px]">
+          <VideoSlot slot="customSystem" label="custom system video" />
+        </div>
+
         <div className="mx-auto mt-9 max-w-[620px]">
           <CheckList
             className="text-[17px]"
@@ -118,13 +129,13 @@ export default function BuildPage() {
         </div>
 
         <form
-          onSubmit={apply}
+          onSubmit={(e) => e.preventDefault()}
           className="mx-auto mt-10 max-w-[620px] rounded-2xl border border-midnight/10 bg-white p-6 md:p-8"
         >
           <h2 className="text-2xl">A few quick questions</h2>
           <p className="mt-2 text-[15px] text-muted">
-            This is by application. Answer these and we will audit your business before we speak, so
-            the call is worth your time. No payment now.
+            Answer these and we will audit your business before we speak, so the call is worth your
+            time. No payment now.
           </p>
 
           {/* Investment timing */}
@@ -159,7 +170,6 @@ export default function BuildPage() {
               </label>
               <input
                 id="industry"
-                required
                 value={industry}
                 onChange={(e) => setIndustry(e.target.value)}
                 placeholder="e.g. logistics, law, property, e-commerce"
@@ -173,7 +183,6 @@ export default function BuildPage() {
               <input
                 id="whatsapp"
                 type="tel"
-                required
                 value={whatsapp}
                 onChange={(e) => setWhatsapp(e.target.value)}
                 placeholder="082 123 4567"
@@ -194,7 +203,8 @@ export default function BuildPage() {
             </div>
             <div>
               <label htmlFor="notes" className="mb-1.5 block text-sm font-semibold text-midnight">
-                Anything you especially want off your plate? <span className="text-muted">(optional)</span>
+                Anything you especially want off your plate?{" "}
+                <span className="text-muted">(optional)</span>
               </label>
               <textarea
                 id="notes"
@@ -205,16 +215,20 @@ export default function BuildPage() {
             </div>
           </div>
 
-          {state === "error" && (
-            <p role="alert" className="mt-5 text-sm text-red-700">
-              {message}
+          {ready ? (
+            <ButtonLink href={customSystemEmail} onClick={handleApply} className="mt-7 w-full text-base">
+              Yes, I want a custom system <span aria-hidden="true">&#8599;</span>
+            </ButtonLink>
+          ) : (
+            <Button type="button" disabled className="mt-7 w-full text-base">
+              Yes, I want a custom system <span aria-hidden="true">&#8599;</span>
+            </Button>
+          )}
+          {!ready && (
+            <p className="mt-2 text-center text-xs text-muted">
+              Answer the timing, industry and WhatsApp above to continue.
             </p>
           )}
-
-          <Button type="submit" disabled={!ready || state === "sending"} className="mt-7 w-full text-base">
-            {state === "sending" ? "Sending…" : "Yes, build it for me"}{" "}
-            <span aria-hidden="true">&#8599;</span>
-          </Button>
         </form>
 
         <div className="mt-6 text-center">

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Section, Eyebrow, H1, Faint, VideoSlot } from "../components/ui";
+import { Section, Eyebrow, H1, Faint } from "../components/ui";
 import { OFFERS, formatPrice, sumOffers } from "../lib/offers";
 import { useOrder } from "../lib/order";
 import { track } from "../lib/analytics";
@@ -28,12 +28,9 @@ export default function ThankYouPage() {
             Your Time Back <Faint>Starts Now.</Faint>
           </H1>
           <p className="mx-auto mt-6 max-w-[52ch] text-lg text-ink">
-            You made the right call. Here is exactly what happens next, so there are no surprises.
+            You made the right call, and we&rsquo;re glad you&rsquo;re in. Here is exactly what
+            happens next, so there are no surprises.
           </p>
-        </div>
-
-        <div className="mx-auto mt-10 max-w-[760px]">
-          <VideoSlot slot="thankYou" label="reassurance video, 60 to 90 seconds" />
         </div>
       </Section>
 
@@ -44,12 +41,16 @@ export default function ThankYouPage() {
             What happens next
           </div>
           <h2 className="mt-3 text-2xl text-cream md:text-3xl">
-            We&rsquo;ll WhatsApp you your workshop details.
+            Now watch your email.
           </h2>
           <p className="mt-4 text-cream/80">
-            Within one working day we message you on WhatsApp with everything you need: your date,
-            what to bring, how to get set up, and how to settle payment. Nothing to do right now
-            except keep an eye on your phone.
+            Within one working day we&rsquo;ll email you everything you need: your date, what to
+            bring, how to get set up, and how to settle payment. Nothing to do right now except keep
+            an eye on your inbox.
+          </p>
+          <p className="mt-3 text-cream/80">
+            One thing: check your spam or promotions folder if you don&rsquo;t see it. That first
+            email likes to hide there, so mark it &ldquo;not spam&rdquo; and you&rsquo;re set.
           </p>
 
           {/* Summary of what they registered for */}
