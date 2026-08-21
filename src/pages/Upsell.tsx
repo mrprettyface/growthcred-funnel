@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Section, Eyebrow, H1, Faint, Button, ButtonLink, VideoSlot, CheckList } from "../components/ui";
+import { WhopPay } from "../components/WhopPay";
 import { UPSELL, formatPrice } from "../lib/offers";
+import { WHOP_PLANS } from "../lib/whop";
 import { useOrder } from "../lib/order";
+import { recordPayment } from "../lib/supabase";
 import { track } from "../lib/analytics";
 import { mailtoHref } from "../lib/mailto";
 
@@ -19,7 +22,7 @@ import { mailtoHref } from "../lib/mailto";
 export default function UpsellPage() {
   const navigate = useNavigate();
   const { order, setOrder } = useOrder();
-  const [view, setView] = useState<"offer" | "accepted">("offer");
+  const [view, setView] = useState<"offer" | "pay" | "accepted">("offer");
 
   useEffect(() => track("upsell_view"), []);
 
@@ -45,11 +48,19 @@ export default function UpsellPage() {
     "Send me the next steps.",
   ]);
 
+  /** They want it: show Whop's checkout for the Operators Intensive plan. */
   function accept() {
+    track("upsell_accept");
+    setView("pay");
+  }
+
+  /** Whop confirmed the R9 900 payment. */
+  function onPaid() {
     if (order) {
       setOrder({ ...order, items: [...order.items, UPSELL.id], upsellDecision: "accepted" });
     }
-    track("upsell_accept");
+    void recordPayment(ref, "paid_operators_intensive");
+    track("upsell_paid");
     setView("accepted");
   }
 
@@ -57,6 +68,43 @@ export default function UpsellPage() {
     if (order) setOrder({ ...order, upsellDecision: "declined" });
     track("upsell_decline");
     navigate("/downsell");
+  }
+
+  /* ---------------- Pay for the upgrade ---------------- */
+  if (view === "pay") {
+    return (
+      <Section className="pt-10 md:pt-14">
+        <div className="mx-auto max-w-[720px]">
+          <div className="mb-6 text-center">
+            <Eyebrow>Add Done With You</Eyebrow>
+            <H1 className="mx-auto mt-4 max-w-[18ch] text-3xl md:text-5xl">
+              Secure checkout.
+            </H1>
+            <p className="mx-auto mt-4 max-w-[46ch] text-ink">
+              {formatPrice(UPSELL.amountCents)}, paid securely through Whop. Your card details never
+              touch our site.
+            </p>
+          </div>
+
+          <WhopPay
+            planId={WHOP_PLANS.operatorsIntensive}
+            email={order?.email}
+            reference={ref}
+            buttonText="Add Done With You"
+            onPaid={onPaid}
+          />
+
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => setView("offer")}
+              className="bg-transparent font-mono text-xs uppercase tracking-[0.12em] text-muted underline underline-offset-4 hover:text-midnight"
+            >
+              &larr; Back
+            </button>
+          </div>
+        </div>
+      </Section>
+    );
   }
 
   /* ---------------- Upgrade accepted: congrats + steps ---------------- */
@@ -157,7 +205,7 @@ export default function UpsellPage() {
           Yes, add this to my order &mdash; {formatPrice(UPSELL.amountCents)}
         </Button>
         <p className="text-center text-xs text-muted">
-          Added to your order. Nothing to pay now, we&rsquo;ll sort payment when we follow up.
+          Secure card payment on the next step, then we get you booked in.
         </p>
         <button
           onClick={decline}

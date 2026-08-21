@@ -48,6 +48,24 @@ export async function createOrder(order: OrderRow): Promise<{ ok: boolean; error
 }
 
 /**
+ * Records that a Whop payment completed, against our order reference.
+ *
+ * We cannot UPDATE the orders row (anon is insert-only by design, so nobody can
+ * mark their own order paid), so successful payments are appended here instead.
+ * Whop's dashboard remains the authority on money; this is our matching trail.
+ */
+export async function recordPayment(
+  reference: string,
+  offer: string,
+): Promise<{ ok: boolean; error?: string }> {
+  if (!supabase) return { ok: false, error: "not_configured" };
+  const { error } = await supabase
+    .from("upsell_events")
+    .insert({ reference, offer, accepted: true });
+  return error ? { ok: false, error: error.message } : { ok: true };
+}
+
+/**
  * A high-ticket application. This is the point of the exercise: the form does
  * not just collect a name, it begins the relationship. The three open
  * questions mean Phila walks into the call already understanding the goal,

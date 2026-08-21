@@ -44,9 +44,9 @@ export default function ThankYouPage() {
             Now watch your email.
           </h2>
           <p className="mt-4 text-cream/80">
-            Within one working day we&rsquo;ll email you everything you need: your date, what to
-            bring, how to get set up, and how to settle payment. Nothing to do right now except keep
-            an eye on your inbox.
+            Your payment is in, so you&rsquo;re booked. Within one working day we&rsquo;ll email you
+            everything you need: your date, what to bring, and how to get set up. Nothing to do right
+            now except keep an eye on your inbox.
           </p>
           <p className="mt-3 text-cream/80">
             One thing: check your spam or promotions folder if you don&rsquo;t see it. That first
@@ -67,14 +67,14 @@ export default function ThankYouPage() {
               </div>
             ))}
             <div className="flex items-baseline justify-between gap-4 py-4">
-              <span className="font-display font-extrabold">Total to settle</span>
+              <span className="font-display font-extrabold">Total paid</span>
               <span className="font-mono text-2xl text-gold">{formatPrice(total)}</span>
             </div>
           </div>
 
-          {/* Reference ties their payment to them when it lands */}
+          {/* Reference ties their payment to them */}
           <div className="mt-2 rounded-xl border border-gold/40 bg-gold/15 p-4">
-            <div className="text-xs text-cream/70">Keep this reference for when we set up payment</div>
+            <div className="text-xs text-cream/70">Your order reference</div>
             <div className="mt-1 font-mono text-2xl tracking-wider text-gold">
               {order?.reference ?? "—"}
             </div>
