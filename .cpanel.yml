@@ -8,3 +8,6 @@ deployment:
     # 3. Copy the SPA .htaccess explicitly (dist/* skips dotfiles, and without
     #    this file every route except "/" would 404 on Apache).
     - /bin/cp dist/.htaccess $DEPLOYPATH
+    # 4. Copy the Apple Pay domain-association folder (also a dotfile, also
+    #    skipped by dist/*). Without it Apple Pay cannot be verified.
+    - /bin/cp -R dist/.well-known $DEPLOYPATH

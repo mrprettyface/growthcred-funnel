@@ -2,10 +2,20 @@
   RewriteEngine On
   RewriteBase /
   RewriteRule ^index\.html$ - [L]
+  # Serve .well-known as-is (Apple Pay domain verification). Must come before
+  # the SPA fallback, or Apple would receive the app's HTML instead of the file.
+  RewriteRule ^\.well-known/ - [L]
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
 </IfModule>
+
+# The Apple Pay file has no extension; serve it as a plain download and make
+# sure the hidden .well-known folder is publicly readable.
+<Files "apple-developer-merchantid-domain-association">
+  ForceType application/octet-stream
+  Require all granted
+</Files>
 
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml
