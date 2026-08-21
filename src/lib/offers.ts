@@ -26,7 +26,7 @@ export const ORDER_BUMP: Offer = {
   name: "Skip the Setup",
   blurb:
     "We set up your business brain for you before the day, so you arrive ready to build instead of starting from a blank page.",
-  amountCents: 49000, // R490 recommended
+  amountCents: 50000, // R500, so workshop + bump = R1 490 and matches Whop plan B exactly
 };
 
 export const UPSELL: Offer = {
