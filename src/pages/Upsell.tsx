@@ -91,6 +91,7 @@ export default function UpsellPage() {
             email={order?.email}
             reference={ref}
             buttonText="Add Done With You"
+            returnPath="/build"
             onPaid={onPaid}
           />
 

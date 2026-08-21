@@ -110,6 +110,7 @@ export default function CheckoutPage() {
               email={email}
               reference={reference}
               buttonText="Get my time back"
+              returnPath="/upsell"
               onPaid={onPaid}
             />
           </div>
