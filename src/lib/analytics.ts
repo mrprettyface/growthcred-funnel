@@ -22,6 +22,7 @@ type FunnelStep =
   | "upsell_decline"
   | "downsell_view"
   | "downsell_accept"
+  | "downsell_paid"
   | "downsell_decline"
   | "build_view"
   | "build_apply"

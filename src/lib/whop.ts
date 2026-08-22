@@ -20,6 +20,8 @@ export const WHOP_PLANS = {
   workshopPlusBump: "plan_UCryhOI0svT2W",
   /** C - "Operators Intensive" */
   operatorsIntensive: "plan_Lrt0EkLTJD5nx",
+  /** D - the home-study course, offered when the Intensive is declined */
+  homeCourse: "plan_Pbw4zu8ngelfI",
 } as const;
 
 /** Picks the workshop plan that matches whether the order bump was ticked. */

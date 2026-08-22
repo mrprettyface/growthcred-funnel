@@ -37,11 +37,17 @@ export const UPSELL: Offer = {
   amountCents: 990000, // R9 900 recommended
 };
 
+/**
+ * The downsell, shown only when the Intensive is declined. Same builds, done at
+ * home in your own time, for well under half the price. It completes the ladder
+ * of who does the work: Do It Yourself -> Done With You -> Done For You.
+ */
 export const DOWNSELL: Offer = {
   id: "downsell",
-  name: "Try It Free for 7 Days",
-  blurb: "Start today, pay in 7 days. Full access from the moment you begin.",
-  amountCents: 990000, // 7-day trial converts to the full upsell (R9 900) on day 7
+  name: "Do It Yourself: Get Your Time Back",
+  blurb:
+    "The same builds as the Intensive, recorded, so you can do them at home in your own time.",
+  amountCents: 400000, // R4 000
 };
 
 export const OFFERS: Record<string, Offer> = {
