@@ -47,7 +47,7 @@ export const DOWNSELL: Offer = {
   name: "Do It Yourself: Get Your Time Back",
   blurb:
     "The same builds as the Intensive, recorded, so you can do them at home in your own time.",
-  amountCents: 400000, // R4 000
+  amountCents: 399900, // R3 999, matching the Whop plan exactly
 };
 
 export const OFFERS: Record<string, Offer> = {
