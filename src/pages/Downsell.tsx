@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Section, Eyebrow, H1, Faint, Button, ButtonLink, CheckList } from "../components/ui";
 import { WhopPay } from "../components/WhopPay";
+import { Modal } from "../components/Modal";
 import { DOWNSELL, UPSELL, formatPrice } from "../lib/offers";
 import { WHOP_PLANS } from "../lib/whop";
 import { useOrder } from "../lib/order";
@@ -91,43 +92,6 @@ export default function DownsellPage() {
     );
   }
 
-  /* ---------------- Pay ---------------- */
-  if (view === "pay") {
-    return (
-      <Section className="pt-10 md:pt-14">
-        <div className="mx-auto max-w-[720px]">
-          <div className="mb-6 text-center">
-            <Eyebrow>Get the course</Eyebrow>
-            <H1 className="mx-auto mt-4 max-w-[18ch] text-3xl md:text-5xl">
-              Secure checkout.
-            </H1>
-            <p className="mx-auto mt-4 max-w-[46ch] text-ink">
-              {formatPrice(DOWNSELL.amountCents)}, once off. Yours to keep.
-            </p>
-          </div>
-
-          <WhopPay
-            planId={WHOP_PLANS.homeCourse}
-            email={order?.email}
-            reference={ref}
-            buttonText="Get the course"
-            returnPath="/build"
-            onPaid={onPaid}
-          />
-
-          <div className="mt-6 text-center">
-            <button
-              onClick={() => setView("offer")}
-              className="bg-transparent font-mono text-xs uppercase tracking-[0.12em] text-muted underline underline-offset-4 hover:text-midnight"
-            >
-              &larr; Back
-            </button>
-          </div>
-        </div>
-      </Section>
-    );
-  }
-
   /* ---------------- Offer ---------------- */
   return (
     <Section className="pt-8 md:pt-12">
@@ -178,6 +142,23 @@ export default function DownsellPage() {
           </button>
         </div>
       </div>
+
+      {/* Payment floats over the offer, so the comparison stays visible */}
+      <Modal
+        open={view === "pay"}
+        onClose={() => setView("offer")}
+        title="Secure checkout."
+        subtitle={`${formatPrice(DOWNSELL.amountCents)}, once off. Yours to keep.`}
+      >
+        <WhopPay
+          planId={WHOP_PLANS.homeCourse}
+          email={order?.email}
+          reference={ref}
+          buttonText="Get the course"
+          returnPath="/build"
+          onPaid={onPaid}
+        />
+      </Modal>
     </Section>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Section, Eyebrow, H1, Faint, Button, ButtonLink, VideoSlot, CheckList } from "../components/ui";
 import { WhopPay } from "../components/WhopPay";
+import { Modal } from "../components/Modal";
 import { UPSELL, formatPrice } from "../lib/offers";
 import { WHOP_PLANS } from "../lib/whop";
 import { useOrder } from "../lib/order";
@@ -68,44 +69,6 @@ export default function UpsellPage() {
     if (order) setOrder({ ...order, upsellDecision: "declined" });
     track("upsell_decline");
     navigate("/downsell");
-  }
-
-  /* ---------------- Pay for the upgrade ---------------- */
-  if (view === "pay") {
-    return (
-      <Section className="pt-10 md:pt-14">
-        <div className="mx-auto max-w-[720px]">
-          <div className="mb-6 text-center">
-            <Eyebrow>Add Done With You</Eyebrow>
-            <H1 className="mx-auto mt-4 max-w-[18ch] text-3xl md:text-5xl">
-              Secure checkout.
-            </H1>
-            <p className="mx-auto mt-4 max-w-[46ch] text-ink">
-              {formatPrice(UPSELL.amountCents)}, paid securely through Whop. Your card details never
-              touch our site.
-            </p>
-          </div>
-
-          <WhopPay
-            planId={WHOP_PLANS.operatorsIntensive}
-            email={order?.email}
-            reference={ref}
-            buttonText="Add Done With You"
-            returnPath="/build"
-            onPaid={onPaid}
-          />
-
-          <div className="mt-6 text-center">
-            <button
-              onClick={() => setView("offer")}
-              className="bg-transparent font-mono text-xs uppercase tracking-[0.12em] text-muted underline underline-offset-4 hover:text-midnight"
-            >
-              &larr; Back
-            </button>
-          </div>
-        </div>
-      </Section>
-    );
   }
 
   /* ---------------- Upgrade accepted: congrats + steps ---------------- */
@@ -215,6 +178,23 @@ export default function UpsellPage() {
           No thanks, I&rsquo;ll do it myself
         </button>
       </div>
+
+      {/* Payment floats over the offer, so the video and bullets stay visible */}
+      <Modal
+        open={view === "pay"}
+        onClose={() => setView("offer")}
+        title="Secure checkout."
+        subtitle={`${formatPrice(UPSELL.amountCents)}, paid securely through Whop. Your card details never touch our site.`}
+      >
+        <WhopPay
+          planId={WHOP_PLANS.operatorsIntensive}
+          email={order?.email}
+          reference={ref}
+          buttonText="Add Done With You"
+          returnPath="/build"
+          onPaid={onPaid}
+        />
+      </Modal>
     </Section>
   );
 }

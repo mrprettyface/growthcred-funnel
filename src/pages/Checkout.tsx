@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Section, Eyebrow, Faint, Button } from "../components/ui";
 import { Brand } from "../components/Layout";
 import { WhopPay } from "../components/WhopPay";
+import { Modal } from "../components/Modal";
 import { WORKSHOP, ORDER_BUMP, formatPrice, sumOffers } from "../lib/offers";
 import { newReference } from "../lib/payment";
 import { workshopPlanId } from "../lib/whop";
@@ -87,35 +88,7 @@ export default function CheckoutPage() {
       </div>
 
       <div className="mx-auto grid max-w-[900px] gap-6 md:grid-cols-[1.1fr_0.9fr]">
-        {/* Stage 2: pay, on this page, inside Whop's secure checkout */}
-        {stage === "pay" ? (
-          <div>
-            <div className="mb-4 flex items-baseline justify-between gap-4">
-              <div>
-                <Eyebrow>Payment</Eyebrow>
-                <h1 className="mt-3 text-2xl md:text-3xl">
-                  Last step. <Faint>Secure checkout.</Faint>
-                </h1>
-              </div>
-              <button
-                type="button"
-                onClick={() => setStage("details")}
-                className="shrink-0 bg-transparent font-mono text-[11px] uppercase tracking-[0.12em] text-muted underline underline-offset-4 hover:text-midnight"
-              >
-                &larr; Edit
-              </button>
-            </div>
-            <WhopPay
-              planId={workshopPlanId(bump)}
-              email={email}
-              reference={reference}
-              buttonText="Get my time back"
-              returnPath="/upsell"
-              onPaid={onPaid}
-            />
-          </div>
-        ) : (
-        /* Stage 1: details */
+        {/* Details stay on screen; payment opens over them in a modal */}
         <form onSubmit={onSubmit} className="rounded-2xl border border-midnight/10 bg-white p-6 md:p-8">
           <Eyebrow>Your details</Eyebrow>
           <h1 className="mt-4 text-2xl md:text-3xl">
@@ -176,7 +149,6 @@ export default function CheckoutPage() {
             Get the 10 hours back, or you don&rsquo;t pay
           </p>
         </form>
-        )}
 
         {/* Summary */}
         <aside className="h-max rounded-2xl bg-midnight p-6 text-cream md:p-8">
@@ -206,9 +178,7 @@ export default function CheckoutPage() {
           </div>
 
           <p className="mt-2 text-xs leading-relaxed text-cream/60">
-            {stage === "pay"
-              ? "Paid securely through Whop. Your card details never touch our site."
-              : "Secure card payment on the next step. Your workshop details follow by email."}
+            Paid securely through Whop. Your card details never touch our site.
           </p>
 
           <p className="mt-5 font-mono text-[11px] text-cream/50">
@@ -218,6 +188,23 @@ export default function CheckoutPage() {
           </p>
         </aside>
       </div>
+
+      {/* Payment opens over the details, which stay filled in behind */}
+      <Modal
+        open={stage === "pay"}
+        onClose={() => setStage("details")}
+        title="Last step."
+        subtitle={`${formatPrice(total)} total. Paid securely through Whop, your card details never touch our site.`}
+      >
+        <WhopPay
+          planId={workshopPlanId(bump)}
+          email={email}
+          reference={reference}
+          buttonText="Get my time back"
+          returnPath="/upsell"
+          onPaid={onPaid}
+        />
+      </Modal>
     </Section>
   );
 }
