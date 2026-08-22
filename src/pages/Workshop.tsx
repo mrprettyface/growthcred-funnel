@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Section, Eyebrow, H1, Faint, ButtonLink, VideoSlot, CheckList, Faq } from "../components/ui";
 import { CostCalculator } from "../components/CostCalculator";
 import { SevenLevels } from "../components/SevenLevels";
+import { SocialSection } from "../components/SocialSection";
 import { track } from "../lib/analytics";
 
 /**
@@ -339,6 +340,9 @@ export default function WorkshopPage() {
           </ButtonLink>
         </div>
       </Section>
+
+      {/* Insights & Content: the big YouTube / LinkedIn cards */}
+      <SocialSection />
 
       {/* Sticky CTA, mobile-first conversion aid */}
       <div className="sticky bottom-0 z-40 border-t border-midnight/10 bg-paper/95 p-3 backdrop-blur md:hidden">
