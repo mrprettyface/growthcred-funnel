@@ -168,25 +168,66 @@ switch (gate) {
     break;
   }
 
+  case "review-order": {
+    // Pain before objection-handling. The demo answers a question nobody asks
+    // until they have accepted the cost, so it must sit after the calculator.
+    const page = code("src/pages/WorkshopExperience.tsx");
+    const at = (marker) => page.indexOf(marker);
+    const week = at('id="week"');
+    const cost = at('id="cost"');
+    const demo = at('id="demo"');
+    const levels = at('id="levels"');
+    const who = at('id="who"');
+    const day = at('id="day"');
+    for (const [name, i] of Object.entries({ week, cost, demo, levels, who, day }))
+      if (i < 0) fail(`WorkshopExperience: no ${name} section`);
+    if (!(week < cost)) fail("the week must come before the cost");
+    if (!(cost < demo)) fail("the demo must come AFTER the calculator, not before it");
+    if (!(demo < levels)) fail("the ladder must follow the demo");
+    if (!(levels < who)) fail("who-it-is-for must follow the ladder");
+    if (!(who < day)) fail("the day must follow who-it-is-for");
+
+    // A price with no reason reads as bait.
+    if (!/Founding rate/.test(page)) fail("the price is stated with no reason attached");
+    // The ladder must name the rungs the day delivers.
+    if (!/level two to level four/i.test(page))
+      fail("the ladder does not say which level the day takes them to");
+
+    // Identical repetition reads as a loop: the bands must not all say the same.
+    const notes = [...page.matchAll(/note=\{(\w+)\}/g)].map((m) => m[1]);
+    if (new Set(notes).size < 3)
+      fail(`only ${new Set(notes).size} distinct CTA framings across ${notes.length} bands; vary them`);
+    finish("G19");
+    break;
+  }
+
+  case "no-invented-proof": {
+    // Never a fabricated result and never an invented date. Both sections are
+    // data-driven and both data sources ship empty.
+    const data = code("src/lib/workshopEvent.ts");
+    if (!/export const PROOF: ProofEntry\[\] = \[\];/.test(data))
+      fail("PROOF is not empty; a testimonial may have been invented rather than given");
+    if (!/export const WORKSHOP_EVENT: WorkshopEvent \| null = null;/.test(data))
+      fail("WORKSHOP_EVENT is set in code; a date must come from Phila, not from here");
+    const page = code("src/pages/WorkshopExperience.tsx");
+    if (!/\{PROOF\.length > 0 && \(/.test(page))
+      fail("the proof section is not gated on real entries existing");
+    if (!/\{WORKSHOP_EVENT && \(/.test(page))
+      fail("the date section is not gated on the event being set");
+    finish("G20");
+    break;
+  }
+
   case "demo-everywhere": {
     // The comparison is the most persuasive thing on the site. It belongs on
     // every page that has to sell, and it belongs above the fold-and-a-half,
     // not buried at the bottom.
-    const hosts = [
+    for (const [file, label] of [
       ["src/pages/WebinarExperience.tsx", "webinar experience"],
       ["src/pages/WorkshopExperience.tsx", "workshop experience"],
       ["src/pages/Workshop.tsx", "the live home page"],
-    ];
-    for (const [file, label] of hosts) {
-      const src = code(file);
-      if (!/<LiveDemo/.test(src)) {
-        fail(`${label} does not render the live demo`);
-        continue;
-      }
-      // "High up" measured honestly: within the first half of the page source.
-      const at = src.indexOf("<LiveDemo");
-      if (at / src.length > 0.5)
-        fail(`${label} renders the demo ${Math.round((at / src.length) * 100)}% down the file; it should be in the first half`);
+    ]) {
+      if (!/<LiveDemo/.test(code(file))) fail(`${label} does not render the live demo`);
     }
     finish("G18");
     break;

@@ -13,6 +13,7 @@ import { LiveDemo } from "../components/webinar/LiveDemo";
 import ScrollFloat from "../components/reactbits/ScrollFloat";
 import ClickSpark from "../components/reactbits/ClickSpark";
 import TiltedCard from "../components/reactbits/TiltedCard";
+import { WORKSHOP_EVENT, PROOF, seatsLeft } from "../lib/workshopEvent";
 import { track } from "../lib/analytics";
 import { useReducedMotion, useIsMobile } from "../lib/motion";
 
@@ -33,17 +34,24 @@ import { useReducedMotion, useIsMobile } from "../lib/motion";
  * handlers, a plain branch under reduced motion, 44px targets, 12px type.
  */
 
+/**
+ * Order matters more than any line here. Pain before objection-handling: the
+ * demo answers "why hasn't ChatGPT already fixed this for me?", which nobody
+ * asks until they have accepted they have a problem. So the week, then the
+ * number, and only then the demo.
+ */
 const SCENES = [
   { id: "hero", label: "The promise" },
-  { id: "demo", label: "The difference" },
   { id: "week", label: "Your week" },
   { id: "cost", label: "The cost" },
+  { id: "demo", label: "The real reason" },
   { id: "levels", label: "The ladder" },
+  { id: "who", label: "Is this you?" },
   { id: "day", label: "The day" },
   { id: "walk", label: "What you get" },
   { id: "guarantee", label: "The guarantee" },
   { id: "host", label: "Who runs it" },
-  { id: "close", label: "Start" },
+  { id: "close", label: "Book it" },
 ];
 
 const BLOCKS = [
@@ -88,7 +96,13 @@ function BuyButton({ className }: { className?: string }) {
   );
 }
 
-const NOTE = "One day · R990 · Get the 10 hours back or you don’t pay";
+/**
+ * A price with no reason attached reads as either low value or bait. R990 is
+ * the founding rate held against R1 950 — see the note in lib/offers.ts.
+ */
+const FOUNDING = "Founding rate · R990 · goes to R1 950";
+const GUARANTEE_NOTE = "One day · Get the 10 hours back or you don’t pay";
+const OUTCOME_NOTE = "One day · Ten hours a week · Built in the room";
 
 export default function WorkshopExperience() {
   const reduced = useReducedMotion();
@@ -100,7 +114,7 @@ export default function WorkshopExperience() {
       <SmoothScroll />
       <ProgressRail scenes={SCENES} />
 
-      {/* ---------- The promise, and the VSL ---------- */}
+      {/* ---------- 1. The promise, and the VSL ---------- */}
       <Section id="hero" dark className="pt-10 md:pt-16">
         <div className="mx-auto max-w-[860px] text-center">
           <Eyebrow dark>The one-day workshop</Eyebrow>
@@ -124,57 +138,35 @@ export default function WorkshopExperience() {
         </div>
       </Section>
 
+      {/* ---------- 2. Quick book ---------- */}
       <CtaBand
         tone="dark"
         line="You can read the rest of this, or you can book the day and read it while you wait."
-        note={NOTE}
+        note={FOUNDING}
         action={<BuyButton className="shrink-0" />}
       />
 
-      {/* ---------- The demo. Show the gap before describing the fix. ---------- */}
-      <Section id="demo" className="py-8 pb-5 md:py-24 md:pb-10">
-        <LiveDemo />
-      </Section>
-
-      <CtaBand
-        line="Closing that gap is what the day is for. You build it, we guide it."
-        note={NOTE}
-        action={<BuyButton className="shrink-0" />}
-      />
-
-      {/* ---------- Your week, counted ---------- */}
+      {/* ---------- 3. Your week and the problem, as one beat ----------
+          These used to be two sections making the same point: feel the ten
+          hours, then be told about the ten hours. The second telling killed the
+          momentum the first one built. One section now. */}
       <Section id="week" className="py-8 pb-5 md:py-24 md:pb-10">
         <HoursScene />
-      </Section>
-
-      <CtaBand
-        line="That is the week the workshop is built to give you back."
-        note={NOTE}
-        action={<BuyButton className="shrink-0" />}
-      />
-
-      {/* ---------- The problem, one idea at a time ---------- */}
-      <Section dark className="py-8 md:py-24">
-        <div className="mx-auto max-w-[760px]">
-          <Eyebrow dark>The problem</Eyebrow>
-          <h2 className="mt-5 max-w-[18ch] text-3xl text-cream md:text-5xl">
-            The work that runs your week <Faint dark>is not the work that grows it.</Faint>
-          </h2>
+        <div className="mx-auto mt-[8vh] max-w-[760px]">
           <Beat lead>
-            <p className="max-w-[54ch] text-cream/95">
+            <p className="max-w-[54ch] text-midnight">
               Every owner starts out doing everything. It works, right up until it doesn&rsquo;t.
             </p>
           </Beat>
           <Beat>
-            <p className="max-w-[54ch] text-cream/85">
-              The follow-ups. The quotes. The scheduling. The chasing. The copy-paste admin that has
-              to happen but never moves you forward.
+            <p className="max-w-[54ch]">
+              You are not short on effort. You are short on hours. And the busy work has first claim
+              on every one of them.
             </p>
           </Beat>
           <Beat>
-            <p className="max-w-[54ch] text-cream/85">
-              You are not short on effort. You are short on hours. And the busy work has first claim
-              on every one of them.
+            <p className="max-w-[54ch] border-l-2 border-gold pl-4 text-lg font-semibold text-midnight">
+              Your business can only ever grow to the size of your week.
             </p>
           </Beat>
         </div>
@@ -187,8 +179,8 @@ export default function WorkshopExperience() {
         line="Every hour here is an hour not spent growing anything."
       />
 
-      {/* ---------- Their number ---------- */}
-      <Section id="cost" className="py-8 md:py-24">
+      {/* ---------- 4. Their own number ---------- */}
+      <Section id="cost" className="py-8 pb-5 md:py-24 md:pb-10">
         <div className="mx-auto mb-10 max-w-[46ch] text-center">
           <Eyebrow>The cost of staying stuck</Eyebrow>
           <h2 className="mt-4 text-3xl md:text-5xl">
@@ -199,17 +191,97 @@ export default function WorkshopExperience() {
       </Section>
 
       <CtaBand
-        line="One day costs R990. Another year of that number costs considerably more."
-        note={NOTE}
+        line="That number repeats every year you do nothing. One day is what stops it."
+        note={FOUNDING}
         action={<BuyButton className="shrink-0" />}
       />
 
-      {/* ---------- The ladder ---------- */}
-      <Section id="levels" className="py-8 md:py-24">
-        <SevenLevels />
+      {/* ---------- 5. Only now, the objection ----------
+          "Why hasn't ChatGPT already fixed this for me?" is a question people
+          ask after they accept the cost, not before. */}
+      <Section id="demo" className="py-8 pb-5 md:py-24 md:pb-10">
+        <LiveDemo />
       </Section>
 
-      {/* ---------- The day itself ---------- */}
+      <CtaBand
+        line="Closing that gap is the whole day. You build it, we guide it."
+        note={GUARANTEE_NOTE}
+        action={<BuyButton className="shrink-0" />}
+      />
+
+      {/* ---------- 6. The ladder, and where the day lands you ---------- */}
+      <Section id="levels" className="py-8 md:py-24">
+        <SevenLevels
+          note={
+            <div className="rounded-2xl border border-midnight/10 border-l-4 border-l-gold bg-white p-6 md:p-8">
+              <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted">
+                Where this day takes you
+              </p>
+              <p className="mt-3 max-w-[54ch] font-display text-xl font-extrabold tracking-[-0.03em] text-midnight md:text-2xl">
+                From level two to level four, in one day.
+              </p>
+              <p className="mt-3 max-w-[58ch] text-ink">
+                You arrive renting a tool that forgets you every morning. You leave with an asset
+                you own &mdash; your business written down once, wired to a worker, running a
+                routine overnight without you. That is levels three and four, built and live.
+              </p>
+              <p className="mt-3 max-w-[58ch] text-ink">
+                Five, six and seven are a longer road, and they are not what you are buying here.
+                What you are buying is the rung that gives you your week back.
+              </p>
+            </div>
+          }
+        />
+      </Section>
+
+      {/* ---------- 7. Who this is for, and who it isn't ---------- */}
+      <Section id="who" dark className="py-8 pb-5 md:py-24 md:pb-10">
+        <div className="mx-auto max-w-[760px]">
+          <Eyebrow dark>Be honest with yourself here</Eyebrow>
+          <h2 className="mt-5 text-3xl text-cream md:text-5xl">
+            This is for you <Faint dark>if&hellip;</Faint>
+          </h2>
+          <CheckList
+            dark
+            className="mt-8 text-lg"
+            items={[
+              "You own the business, and you’re also still doing the work in it.",
+              "You have between 3 and 50 people, and you’re the bottleneck for most of them.",
+              "You’ve tried ChatGPT, got something generic, and quietly went back to doing it yourself.",
+              "You’re not technical, and you don’t plan to be.",
+              "You can give one full day to fixing this, laptop open, real work in hand.",
+            ]}
+          />
+          <Beat lead>
+            <p className="max-w-[54ch] text-cream">
+              If you can send a WhatsApp voice note, you can do this. Nobody in my rooms is a
+              developer.
+            </p>
+          </Beat>
+          <Beat>
+            <p className="max-w-[56ch] text-cream/85">
+              <span className="font-semibold text-cream">It&rsquo;s not for you if</span> you want
+              AI to run your whole business while you sit on a beach. That is not real, and I am not
+              going to pretend it is on the day.
+            </p>
+          </Beat>
+          <Beat>
+            <p className="max-w-[56ch] text-cream/85">
+              It is also not for you if you cannot make the full day. Half a day gets you half a
+              system, and half a system is the thing you already have.
+            </p>
+          </Beat>
+        </div>
+      </Section>
+
+      <CtaBand
+        tone="dark"
+        line="If that is you, the next step is one day in a room."
+        note={OUTCOME_NOTE}
+        action={<BuyButton className="shrink-0" />}
+      />
+
+      {/* ---------- 8. The day itself ---------- */}
       <Section id="day" dark className="overflow-x-clip py-8 md:py-24">
         <div className="mx-auto mb-10 max-w-[46ch] text-center">
           <Eyebrow dark>What happens on the day</Eyebrow>
@@ -242,15 +314,8 @@ export default function WorkshopExperience() {
         </p>
       </Section>
 
-      <CtaBand
-        tone="dark"
-        line="That is the day. Six blocks, built with you in the room."
-        note={NOTE}
-        action={<BuyButton className="shrink-0" />}
-      />
-
-      {/* ---------- What you leave with ---------- */}
-      <Section id="walk" className="py-8 md:py-24">
+      {/* ---------- 9. What you leave with ---------- */}
+      <Section id="walk" className="py-8 pb-5 md:py-24 md:pb-10">
         <div className="mx-auto mb-10 max-w-[46ch] text-center">
           <Eyebrow>Everything you walk away with</Eyebrow>
           <h2 className="mt-4 text-3xl md:text-5xl">What you walk away with.</h2>
@@ -269,7 +334,36 @@ export default function WorkshopExperience() {
         />
       </Section>
 
-      {/* ---------- The guarantee ---------- */}
+      {/* ---------- 10. Proof ----------
+          Renders only when real operators have given a real figure and a real
+          line, with permission. See src/lib/workshopEvent.ts. Nothing stands in
+          for a person here. */}
+      {PROOF.length > 0 && (
+        <Section id="proof" className="py-8 pb-5 md:py-24 md:pb-10">
+          <div className="mx-auto mb-10 max-w-[46ch] text-center">
+            <Eyebrow>Proof</Eyebrow>
+            <h2 className="mt-4 text-3xl md:text-5xl">It works for people like you.</h2>
+          </div>
+          <div className="mx-auto grid max-w-[900px] gap-4 md:grid-cols-3">
+            {PROOF.map((entry) => (
+              <div
+                key={entry.name}
+                className="rounded-2xl border border-midnight/10 bg-white p-6"
+              >
+                <p className="font-display text-3xl font-extrabold tracking-[-0.04em] text-gold">
+                  {entry.figure}
+                </p>
+                <p className="mt-3 text-ink">&ldquo;{entry.quote}&rdquo;</p>
+                <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.14em] text-muted">
+                  {entry.name} &middot; {entry.company}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Section>
+      )}
+
+      {/* ---------- 11. The guarantee ---------- */}
       <Section id="guarantee" dark className="py-8 text-center md:py-24">
         <Eyebrow dark>The guarantee</Eyebrow>
         {reduced ? (
@@ -304,12 +398,9 @@ export default function WorkshopExperience() {
             back is if you never turn them on, and we spend the whole day making sure you do.
           </p>
         </div>
-        <div className="mt-8 flex justify-center">
-          <BuyButton className="w-full sm:w-auto" />
-        </div>
       </Section>
 
-      {/* ---------- Who runs it ---------- */}
+      {/* ---------- 12. Who runs it ---------- */}
       <Section id="host" className="py-8 md:py-24">
         <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
           <div className="mx-auto w-full max-w-[380px]">
@@ -359,6 +450,45 @@ export default function WorkshopExperience() {
         </div>
       </Section>
 
+      {/* ---------- 13. The hard details ----------
+          Renders only once the date is set. Nobody can commit to "one day" with
+          no day; an invented one would be worse. See src/lib/workshopEvent.ts. */}
+      {WORKSHOP_EVENT && (
+        <Section id="details" dark className="py-8 md:py-24">
+          <div className="mx-auto max-w-[760px]">
+            <Eyebrow dark>The day itself</Eyebrow>
+            <h2 className="mt-5 text-3xl text-cream md:text-5xl">
+              Here is exactly <Faint dark>where and when.</Faint>
+            </h2>
+            <dl className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-cream/15 bg-cream/15 sm:grid-cols-2">
+              {[
+                ["Date", WORKSHOP_EVENT.date],
+                ["Time", WORKSHOP_EVENT.time],
+                ["Venue", WORKSHOP_EVENT.venue],
+                [
+                  "Seats",
+                  seatsLeft() === 0
+                    ? "Full — next date to be announced"
+                    : `${seatsLeft()} of ${WORKSHOP_EVENT.seats} left`,
+                ],
+              ].map(([label, value]) => (
+                <div key={String(label)} className="bg-midnight-soft px-6 py-5">
+                  <dt className="font-mono text-[12px] uppercase tracking-[0.16em] text-cream/50">
+                    {label}
+                  </dt>
+                  <dd className="mt-2 font-display text-xl font-extrabold tracking-[-0.03em] text-cream">
+                    {value}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.14em] text-cream/50">
+              Small room on purpose. Everyone leaves with their systems built.
+            </p>
+          </div>
+        </Section>
+      )}
+
       <ImageBreak
         src="/images/the-outcome.jpg"
         alt="A calmer week, in control"
@@ -366,7 +496,7 @@ export default function WorkshopExperience() {
         line="A business that runs while you run it."
       />
 
-      {/* ---------- FAQ ---------- */}
+      {/* ---------- 14. FAQ ---------- */}
       <Section className="py-8 md:py-24">
         <div className="mx-auto mb-10 max-w-[46ch] text-center">
           <Eyebrow>Questions</Eyebrow>
@@ -374,6 +504,10 @@ export default function WorkshopExperience() {
         </div>
         <Faq
           items={[
+            {
+              q: "Why is it only R990?",
+              a: "Because it is the founding rate, and it goes to R1 950. I am building the room and the case studies at the same time, and early seats are priced for that. It is also the entry rung: the day gets your week back, and the deeper work is a separate, longer programme you are never obliged to take.",
+            },
             {
               q: "I’m not technical. Will I keep up?",
               a: "Yes. If you can use WhatsApp and a browser, you can do this. We build everything with you in the room, step by step, on your own laptop. Nobody leaves stuck.",
@@ -402,7 +536,7 @@ export default function WorkshopExperience() {
         />
       </Section>
 
-      {/* ---------- Close ---------- */}
+      {/* ---------- 15. Close ---------- */}
       <Section id="close" dark className="py-8 text-center md:py-24">
         <Eyebrow dark>A good first step</Eyebrow>
         <h2 className="mx-auto mt-5 max-w-[20ch] text-3xl text-cream md:text-5xl">
@@ -414,6 +548,9 @@ export default function WorkshopExperience() {
         <div className="mt-8 flex justify-center">
           <BuyButton className="w-full sm:w-auto" />
         </div>
+        <p className="mt-4 font-mono text-[12px] uppercase tracking-[0.14em] text-cream/50">
+          {FOUNDING}
+        </p>
       </Section>
 
       {/* Sticky CTA, mobile-first conversion aid */}

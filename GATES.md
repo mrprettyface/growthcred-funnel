@@ -79,6 +79,16 @@ verified on this page, and rejecting the changes that would regress them.
   EXPECT: G18 passed
   EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=ad58ddc63e7a/17 entries; output=G18 passed
 
+- [x] G19: the workshop page creates the pain before it answers the objection
+  CHECK: node scripts/verify-mobile.mjs review-order
+  EXPECT: G19 passed
+  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=ad58ddc63e7a/17 entries; output=G19 passed
+
+- [x] G20: no result and no date is ever invented; both sections are data-driven and both sources ship empty
+  CHECK: node scripts/verify-mobile.mjs no-invented-proof
+  EXPECT: G20 passed
+  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=ad58ddc63e7a/17 entries; output=G20 passed
+
 - [x] G7: the demo types without moving anything below it, measured in a real browser at 375px
   EVIDENCE: Measured in Chrome at 375x812: typed layer absolute over a 273-char sizer; pane height 254px before and after completion (0px delta); punchline stayed at y=6882 (0px delta). No layout shift while typing.
 

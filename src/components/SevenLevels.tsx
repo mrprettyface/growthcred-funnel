@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Eyebrow, Faint } from "./ui";
 
 /** The ladder, folded into the VSL as the "what you'll climb" section. */
@@ -11,7 +12,7 @@ const LEVELS: { no: string; name: string; desc: string; tag?: string }[] = [
   { no: "07", name: "Enterprise intelligence", desc: "Trained on your knowledge", tag: "Ownership" },
 ];
 
-export function SevenLevels() {
+export function SevenLevels({ note }: { note?: ReactNode } = {}) {
   return (
     <div>
       <div className="mb-10 grid items-end gap-6 md:grid-cols-2 md:gap-16">
@@ -62,6 +63,8 @@ export function SevenLevels() {
           </li>
         ))}
       </ol>
+
+      {note ? <div className="mt-8">{note}</div> : null}
 
       <p className="mt-7 max-w-[46ch] text-ink">
         The shift you are after runs right up this ladder: from AI curious, to AI owned. From
