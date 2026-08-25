@@ -64,6 +64,71 @@
   animation: gcStepIn 0.38s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
+/* A counter ticking over. Transform only — never opacity — because a number
+   that is only visible once its animation has run is a number that vanishes on
+   a throttled tab or a dropped frame. */
+@keyframes gcTick {
+  from {
+    transform: scale(1.3);
+  }
+  to {
+    transform: none;
+  }
+}
+.gc-tick {
+  animation: gcTick 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* The phone demo turning itself over from the generic answer to the trained
+   one. Transform and opacity only, and it sells the swap as a deliberate move
+   rather than the content silently changing under the reader. */
+@keyframes gcFlipIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* ============================================================
+   The one blur allowed on a phone.
+   The lane you are not reading sits back: smaller, dimmer, softly out of
+   focus — the same depth cue the desktop option wheel uses.
+
+   Why this one is safe when the others were not:
+   - the radius is a FIXED value, never scrubbed by scroll position, so the
+     layer rasterises once instead of repainting every frame
+   - it is on exactly one element at a time
+   - `filter` is deliberately NOT transitioned. Easing a blur radius means
+     re-rasterising on every frame of the transition; the scale and opacity
+     carry the motion instead, and those are free.
+   Anything that wants a blur must come through this class. See MOBILE-BRIEF.md.
+   ============================================================ */
+.gc-lane-dim {
+  filter: blur(2.5px);
+}
+
+/* The same idea on the job picker: the option under the needle is sharp, the
+   ones either side fall away. A lighter radius than the lanes because the type
+   is smaller and 2.5px would erase it entirely. Same three conditions —
+   fixed radius, discrete states, never transitioned. */
+.gc-pick-dim {
+  filter: blur(1.6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gc-lane-dim,
+  .gc-pick-dim {
+    filter: none;
+  }
+}
+
+.gc-flip-in {
+  animation: gcFlipIn 0.45s ease both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

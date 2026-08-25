@@ -3,6 +3,7 @@ import { Section, Eyebrow, H1, Faint, ButtonLink, VideoSlot, CheckList, Faq } fr
 import { CostCalculator } from "../components/CostCalculator";
 import { SevenLevels } from "../components/SevenLevels";
 import { SocialSection } from "../components/SocialSection";
+import { LiveDemo } from "../components/webinar/LiveDemo";
 import { track } from "../lib/analytics";
 
 /**
@@ -40,6 +41,14 @@ export default function WorkshopPage() {
         <p className="mt-4 font-mono text-xs uppercase tracking-[0.14em] text-muted">
           Get the 10 hours back, or you don&rsquo;t pay
         </p>
+      </Section>
+
+      {/* ---------- The difference, shown rather than described ----------
+          The strongest thing we have: same question, same AI, one of them
+          taught the business. It runs before the written argument, because
+          watching it makes the rest of the page make sense. */}
+      <Section className="pt-0">
+        <LiveDemo />
       </Section>
 
       {/* ---------- The problem ---------- */}

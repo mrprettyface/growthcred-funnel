@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState, type ReactNode } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { OrderContext, loadOrder, saveOrder, clearOrder, type Order } from "./lib/order";
 import { Layout } from "./components/Layout";
+import { ExperienceBoundary } from "./components/webinar/ExperienceBoundary";
 
 import ClassPage from "./pages/Class";
+
 import WorkshopPage from "./pages/Workshop";
 import CheckoutPage from "./pages/Checkout";
 import UpsellPage from "./pages/Upsell";
@@ -11,6 +13,21 @@ import DownsellPage from "./pages/Downsell";
 import BuildPage from "./pages/Build";
 import ThankYouPage from "./pages/ThankYou";
 import CallPage from "./pages/Call";
+import WebinarPlainPage from "./pages/Webinar";
+
+/**
+ * The webinar experience carries GSAP, Lenis, motion and a WebGL background.
+ * None of that should slow down the money page, so it is split into its own
+ * chunk and only fetched when someone actually opens /webinar.
+ */
+const WebinarExperience = lazy(() => import("./pages/WebinarExperience"));
+
+/**
+ * The money page as an experience, running alongside the original rather than
+ * replacing it. `/` keeps serving the page that takes payment until these have
+ * been compared on real traffic.
+ */
+const WorkshopExperience = lazy(() => import("./pages/WorkshopExperience"));
 import Terms from "./pages/legal/Terms";
 import Privacy from "./pages/legal/Privacy";
 import Refunds from "./pages/legal/Refunds";
@@ -35,6 +52,17 @@ function RequireOrder({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
+/** Holds the fold while the experience chunk arrives. Brand, not a spinner. */
+function WebinarLoading() {
+  return (
+    <div className="grid min-h-[70vh] place-items-center bg-midnight">
+      <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-cream/50">
+        Loading the class&hellip;
+      </p>
+    </div>
+  );
+}
+
 export default function App() {
   const [order, setOrderState] = useState<Order | null>(() => loadOrder());
 
@@ -57,6 +85,36 @@ export default function App() {
         <Routes>
           {/* Funnel */}
           <Route path="/class" element={<Layout><ClassPage /></Layout>} />
+          {/* Live class registration. Deliberately not in the nav: this is the
+              page the ads, WhatsApp broadcasts and emails point at.
+              /webinar is the scroll experience; /webinar-plain is the same
+              argument as a plain document, kept for slow connections and for
+              A/B testing the two against each other. */}
+          <Route
+            path="/webinar"
+            element={
+              <Layout>
+                <ExperienceBoundary fallback={<WebinarPlainPage />}>
+                  <Suspense fallback={<WebinarLoading />}>
+                    <WebinarExperience />
+                  </Suspense>
+                </ExperienceBoundary>
+              </Layout>
+            }
+          />
+          <Route path="/webinar-plain" element={<Layout><WebinarPlainPage /></Layout>} />
+          <Route
+            path="/workshop"
+            element={
+              <Layout>
+                <ExperienceBoundary fallback={<WorkshopPage />}>
+                  <Suspense fallback={<WebinarLoading />}>
+                    <WorkshopExperience />
+                  </Suspense>
+                </ExperienceBoundary>
+              </Layout>
+            }
+          />
           <Route path="/" element={<Layout><WorkshopPage /></Layout>} />
           <Route path="/checkout" element={<Layout bare><CheckoutPage /></Layout>} />
           <Route

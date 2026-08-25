@@ -147,7 +147,7 @@ export function CostCalculator() {
             }}
           />
           <div className="relative">
-            <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.18em] text-cream/60">
+            <div className="mb-4 font-mono text-[12px] uppercase tracking-[0.18em] md:text-[11px] text-cream/60">
               Statement, per year
             </div>
             <div className="mb-2 flex items-start gap-1 leading-none">

@@ -114,3 +114,25 @@ export async function submitBuildRequest(
   const { error } = await supabase.from("build_requests").insert(req);
   return error ? { ok: false, error: error.message } : { ok: true };
 }
+
+/**
+ * A free live class seat. Name and WhatsApp are required because that is how
+ * the seat is honoured: joining link by email, reminder on WhatsApp an hour
+ * before. `webinar` is the event slug, so the same table serves every future
+ * live class without a migration.
+ */
+export type WebinarRegistration = {
+  webinar: string;
+  name: string;
+  email: string;
+  whatsapp: string;
+  source?: string;
+};
+
+export async function registerForWebinar(
+  reg: WebinarRegistration,
+): Promise<{ ok: boolean; error?: string }> {
+  if (!supabase) return { ok: false, error: "not_configured" };
+  const { error } = await supabase.from("webinar_registrations").insert(reg);
+  return error ? { ok: false, error: error.message } : { ok: true };
+}

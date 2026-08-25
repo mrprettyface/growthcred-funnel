@@ -12,6 +12,8 @@
 type FunnelStep =
   | "class_view"
   | "class_optin"
+  | "webinar_view"
+  | "webinar_register"
   | "workshop_view"
   | "checkout_view"
   | "checkout_submit"

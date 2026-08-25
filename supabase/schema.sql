@@ -157,3 +157,35 @@ create or replace view public.build_requests_new as
   from public.build_requests
   where status = 'new'
   order by created_at desc;
+
+
+-- ---------- webinar_registrations: free live class seats ----------
+-- Separate from `leads` because a webinar seat needs a name and a WhatsApp
+-- number (we send the joining link by email and a reminder on WhatsApp), and
+-- because registrations are per-event: `webinar` is the event slug, so one
+-- table serves every future live class. Same security model as everything
+-- else here: anon INSERT only, read from the dashboard.
+create table if not exists public.webinar_registrations (
+  id          uuid primary key default gen_random_uuid(),
+  created_at  timestamptz not null default now(),
+  webinar     text not null,            -- event slug, e.g. 'ai-80-2026-09-02'
+  name        text not null,
+  email       text not null,
+  whatsapp    text not null,
+  source      text not null default 'webinar_page'
+);
+
+alter table public.webinar_registrations enable row level security;
+
+drop policy if exists "anon can register for a webinar" on public.webinar_registrations;
+create policy "anon can register for a webinar"
+  on public.webinar_registrations for insert to anon with check (true);
+-- Intentionally NO select/update/delete for anon.
+
+create index if not exists webinar_registrations_webinar_idx
+  on public.webinar_registrations (webinar, created_at desc);
+
+create or replace view public.webinar_registrations_recent as
+  select created_at, webinar, name, whatsapp, email, source
+  from public.webinar_registrations
+  order by created_at desc;

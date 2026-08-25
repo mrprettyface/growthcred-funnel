@@ -75,6 +75,9 @@ export function Section({
   return (
     <section
       id={id}
+      /* Lets a fixed overlay (the webinar progress rail) know whether it is
+         currently sitting over a dark or a light band, and invert itself. */
+      data-tone={dark ? "dark" : "light"}
       className={cn("py-16 md:py-24", dark && "bg-midnight text-cream", className)}
     >
       <div className="mx-auto w-[min(1120px,calc(100%-2.5rem))]">{children}</div>
@@ -86,7 +89,7 @@ export function Eyebrow({ children, dark = false }: { children: ReactNode; dark?
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em]",
+        "inline-flex items-center gap-2 font-mono text-[12px] font-medium uppercase tracking-[0.18em] md:text-[11px]",
         dark ? "text-cream/60" : "text-muted",
       )}
     >
@@ -165,7 +168,7 @@ export function Faq({ items }: { items: { q: string; a: ReactNode }[] }) {
 /** Marks copy that is deliberately not written yet. Impossible to miss. */
 export function ToCome({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-block rounded border border-dashed border-gold/60 bg-gold/10 px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider text-gold-soft">
+    <span className="inline-block rounded border border-dashed border-gold/60 bg-gold/10 px-2 py-0.5 font-mono text-[12px] uppercase tracking-wider text-gold-soft md:text-[11px]">
       [TO COME: {children}]
     </span>
   );
@@ -174,7 +177,7 @@ export function ToCome({ children }: { children: ReactNode }) {
 export function ToComeBlock({ label, note }: { label: string; note?: string }) {
   return (
     <div className="rounded-xl border border-dashed border-midnight/25 bg-midnight/[0.03] p-6 text-center">
-      <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
+      <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted md:text-[11px]">
         [TO COME: {label}]
       </p>
       {note ? <p className="mt-2 text-sm text-muted">{note}</p> : null}
@@ -228,7 +231,7 @@ export function VideoSlot({ slot, label }: { slot: string; label: string }) {
             <path d="M8 5v14l11-7z" />
           </svg>
         </div>
-        <p className="px-6 font-mono text-[11px] uppercase tracking-[0.16em] text-cream/60">
+        <p className="px-6 font-mono text-[12px] uppercase tracking-[0.16em] text-cream/60 md:text-[11px]">
           [TO COME: {label}]
         </p>
       </div>

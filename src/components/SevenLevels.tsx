@@ -48,8 +48,8 @@ export function SevenLevels() {
                 <span
                   className={
                     l.tag === "Where most start"
-                      ? "ml-3 inline-block rounded-full border border-gold/40 bg-gold/15 px-2.5 py-1 align-middle font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#9c7c2f]"
-                      : "ml-3 inline-block rounded-full border border-midnight/10 bg-midnight/5 px-2.5 py-1 align-middle font-mono text-[9.5px] uppercase tracking-[0.14em] text-midnight"
+                      ? "ml-3 inline-block rounded-full border border-gold/40 bg-gold/15 px-2.5 py-1 align-middle font-mono text-[12px] uppercase tracking-[0.14em] md:text-[9.5px] text-[#9c7c2f]"
+                      : "ml-3 inline-block rounded-full border border-midnight/10 bg-midnight/5 px-2.5 py-1 align-middle font-mono text-[12px] uppercase tracking-[0.14em] md:text-[9.5px] text-midnight"
                   }
                 >
                   {l.tag}

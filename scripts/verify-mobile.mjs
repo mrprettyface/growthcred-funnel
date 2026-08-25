@@ -1,0 +1,258 @@
+#!/usr/bin/env node
+/**
+ * Gate oracle for the webinar experience's mobile guarantees.
+ *
+ * Each subcommand asserts one outcome and prints a success-only marker. Every
+ * assertion reads the real source; nothing here trusts a comment or a claim
+ * made in a commit message.
+ */
+import { readFileSync, readdirSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { join } from "node:path";
+
+const WEBINAR_DIR = "src/components/webinar";
+const PAGES = ["src/pages/WebinarExperience.tsx", "src/pages/WorkshopExperience.tsx"];
+/** Shared components the experience pages render. Swept by the same gates. */
+const SHARED = [
+  "src/components/ui.tsx",
+  "src/components/SevenLevels.tsx",
+  "src/components/CostCalculator.tsx",
+];
+const read = (p) => readFileSync(p, "utf8");
+/**
+ * Source with comments removed. Without this the oracle matches its own
+ * explanatory prose — the first run flagged "backdrop-blur" inside a comment
+ * that exists precisely to say backdrop-blur was removed. A gate that fails
+ * dishonestly is worth no more than one that passes dishonestly.
+ */
+const code = (p) =>
+  read(p)
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/(^|[^:])\/\/.*$/gm, "$1");
+const webinarFiles = () =>
+  readdirSync(WEBINAR_DIR)
+    .filter((f) => f.endsWith(".tsx"))
+    .map((f) => join(WEBINAR_DIR, f));
+
+const failures = [];
+const fail = (msg) => failures.push(msg);
+
+const gate = process.argv[2];
+
+function finish(id) {
+  if (failures.length) {
+    console.error(`${id} FAILED:`);
+    for (const f of failures) console.error(`  - ${f}`);
+    process.exit(1);
+  }
+  console.log(`${id} passed`);
+}
+
+switch (gate) {
+  case "build": {
+    execFileSync("npx", ["tsc", "--noEmit"], { stdio: "pipe" });
+    execFileSync("npm", ["run", "build"], { stdio: "pipe" });
+    finish("G1");
+    break;
+  }
+
+  case "no-blur": {
+    // Tailwind blur utilities on animated elements, and the two React Bits
+    // props that turn scroll-driven blur back on.
+    for (const file of [...webinarFiles(), ...PAGES]) {
+      const src = code(file);
+      const hits = src.match(/(?<!backdrop-)blur-\[[^\]]+\]/g) ?? [];
+      if (hits.length) fail(`${file}: blur utility present -> ${hits.join(", ")}`);
+    }
+    const page = code("src/pages/WebinarExperience.tsx");
+    if (!/blurAmount=\{0\}/.test(page)) fail("ScrollStack blurAmount is not 0");
+    if (!/enableBlur=\{false\}/.test(page)) fail("ScrollReveal enableBlur is not false");
+    finish("G2");
+    break;
+  }
+
+  case "type-floor": {
+    // A bare text-[Npx] is the mobile size. Anything under 12px fails unless a
+    // md: variant is what carries the small value.
+    for (const file of [...webinarFiles(), ...PAGES, ...SHARED]) {
+      const src = code(file);
+      for (const m of src.matchAll(/(md:)?text-\[(\d+(?:\.\d+)?)px\]/g)) {
+        const [, variant, px] = m;
+        if (!variant && Number(px) < 12) fail(`${file}: base text-[${px}px] is below the 12px mobile floor`);
+      }
+      for (const m of src.matchAll(/font-(thin|extralight|light)\b/g)) {
+        fail(`${file}: ${m[0]} is below weight 400`);
+      }
+    }
+    finish("G3");
+    break;
+  }
+
+  case "sizer": {
+    const src = code(`${WEBINAR_DIR}/LiveDemo.tsx`);
+    if (!/invisible[^"]*whitespace-pre-wrap/.test(src))
+      fail("LiveDemo: no invisible sizer paragraph reserving the finished height");
+    if (!/absolute inset-0 whitespace-pre-wrap/.test(src))
+      fail("LiveDemo: typed layer is not overlaid on the sizer");
+    if (/min-h-\[15rem\]/.test(src))
+      fail("LiveDemo: the old fixed min-height is still there, so the card can still grow");
+    if (!/className="sr-only"/.test(src))
+      fail("LiveDemo: no screen-reader copy of the finished answer");
+    finish("G4");
+    break;
+  }
+
+  case "tap-targets": {
+    const demo = code(`${WEBINAR_DIR}/LiveDemo.tsx`);
+    // Both interactive rows, not just the tabs. The first version of this gate
+    // only checked one of them and let 42px chips through.
+    const tapRows = demo.match(/min-h-1[12]/g) ?? [];
+    if (tapRows.length < 2)
+      fail(`LiveDemo: ${tapRows.length} of 2 mobile control rows declare a tap-target minimum`);
+    // A scale-down shrinks the hit area as well as the look, so a 44px control
+    // scaled to 0.92 is a 40px control. Anything scaled needs a bigger base.
+    for (const m of demo.matchAll(/"[^"]*min-h-11[^"]*"/g)) {
+      if (/scale-\[0\./.test(m[0]))
+        fail("LiveDemo: a min-h-11 control is scaled down, putting its hit area under 44px; use min-h-12");
+    }
+    const cta = code(`${WEBINAR_DIR}/SeatCta.tsx`);
+    if (!/w-full/.test(cta) || !/md:w-auto/.test(cta))
+      fail("SeatCta: seat button is not full width on mobile and auto from md up");
+    finish("G5");
+    break;
+  }
+
+  case "static-blur-only": {
+    // One sanctioned blur, defined once, never eased. Every other filter stays
+    // banned. This gate exists so the exception cannot grow back into the rule.
+    const css = readFileSync("src/index.css", "utf8");
+    // Exactly two sanctioned blurs: the demo lane and the picker falloff. Both
+    // fixed-radius, both cleared under reduced motion. Any third is a bug.
+    const blurRules = css.match(/filter:\s*blur\(/g) ?? [];
+    if (blurRules.length !== 2)
+      fail(`index.css defines ${blurRules.length} blur filters; exactly 2 (.gc-lane-dim, .gc-pick-dim) are allowed`);
+    if (!/\.gc-lane-dim\s*\{[^}]*filter:\s*blur\(2\.5px\)/.test(css))
+      fail(".gc-lane-dim is not a fixed 2.5px radius");
+    if (!/\.gc-pick-dim\s*\{[^}]*filter:\s*blur\(1\.6px\)/.test(css))
+      fail(".gc-pick-dim is not a fixed 1.6px radius");
+    const reducedBlock = css.match(/prefers-reduced-motion[\s\S]*?filter:\s*none/);
+    if (!reducedBlock || !/gc-lane-dim/.test(reducedBlock[0]) || !/gc-pick-dim/.test(reducedBlock[0]))
+      fail("both sanctioned blurs must be cleared under prefers-reduced-motion");
+
+    for (const file of [...webinarFiles(), ...PAGES]) {
+      const src = code(file);
+      // transition-all would ease a filter if one ever appeared on the element.
+      for (const m of src.matchAll(/transition-all/g)) fail(`${file}: transition-all can ease a filter; name the properties`);
+      for (const m of src.matchAll(/transition-\[[^\]]*filter[^\]]*\]/g))
+        fail(`${file}: ${m[0]} eases a filter, which re-rasterises every frame`);
+    }
+    finish("G13");
+    break;
+  }
+
+  case "drag-compare": {
+    const demo = code(`${WEBINAR_DIR}/LiveDemo.tsx`);
+    // Both answers must be mounted on mobile. The old design rendered one pane
+    // and swapped its tokens, which is what put the contrast in memory instead
+    // of in view.
+    if (/tokens=\{mobileTokens\}/.test(demo))
+      fail("LiveDemo: mobile still renders a single swapped pane");
+    if (!/snap-x/.test(demo) || !/snap-center|snap-start/.test(demo))
+      fail("LiveDemo: no scroll-snap track for the compare gesture");
+    // One counter, so the two answers race exactly as they do on desktop.
+    if (/targetLength = isMobile \?/.test(demo))
+      fail("LiveDemo: mobile still types to a per-side length instead of the shared counter");
+    if (!/TAP BACK TO COMPARE/i.test(demo) === false)
+      fail("LiveDemo: the instructional caption is still present");
+    finish("G11");
+    break;
+  }
+
+  case "demo-everywhere": {
+    // The comparison is the most persuasive thing on the site. It belongs on
+    // every page that has to sell, and it belongs above the fold-and-a-half,
+    // not buried at the bottom.
+    const hosts = [
+      ["src/pages/WebinarExperience.tsx", "webinar experience"],
+      ["src/pages/WorkshopExperience.tsx", "workshop experience"],
+      ["src/pages/Workshop.tsx", "the live home page"],
+    ];
+    for (const [file, label] of hosts) {
+      const src = code(file);
+      if (!/<LiveDemo/.test(src)) {
+        fail(`${label} does not render the live demo`);
+        continue;
+      }
+      // "High up" measured honestly: within the first half of the page source.
+      const at = src.indexOf("<LiveDemo");
+      if (at / src.length > 0.5)
+        fail(`${label} renders the demo ${Math.round((at / src.length) * 100)}% down the file; it should be in the first half`);
+    }
+    finish("G18");
+    break;
+  }
+
+  case "workshop-route": {
+    const app = code("src/App.tsx");
+    if (!/lazy\(\(\) => import\("\.\/pages\/WorkshopExperience"\)\)/.test(app))
+      fail("App: WorkshopExperience is not lazily imported");
+    if (!/path="\/workshop"/.test(app)) fail("App: no /workshop route");
+    // The money page must still render the original component.
+    if (!/path="\/"\s+element=\{<Layout><WorkshopPage \/><\/Layout>\}/.test(app))
+      fail("App: the / route no longer renders the original WorkshopPage");
+    finish("G15");
+    break;
+  }
+
+  case "workshop-cta": {
+    const page = code("src/pages/WorkshopExperience.tsx");
+    if (/SeatCtaProvider|SeatButton|SeatStepper/.test(page))
+      fail("WorkshopExperience: wired to the webinar seat dialog instead of the checkout");
+    if (!/to="\/checkout"/.test(page)) fail("WorkshopExperience: no checkout link");
+    finish("G16");
+    break;
+  }
+
+  case "unique-ids": {
+    // SeatStepper renders up to three times on one page. Hard-coded input ids
+    // put duplicate DOM ids on the document, which breaks label association and
+    // autofill. Ids must be derived per instance.
+    const stepper = code(`${WEBINAR_DIR}/SeatStepper.tsx`);
+    if (!/useId\(\)/.test(stepper)) fail("SeatStepper: field ids are not derived per instance (useId)");
+    for (const m of stepper.matchAll(/id="seat-[a-z]+"/g)) fail(`SeatStepper: hard-coded ${m[0]}`);
+    finish("G9");
+    break;
+  }
+
+  case "perf-guards": {
+    const page = code("src/pages/WebinarExperience.tsx");
+    if (!/heavyStack\s*=\s*!reduced && !isMobile/.test(page))
+      fail("WebinarExperience: the layout-reading ScrollStack is no longer gated off mobile");
+    if (!/\{heavyStack \? \(/.test(page)) fail("WebinarExperience: heavyStack is computed but never used");
+    // The phone must still get the pile, just not the expensive one.
+    if (!/<CardStack/.test(page)) fail("WebinarExperience: mobile has no card stack at all");
+    const stack = code(`${WEBINAR_DIR}/CardStack.tsx`);
+    if (/addEventListener\(\s*["']scroll/.test(stack))
+      fail("CardStack: has a scroll listener; it must be pure CSS sticky");
+    if (/getBoundingClientRect|offsetTop/.test(stack))
+      fail("CardStack: reads layout; the whole point is that it does not");
+    if (!/position|sticky/.test(stack)) fail("CardStack: is not sticky-based");
+    // overflow:hidden on any ancestor silently disables sticky for everything
+    // inside it. This bit the stack once already.
+    const triedSection = page.match(/<Section id="tried"[^>]*className="([^"]*)"/);
+    if (triedSection && /overflow-hidden/.test(triedSection[1]))
+      fail("the tried section uses overflow-hidden, which disables sticky; use overflow-x-clip");
+    const demo = code(`${WEBINAR_DIR}/LiveDemo.tsx`);
+    if (!/PAINT_INTERVAL_MS/.test(demo)) fail("LiveDemo: typing repaint throttle removed");
+    const spark = code("src/components/reactbits/ClickSpark.tsx");
+    if (!/runningRef\.current = false/.test(spark)) fail("ClickSpark: idle loop no longer parks");
+    const bar = code(`${WEBINAR_DIR}/StickySeatBar.tsx`);
+    if (/backdrop-blur/.test(bar)) fail("StickySeatBar: backdrop-blur is back on a sticky element");
+    finish("G6");
+    break;
+  }
+
+  default:
+    console.error(`unknown gate: ${gate}`);
+    process.exit(2);
+}
