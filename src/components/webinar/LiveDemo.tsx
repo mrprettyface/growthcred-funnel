@@ -337,6 +337,13 @@ export function LiveDemo() {
   // One counter on every screen, so the two answers always race each other.
   const targetLength = longest;
 
+  /**
+   * The settle handler below is mounted once and must not be re-created on
+   * every render, so it reaches the current handler through a ref rather than
+   * closing over a stale one.
+   */
+  const chooseJobRef = useRef<(index: number) => void>(() => {});
+
   const chooseJob = (index: number) => {
     if (index === jobIndex) return;
     setJobIndex(index);
@@ -446,7 +453,7 @@ export function LiveDemo() {
           nearest = Number(chip.dataset.chip);
         }
       });
-      chooseJob(nearest);
+      chooseJobRef.current(nearest);
     };
 
     const onScroll = () => {
@@ -459,10 +466,20 @@ export function LiveDemo() {
       clearTimeout(settle);
       pick.removeEventListener("scroll", onScroll);
     };
-  });
+    // Mounted once. With no dependency array this effect was torn down on every
+    // render, and the cleanup cancelled the in-flight settle timer — so while
+    // the answer was typing (a render every 40ms) the wheel never committed a
+    // selection at all.
+  }, []);
 
-  /** Bring an option under the needle. */
+  /**
+   * Tap an option. A tap is explicit intent, so it selects immediately and then
+   * slides under the needle. Relying on the scroll to commit meant tapping an
+   * option already near the centre did nothing at all, because no scroll event
+   * ever fired. Dragging still commits on settle.
+   */
   const centreChip = (index: number) => {
+    chooseJob(index);
     const pick = pickRef.current;
     const chip = pick?.querySelector<HTMLElement>(`[data-chip="${index}"]`);
     if (!pick || !chip) return;
@@ -508,6 +525,8 @@ export function LiveDemo() {
       side === lane ? "scale-100 opacity-100" : "scale-[0.94] opacity-70",
       side !== lane && !reduced && "gc-lane-dim",
     );
+
+  chooseJobRef.current = chooseJob;
 
   // A tablist should answer to arrow keys, not just taps.
   const onTablistKeyDown = (e: React.KeyboardEvent) => {

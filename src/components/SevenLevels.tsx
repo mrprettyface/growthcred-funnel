@@ -64,12 +64,13 @@ export function SevenLevels({ note }: { note?: ReactNode } = {}) {
         ))}
       </ol>
 
-      {note ? <div className="mt-8">{note}</div> : null}
-
       <p className="mt-7 max-w-[46ch] text-ink">
         The shift you are after runs right up this ladder: from AI curious, to AI owned. From
         operator, to owner.
       </p>
+
+      {/* The specific claim lands last, after the general one has set it up. */}
+      {note ? <div className="mt-8">{note}</div> : null}
     </div>
   );
 }
