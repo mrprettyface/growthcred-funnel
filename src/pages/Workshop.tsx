@@ -4,6 +4,7 @@ import { CostCalculator } from "../components/CostCalculator";
 import { SevenLevels } from "../components/SevenLevels";
 import { SocialSection } from "../components/SocialSection";
 import { LiveDemo } from "../components/webinar/LiveDemo";
+import { CardStack } from "../components/webinar/CardStack";
 import { track } from "../lib/analytics";
 
 /**
@@ -104,7 +105,7 @@ export default function WorkshopPage() {
           </p>
         </div>
 
-        <ol className="mx-auto grid max-w-[820px] gap-4">
+        <CardStack ordered className="mx-auto max-w-[820px]" gap="30vh">
           {[
             {
               t: "Find your 10 hours",
@@ -137,9 +138,9 @@ export default function WorkshopPage() {
               h: "the risk of going home and never using it.",
             },
           ].map((blk, i) => (
-            <li
+            <div
               key={i}
-              className="rounded-2xl border border-midnight/10 bg-white p-6 md:p-8"
+              className="rounded-2xl border border-midnight/10 bg-white p-6 shadow-[0_20px_45px_rgba(26,26,36,0.10)] md:p-8"
             >
               <div className="flex items-baseline gap-4">
                 <span className="font-mono text-sm text-gold">
@@ -155,9 +156,9 @@ export default function WorkshopPage() {
                   </p>
                 </div>
               </div>
-            </li>
+            </div>
           ))}
-        </ol>
+        </CardStack>
 
         <p className="mx-auto mt-8 max-w-[54ch] text-center text-lg font-medium text-midnight">
           By the end of the day the systems are built, running, and yours. The 10 hours are not a
@@ -235,14 +236,16 @@ export default function WorkshopPage() {
           </Section>
       */}
 
-      {/* ---------- Who runs it ---------- */}
-      <Section className="pt-0 md:pt-0" reveal>
+      {/* ---------- Who runs it ----------
+          Deliberately not revealed: the photo is flush against the dark band
+          above, and lifting the section on entry pulls it away from that edge. */}
+      <Section className="pt-0 md:pt-0">
         <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
           <img
             src="/images/phila-event.jpg"
             alt="Phila Ngwenya, Founder and CEO of GrowthCred"
             loading="lazy"
-            className="aspect-[4/5] w-full rounded-2xl object-cover object-[center_22%]"
+            className="aspect-[4/5] w-full rounded-b-2xl object-cover object-[center_22%]"
           />
           <div>
             <Eyebrow>Who runs the day</Eyebrow>

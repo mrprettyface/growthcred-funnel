@@ -21,6 +21,8 @@ import { useReducedMotion } from "../../lib/motion";
 export function CardStack({
   children,
   className,
+  /** Render as an ordered list. Use when the cards are a numbered sequence. */
+  ordered = false,
   /** Where the first card pins, clear of the sticky site header. */
   offset = 88,
   /** How much of each buried card stays visible above the one covering it. */
@@ -35,20 +37,24 @@ export function CardStack({
 }: {
   children: ReactNode[];
   className?: string;
+  ordered?: boolean;
   offset?: number;
   step?: number;
   gap?: string;
 }) {
   const reduced = useReducedMotion();
 
+  const List = ordered ? "ol" : "div";
+  const Item = ordered ? "li" : "div";
+
   if (reduced) {
-    return <div className={cn("grid gap-4", className)}>{children}</div>;
+    return <List className={cn("grid gap-4", className)}>{children}</List>;
   }
 
   return (
-    <div className={cn("grid", className)} style={{ rowGap: gap }}>
+    <List className={cn("grid", className)} style={{ rowGap: gap }}>
       {children.map((child, i) => (
-        <div
+        <Item
           key={i}
           className="sticky"
           style={{
@@ -62,10 +68,10 @@ export function CardStack({
           }}
         >
           {child}
-        </div>
+        </Item>
       ))}
       {/* Tail, so the last card holds its pin briefly before the section ends. */}
-      <div aria-hidden="true" className="h-[18vh]" />
-    </div>
+      <Item aria-hidden="true" className="h-[18vh]" />
+    </List>
   );
 }
