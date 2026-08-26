@@ -168,6 +168,41 @@ switch (gate) {
     break;
   }
 
+  case "reveal-fails-open": {
+    // A reveal that starts hidden turns any JS failure into a blank section.
+    // On the page that takes money that is unacceptable, so the hidden state
+    // must depend on an observer actually being attached.
+    const r = code("src/components/Reveal.tsx");
+    // No JS may decide whether a section is visible.
+    if (/IntersectionObserver|useState|useEffect/.test(r))
+      fail("Reveal gates visibility on JavaScript; a failure would blank the section");
+    if (!/gc-reveal/.test(r)) fail("Reveal does not use the CSS view-timeline rule");
+    const css = readFileSync("src/index.css", "utf8");
+    if (!/@supports \(animation-timeline: view\(\)\)[\s\S]*?\.gc-reveal/.test(css))
+      fail(".gc-reveal is not inside an @supports guard, so unsupported browsers could be left hidden");
+    if (!/@keyframes gcReveal[\s\S]*?opacity: 0/.test(css)) fail("no gcReveal keyframes");
+    if (/\.gc-reveal\s*\{[^}]*opacity:\s*0/.test(css))
+      fail(".gc-reveal sets opacity 0 outside the animation; that can strand content hidden");
+    if (/gcReveal[\s\S]{0,200}filter/.test(css)) fail("the reveal animates a filter");
+    finish("G21");
+    break;
+  }
+
+  case "no-ignored-pt0": {
+    // `pt-0` cannot override `md:py-24` — different variants, so tailwind-merge
+    // keeps both. Every bare pt-0 is a section rendering at double the intended
+    // gap above 768px. This shipped unnoticed on the money page for months.
+    for (const file of [...PAGES, "src/pages/Workshop.tsx"]) {
+      const src = code(file);
+      for (const m of src.matchAll(/className="([^"]*\bpt-0\b[^"]*)"/g)) {
+        if (!/md:pt-0/.test(m[1]))
+          fail(`${file}: className="${m[1]}" — pt-0 without md:pt-0 is ignored above 768px`);
+      }
+    }
+    finish("G22");
+    break;
+  }
+
   case "review-order": {
     // Pain before objection-handling. The demo answers a question nobody asks
     // until they have accepted the cost, so it must sit after the calculator.

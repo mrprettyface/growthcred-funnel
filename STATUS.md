@@ -197,6 +197,12 @@ JS branch and a `md:` class always mean the same screen):
   fade up as they arrive, so a four-paragraph section is walked through one
   thought at a time instead of landing as a wall. Nothing is ever hidden.
 
+**Sections on `/` arrive as you scroll to them** via `.gc-reveal` — a CSS
+view-timeline animation, no observer and no scroll handler. It is built that way
+on purpose: an earlier IntersectionObserver version started hidden, which turns
+any JS failure into a permanently blank section on the page that takes money.
+Unsupported browsers and reduced-motion visitors simply see the content.
+
 Vertical rhythm on this page is three values and nothing else: **40px** where a
 section hands over to its CTA band (they read as one block), **96px** for a
 continuation in the same tone, **160px** across a tone change. Watch out for

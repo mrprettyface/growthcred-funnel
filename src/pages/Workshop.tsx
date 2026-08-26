@@ -47,12 +47,12 @@ export default function WorkshopPage() {
           The strongest thing we have: same question, same AI, one of them
           taught the business. It runs before the written argument, because
           watching it makes the rest of the page make sense. */}
-      <Section className="pt-0">
+      <Section className="pt-0 md:pt-0" reveal>
         <LiveDemo />
       </Section>
 
       {/* ---------- The problem ---------- */}
-      <Section className="pt-0">
+      <Section className="pt-0 md:pt-0" reveal>
         <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
           <div>
             <Eyebrow>The problem</Eyebrow>
@@ -81,17 +81,17 @@ export default function WorkshopPage() {
       </Section>
 
       {/* ---------- Cost of staying stuck (calculator) ---------- */}
-      <Section className="pt-0">
+      <Section className="pt-0 md:pt-0" reveal>
         <CostCalculator />
       </Section>
 
       {/* ---------- What you'll climb (seven levels) ---------- */}
-      <Section className="pt-0">
+      <Section className="pt-0 md:pt-0" reveal>
         <SevenLevels />
       </Section>
 
       {/* ---------- What you get on the day ---------- */}
-      <Section className="pt-0">
+      <Section className="pt-0 md:pt-0" reveal>
         <div className="mx-auto mb-10 max-w-[46ch] text-center">
           <Eyebrow>What happens on the day</Eyebrow>
           <h2 className="mt-4 text-3xl md:text-5xl">
@@ -166,7 +166,7 @@ export default function WorkshopPage() {
       </Section>
 
       {/* ---------- Offer stack ---------- */}
-      <Section className="pt-0">
+      <Section className="pt-0 pb-16 md:pt-0 md:pb-16" reveal>
         <div className="mx-auto mb-10 max-w-[46ch] text-center">
           <Eyebrow>Everything you walk away with</Eyebrow>
           <h2 className="mt-4 text-3xl md:text-5xl">What you walk away with.</h2>
@@ -189,7 +189,7 @@ export default function WorkshopPage() {
       </Section>
 
       {/* ---------- Guarantee (locked) ---------- */}
-      <Section dark className="text-center">
+      <Section dark className="text-center" reveal>
         <Eyebrow dark>The guarantee</Eyebrow>
         <h2 className="mx-auto mt-5 max-w-[18ch] text-3xl text-cream md:text-5xl">
           The 10 hours back, <Faint dark>or you don&rsquo;t pay.</Faint>
@@ -226,7 +226,7 @@ export default function WorkshopPage() {
           Intentionally empty until there is a real, named result shared with the
           person's written permission. When you have one, restore this block:
 
-          <Section>
+          <Section reveal>
             <div className="mx-auto mb-10 max-w-[46ch] text-center">
               <Eyebrow>Proof</Eyebrow>
               <h2 className="mt-4 text-3xl md:text-5xl">It works for people like you.</h2>
@@ -236,7 +236,7 @@ export default function WorkshopPage() {
       */}
 
       {/* ---------- Who runs it ---------- */}
-      <Section className="pt-0">
+      <Section className="pt-0 md:pt-0" reveal>
         <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
           <img
             src="/images/phila-event.jpg"
@@ -263,7 +263,7 @@ export default function WorkshopPage() {
       </Section>
 
       {/* ---------- Life after ---------- */}
-      <Section className="pt-0">
+      <Section className="pt-0 md:pt-0" reveal>
         <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
           <div className="md:order-2">
             <img
@@ -291,7 +291,7 @@ export default function WorkshopPage() {
       </Section>
 
       {/* ---------- FAQ ---------- */}
-      <Section className="pt-0">
+      <Section className="pt-0 pb-16 md:pt-0 md:pb-16" reveal>
         <div className="mx-auto mb-10 max-w-[46ch] text-center">
           <Eyebrow>Questions</Eyebrow>
           <h2 className="mt-4 text-3xl md:text-5xl">Questions people actually ask.</h2>
@@ -335,7 +335,7 @@ export default function WorkshopPage() {
       </Section>
 
       {/* ---------- Close ---------- */}
-      <Section dark className="text-center">
+      <Section dark className="pb-16 text-center md:pb-16" reveal>
         <Eyebrow dark>A good first step</Eyebrow>
         <h2 className="mx-auto mt-5 max-w-[20ch] text-3xl text-cream md:text-5xl">
           Your time back <Faint dark>starts with one day.</Faint>

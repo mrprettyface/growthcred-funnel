@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { VIDEOS, embedUrl } from "../lib/videos";
+import { Reveal } from "./Reveal";
 
 export const cn = (...parts: unknown[]) => twMerge(clsx(parts));
 
@@ -66,11 +67,14 @@ export function Section({
   className,
   children,
   id,
+  reveal = false,
 }: {
   dark?: boolean;
   className?: string;
   children: ReactNode;
   id?: string;
+  /** Lift and fade the section in as it arrives. Opt-in, off everywhere else. */
+  reveal?: boolean;
 }) {
   return (
     <section
@@ -80,7 +84,9 @@ export function Section({
       data-tone={dark ? "dark" : "light"}
       className={cn("py-16 md:py-24", dark && "bg-midnight text-cream", className)}
     >
-      <div className="mx-auto w-[min(1120px,calc(100%-2.5rem))]">{children}</div>
+      <div className="mx-auto w-[min(1120px,calc(100%-2.5rem))]">
+        {reveal ? <Reveal>{children}</Reveal> : children}
+      </div>
     </section>
   );
 }
