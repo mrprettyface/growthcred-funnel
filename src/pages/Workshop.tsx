@@ -237,15 +237,16 @@ export default function WorkshopPage() {
       */}
 
       {/* ---------- Who runs it ----------
-          Deliberately not revealed: the photo is flush against the dark band
-          above, and lifting the section on entry pulls it away from that edge. */}
-      <Section className="pt-0 md:pt-0">
+          The photo needs air above it, not a seam: 64px of top padding puts the
+          tone change at the page's usual 160px, and the card stays rounded on
+          all four corners so it reads as a card rather than a banner. */}
+      <Section className="pt-16 md:pt-16" reveal>
         <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
           <img
             src="/images/phila-event.jpg"
             alt="Phila Ngwenya, Founder and CEO of GrowthCred"
             loading="lazy"
-            className="aspect-[4/5] w-full rounded-b-2xl object-cover object-[center_22%]"
+            className="aspect-[4/5] w-full rounded-2xl object-cover object-[center_22%]"
           />
           <div>
             <Eyebrow>Who runs the day</Eyebrow>
