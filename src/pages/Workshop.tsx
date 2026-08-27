@@ -175,13 +175,31 @@ export default function WorkshopPage() {
         <CheckList
           className="mx-auto max-w-[720px] text-lg"
           items={[
-            "Your business brain, built and live, so you never re-explain yourself to a tool again",
-            "An AI worker wired to that brain, starting every task already knowing your business",
-            "Your first real tasks handed over on the day, with the hours coming off in front of you",
-            "An overnight routine that keeps work moving while you sleep",
-            "A simple daily rhythm that keeps the systems running long after you leave",
-            "The workbook you build in, so you go home with everything documented, not half-remembered",
-            "A room of other operators making the same shift, and the group that keeps going after the day ends",
+            {
+              icon: "brain",
+              text: "Your business brain, built and live, so you never re-explain yourself to a tool again",
+            },
+            {
+              icon: "wired",
+              text: "An AI worker wired to that brain, starting every task already knowing your business",
+            },
+            {
+              icon: "handover",
+              text: "Your first real tasks handed over on the day, with the hours coming off in front of you",
+            },
+            { icon: "moon", text: "An overnight routine that keeps work moving while you sleep" },
+            {
+              icon: "rhythm",
+              text: "A simple daily rhythm that keeps the systems running long after you leave",
+            },
+            {
+              icon: "book",
+              text: "The workbook you build in, so you go home with everything documented, not half-remembered",
+            },
+            {
+              icon: "people",
+              text: "A room of other operators making the same shift, and the group that keeps going after the day ends",
+            },
           ]}
         />
         <p className="mx-auto mt-8 max-w-[46ch] text-center text-lg font-medium text-midnight">

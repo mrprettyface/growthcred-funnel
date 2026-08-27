@@ -439,10 +439,16 @@ export default function WebinarExperience() {
             <CheckList
               className="mt-8 text-lg"
               items={[
-                "You own the business, and you’re also still doing the work in it.",
-                "You have between 3 and 50 people, and you’re the bottleneck for most of them.",
-                "You’ve tried ChatGPT, got something generic, and quietly went back to doing it yourself.",
-                "You’re not technical, and you don’t plan to be.",
+                { icon: "owner", text: "You own the business, and you’re also still doing the work in it." },
+                {
+                  icon: "bottleneck",
+                  text: "You have between 3 and 50 people, and you’re the bottleneck for most of them.",
+                },
+                {
+                  icon: "generic-ai",
+                  text: "You’ve tried ChatGPT, got something generic, and quietly went back to doing it yourself.",
+                },
+                { icon: "no-code", text: "You’re not technical, and you don’t plan to be." },
               ]}
             />
             <Beat lead className="mt-8">

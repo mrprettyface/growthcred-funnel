@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { VIDEOS, embedUrl } from "../lib/videos";
+import { Icon, type IconName } from "./icons";
 import { Reveal } from "./Reveal";
 
 export const cn = (...parts: unknown[]) => twMerge(clsx(parts));
@@ -120,27 +121,50 @@ export function Faint({ children, dark = false }: { children: ReactNode; dark?: 
 
 /* ---------------- Content ---------------- */
 
-/** Outcome bullets with a gold marker. Works on light and dark sections. */
+/**
+ * Outcome bullets. Works on light and dark sections.
+ *
+ * An item can be plain text, which keeps the original gold arrow, or
+ * `{ icon, text }`, which gives that point its own line icon. A list where
+ * every marker is the same arrow reads as filler; a list where each point has
+ * its own picture reads as seven distinct things you get.
+ */
+export type CheckItem = ReactNode | { icon: IconName; text: ReactNode };
+
 export function CheckList({
   items,
   dark = false,
   className,
 }: {
-  items: ReactNode[];
+  items: CheckItem[];
   dark?: boolean;
   className?: string;
 }) {
+  const isIconItem = (item: CheckItem): item is { icon: IconName; text: ReactNode } =>
+    typeof item === "object" && item !== null && "icon" in item;
+
   return (
-    <ul className={cn("grid gap-3", className)}>
+    <ul className={cn("grid gap-4", className)}>
       {items.map((item, i) => (
-        <li key={i} className="relative pl-7 leading-relaxed">
-          <span
-            aria-hidden="true"
-            className="absolute left-0 top-[0.15em] font-mono text-gold"
-          >
-            &#8599;
+        <li key={i} className="flex items-start gap-4 leading-relaxed">
+          {isIconItem(item) ? (
+            <span
+              aria-hidden="true"
+              className={cn(
+                "mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full text-gold",
+                dark ? "bg-cream/10" : "bg-gold/10",
+              )}
+            >
+              <Icon name={item.icon} />
+            </span>
+          ) : (
+            <span aria-hidden="true" className="mt-[0.15em] font-mono text-gold">
+              &#8599;
+            </span>
+          )}
+          <span className={dark ? "text-cream/85" : "text-ink"}>
+            {isIconItem(item) ? item.text : item}
           </span>
-          <span className={dark ? "text-cream/85" : "text-ink"}>{item}</span>
         </li>
       ))}
     </ul>

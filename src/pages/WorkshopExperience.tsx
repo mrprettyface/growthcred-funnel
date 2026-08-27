@@ -245,11 +245,20 @@ export default function WorkshopExperience() {
             dark
             className="mt-8 text-lg"
             items={[
-              "You own the business, and you’re also still doing the work in it.",
-              "You have between 3 and 50 people, and you’re the bottleneck for most of them.",
-              "You’ve tried ChatGPT, got something generic, and quietly went back to doing it yourself.",
-              "You’re not technical, and you don’t plan to be.",
-              "You can give one full day to fixing this, laptop open, real work in hand.",
+              { icon: "owner", text: "You own the business, and you’re also still doing the work in it." },
+              {
+                icon: "bottleneck",
+                text: "You have between 3 and 50 people, and you’re the bottleneck for most of them.",
+              },
+              {
+                icon: "generic-ai",
+                text: "You’ve tried ChatGPT, got something generic, and quietly went back to doing it yourself.",
+              },
+              { icon: "no-code", text: "You’re not technical, and you don’t plan to be." },
+              {
+                icon: "calendar",
+                text: "You can give one full day to fixing this, laptop open, real work in hand.",
+              },
             ]}
           />
           <Beat lead>
@@ -323,13 +332,31 @@ export default function WorkshopExperience() {
         <CheckList
           className="mx-auto max-w-[720px] text-lg"
           items={[
-            "Your business brain, built and live, so you never re-explain yourself to a tool again",
-            "An AI worker wired to that brain, starting every task already knowing your business",
-            "Your first real tasks handed over on the day, with the hours coming off in front of you",
-            "An overnight routine that keeps work moving while you sleep",
-            "A simple daily rhythm that keeps the systems running long after you leave",
-            "The workbook you build in, so you go home with everything documented",
-            "A room of other operators making the same shift, and the group that keeps going after",
+            {
+              icon: "brain",
+              text: "Your business brain, built and live, so you never re-explain yourself to a tool again",
+            },
+            {
+              icon: "wired",
+              text: "An AI worker wired to that brain, starting every task already knowing your business",
+            },
+            {
+              icon: "handover",
+              text: "Your first real tasks handed over on the day, with the hours coming off in front of you",
+            },
+            { icon: "moon", text: "An overnight routine that keeps work moving while you sleep" },
+            {
+              icon: "rhythm",
+              text: "A simple daily rhythm that keeps the systems running long after you leave",
+            },
+            {
+              icon: "book",
+              text: "The workbook you build in, so you go home with everything documented, not half-remembered",
+            },
+            {
+              icon: "people",
+              text: "A room of other operators making the same shift, and the group that keeps going after the day ends",
+            },
           ]}
         />
       </Section>
