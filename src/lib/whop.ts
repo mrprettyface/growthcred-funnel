@@ -5,7 +5,7 @@
  * handled by picking the MATCHING plan rather than by sending a total:
  *
  *   workshop only            -> WORKSHOP_ONLY  (R990)
- *   workshop + Skip the Setup -> WORKSHOP_PLUS_BUMP (R1 480)
+ *   workshop + Skip the Setup -> WORKSHOP_PLUS_BUMP (R1 490)
  *   Operators Intensive       -> OPERATORS_INTENSIVE (R9 900)
  *
  * All plans are priced in ZAR in the Whop dashboard. If you change a price in

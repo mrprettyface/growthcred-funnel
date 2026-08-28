@@ -28,6 +28,8 @@ type FunnelStep =
   | "downsell_decline"
   | "build_view"
   | "build_apply"
+  /** The request reached us as an email but never made it into the database. */
+  | "build_apply_save_failed"
   | "build_decline"
   | "thankyou_view"
   | "call_view"

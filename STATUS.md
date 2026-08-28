@@ -28,7 +28,21 @@ Repo: https://github.com/mrprettyface/growthcred-funnel (public, no secrets)
 
 Route flow: checkout → upsell → (accept ⇒ build) / (decline ⇒ downsell → build)
 → thank-you. `/upsell`, `/downsell`, `/build`, `/thank-you` are gated: no order
-in sessionStorage ⇒ redirected to `/checkout`.
+⇒ redirected to `/checkout`. The gate reads the in-memory order first and
+sessionStorage only as a fallback — `saveOrder` swallows storage failures by
+design, so reading storage first ejected mid-funnel anyone whose browser refuses
+to keep it (private mode, "block all cookies", an ITP purge).
+
+**An order proves a lead, not a sale.** It is written the moment the details
+form is submitted, so someone who opens the payment modal, closes it and then
+types `/upsell` has one. `order.paid` is set only when Whop confirms, and
+anything that tells a customer they have bought something must check it — the
+"Welcome to the workshop" block on `/upsell` does. Nothing paid sits behind the
+gate itself, so the gate stays deliberately loose: an order-less visitor gets
+sent back to the start, and Whop's dashboard remains the authority on money.
+Payment methods that take over the whole page (3-D Secure) come back to
+`?paid=1`, which decides what we *say* on that page and never what we grant or
+record.
 
 **Prices must match Whop exactly.** Site prices live in `src/lib/offers.ts`
 (cents), plan IDs in `src/lib/whop.ts`. A mismatch has bitten us twice.
@@ -47,7 +61,12 @@ in sessionStorage ⇒ redirected to `/checkout`.
 - Supabase capture: `leads`, `orders`, `applications`, `build_requests`,
   `upsell_events`. Anon INSERT-only RLS; read from the dashboard
 - Promo codes: `?promo=CODE` on any checkout URL, plus Whop's own
-  "Add promo code" field in the form
+  "Add promo code" field in the form. The code is captured once and kept in
+  sessionStorage (`src/lib/promo.ts`), because React Router drops the query
+  string on the way to `/upsell` — read the URL at each step and the discount
+  silently applies to the first purchase only. While a code is in play the
+  checkout summary strikes out its own total and says the final price is shown
+  in Whop's form, rather than showing two different prices on one screen
 - Three videos placed (workshop / Operators Intensive / Custom System)
 - Prewritten "email us" buttons at each step to info@growthcred.co.za
 - Deploy: push to GitHub → cPanel Git → Update from Remote → Deploy HEAD Commit
@@ -103,6 +122,15 @@ before anything replaces the page that takes money.
 
 The one structural difference from the webinar: there is no seat to book, so
 every CTA links to `/checkout`. `CtaBand` takes an `action` prop for this.
+
+Three sets of line drawings share one hand, defined in `src/components/
+sceneKit.tsx`: the seven ladder rungs (`LevelScenes`), the six blocks of the day
+plus the guarantee (`DayScenes`), and the six lines of "your week"
+(`WeekScenes`). That is twenty drawings on `/`, which is the ceiling — the week
+set is deliberately the quiet one, small and beside the sentence rather than
+above it, and greyed until its hour has been counted. Two motifs are spoken for
+and must not be reused: the week grid belongs to the day's first scene, the moon
+to its fifth. Costs 628 bytes gzipped, in a chunk `/` already loads.
 
 Costs 4.5 kB gzipped on top of shared chunks; the main bundle is unchanged.
 

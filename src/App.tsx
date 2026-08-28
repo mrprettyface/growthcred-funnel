@@ -1,6 +1,6 @@
 import { Suspense, lazy, useEffect, useMemo, useState, type ReactNode } from "react";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { OrderContext, loadOrder, saveOrder, clearOrder, type Order } from "./lib/order";
+import { OrderContext, loadOrder, saveOrder, clearOrder, useOrder, type Order } from "./lib/order";
 import { Layout } from "./components/Layout";
 import { ExperienceBoundary } from "./components/webinar/ExperienceBoundary";
 
@@ -45,10 +45,16 @@ function ScrollToTop() {
  * Funnel gate. /upsell, /downsell and /thank-you are mid-funnel pages: landing
  * on them without an order means the flow was never started, so we send the
  * visitor to checkout rather than showing a broken or exploitable page.
+ *
+ * The in-memory order is the primary source, and sessionStorage only the
+ * fallback. Reading storage first would eject a paying customer mid-funnel
+ * wherever writes are refused or wiped between navigations (private browsing,
+ * "block all cookies", an ITP purge): saveOrder swallows those failures by
+ * design, so the context would hold a live order while storage held nothing.
  */
 function RequireOrder({ children }: { children: ReactNode }) {
-  const stored = loadOrder();
-  if (!stored) return <Navigate to="/checkout" replace />;
+  const { order } = useOrder();
+  if (!order && !loadOrder()) return <Navigate to="/checkout" replace />;
   return <>{children}</>;
 }
 

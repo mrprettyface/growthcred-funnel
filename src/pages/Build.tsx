@@ -27,6 +27,8 @@ export default function BuildPage() {
   const [availability, setAvailability] = useState("");
   const [notes, setNotes] = useState("");
   const [state, setState] = useState<"idle" | "done">("idle");
+  /** True when the database did not take the request, so the email is the only copy. */
+  const [saveFailed, setSaveFailed] = useState(false);
 
   useEffect(() => track("build_view"), []);
 
@@ -45,9 +47,19 @@ export default function BuildPage() {
     `Notes: ${notes}`,
   ]);
 
-  function handleApply() {
-    // Fire-and-forget save for when the database is on later; harmless when off.
-    void submitBuildRequest({
+  async function handleApply() {
+    /*
+     * The click also opens the prewritten email (this runs off an anchor's
+     * onClick), so the mailto fires either way. We wait for the database
+     * answer rather than firing and forgetting: if the insert fails and they
+     * then never send the email, the request is gone with nothing to show for
+     * it. Knowing it failed lets us say so on the next screen.
+     */
+    if (order) setOrder({ ...order, buildDecision: "applied" });
+    track("build_apply", { timing, configured: isSupabaseConfigured });
+    setState("done");
+
+    const result = await submitBuildRequest({
       reference: order?.reference ?? "NO-REF",
       name: order?.name ?? "",
       email: order?.email ?? "",
@@ -56,10 +68,17 @@ export default function BuildPage() {
       invest_timing: timing,
       availability,
       notes,
+    }).catch((error) => {
+      console.error("[supabase] submitBuildRequest failed", error);
+      return { ok: false as const, error: "threw" };
     });
-    if (order) setOrder({ ...order, buildDecision: "applied" });
-    track("build_apply", { timing, configured: isSupabaseConfigured });
-    setState("done");
+
+    if (!result.ok) {
+      console.error("[supabase] build request not saved:", result.error);
+      // "not_configured" is the expected local/dev state, not a lost lead.
+      setSaveFailed(result.error !== "not_configured");
+      track("build_apply_save_failed", { reason: result.error ?? "unknown" });
+    }
   }
 
   function decline() {
@@ -86,6 +105,12 @@ export default function BuildPage() {
             </a>{" "}
             and say you want a custom system.
           </p>
+          {saveFailed && (
+            <p className="mx-auto mt-4 max-w-[52ch] rounded-xl border border-dashed border-gold/60 bg-gold/10 p-4 text-sm text-ink">
+              One thing: we could not save your answers on our side just now, so that email is the
+              only copy of them. Please do send it, and we will pick it up from there.
+            </p>
+          )}
           <div className="mt-8">
             <Button onClick={() => navigate("/thank-you")}>
               Continue to your workshop details <span aria-hidden="true">&#8599;</span>
@@ -221,7 +246,7 @@ export default function BuildPage() {
             </ButtonLink>
           ) : (
             <Button type="button" disabled className="mt-7 w-full text-base">
-              Yes, I want a custom system <span aria-hidden="true">&#8599;</span>
+              Yes, I want a custom system
             </Button>
           )}
           {!ready && (

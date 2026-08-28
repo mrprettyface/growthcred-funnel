@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Eyebrow, cn } from "../ui";
+import { WeekScene } from "../WeekScenes";
 import { useReducedMotion } from "../../lib/motion";
 
 /**
@@ -102,22 +103,37 @@ export function HoursScene() {
       <div className="mx-auto mt-6 grid max-w-[980px] gap-10 md:grid-cols-[1fr_auto] md:gap-16">
         <div>
           {LINES.map((line, i) => (
-            <p
+            <div
               key={i}
               data-line={i}
-              className={cn(
-                // On a phone each line owns most of the screen, so it lands as
-                // a statement rather than as another paragraph going past.
-                "flex min-h-[46vh] max-w-[20ch] items-center text-[2.05rem] leading-[1.06] md:min-h-0 md:py-[12vh] md:text-5xl",
-                "font-display font-extrabold tracking-[-0.04em] transition-[color,opacity] duration-700",
-                // Opacity and colour only. A blur filter here reads beautifully
-                // on a laptop and repaints the whole line on every frame on a
-                // phone, which is where the scroll jank was coming from.
-                i < seen ? "text-midnight opacity-100" : "text-midnight/30 opacity-100",
-              )}
+              className="flex min-h-[46vh] flex-col justify-center gap-6 md:min-h-0 md:flex-row md:items-center md:gap-10 md:py-[12vh]"
             >
-              {line.text}
-            </p>
+              {/* Drawn in the same hand as the ladder and the day, but kept
+                  secondary: the sentence is what does the work here. It greys
+                  out until its hour has been counted, so the row of drawings
+                  fills in alongside the tally. */}
+              <WeekScene
+                index={i}
+                className={cn(
+                  "h-[68px] w-[92px] shrink-0 transition-[color,opacity] duration-700 md:h-[104px] md:w-[140px]",
+                  i < seen ? "text-midnight opacity-100" : "text-midnight/30 opacity-40",
+                )}
+              />
+              <p
+                className={cn(
+                  // On a phone each line owns most of the screen, so it lands as
+                  // a statement rather than as another paragraph going past.
+                  "max-w-[20ch] text-[2.05rem] leading-[1.06] md:text-5xl",
+                  "font-display font-extrabold tracking-[-0.04em] transition-[color,opacity] duration-700",
+                  // Opacity and colour only. A blur filter here reads beautifully
+                  // on a laptop and repaints the whole line on every frame on a
+                  // phone, which is where the scroll jank was coming from.
+                  i < seen ? "text-midnight opacity-100" : "text-midnight/30 opacity-100",
+                )}
+              >
+                {line.text}
+              </p>
+            </div>
           ))}
         </div>
 

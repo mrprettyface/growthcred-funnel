@@ -1,4 +1,5 @@
 import { WhopCheckoutEmbed } from "@whop/checkout/react";
+import { activePromo } from "../lib/promo";
 
 /**
  * Whop payment, themed to GrowthCred (gold on midnight).
@@ -11,13 +12,6 @@ import { WhopCheckoutEmbed } from "@whop/checkout/react";
  *
  * Card details never touch our site: everything happens inside Whop's iframe.
  */
-
-/** Lets you test with a coupon via ?promo=CODE on the checkout URL. */
-function promoFromUrl(): string | undefined {
-  if (typeof window === "undefined") return undefined;
-  const code = new URLSearchParams(window.location.search).get("promo");
-  return code ? code.trim() : undefined;
-}
 
 export function WhopPay({
   planId,
@@ -36,10 +30,21 @@ export function WhopPay({
   returnPath?: string;
   onPaid: (receiptId: string | undefined) => void;
 }) {
-  const promoCode = promoFromUrl();
+  /* ?promo=CODE on any checkout URL, remembered for the rest of the funnel. */
+  const promoCode = activePromo();
 
+  /*
+   * Where Whop sends the customer when a payment method takes over the whole
+   * page (3-D Secure, some wallets). That path leaves the SPA, so onPaid never
+   * runs and the order in sessionStorage still says paid: false. The marker
+   * lets the page they land on know a payment was just completed. It is a hint
+   * for what we SAY, never for what we grant: anyone can type it, and only
+   * Whop's dashboard (and, once it exists, a Whop webhook) settles the money.
+   */
   const returnUrl =
-    typeof window !== "undefined" ? window.location.origin + returnPath : undefined;
+    typeof window !== "undefined"
+      ? window.location.origin + returnPath + (returnPath.includes("?") ? "&" : "?") + "paid=1"
+      : undefined;
 
   const utm: Record<string, string> = { utm_source: "growthcred_funnel" };
   if (reference) utm.utm_content = reference;

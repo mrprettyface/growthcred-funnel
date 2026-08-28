@@ -242,7 +242,7 @@ export function ApplicationForm({ schedulerUrl }: { schedulerUrl?: string }) {
         </div>
 
         {!isLast && current.kind !== "textarea" && current.kind !== "select" && (
-          <p className="mt-3 text-right font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+          <p className="mt-3 text-right font-mono text-[12px] uppercase tracking-[0.14em] text-muted md:text-[11px]">
             Press Enter &crarr;
           </p>
         )}

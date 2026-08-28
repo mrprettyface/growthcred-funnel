@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Section, Eyebrow, H1, Faint, Button, ButtonLink, VideoSlot, CheckList } from "../components/ui";
 import { WhopPay } from "../components/WhopPay";
 import { Modal } from "../components/Modal";
@@ -23,9 +23,24 @@ import { mailtoHref } from "../lib/mailto";
 export default function UpsellPage() {
   const navigate = useNavigate();
   const { order, setOrder } = useOrder();
+  const [params] = useSearchParams();
   const [view, setView] = useState<"offer" | "pay" | "accepted">("offer");
 
   useEffect(() => track("upsell_view"), []);
+
+  /*
+   * Whether to CONGRATULATE them on the workshop. An order exists from the
+   * moment the details form is submitted, so it proves a lead and not a sale —
+   * someone who opened the payment modal, closed it and then typed /upsell has
+   * one. Telling that person "Welcome to the workshop, we'll email you the
+   * details" is a promise against money that never moved.
+   *
+   * `paid` is set when Whop confirms in-page; `?paid=1` is the marker Whop
+   * returns with when a payment method took over the whole page and onPaid
+   * never got to run. Both only decide what we say. Nothing here is gated on
+   * it, and Whop's dashboard remains the authority on who has actually paid.
+   */
+  const workshopPaid = order?.paid === true || params.get("paid") === "1";
 
   const ref = order?.reference ?? "";
   const name = order?.name ?? "";
@@ -121,19 +136,21 @@ export default function UpsellPage() {
   /* ---------------- Offer ---------------- */
   return (
     <Section className="pt-8">
-      {/* Workshop purchase confirmation */}
-      <div className="mx-auto mb-10 max-w-[680px] rounded-2xl border border-gold/40 bg-gold/[0.08] p-5 text-center md:p-6">
-        <p className="font-display text-lg font-extrabold text-midnight">
-          Welcome to the workshop.
-        </p>
-        <p className="mt-1 text-sm text-ink">
-          We&rsquo;ll email you more details for the workshop. Send us a quick note so we know
-          you&rsquo;re in:
-        </p>
-        <ButtonLink href={boughtWorkshopEmail} variant="outline" className="mt-4">
-          Email us: I&rsquo;ve just bought the workshop <span aria-hidden="true">&#8599;</span>
-        </ButtonLink>
-      </div>
+      {/* Workshop purchase confirmation, only once the payment is confirmed */}
+      {workshopPaid && (
+        <div className="mx-auto mb-10 max-w-[680px] rounded-2xl border border-gold/40 bg-gold/[0.08] p-5 text-center md:p-6">
+          <p className="font-display text-lg font-extrabold text-midnight">
+            Welcome to the workshop.
+          </p>
+          <p className="mt-1 text-sm text-ink">
+            We&rsquo;ll email you more details for the workshop. Send us a quick note so we know
+            you&rsquo;re in:
+          </p>
+          <ButtonLink href={boughtWorkshopEmail} variant="outline" className="mt-4">
+            Email us: I&rsquo;ve just bought the workshop <span aria-hidden="true">&#8599;</span>
+          </ButtonLink>
+        </div>
+      )}
 
       <div className="mx-auto max-w-[820px] text-center">
         <Eyebrow>One thing before you go</Eyebrow>

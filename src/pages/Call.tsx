@@ -101,14 +101,9 @@ export default function CallPage() {
             </p>
           </div>
 
+          {/* No VITE_SCHEDULER_URL set? The form falls back to booking over
+              WhatsApp on its own, so there is nothing to say here. */}
           <ApplicationForm schedulerUrl={scheduler} />
-
-          {!scheduler && (
-            <p className="mt-4 text-center font-mono text-[11px] text-muted">
-              [TO COME: scheduler] Set VITE_SCHEDULER_URL to your Cal.com or Calendly link and a
-              booking calendar appears the moment someone applies.
-            </p>
-          )}
         </div>
       </Section>
     </>

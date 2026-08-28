@@ -1,5 +1,16 @@
 /**
- * Payment provider adapter.
+ * Payment provider adapter. SUPERSEDED, except for newReference() at the bottom.
+ *
+ * @deprecated Payment is taken by Whop's embedded checkout (src/components/
+ * WhopPay.tsx) against the plans in src/lib/whop.ts. ManualWireProvider,
+ * StitchProvider and getProvider() are no longer called from anywhere, and
+ * VITE_PAYMENT_PROVIDER is read by nothing. They are kept only because the
+ * one-click upsell work in STATUS.md needs this exact shape — a `chargeSaved`
+ * against a stored token — and the security note below still applies to it.
+ * newReference() IS live: /checkout calls it for every order reference.
+ *
+ * The description that follows is the original phase-1 plan, kept for that
+ * future work. It does NOT describe how the site takes money today.
  *
  * Phase 1 is MANUAL WIRE: we take the order, show banking details, and a human
  * confirms funds. No card is stored, so there is no silent re-charge and

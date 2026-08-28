@@ -14,6 +14,13 @@ export type Order = {
   name: string;
   items: string[]; // offer ids
   bump: boolean;
+  /**
+   * True only once Whop has confirmed the workshop payment. The order row is
+   * written when the details form is submitted, so its existence proves a lead,
+   * never a sale: anything that tells the customer they have bought something
+   * must check this, not the presence of an order.
+   */
+  paid: boolean;
   upsellDecision: "accepted" | "declined" | null;
   downsellDecision: "accepted" | "declined" | null;
   buildDecision: "applied" | "declined" | null;
