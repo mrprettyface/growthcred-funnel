@@ -103,8 +103,13 @@ export default function App() {
             }
           />
           <Route path="/webinar-plain" element={<Layout><WebinarPlainPage /></Layout>} />
+          {/* THE LANDING PAGE.
+              The scroll experience is now what growthcred.co.za serves, with the
+              original page kept as its crash fallback rather than deleted — if
+              the experience ever throws, the visitor still lands on a complete
+              page that sells and still reaches the same checkout. */}
           <Route
-            path="/workshop"
+            path="/"
             element={
               <Layout>
                 <ExperienceBoundary fallback={<WorkshopPage />}>
@@ -115,7 +120,8 @@ export default function App() {
               </Layout>
             }
           />
-          <Route path="/" element={<Layout><WorkshopPage /></Layout>} />
+          {/* Anything already pointing at /workshop keeps working. */}
+          <Route path="/workshop" element={<Navigate to="/" replace />} />
           <Route path="/checkout" element={<Layout bare><CheckoutPage /></Layout>} />
           <Route
             path="/upsell"

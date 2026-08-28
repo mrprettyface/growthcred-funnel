@@ -272,10 +272,15 @@ switch (gate) {
     const app = code("src/App.tsx");
     if (!/lazy\(\(\) => import\("\.\/pages\/WorkshopExperience"\)\)/.test(app))
       fail("App: WorkshopExperience is not lazily imported");
-    if (!/path="\/workshop"/.test(app)) fail("App: no /workshop route");
-    // The money page must still render the original component.
-    if (!/path="\/"\s+element=\{<Layout><WorkshopPage \/><\/Layout>\}/.test(app))
-      fail("App: the / route no longer renders the original WorkshopPage");
+    // The landing page is the experience now, but it must never be able to
+    // leave a visitor with nothing: the original page is its crash fallback.
+    const landing = app.slice(app.indexOf('path="/"'), app.indexOf('path="/checkout"'));
+    if (!/<WorkshopExperience \/>/.test(landing))
+      fail("App: / does not render the workshop experience");
+    if (!/ExperienceBoundary fallback=\{<WorkshopPage \/>\}/.test(landing))
+      fail("App: / has no fallback to the original page if the experience throws");
+    if (!/path="\/workshop" element=\{<Navigate to="\/" replace \/>\}/.test(app))
+      fail("App: /workshop no longer redirects, so old links would 404");
     finish("G15");
     break;
   }

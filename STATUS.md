@@ -17,8 +17,8 @@ Repo: https://github.com/mrprettyface/growthcred-funnel (public, no secrets)
 | `/class` | Free class opt-in | free | — |
 | `/webinar` | Live class registration — scroll experience | free | — |
 | `/webinar-plain` | Same class, plain document version | free | — |
-| `/workshop` | Money page as an experience (A/B against `/`) | R990 | `plan_72K2Kk6oPeLRY` |
-| `/` | Workshop VSL (money page) | R990 | `plan_72K2Kk6oPeLRY` |
+| `/workshop` | Redirects to `/` (old links) | — | — |
+| `/` | Workshop, as the scroll experience (money page) | R990 | `plan_72K2Kk6oPeLRY` |
 | `/checkout` | + "Skip the Setup" bump | R1 490 combined | `plan_UCryhOI0svT2W` |
 | `/upsell` | Operators Intensive (Done With You) | R9 900 | `plan_Lrt0EkLTJD5nx` |
 | `/downsell` | Home study course (Do It Yourself) | R3 999 | `plan_Pbw4zu8ngelfI` |
@@ -78,6 +78,20 @@ emails point at.
 rest of the argument land. On `/` it costs about 6.8 kB gzipped in the initial
 bundle; it is eager rather than lazy because it sits above the fold-and-a-half
 and a pop-in there would be worse than the bytes.
+
+### Chunking: check what the landing page downloads
+
+`vite.config.ts` names the vendor chunks by hand. **React must be named first.**
+Left unnamed, Rollup folds it into whichever manual chunk it meets first — it
+ended up inside a chunk called `vendor-motion`, so every page downloaded 44 kB
+of "motion" that was really React, and the landing page appeared to need a
+spring library it never used. Naming React keeps the rest honest.
+
+The landing page should load: index, vendor-react, vendor-gsap, vendor-lenis and
+its own chunk — **and not** vendor-motion or vendor-ogl. Verify in the browser
+with `performance.getEntriesByType('resource')`, and read the full filename:
+truncating the hash off the chunk names makes every vendor chunk look the same
+and the check silently passes.
 
 ### `/workshop` — the money page as an experience
 

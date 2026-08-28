@@ -10,13 +10,14 @@ import { SeatStepper } from "../components/webinar/SeatStepper";
 import { ImageBreak } from "../components/webinar/ImageBreak";
 import { Beat } from "../components/webinar/Beat";
 import { CardStack } from "../components/webinar/CardStack";
-import { SeatCtaProvider, CtaBand, SeatButton } from "../components/webinar/SeatCta";
+import { SeatCtaProvider, SeatButton } from "../components/webinar/SeatCta";
+import { CtaBand } from "../components/webinar/CtaBand";
 import { StickySeatBar } from "../components/webinar/StickySeatBar";
 import ScrollStack, { ScrollStackItem } from "../components/reactbits/ScrollStack";
 import ScrollReveal from "../components/reactbits/ScrollReveal";
 import ScrollFloat from "../components/reactbits/ScrollFloat";
 import ClickSpark from "../components/reactbits/ClickSpark";
-import TiltedCard from "../components/reactbits/TiltedCard";
+import { TiltPhoto } from "../components/webinar/TiltPhoto";
 import Stepper, { Step } from "../components/reactbits/Stepper";
 import { WEBINAR } from "../lib/webinar";
 import { track } from "../lib/analytics";
@@ -134,7 +135,8 @@ export default function WebinarExperience() {
           <HoursScene />
         </Section>
 
-        <CtaBand line="You can keep doing this, or you can spend an hour learning to hand most of it over." />
+        <CtaBand line="You can keep doing this, or you can spend an hour learning to hand most of it over." action={<SeatButton className="shrink-0" />}
+        />
 
         {/* ---------- Everything you tried, piling up ---------- */}
         <Section id="tried" dark className="overflow-x-clip py-8 pb-5 md:py-24 md:pb-10">
@@ -219,6 +221,7 @@ export default function WebinarExperience() {
         <CtaBand
           tone="dark"
           line="There is one reason none of that worked. I spend the first ten minutes on it."
+        action={<SeatButton className="shrink-0" />}
         />
 
         {/* ---------- The demo. Their job, their week. ---------- */}
@@ -226,7 +229,8 @@ export default function WebinarExperience() {
           <LiveDemo />
         </Section>
 
-        <CtaBand line="That gap is the whole class. On Wednesday I show you how to close it." />
+        <CtaBand line="That gap is the whole class. On Wednesday I show you how to close it." action={<SeatButton className="shrink-0" />}
+        />
 
         {/* ---------- The line, then the fix ---------- */}
         <Section dark className="py-8 text-center md:py-24">
@@ -278,33 +282,14 @@ export default function WebinarExperience() {
           </div>
         </Section>
 
-        <CtaBand tone="dark" line="I&rsquo;ll open mine on the call and show you exactly what&rsquo;s in it." />
+        <CtaBand tone="dark" line="I&rsquo;ll open mine on the call and show you exactly what&rsquo;s in it." action={<SeatButton className="shrink-0" />}
+        />
 
         {/* ---------- Who's teaching it ---------- */}
         <Section id="host" className="py-8 md:py-24">
           <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
             <div className="mx-auto w-full max-w-[380px]">
-              {reduced ? (
-                <img
-                  src="/images/phila-event.jpg"
-                  alt="Phila Ngwenya, Founder of GrowthCred"
-                  loading="lazy"
-                  className="aspect-[4/5] w-full rounded-2xl object-cover object-[center_22%]"
-                />
-              ) : (
-                <TiltedCard
-                  imageSrc="/images/phila-event.jpg"
-                  altText="Phila Ngwenya, Founder of GrowthCred"
-                  containerHeight="440px"
-                  containerWidth="100%"
-                  imageHeight="440px"
-                  imageWidth="100%"
-                  rotateAmplitude={9}
-                  scaleOnHover={1.03}
-                  showMobileWarning={false}
-                  showTooltip={false}
-                />
-              )}
+              <TiltPhoto src="/images/phila-event.jpg" alt="Phila Ngwenya, Founder of GrowthCred" />
             </div>
 
             <div>
@@ -391,7 +376,8 @@ export default function WebinarExperience() {
           )}
         </Section>
 
-        <CtaBand line="All five, in one hour, on Wednesday. It costs you nothing." />
+        <CtaBand line="All five, in one hour, on Wednesday. It costs you nothing." action={<SeatButton className="shrink-0" />}
+        />
 
         {/* ---------- Proof, claim-free until real numbers exist ---------- */}
         <Section dark className="py-8 pb-8 md:py-24 md:pb-16">

@@ -10,11 +10,11 @@ import { HoursScene } from "../components/webinar/HoursScene";
 import { ImageBreak } from "../components/webinar/ImageBreak";
 import { Beat } from "../components/webinar/Beat";
 import { CardStack } from "../components/webinar/CardStack";
-import { CtaBand } from "../components/webinar/SeatCta";
+import { CtaBand } from "../components/webinar/CtaBand";
 import { LiveDemo } from "../components/webinar/LiveDemo";
 import ScrollFloat from "../components/reactbits/ScrollFloat";
 import ClickSpark from "../components/reactbits/ClickSpark";
-import TiltedCard from "../components/reactbits/TiltedCard";
+import { TiltPhoto } from "../components/webinar/TiltPhoto";
 import { WORKSHOP_EVENT, PROOF, seatsLeft } from "../lib/workshopEvent";
 import { track } from "../lib/analytics";
 import { useReducedMotion, useIsMobile } from "../lib/motion";
@@ -445,27 +445,7 @@ export default function WorkshopExperience() {
       <Section id="host" className="py-8 md:py-24">
         <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
           <div className="mx-auto w-full max-w-[380px]">
-            {reduced ? (
-              <img
-                src="/images/phila-event.jpg"
-                alt="Phila Ngwenya, Founder and CEO of GrowthCred"
-                loading="lazy"
-                className="aspect-[4/5] w-full rounded-2xl object-cover object-[center_22%]"
-              />
-            ) : (
-              <TiltedCard
-                imageSrc="/images/phila-event.jpg"
-                altText="Phila Ngwenya, Founder and CEO of GrowthCred"
-                containerHeight="440px"
-                containerWidth="100%"
-                imageHeight="440px"
-                imageWidth="100%"
-                rotateAmplitude={9}
-                scaleOnHover={1.03}
-                showMobileWarning={false}
-                showTooltip={false}
-              />
-            )}
+            <TiltPhoto src="/images/phila-event.jpg" alt="Phila Ngwenya, Founder of GrowthCred" />
           </div>
           <div>
             <Eyebrow>Who runs the day</Eyebrow>
