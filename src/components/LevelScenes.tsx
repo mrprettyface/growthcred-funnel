@@ -1,42 +1,10 @@
 import type { ReactElement } from "react";
+import { Figure, GOLD, Scene } from "./sceneKit";
 
 /**
- * One line-drawn scene per rung of the ladder.
- *
- * Hand-authored SVG rather than stock illustration: it keeps the set on one
- * grammar (200×150 box, 2px stroke, round caps, no fills), it inherits
- * currentColor so the linework picks up the ink colour of whatever card it sits
- * on, and the gold is the only filled colour — always on the thing the rung is
- * actually about. Each scene is a person and one prop; the moment you add a
- * second prop it stops reading at card size.
- *
- * All decorative: the rung name and its description carry the meaning.
+ * One line-drawn scene per rung of the ladder. Grammar and shared parts live in
+ * sceneKit.tsx; this file is only the seven drawings.
  */
-
-const GOLD = "#c8a04a";
-
-/** A person, drawn the same way every time so the seven read as one set. */
-function Figure({
-  x,
-  y,
-  arms,
-  legs = "M0 40 l-8 17 M0 40 l8 17",
-}: {
-  x: number;
-  y: number;
-  /** Arm path, relative to the figure's origin at the neck. */
-  arms: string;
-  legs?: string;
-}) {
-  return (
-    <g transform={`translate(${x} ${y})`}>
-      <circle cx="0" cy="-9" r="8.5" />
-      <path d="M0 0 V40" />
-      <path d={arms} />
-      <path d={legs} />
-    </g>
-  );
-}
 
 export const LEVEL_SCENES: ReactElement[] = [
   /* 01 Understanding — looking at what the thing can actually do. */
@@ -117,18 +85,5 @@ export const LEVEL_SCENES: ReactElement[] = [
 ];
 
 export function LevelScene({ index, className }: { index: number; className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 200 150"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={className}
-    >
-      {LEVEL_SCENES[index]}
-    </svg>
-  );
+  return <Scene className={className}>{LEVEL_SCENES[index]}</Scene>;
 }

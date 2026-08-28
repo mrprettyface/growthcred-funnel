@@ -4,6 +4,7 @@ import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { VIDEOS, embedUrl } from "../lib/videos";
 import { Icon, type IconName } from "./icons";
+import { FaqMark, type FaqMarkName } from "./FaqMarks";
 import { Reveal } from "./Reveal";
 
 export const cn = (...parts: unknown[]) => twMerge(clsx(parts));
@@ -171,14 +172,27 @@ export function CheckList({
   );
 }
 
-/** Accessible FAQ accordion using native details/summary, no JS. */
-export function Faq({ items }: { items: { q: string; a: ReactNode }[] }) {
+/**
+ * Accessible FAQ accordion using native details/summary, no JS.
+ *
+ * An item may carry a `mark`, which puts a small drawn figure beside the
+ * question. A column of identical accordion rows reads as a wall to get past;
+ * a figure per row makes each question look like it was actually considered.
+ */
+export function Faq({ items }: { items: { q: string; a: ReactNode; mark?: FaqMarkName }[] }) {
   return (
     <div className="mx-auto max-w-[760px] divide-y divide-midnight/10 border-y border-midnight/10">
       {items.map((item, i) => (
         <details key={i} className="group py-2">
           <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-3 font-display text-lg font-bold tracking-[-0.02em] text-midnight">
-            {item.q}
+            <span className="flex items-center gap-3">
+              {item.mark ? (
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold/10 text-gold">
+                  <FaqMark name={item.mark} />
+                </span>
+              ) : null}
+              {item.q}
+            </span>
             <span
               aria-hidden="true"
               className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-midnight/15 text-gold transition group-open:rotate-45"
@@ -186,7 +200,9 @@ export function Faq({ items }: { items: { q: string; a: ReactNode }[] }) {
               +
             </span>
           </summary>
-          <div className="max-w-[62ch] pb-4 text-ink">{item.a}</div>
+          <div className={cn("max-w-[62ch] pb-4 text-ink", items.some((x) => x.mark) && "pl-14")}>
+            {item.a}
+          </div>
         </details>
       ))}
     </div>

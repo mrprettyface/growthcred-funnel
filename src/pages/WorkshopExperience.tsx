@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { Section, Eyebrow, Faint, Faq, CheckList, ButtonLink, VideoSlot } from "../components/ui";
 import { CostCalculator } from "../components/CostCalculator";
 import { SevenLevels } from "../components/SevenLevels";
+import { SocialSection } from "../components/SocialSection";
+import { DayScene, GuaranteeScene } from "../components/DayScenes";
 import { SmoothScroll } from "../components/webinar/SmoothScroll";
 import { ProgressRail } from "../components/webinar/ProgressRail";
 import { HoursScene } from "../components/webinar/HoursScene";
@@ -308,8 +310,19 @@ export default function WorkshopExperience() {
               key={blk.t}
               className="rounded-2xl border border-cream/15 bg-midnight-soft p-6 shadow-[0_24px_50px_rgba(0,0,0,0.5)] md:p-8"
             >
-              <span className="font-mono text-sm text-gold">{String(i + 1).padStart(2, "0")}</span>
-              <h3 className="mt-2 text-2xl text-cream md:text-3xl">{blk.t}</h3>
+              <div className="flex items-start justify-between gap-6">
+                <div className="min-w-0">
+                  <span className="font-mono text-sm text-gold">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="mt-2 text-2xl text-cream md:text-3xl">{blk.t}</h3>
+                </div>
+                {/* The drawing does the explaining before the paragraph does. */}
+                <DayScene
+                  index={i}
+                  className="hidden h-24 w-32 shrink-0 text-cream/70 sm:block"
+                />
+              </div>
               <p className="mt-3 max-w-[52ch] text-cream/75">{blk.b}</p>
               <p className="mt-4 border-l-2 border-gold pl-3 text-sm text-cream">
                 <span className="font-semibold">You hand over:</span> {blk.h}
@@ -407,6 +420,7 @@ export default function WorkshopExperience() {
             The 10 hours back, or you don't pay.
           </ScrollFloat>
         )}
+        <GuaranteeScene className="mx-auto mt-8 h-32 w-48 text-cream" />
         <div className="mx-auto mt-6 max-w-[60ch] space-y-4 text-left text-cream/85">
           <p>
             Show up, do the builds with us on the day, and use the systems for 30 days. If by day 30
@@ -532,30 +546,37 @@ export default function WorkshopExperience() {
         <Faq
           items={[
             {
+              mark: "price",
               q: "Why is it only R990?",
               a: "Because it is the founding rate, and it goes to R1 950. I am building the room and the case studies at the same time, and early seats are priced for that. It is also the entry rung: the day gets your week back, and the deeper work is a separate, longer programme you are never obliged to take.",
             },
             {
+              mark: "not-technical",
               q: "I’m not technical. Will I keep up?",
               a: "Yes. If you can use WhatsApp and a browser, you can do this. We build everything with you in the room, step by step, on your own laptop. Nobody leaves stuck.",
             },
             {
+              mark: "youtube",
               q: "How is this different from watching AI videos on YouTube?",
               a: "YouTube teaches you what is possible. This gets it built. You leave with live systems running your actual work, not a playlist you will never finish.",
             },
             {
+              mark: "industry",
               q: "Will this work for my industry?",
               a: "It works because it is built around your business, not a template. Whatever you do, the systems learn your work, your clients, and your voice.",
             },
             {
+              mark: "diy",
               q: "Is it done for me, or do I do it myself?",
               a: "You build it, with us guiding every step. That is the point. You leave able to run and change it yourself.",
             },
             {
+              mark: "bring",
               q: "What do I need to bring?",
               a: "Your laptop, and the real work you want off your plate. That is it.",
             },
             {
+              mark: "after",
               q: "What happens after the day?",
               a: "You go home with the systems live and a simple daily rhythm to keep them running. You also stay in the operator group.",
             },
@@ -579,6 +600,9 @@ export default function WorkshopExperience() {
           {FOUNDING}
         </p>
       </Section>
+
+      {/* Insights & Content: the YouTube / LinkedIn cards, same as / */}
+      <SocialSection />
 
       {/* Sticky CTA, mobile-first conversion aid */}
       <div className="sticky bottom-0 z-40 border-t border-midnight/10 bg-paper p-3 md:hidden">
