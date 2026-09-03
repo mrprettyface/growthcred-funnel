@@ -14,6 +14,9 @@ type FunnelStep =
   | "class_optin"
   | "webinar_view"
   | "webinar_register"
+  /** The parallel funnel: a lead magnet opt-in. */
+  | "magnet_view"
+  | "magnet_signup"
   | "workshop_view"
   | "checkout_view"
   | "checkout_submit"

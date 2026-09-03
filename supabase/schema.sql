@@ -189,3 +189,46 @@ create or replace view public.webinar_registrations_recent as
   select created_at, webinar, name, whatsapp, email, source
   from public.webinar_registrations
   order by created_at desc;
+
+
+-- ---------- magnet_signups: lead magnet opt-ins ----------
+-- The parallel funnel. Someone trades their details for a pack, is given the
+-- file immediately on the same page, and is then offered a one-tap seat at the
+-- live class. Separate from `leads` because that table only carries an email
+-- and a source, and a magnet opt-in needs a name and a WhatsApp number to be
+-- worth anything afterwards.
+--
+-- `magnet` is the pack slug, so one table serves every future lead magnet
+-- without a migration -- the same trick `webinar` plays in the table above.
+--
+-- `consent` records that the POPIA consent box was ticked. It is stored rather
+-- than assumed, because the point of consent is being able to show it later.
+-- `company` is nullable on purpose: every required field costs opt-ins, and
+-- nothing downstream depends on it yet.
+create table if not exists public.magnet_signups (
+  id          uuid primary key default gen_random_uuid(),
+  created_at  timestamptz not null default now(),
+  magnet      text not null,            -- pack slug, e.g. 'ten-hours-back'
+  name        text not null,
+  email       text not null,
+  whatsapp    text not null,
+  company     text,                     -- optional, by design
+  consent     boolean not null default false,
+  source      text not null default 'magnet_page'
+);
+
+alter table public.magnet_signups enable row level security;
+
+drop policy if exists "anon can claim a lead magnet" on public.magnet_signups;
+create policy "anon can claim a lead magnet"
+  on public.magnet_signups for insert to anon with check (true);
+-- Intentionally NO select/update/delete for anon. Same model as every other
+-- table here: the browser writes, the dashboard reads.
+
+create index if not exists magnet_signups_magnet_idx
+  on public.magnet_signups (magnet, created_at desc);
+
+create or replace view public.magnet_signups_recent as
+  select created_at, magnet, name, whatsapp, email, company, consent, source
+  from public.magnet_signups
+  order by created_at desc;

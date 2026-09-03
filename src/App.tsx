@@ -28,6 +28,8 @@ const WebinarExperience = lazy(() => import("./pages/WebinarExperience"));
  * been compared on real traffic.
  */
 const WorkshopExperience = lazy(() => import("./pages/WorkshopExperience"));
+/** The lead magnet funnel. Small page, lazy for the same reason as the rest. */
+const PlaybookPage = lazy(() => import("./pages/Playbook"));
 /**
  * The legal pages are long, rarely opened, and were sitting in the main bundle
  * where the money page paid for them on every first load. Split out: they now
@@ -108,6 +110,20 @@ export default function App() {
         <Routes>
           {/* Funnel */}
           <Route path="/class" element={<Layout><ClassPage /></Layout>} />
+          {/* The parallel funnel. A lead magnet opt-in whose thank-you state
+              hands the pack over on the spot and offers a one-tap seat at the
+              live class. Deliberately not in the nav: this is an ad
+              destination, same as /webinar. */}
+          <Route
+            path="/playbook"
+            element={
+              <Layout>
+                <Suspense fallback={<WebinarLoading />}>
+                  <PlaybookPage />
+                </Suspense>
+              </Layout>
+            }
+          />
           {/* Live class registration. Deliberately not in the nav: this is the
               page the ads, WhatsApp broadcasts and emails point at.
               /webinar is the scroll experience; /webinar-plain is the same

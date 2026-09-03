@@ -112,3 +112,18 @@ verified on this page, and rejecting the changes that would regress them.
   EVIDENCE: exit=0; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; output=G23 passed
   NEGATIVE CONTROL: with public/_redirects moved away the gate exits 1 with
     "public/_redirects is missing; Cloudflare Pages would 404 every route but /"
+
+- [x] G24: the parallel funnel delivers on the page, takes consent it can prove,
+      and turns the seat into one tap on details already given
+  CHECK: node scripts/verify-mobile.mjs magnet-funnel
+  EXPECT: G24 passed
+  EVIDENCE: exit=0; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; output=G24 passed
+  NEGATIVE CONTROLS: dropping `consent` from the submit gate fails with
+    "consent is not part of the submit gate"; changing the success heading to
+    "Check your inbox" fails with "promises delivery by email".
+  BROWSER: at /playbook, all three fields valid with consent unticked leaves the
+    submit disabled; ticking it enables. Submitting against the missing table
+    renders role=alert "That did not save… WhatsApp me on +27 66 283 0289" with
+    a prefilled wa.me link, and the typed values are preserved.
+  NOT YET PROVEN: the success path. magnet_signups does not exist yet
+    (PGRST205), so the delivery state cannot be reached until the SQL is run.

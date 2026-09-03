@@ -374,6 +374,69 @@ switch (gate) {
     break;
   }
 
+  /**
+   * G24: the parallel funnel keeps its two promises.
+   *
+   * The magnet is delivered ON the page, never promised by an email nothing
+   * can send; and the seat that follows is one tap on details already given,
+   * not a second form. Both are the whole reason this funnel converts, and
+   * both are the kind of thing a later edit quietly undoes.
+   */
+  case "magnet-funnel": {
+    const signup = code("src/components/MagnetSignup.tsx");
+    const page = code("src/pages/Playbook.tsx");
+    const magnets = code("src/lib/magnets.ts");
+
+    // Delivery is on-page. Any "check your inbox" framing is the old lie back.
+    if (/(check|watch).{0,20}(your )?(inbox|email)|on its way to|sent to your email/i.test(signup + page))
+      fail("the magnet page promises delivery by email; nothing here can send one");
+    if (!/isDeliverable/.test(signup))
+      fail("MagnetSignup no longer guards on isDeliverable; a null file would render a dead download");
+    if (!/ToComeBlock/.test(signup))
+      fail("MagnetSignup lost its visible placeholder; a missing pack must never look shipped");
+
+    // The seat is one tap, reusing what was typed.
+    if (!/registerForWebinar/.test(signup))
+      fail("MagnetSignup no longer offers the seat; the funnel stops at the magnet");
+    if (!/form\.email/.test(signup) || !/form\.whatsapp/.test(signup))
+      fail("the seat no longer reuses the details already given; that is a second form");
+
+    // POPIA: consent is required to submit, and it is stored.
+    if (!/consent/.test(signup)) fail("MagnetSignup has no consent state");
+    if (!/&&\s*consent/.test(signup))
+      fail("consent is not part of the submit gate; the form can be sent without it");
+    if (!/consent,/.test(signup))
+      fail("consent is collected but never written; unprovable consent is not consent");
+    if (!/href="\/privacy"/.test(signup))
+      fail("the consent line does not link the privacy policy");
+
+    // Failure routes to WhatsApp, not the mailbox that dies with the host.
+    if (/growthcred\.co\.za/.test(signup))
+      fail("MagnetSignup points at the at-risk mailbox on failure");
+    if (!/WHATSAPP/.test(signup)) fail("MagnetSignup has no WhatsApp fallback");
+
+    // Packs ship empty until the PDFs exist, and the schema must be there.
+    if (!/file: null/.test(magnets) && !/file: "/.test(magnets))
+      fail("magnets.ts has neither a null slot nor a real file; the registry is malformed");
+    const schema = read("supabase/schema.sql");
+    if (!/create table if not exists public\.magnet_signups/.test(schema))
+      fail("magnet_signups is missing from schema.sql; the funnel has nowhere to write");
+    if (!/on public\.magnet_signups\s+for insert to anon/.test(schema))
+      fail("magnet_signups has no anon insert policy");
+    if (/on public\.magnet_signups for (select|update|delete)/.test(schema))
+      fail("magnet_signups grants anon more than insert; the browser must only write");
+
+    // The route must be lazy AND inside a Suspense, or it throws on open.
+    const app = code("src/App.tsx");
+    if (!/path="\/playbook"/.test(app)) fail("no /playbook route");
+    if (!/PlaybookPage = lazy/.test(app)) fail("the playbook page is no longer lazy");
+    const block = app.slice(app.indexOf('path="/playbook"'), app.indexOf('path="/playbook"') + 400);
+    if (!/Suspense/.test(block))
+      fail("the /playbook route has no Suspense boundary; a lazy page without one throws");
+    finish("G24");
+    break;
+  }
+
   default:
     console.error(`unknown gate: ${gate}`);
     process.exit(2);

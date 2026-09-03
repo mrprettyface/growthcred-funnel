@@ -136,3 +136,31 @@ export async function registerForWebinar(
   const { error } = await supabase.from("webinar_registrations").insert(reg);
   return error ? { ok: false, error: error.message } : { ok: true };
 }
+
+/**
+ * A lead magnet opt-in: the parallel funnel's entry point.
+ *
+ * `consent` is stored rather than assumed. The whole value of POPIA consent is
+ * being able to show, later, that it was given -- a boolean nobody wrote down
+ * is not consent, it is a claim.
+ *
+ * `company` is optional because every required field costs opt-ins and nothing
+ * downstream reads it yet.
+ */
+export type MagnetSignup = {
+  magnet: string;
+  name: string;
+  email: string;
+  whatsapp: string;
+  company: string | null;
+  consent: boolean;
+  source?: string;
+};
+
+export async function captureMagnetSignup(
+  signup: MagnetSignup,
+): Promise<{ ok: boolean; error?: string }> {
+  if (!supabase) return { ok: false, error: "not_configured" };
+  const { error } = await supabase.from("magnet_signups").insert(signup);
+  return error ? { ok: false, error: error.message } : { ok: true };
+}
