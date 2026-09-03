@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Section, Eyebrow, H1, Faint, Button, ButtonLink, VideoSlot, CheckList } from "../components/ui";
 import { captureLead, isSupabaseConfigured } from "../lib/supabase";
 import { track } from "../lib/analytics";
+import { WHATSAPP_DISPLAY } from "../lib/contact";
 
 /**
  * TOP OF FUNNEL: free class opt-in, then delivery.
@@ -22,7 +23,7 @@ export default function ClassPage() {
     // Not configured yet should not block the visitor from watching.
     if (!result.ok && result.error !== "not_configured") {
       setState("error");
-      setMessage("That did not save. Please try again, or email info@growthcred.co.za.");
+      setMessage(`That did not save. Please try again, or WhatsApp ${WHATSAPP_DISPLAY}.`);
       return;
     }
     track("class_optin", { configured: isSupabaseConfigured });

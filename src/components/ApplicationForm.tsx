@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Eyebrow, Faint, Button, cn } from "./ui";
 import { submitApplication, isSupabaseConfigured, type Application } from "../lib/supabase";
 import { track } from "../lib/analytics";
+import { WHATSAPP_URL } from "../lib/contact";
 
 /**
  * The application, asked ONE QUESTION AT A TIME. Answering advances to the
@@ -124,7 +125,7 @@ export function ApplicationForm({ schedulerUrl }: { schedulerUrl?: string }) {
               We will reach out on WhatsApp within one working day to set a time. Sooner is fine too:
             </p>
             <a
-              href="https://wa.me/27662830289"
+              href={WHATSAPP_URL}
               className="mt-3 inline-block font-mono text-sm text-midnight underline decoration-gold underline-offset-4 hover:text-gold"
             >
               Message us on 066 283 0289

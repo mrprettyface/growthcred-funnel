@@ -16,6 +16,9 @@ prices, what is done, what is open, and the rules each page has to keep.
   webinar experience — especially "no `filter: blur()` on anything driven by
   scroll".
 - Deploy is: push to GitHub → cPanel Git → Update from Remote → Deploy HEAD.
+  A free Cloudflare Pages path exists alongside it — see **[DEPLOY.md](DEPLOY.md)**.
+  Both hosts must keep working: `.htaccess` serves Apache, `public/_redirects`
+  and `public/_headers` serve Pages. Gate `host-portable` enforces it.
 
 ## Skills
 

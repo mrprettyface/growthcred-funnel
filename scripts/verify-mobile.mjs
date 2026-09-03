@@ -333,6 +333,47 @@ switch (gate) {
     break;
   }
 
+  /**
+   * G23: the site can be served by a host that is not Apache.
+   *
+   * Every route except "/" is a rewrite, so a host that does not read the
+   * rewrite rules serves a 404 on /webinar the day we need it most. Apache
+   * reads dist/.htaccess; Cloudflare Pages reads _redirects and _headers. Both
+   * must ship, and both must survive `vite build`, which empties dist.
+   */
+  case "host-portable": {
+    const existsIn = (p) => {
+      try { readFileSync(p, "utf8"); return true; } catch { return false; }
+    };
+    for (const p of ["public/_redirects", "public/_headers"])
+      if (!existsIn(p)) fail(`${p} is missing; Cloudflare Pages would 404 every route but "/"`);
+    // public/* is copied into dist by vite, so a build must reproduce them.
+    for (const p of ["dist/_redirects", "dist/_headers", "dist/.htaccess",
+                     "dist/.well-known/apple-developer-merchantid-domain-association"])
+      if (!existsIn(p)) fail(`${p} did not survive the build; the deploy would ship broken`);
+    if (existsIn("public/_redirects")) {
+      const r = readFileSync("public/_redirects", "utf8");
+      if (!/^\/\*\s+\/index\.html\s+200\s*$/m.test(r))
+        fail("public/_redirects has no SPA fallback rule; deep links would 404");
+    }
+    if (existsIn("public/_headers")) {
+      const h = readFileSync("public/_headers", "utf8");
+      if (!/apple-developer-merchantid-domain-association/.test(h))
+        fail("public/_headers does not set the Apple Pay file type; Apple Pay would fail to verify");
+    }
+    // The failure path must not route people to the mailbox that dies with the
+    // host. That is the whole point of the WhatsApp fallback.
+    for (const p of ["src/components/webinar/SeatStepper.tsx",
+                     "src/components/WebinarSignup.tsx", "src/pages/Class.tsx"]) {
+      const c = code(p);
+      if (/did not save[\s\S]{0,160}growthcred\.co\.za/.test(c))
+        fail(`${p}: the save-failed message still points at the at-risk mailbox`);
+      if (!/WHATSAPP/.test(c)) fail(`${p}: no WhatsApp fallback on the failure path`);
+    }
+    finish("G23");
+    break;
+  }
+
   default:
     console.error(`unknown gate: ${gate}`);
     process.exit(2);

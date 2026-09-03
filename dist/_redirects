@@ -1,0 +1,8 @@
+# SPA fallback for Cloudflare Pages (and Netlify). This is the portable twin of
+# the RewriteRule in dist/.htaccess: any path that is not a real file is served
+# index.html so the React router can resolve it.
+#
+# Static assets are matched BEFORE these rules, so this never shadows a real
+# file — including /.well-known/*, which Apache needs an explicit exemption for
+# but Pages handles on its own.
+/*    /index.html   200

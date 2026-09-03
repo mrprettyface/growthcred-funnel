@@ -3,6 +3,7 @@ import { Section, Eyebrow, H1, Faint } from "../components/ui";
 import { OFFERS, formatPrice, sumOffers } from "../lib/offers";
 import { useOrder } from "../lib/order";
 import { track } from "../lib/analytics";
+import { WHATSAPP_URL } from "../lib/contact";
 
 /**
  * CONFIRMATION. Locked headline: "Your Time Back Starts Now"
@@ -82,7 +83,7 @@ export default function ThankYouPage() {
 
           <p className="mt-5 text-sm text-cream/70">
             Cannot wait? Reach us on WhatsApp{" "}
-            <a href="https://wa.me/27662830289" className="text-gold underline">
+            <a href={WHATSAPP_URL} className="text-gold underline">
               066 283 0289
             </a>{" "}
             or email{" "}

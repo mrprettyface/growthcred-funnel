@@ -104,3 +104,11 @@ verified on this page, and rejecting the changes that would regress them.
 
 - [x] G8: the live page at 375px keeps section gaps at or below 64px, zero text under 12px, zero font weight under 400
   EVIDENCE: Measured in Chrome at 375x812: max section gap 64px (set: 0/20/32/64), 0 text under 12px, 0 font weight under 400, 0 blur filters, no horizontal overflow, 12 beats at 24vh, 4 sr-only full answers exposed.
+
+- [x] G23: the site is servable by a host that is not Apache, and the save-failed
+      message does not send people to the mailbox that dies with the host
+  CHECK: node scripts/verify-mobile.mjs host-portable
+  EXPECT: G23 passed
+  EVIDENCE: exit=0; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; output=G23 passed
+  NEGATIVE CONTROL: with public/_redirects moved away the gate exits 1 with
+    "public/_redirects is missing; Cloudflare Pages would 404 every route but /"

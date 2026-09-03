@@ -3,6 +3,7 @@ import { Button, cn } from "./ui";
 import { WEBINAR, calendarUrl } from "../lib/webinar";
 import { registerForWebinar, isSupabaseConfigured } from "../lib/supabase";
 import { track } from "../lib/analytics";
+import { WHATSAPP_DISPLAY } from "../lib/contact";
 
 /**
  * The seat form. Appears three times on the webinar page (hero, close, and the
@@ -52,7 +53,7 @@ export function WebinarSignup({
     // Not configured yet must never cost us a registration.
     if (!result.ok && result.error !== "not_configured") {
       setState("error");
-      setMessage("That did not save. Please try again, or email info@growthcred.co.za.");
+      setMessage(`That did not save. Please try again, or WhatsApp ${WHATSAPP_DISPLAY}.`);
       return;
     }
 

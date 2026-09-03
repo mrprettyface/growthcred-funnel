@@ -4,6 +4,7 @@ import { cn } from "../ui";
 import { WEBINAR, calendarUrl } from "../../lib/webinar";
 import { registerForWebinar, isSupabaseConfigured } from "../../lib/supabase";
 import { track } from "../../lib/analytics";
+import { WHATSAPP_DISPLAY, whatsappUrl } from "../../lib/contact";
 
 /**
  * Registration, one question at a time.
@@ -190,8 +191,16 @@ export function SeatStepper({
 
       {state === "error" && (
         <p role="alert" className="px-8 pb-6 text-sm text-red-700">
-          That did not save. Please try again, or email info@growthcred.co.za and I&rsquo;ll add you
-          myself.
+          That did not save. Please try again, or{" "}
+          <a
+            href={whatsappUrl(`Hi Phila, I tried to book a seat for the ${WEBINAR.dayLabel} class and the form did not save.`)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline decoration-red-400 underline-offset-2"
+          >
+            WhatsApp me on {WHATSAPP_DISPLAY}
+          </a>{" "}
+          and I&rsquo;ll add you myself.
         </p>
       )}
     </div>

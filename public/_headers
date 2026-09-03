@@ -1,0 +1,11 @@
+# Header rules for Cloudflare Pages. The Apache equivalents live in
+# dist/.htaccess; keep the two in step.
+
+# The Apple Pay domain-association file has no extension, so it needs its type
+# stated outright or Apple is handed something it will not accept.
+/.well-known/apple-developer-merchantid-domain-association
+  Content-Type: application/octet-stream
+
+# Vite fingerprints every filename under /assets, so these can never go stale.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

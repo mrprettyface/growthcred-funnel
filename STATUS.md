@@ -70,6 +70,12 @@ record.
 - Three videos placed (workshop / Operators Intensive / Custom System)
 - Prewritten "email us" buttons at each step to info@growthcred.co.za
 - Deploy: push to GitHub → cPanel Git → Update from Remote → Deploy HEAD Commit
+- Deploy, alternative: Cloudflare Pages builds the same repo for free and
+  survives an unpaid hosting invoice. Setup and the DNS/email caveats are in
+  **[DEPLOY.md](DEPLOY.md)**. The site must stay servable by BOTH: Apache reads
+  `dist/.htaccess`, Pages reads `public/_redirects` + `public/_headers`.
+  DNS, MX and hosting are currently all on one provider — that single point of
+  failure, not the hosting itself, is the thing worth money.
 
 ## The live class (`/webinar`)
 
