@@ -1,9 +1,19 @@
+import { Link } from "react-router-dom";
 import { Section, Eyebrow, H1 } from "../../components/ui";
 
 /**
- * First draft. Have a South African lawyer review before publishing.
- * The 30-day window and 7 business days here MUST match the workshop
- * guarantee on the VSL (Workshop.tsx, section 1.3) word for word.
+ * Refund policy.
+ *
+ * The guarantee below MUST match the guarantee promised on the selling pages
+ * word for word — today that is the guarantee band in WorkshopExperience.tsx
+ * (and its fallback in Workshop.tsx). An advertised guarantee is enforceable as
+ * advertised; if this page is narrower than the page that took the money, the
+ * page that took the money wins and we look like we moved the goalposts.
+ *
+ * A "trial offer" clause used to sit here. Nothing on this site has ever been
+ * sold on a trial, so it promised terms for a product that does not exist and
+ * contradicted the digital-products clause below. Removed. Do not reinstate it
+ * unless a trial actually ships.
  */
 export default function Refunds() {
   return (
@@ -11,33 +21,97 @@ export default function Refunds() {
       <div className="mx-auto max-w-[720px]">
         <Eyebrow>Legal</Eyebrow>
         <H1 className="mt-5 text-3xl md:text-5xl">Refund policy</H1>
-        <p className="mt-4 font-mono text-xs text-muted">Last updated: [DATE]</p>
+        <p className="mt-4 font-mono text-xs text-muted">Last updated: 28 August 2026</p>
 
-        <div className="mt-8 space-y-4 text-ink">
-          <p>
-            <strong>The workshop guarantee.</strong> The workshop carries our stated guarantee: get
-            10 hours a week back, or you don&rsquo;t pay. If you attend, complete the builds on the
-            day, and use the systems for 30 days, and by day 30 you have not clawed back at least 10
-            hours a week, you get a full refund.
-          </p>
-          <p>
-            To claim, email info@growthcred.co.za before day 30 from your workshop date, with your
-            name, your workshop date, and confirmation that you completed the builds on the day. We
-            process approved refunds within 7 business days to your original payment method.
-          </p>
-          <p>
-            <strong>Trial offer.</strong> Where you start on a free trial, you are charged only if
-            you do not cancel before the trial ends, as set out in the trial terms at signup. Cancel
-            any time during the trial and you are charged nothing.
-          </p>
-          <p>
-            <strong>Digital products.</strong> Because our digital products give immediate access to
-            their full contents, they are sold as final unless a specific guarantee is stated on the
-            product page. Where a guarantee is stated, its terms apply.
-          </p>
-          <p>
-            <strong>How to reach us.</strong> For any refund question, email{" "}
-            <a href="mailto:info@growthcred.co.za" className="text-midnight underline decoration-gold">
+        <div className="mt-8 space-y-8 text-ink">
+          <div className="rounded-2xl border border-midnight/10 border-l-4 border-l-gold bg-white p-6">
+            <p className="font-display text-lg font-extrabold text-midnight">
+              The workshop guarantee
+            </p>
+            <p className="mt-3">
+              Get 10 hours a week back, or you don&rsquo;t pay. Show up, do the builds with us on
+              the day, and use the systems for 30 days. If by day 30 you have not clawed back at
+              least 10 hours a week, email us and we refund you in full. No hoops, and no
+              &ldquo;prove it&rdquo; runaround.
+            </p>
+          </div>
+
+          <section>
+            <h2 className="text-2xl">How to claim it</h2>
+            <p className="mt-3">
+              Email{" "}
+              <a
+                href="mailto:info@growthcred.co.za"
+                className="text-midnight underline decoration-gold"
+              >
+                info@growthcred.co.za
+              </a>{" "}
+              before day 30 from your workshop date, with your name, your workshop date, and
+              confirmation that you completed the builds on the day. We take you at your word on
+              that. We refund the full price within 7 business days, to the payment method you
+              used.
+            </p>
+            <p className="mt-3">
+              The window is 30 days from your workshop date, not from the date you paid, so booking
+              early never costs you any of it.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl">If we move or cancel the day</h2>
+            <p className="mt-3">
+              The workshop runs on a set date. If we move it or cancel it, you choose: a seat on the
+              next date, or a full refund. You do not have to ask twice, and you do not lose the
+              guarantee by transferring.
+            </p>
+            <p className="mt-3">
+              If you cannot make your date, tell us before it and we will move you to the next one.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl">Other purchases</h2>
+            <p className="mt-3">
+              <strong>Add-ons bought with the workshop.</strong> Where an add-on is part of your
+              workshop order, a refund under the guarantee refunds what you paid for that order.
+            </p>
+            <p className="mt-3">
+              <strong>Digital products and recordings.</strong> These give immediate access to their
+              full contents, so they are sold as final unless a specific guarantee is stated on the
+              product page at the time you buy. Where one is stated, its terms apply and they
+              override this paragraph.
+            </p>
+            <p className="mt-3">
+              <strong>Done With You and Done For You engagements.</strong> These are quoted and
+              scoped individually, and their cancellation terms are set out in the agreement you
+              sign before work starts.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-2xl">Your rights either way</h2>
+            <p className="mt-3">
+              This policy is in addition to your rights under South African law, including the
+              Consumer Protection Act 68 of 2008 and the Electronic Communications and Transactions
+              Act 25 of 2002. Nothing here takes away a right the law gives you, and where this
+              policy is more generous than the law, this policy applies.
+            </p>
+          </section>
+
+          <p className="border-t border-midnight/10 pt-6">
+            See also our{" "}
+            <Link to="/terms" className="text-midnight underline decoration-gold">
+              terms and conditions
+            </Link>{" "}
+            and our{" "}
+            <Link to="/privacy" className="text-midnight underline decoration-gold">
+              privacy and data protection policy
+            </Link>
+            . For any refund question, email{" "}
+            <a
+              href="mailto:info@growthcred.co.za"
+              className="text-midnight underline decoration-gold"
+            >
               info@growthcred.co.za
             </a>
             .

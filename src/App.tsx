@@ -28,9 +28,15 @@ const WebinarExperience = lazy(() => import("./pages/WebinarExperience"));
  * been compared on real traffic.
  */
 const WorkshopExperience = lazy(() => import("./pages/WorkshopExperience"));
-import Terms from "./pages/legal/Terms";
-import Privacy from "./pages/legal/Privacy";
-import Refunds from "./pages/legal/Refunds";
+/**
+ * The legal pages are long, rarely opened, and were sitting in the main bundle
+ * where the money page paid for them on every first load. Split out: they now
+ * cost `/` nothing and fetch in a few hundred milliseconds when someone clicks
+ * a footer link.
+ */
+const Terms = lazy(() => import("./pages/legal/Terms"));
+const Privacy = lazy(() => import("./pages/legal/Privacy"));
+const Refunds = lazy(() => import("./pages/legal/Refunds"));
 
 /** Scrolls to top on every route change, so funnel steps start at the headline. */
 function ScrollToTop() {
@@ -56,6 +62,17 @@ function RequireOrder({ children }: { children: ReactNode }) {
   const { order } = useOrder();
   if (!order && !loadOrder()) return <Navigate to="/checkout" replace />;
   return <>{children}</>;
+}
+
+/** Holds the page while a legal chunk arrives. Short, so it is never seen for long. */
+function LegalLoading() {
+  return (
+    <div className="grid min-h-[60vh] place-items-center">
+      <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-muted md:text-[11px]">
+        Loading&hellip;
+      </p>
+    </div>
+  );
 }
 
 /** Holds the fold while the experience chunk arrives. Brand, not a spinner. */
@@ -151,9 +168,18 @@ export default function App() {
           <Route path="/agency" element={<Navigate to="/call" replace />} />
 
           {/* Legal */}
-          <Route path="/terms" element={<Layout><Terms /></Layout>} />
-          <Route path="/privacy" element={<Layout><Privacy /></Layout>} />
-          <Route path="/refunds" element={<Layout><Refunds /></Layout>} />
+          <Route
+            path="/terms"
+            element={<Layout><Suspense fallback={<LegalLoading />}><Terms /></Suspense></Layout>}
+          />
+          <Route
+            path="/privacy"
+            element={<Layout><Suspense fallback={<LegalLoading />}><Privacy /></Suspense></Layout>}
+          />
+          <Route
+            path="/refunds"
+            element={<Layout><Suspense fallback={<LegalLoading />}><Refunds /></Suspense></Layout>}
+          />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
