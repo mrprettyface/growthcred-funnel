@@ -89,8 +89,8 @@ export function SeatStepper({
           See you Wednesday, {form.name.trim() || "friend"}.
         </h3>
         <p className="mt-4 text-ink">
-          The joining link is on its way to {form.email.trim()}. A reminder lands on WhatsApp an
-          hour before we start.
+          The joining link goes to {form.email.trim()} before Wednesday &mdash; check spam if you
+          do not see it. A reminder lands on WhatsApp an hour before we start.
         </p>
         <p className="mt-4 border-l-2 border-gold pl-3 text-sm text-midnight">
           Stay to the end and the recording is yours. Leave halfway and it isn&rsquo;t.

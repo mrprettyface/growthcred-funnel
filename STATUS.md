@@ -69,6 +69,23 @@ record.
   in Whop's form, rather than showing two different prices on one screen
 - Three videos placed (workshop / Operators Intensive / Custom System)
 - Prewritten "email us" buttons at each step to info@growthcred.co.za
+## Sending: two promises kept by hand
+
+Nothing in this codebase sends email or WhatsApp. There is no mail service, and
+a static site has no backend to run one from. The registration form saves the
+row and stops there.
+
+So the seat confirmation says the link "goes to you before Wednesday" rather
+than "is on its way" — the second reads as automatic, and someone checking an
+empty inbox two minutes later concludes the form broke.
+
+Two sends are therefore MANUAL, and nothing will remind you:
+
+1. The joining link, some time before the class.
+2. The WhatsApp reminder, an hour before.
+
+The list is in Supabase (`webinar_registrations`), filtered by the event slug.
+
 - Deploy: push to GitHub → cPanel Git → Update from Remote → Deploy HEAD Commit
 - Deploy, alternative: Cloudflare Pages builds the same repo for free and
   survives an unpaid hosting invoice. Setup and the DNS/email caveats are in
