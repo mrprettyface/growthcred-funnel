@@ -67,7 +67,7 @@ export function HeroScene() {
         </div>
       )}
 
-      <div className="mx-auto grid w-[min(1120px,calc(100%-2.5rem))] items-center gap-12 py-16 md:py-24 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-16">
+      <div className="mx-auto grid w-[min(1120px,calc(100%-2.5rem))] items-center gap-y-12 py-16 md:py-24 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-x-16 lg:gap-y-14">
         <div>
           <Eyebrow dark>
             Free live class &middot; {WEBINAR.shortWhen}
@@ -142,19 +142,24 @@ export function HeroScene() {
             </p>
           </div>
 
-          <p className="mt-14 font-mono text-[12px] uppercase tracking-[0.18em] text-cream/40">
-            Scroll &darr;
-          </p>
         </div>
 
         {/*
          * The promo poster, the same asset that goes out on WhatsApp and
          * Instagram, so someone arriving from a story lands on the image they
-         * tapped. Purely decorative: every fact printed on it is already stated
-         * in text above, which is why it is lazy, low priority, and never
-         * competes with the headline to be the largest contentful paint.
+         * tapped.
+         *
+         * On a phone it is a deliberate beat rather than a stamp floating in
+         * the dark: wide enough to actually read, tilted, and captioned with
+         * the real date so it resolves into something rather than trailing off.
+         * It sits after the CTA so "Save my seat" is never pushed below the
+         * fold on a phone.
+         *
+         * Decorative, so the alt is empty: every fact printed on it is already
+         * stated in text above. Lazy and low priority so it never competes with
+         * the headline to be the largest contentful paint.
          */}
-        <div className="justify-self-center lg:justify-self-end">
+        <figure className="relative m-0 justify-self-center lg:justify-self-end">
           <img
             src="/images/webinar-poster.jpg"
             alt=""
@@ -163,9 +168,18 @@ export function HeroScene() {
             loading="lazy"
             decoding="async"
             fetchPriority="low"
-            className="w-[min(220px,58vw)] rotate-[-2deg] rounded-2xl border border-gold/25 shadow-[0_28px_70px_-24px_rgba(0,0,0,0.8)] lg:w-full"
+            className="w-[min(300px,74vw)] rotate-[-2deg] rounded-2xl border border-gold/25 shadow-[0_28px_70px_-24px_rgba(0,0,0,0.8)] lg:w-full"
           />
-        </div>
+          <figcaption className="mt-5 text-center font-mono text-[12px] uppercase tracking-[0.16em] text-cream/45 lg:text-right">
+            {WEBINAR.shortWhen}
+          </figcaption>
+        </figure>
+
+        {/* Last thing in the hero on every width, which is the only place a
+            scroll cue makes sense. */}
+        <p className="font-mono text-[12px] uppercase tracking-[0.18em] text-cream/40 lg:col-span-2">
+          Scroll &darr;
+        </p>
       </div>
     </header>
   );
