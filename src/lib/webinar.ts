@@ -9,15 +9,17 @@
  * Times are South African (SAST, UTC+2). The calendar link uses UTC.
  */
 export const WEBINAR = {
-  slug: "ai-80-2026-09-02",
+  slug: "ai-80-2026-09-09",
   title: "Can AI do your job for you — even if it’s complicated?",
-  dayLabel: "Wed 2 September 2026",
+  dayLabel: "Wed 9 September 2026",
   timeLabel: "12:00–13:00 SAST",
-  shortWhen: "Wednesday 2 September · 12:00",
+  shortWhen: "Wednesday 9 September · 12:00",
   where: "Live on Zoom",
+  /** Just the date, for tight buttons. Never hardcode this in a component. */
+  dateOnly: "9 September",
   /** UTC instants for the calendar link: 12:00 SAST is 10:00 UTC. */
-  startUtc: "20260902T100000Z",
-  endUtc: "20260902T110000Z",
+  startUtc: "20260909T100000Z",
+  endUtc: "20260909T110000Z",
 } as const;
 
 /** "Add to calendar" link. Works on Google Calendar, desktop and mobile. */

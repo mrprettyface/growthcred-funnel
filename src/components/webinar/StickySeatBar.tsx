@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { SeatButton } from "./SeatCta";
 import { cn } from "../ui";
+import { WEBINAR } from "../../lib/webinar";
 
 /**
  * The always-there ask on mobile — which has to know when to get out of the way.
@@ -44,7 +45,7 @@ export function StickySeatBar({ watch }: { watch: string[] }) {
         hidden ? "translate-y-full" : "translate-y-0",
       )}
     >
-      <SeatButton className="w-full">Save my seat &middot; 2 September</SeatButton>
+      <SeatButton className="w-full">Save my seat &middot; {WEBINAR.dateOnly}</SeatButton>
     </div>
   );
 }

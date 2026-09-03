@@ -5,7 +5,7 @@ import { WEBINAR } from "../lib/webinar";
 import { track } from "../lib/analytics";
 
 /**
- * TOP OF FUNNEL: registration for the live class on 2 September 2026.
+ * TOP OF FUNNEL: registration for the live class on 9 September 2026.
  *
  * Not linked from the nav by design. This is the page the ads, the WhatsApp
  * broadcasts and the emails point at. Event details live in src/lib/webinar.ts.
