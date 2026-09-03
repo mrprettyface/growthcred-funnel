@@ -67,83 +67,105 @@ export function HeroScene() {
         </div>
       )}
 
-      <div className="mx-auto w-[min(1120px,calc(100%-2.5rem))] py-16 md:py-24">
-        <Eyebrow dark>
-          Free live class &middot; {WEBINAR.shortWhen}
-        </Eyebrow>
+      <div className="mx-auto grid w-[min(1120px,calc(100%-2.5rem))] items-center gap-12 py-16 md:py-24 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-16">
+        <div>
+          <Eyebrow dark>
+            Free live class &middot; {WEBINAR.shortWhen}
+          </Eyebrow>
 
-        {/* The honest, always-present headline. */}
-        <h1 className="sr-only">{QUESTION}</h1>
+          {/* The honest, always-present headline. */}
+          <h1 className="sr-only">{QUESTION}</h1>
 
-        <div aria-hidden="true" className="mt-6">
-          {plain ? (
-            <p className="max-w-[16ch] font-display text-4xl font-extrabold leading-[1.03] tracking-[-0.04em] text-cream md:text-6xl lg:text-7xl">
-              {QUESTION}
-            </p>
-          ) : (
-            <TextType
-              as="p"
-              text={[QUESTION]}
-              loop={false}
-              typingSpeed={38}
-              initialDelay={400}
-              showCursor
-              cursorCharacter="|"
-              cursorClassName="text-gold"
-              className="min-h-[3.2em] max-w-[16ch] font-display text-4xl font-extrabold leading-[1.03] tracking-[-0.04em] text-cream md:text-6xl lg:text-7xl"
-              onSentenceComplete={() => setAnswered(true)}
-            />
-          )}
-        </div>
-
-        <div className="mt-8 min-h-[4.5rem]">
-          {(answered || bailout) &&
-            (plain ? (
-              <p className="font-display text-2xl font-extrabold tracking-[-0.03em] text-gold md:text-4xl">
-                No. But it can do about 80% of it.
+          <div aria-hidden="true" className="mt-6">
+            {plain ? (
+              <p className="max-w-[16ch] font-display text-4xl font-extrabold leading-[1.03] tracking-[-0.04em] text-cream md:text-6xl lg:text-7xl">
+                {QUESTION}
               </p>
             ) : (
-              <SplitText
-                tag="p"
-                text="No. But it can do about 80% of it."
-                className="font-display text-2xl font-extrabold tracking-[-0.03em] text-gold md:text-4xl"
-                delay={30}
-                duration={0.7}
-                splitType="words"
-                from={{ opacity: 0, y: 28 }}
-                to={{ opacity: 1, y: 0 }}
-                threshold={0}
-                rootMargin="0px"
-                textAlign="left"
+              <TextType
+                as="p"
+                text={[QUESTION]}
+                loop={false}
+                typingSpeed={38}
+                initialDelay={400}
+                showCursor
+                cursorCharacter="|"
+                cursorClassName="text-gold"
+                className="min-h-[3.2em] max-w-[16ch] font-display text-4xl font-extrabold leading-[1.03] tracking-[-0.04em] text-cream md:text-6xl lg:text-7xl"
+                onSentenceComplete={() => setAnswered(true)}
               />
-            ))}
-        </div>
+            )}
+          </div>
 
-        <p className="mt-6 max-w-[46ch] text-lg text-cream/85">
-          If yours isn&rsquo;t doing that yet, it&rsquo;s not your prompts.
-        </p>
-        <p className="mt-3 max-w-[46ch] text-lg text-cream/85">
-          It&rsquo;s that{" "}
-          <span className="font-semibold text-cream">the AI doesn&rsquo;t know your business.</span>
-        </p>
+          <div className="mt-8 min-h-[4.5rem]">
+            {(answered || bailout) &&
+              (plain ? (
+                <p className="font-display text-2xl font-extrabold tracking-[-0.03em] text-gold md:text-4xl">
+                  No. But it can do about 80% of it.
+                </p>
+              ) : (
+                <SplitText
+                  tag="p"
+                  text="No. But it can do about 80% of it."
+                  className="font-display text-2xl font-extrabold tracking-[-0.03em] text-gold md:text-4xl"
+                  delay={30}
+                  duration={0.7}
+                  splitType="words"
+                  from={{ opacity: 0, y: 28 }}
+                  to={{ opacity: 1, y: 0 }}
+                  threshold={0}
+                  rootMargin="0px"
+                  textAlign="left"
+                />
+              ))}
+          </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-5">
-          <Magnet padding={80} magnetStrength={6} disabled={plain}>
-            <a
-              href="#register"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold text-midnight no-underline transition hover:bg-gold-soft"
-            >
-              Save my seat <span aria-hidden="true">&#8599;</span>
-            </a>
-          </Magnet>
-          <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-cream/50">
-            60 minutes &middot; Free &middot; Nothing to install
+          <p className="mt-6 max-w-[46ch] text-lg text-cream/85">
+            If yours isn&rsquo;t doing that yet, it&rsquo;s not your prompts.
+          </p>
+          <p className="mt-3 max-w-[46ch] text-lg text-cream/85">
+            It&rsquo;s that{" "}
+            <span className="font-semibold text-cream">the AI doesn&rsquo;t know your business.</span>
+          </p>
+
+          <div className="mt-10 flex flex-wrap items-center gap-5">
+            <Magnet padding={80} magnetStrength={6} disabled={plain}>
+              <a
+                href="#register"
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold text-midnight no-underline transition hover:bg-gold-soft"
+              >
+                Save my seat <span aria-hidden="true">&#8599;</span>
+              </a>
+            </Magnet>
+            <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-cream/50">
+              60 minutes &middot; Free &middot; Nothing to install
+            </p>
+          </div>
+
+          <p className="mt-14 font-mono text-[12px] uppercase tracking-[0.18em] text-cream/40">
+            Scroll &darr;
           </p>
         </div>
 
-        <p className="mt-14 font-mono text-[12px] uppercase tracking-[0.18em] text-cream/40">
-          Scroll &darr;
-        </p>
+        {/*
+         * The promo poster, the same asset that goes out on WhatsApp and
+         * Instagram, so someone arriving from a story lands on the image they
+         * tapped. Purely decorative: every fact printed on it is already stated
+         * in text above, which is why it is lazy, low priority, and never
+         * competes with the headline to be the largest contentful paint.
+         */}
+        <div className="justify-self-center lg:justify-self-end">
+          <img
+            src="/images/webinar-poster.jpg"
+            alt=""
+            width={1024}
+            height={1536}
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
+            className="w-[min(220px,58vw)] rotate-[-2deg] rounded-2xl border border-gold/25 shadow-[0_28px_70px_-24px_rgba(0,0,0,0.8)] lg:w-full"
+          />
+        </div>
       </div>
     </header>
   );
