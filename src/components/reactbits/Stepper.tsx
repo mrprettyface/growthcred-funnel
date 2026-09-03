@@ -25,6 +25,13 @@ interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   nextButtonProps?: React.ButtonHTMLAttributes<HTMLButtonElement>;
   backButtonText?: string;
   nextButtonText?: string;
+  /**
+   * LOCAL ADAPTATION: the final button's label was hard-coded to 'Complete',
+   * which is fine for a checkout and weak for an offer -- the last tap of a
+   * lead magnet form should say what it gives you. Defaults to the original
+   * string so every existing caller is unchanged.
+   */
+  completeButtonText?: string;
   disableStepIndicators?: boolean;
   renderStepIndicator?: (props: {
     step: number;
@@ -46,6 +53,7 @@ export default function Stepper({
   nextButtonProps = {},
   backButtonText = 'Back',
   nextButtonText = 'Continue',
+  completeButtonText = 'Complete',
   disableStepIndicators = false,
   renderStepIndicator,
   ...rest
@@ -156,7 +164,7 @@ export default function Stepper({
                 className="duration-350 flex min-h-11 items-center justify-center rounded-full bg-gold px-6 font-body text-sm font-semibold text-midnight transition hover:bg-gold-soft"
                 {...nextButtonProps}
               >
-                {isLastStep ? 'Complete' : nextButtonText}
+                {isLastStep ? completeButtonText : nextButtonText}
               </button>
             </div>
           </div>

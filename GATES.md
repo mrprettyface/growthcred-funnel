@@ -125,5 +125,10 @@ verified on this page, and rejecting the changes that would regress them.
     submit disabled; ticking it enables. Submitting against the missing table
     renders role=alert "That did not save… WhatsApp me on +27 66 283 0289" with
     a prefilled wa.me link, and the typed values are preserved.
+  BROWSER (dialog + stepper): at /playbook no dialog exists at rest; the CTA
+    opens it. Step 1 "First, who is it for?" holds Next disabled until a name is
+    typed, then enables; step 2 gates on a valid email, step 3 on a 9-digit
+    number, step 4 offers optional company plus consent and holds the final
+    button disabled until consent is ticked.
   NOT YET PROVEN: the success path. magnet_signups does not exist yet
     (PGRST205), so the delivery state cannot be reached until the SQL is run.

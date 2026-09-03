@@ -383,7 +383,8 @@ switch (gate) {
    * both are the kind of thing a later edit quietly undoes.
    */
   case "magnet-funnel": {
-    const signup = code("src/components/MagnetSignup.tsx");
+    const signup = code("src/components/magnet/MagnetStepper.tsx");
+    const cta = code("src/components/magnet/MagnetCta.tsx");
     const page = code("src/pages/Playbook.tsx");
     const magnets = code("src/lib/magnets.ts");
 
@@ -403,12 +404,21 @@ switch (gate) {
 
     // POPIA: consent is required to submit, and it is stored.
     if (!/consent/.test(signup)) fail("MagnetSignup has no consent state");
-    if (!/&&\s*consent/.test(signup))
-      fail("consent is not part of the submit gate; the form can be sent without it");
     if (!/consent,/.test(signup))
       fail("consent is collected but never written; unprovable consent is not consent");
     if (!/href="\/privacy"/.test(signup))
       fail("the consent line does not link the privacy policy");
+    // The ask lives in a dialog opened from anywhere, not a form at the far
+    // end of the page, and it is asked one question at a time.
+    if (!/<Modal/.test(cta)) fail("the magnet ask is no longer a dialog");
+    if (!/Stepper/.test(signup) || !/<Step>/.test(signup))
+      fail("the magnet form is no longer one question at a time");
+    // Four steps: name, email, whatsapp, company+consent.
+    const steps = (signup.match(/<Step>/g) || []).length;
+    if (steps !== 4) fail(`expected 4 steps in the magnet form, found ${steps}`);
+    // Consent must gate the FINAL step, not merely exist somewhere.
+    if (!/:\s*consent;/.test(signup))
+      fail("consent does not gate the final step of the stepper");
 
     // Failure routes to WhatsApp, not the mailbox that dies with the host.
     if (/growthcred\.co\.za/.test(signup))
