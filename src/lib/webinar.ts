@@ -14,7 +14,7 @@ export const WEBINAR = {
   dayLabel: "Wed 9 September 2026",
   timeLabel: "12:00–13:00 SAST",
   shortWhen: "Wednesday 9 September · 12:00",
-  where: "Live on Zoom",
+  where: "Live on Google Meet",
   /** Just the date, for tight buttons. Never hardcode this in a component. */
   dateOnly: "9 September",
   /** UTC instants for the calendar link: 12:00 SAST is 10:00 UTC. */
@@ -29,7 +29,7 @@ export function calendarUrl(): string {
     text: `GrowthCred live class — ${WEBINAR.title}`,
     dates: `${WEBINAR.startUtc}/${WEBINAR.endUtc}`,
     details:
-      "Free 60-minute live class with Phila Ngwenya. The joining link is in your email; a reminder comes on WhatsApp an hour before.",
+      "Free 60-minute live class with Phila Ngwenya. The joining link reaches you before the class, and a reminder comes on WhatsApp an hour before we start.",
     location: WEBINAR.where,
   });
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
