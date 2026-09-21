@@ -13,7 +13,7 @@ Scope: Publish crawlable marketing pages, current offer states, useful search co
   EVIDENCE: docs/search/VERIFICATION.md: mobile/desktop/browser checks, local Apache HTTP suite and payment/referral regressions passed; no live transaction submitted.
 - [x] G4: Published copy contains no fabricated event, price, case-study or accreditation facts; account prerequisites are documented.
   EVIDENCE: docs/search/RELEASE.md and GROWTH-PLAN.md: online/R990/details on registration confirmed by owner; factual/account prerequisites explicitly identified.
-- [ ] G5: Reviewed website source and reproducible dist are committed and pushed to GitHub main.
-  EVIDENCE: pending
+- [x] G5: Reviewed website source and reproducible dist are committed and pushed to GitHub main.
+  EVIDENCE: Release 7926a8b pushed successfully to origin/main (3ba5478..7926a8b); origin/main matches the release. Unrelated documents remain untracked.
 - [x] G6: Owner-controlled cPanel deployment handoff is documented, per the user clarification.
   EVIDENCE: docs/search/RELEASE.md: Update from Remote then Deploy HEAD Commit; dist plus hidden files; post-deployment verify:http. User explicitly retained cPanel deployment.

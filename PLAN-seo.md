@@ -9,3 +9,5 @@ Solo execution; shared interfaces reviewed locally before integration.
 5. Verification and release: build, gate checks, rendered desktop/mobile review, focused regression checks, explicit website staging and main push. Investigate cPanel access; do not assume a push deploys live.
 
 Existing uncommitted site/contact/brain/referral/payment work is preserved. Review dependencies before staging; unrelated documents/artifacts remain excluded. No invented customer results, event dates, VAT status, analytics IDs or published case studies. Missing account/factual inputs are reported, with working public alternatives.
+
+Release 7926a8b pushed to GitHub main. Six gates met; cPanel deployment explicitly retained by the owner. Account setup and genuine evidence remain ongoing growth tasks documented in docs/search.
