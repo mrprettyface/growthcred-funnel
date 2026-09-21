@@ -117,30 +117,45 @@ export default function WorkshopExperience() {
       <ProgressRail scenes={SCENES} />
 
       {/* ---------- 1. The promise, and the VSL ---------- */}
+      {/* ---------- 1. The promise, the two doors, then the VSL ----------
+
+          Ordered so a phone shows the whole argument before the first scroll:
+          what you get, what it costs you to find out, and the two ways in. The
+          format/price/tools panel is a disclosure, not a pitch — it sits under
+          the video, where someone checking the terms will look for it, instead
+          of between the promise and the button. */}
       <Section id="hero" dark className="pt-10 md:pt-16">
         <div className="mx-auto max-w-[860px] text-center">
           <Eyebrow dark>One-day online AI workshop · South Africa</Eyebrow>
-          <h1 className="mx-auto mt-5 max-w-[15ch] text-4xl text-cream md:text-6xl lg:text-7xl">
-            Practical AI for Business Owners. <Faint dark>Build It in One Day.</Faint>
+          <h1 className="mx-auto mt-5 max-w-[14ch] text-4xl text-cream md:text-6xl lg:text-7xl">
+            Same business. <span className="text-gold">10 hours a week back.</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-[56ch] text-lg text-cream/85">
-            Join GrowthCred’s online AI workshop for South African business owners. Build workflows around your real work, with Phila Ngwenya guiding the process.
+          <p className="mx-auto mt-6 max-w-[48ch] text-lg text-cream/85 md:text-xl">
+            Hand over the proposals, follow-ups and admin that eat your week.
+            Built with you in one day, online.
           </p>
+        </div>
+
+        {/* Both doors in one well, the paid day first and the free class
+            underneath it. Someone who is not ready to pay has somewhere to go
+            that is not the back button. */}
+        <div className="mx-auto mt-8 flex max-w-[420px] flex-col gap-3 rounded-2xl border border-cream/20 p-4">
+          <BuyButton className="w-full" />
+          <ButtonLink to="/webinar" variant="outline" className="w-full border-cream/30 text-cream">
+            Sit in on the free class first
+          </ButtonLink>
+        </div>
+        <p className="mt-4 text-center font-mono text-[12px] uppercase tracking-[0.14em] text-cream/50">
+          {GUARANTEE_NOTE}
+        </p>
+
+        <div className="mx-auto mt-10 max-w-[860px]">
+          <VideoSlot slot="workshopVsl" label="workshop VSL video" />
         </div>
 
         <div className="mx-auto mt-7 grid max-w-[860px] gap-3 rounded-2xl border border-cream/20 p-5 text-sm text-cream sm:grid-cols-3" aria-label="Workshop details">
           <p><strong className="block text-gold">Format</strong>One day · Online</p><p><strong className="block text-gold">Price</strong>R990 founding rate</p><p><strong className="block text-gold">Session details</strong>Confirmed on registration</p>
           <p className="sm:col-span-3">Bring a laptop and a safe example of your work. Contact us to confirm required tools, any subscriptions and VAT treatment before paying.</p>
-        </div>
-        <div className="mx-auto mt-10 max-w-[860px]">
-          <VideoSlot slot="workshopVsl" label="workshop VSL video" />
-        </div>
-
-        <div className="mt-8 flex flex-col items-center gap-3">
-          <BuyButton className="w-full sm:w-auto" />
-          <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-cream/50">
-            Get the 10 hours back, or you don&rsquo;t pay
-          </p>
         </div>
       </Section>
 

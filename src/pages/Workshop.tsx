@@ -19,29 +19,33 @@ export default function WorkshopPage() {
     <>
       {/* ---------- Hero + VSL ---------- */}
       <Section className="pt-10 text-center md:pt-16">
-        <Eyebrow>The one-day workshop</Eyebrow>
-        <H1 className="mx-auto mt-5 max-w-[15ch]">
-          Get 10 Hours a Week Back, <Faint>in One Day.</Faint>
+        <Eyebrow>One-day online AI workshop · South Africa</Eyebrow>
+        {/* Same promise, subhead and running order as the scroll experience:
+            this is the page people get under reduced motion, so the two must
+            not drift apart. */}
+        <H1 className="mx-auto mt-5 max-w-[14ch]">
+          Same business. <span className="text-gold">10 hours a week back.</span>
         </H1>
-        <p className="mx-auto mt-6 max-w-[56ch] text-lg text-ink">
-          One day. You leave with the busy work already handed over, running without you.
+        <p className="mx-auto mt-6 max-w-[48ch] text-lg text-ink md:text-xl">
+          Hand over the proposals, follow-ups and admin that eat your week.
+          Built with you in one day, online.
         </p>
 
-        <div className="mx-auto mt-10 max-w-[860px]">
-          <VideoSlot slot="workshopVsl" label="workshop VSL video" />
-        </div>
-
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <ButtonLink to="/checkout">
+        <div className="mx-auto mt-8 flex max-w-[420px] flex-col gap-3 rounded-2xl border border-midnight/15 p-4">
+          <ButtonLink to="/checkout" className="w-full">
             Get my time back <span aria-hidden="true">&#8599;</span>
           </ButtonLink>
-          <ButtonLink to="/class" variant="outline">
-            Watch the free class first
+          <ButtonLink to="/webinar" variant="outline" className="w-full">
+            Sit in on the free class first
           </ButtonLink>
         </div>
         <p className="mt-4 font-mono text-xs uppercase tracking-[0.14em] text-muted">
           Get the 10 hours back, or you don&rsquo;t pay
         </p>
+
+        <div className="mx-auto mt-10 max-w-[860px]">
+          <VideoSlot slot="workshopVsl" label="workshop VSL video" />
+        </div>
       </Section>
 
       {/* ---------- The difference, shown rather than described ----------
