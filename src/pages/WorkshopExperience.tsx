@@ -529,9 +529,9 @@ export default function WorkshopExperience() {
         </div>
         <Faq
           items={[
-            { q: "Where and when is the workshop?", a: "The workshop is online. Your session date, time and joining details are confirmed on registration. You do not need to travel to Johannesburg." },
-            { q: "Which tools and subscriptions do I need?", a: "Bring your laptop and a real task you can safely practise with. Contact us to confirm the tool list and any paid subscriptions before purchasing software. Tool costs are separate unless expressly included." },
-            { q: "How is this different from done-for-you automation?", a: "The workshop teaches you to build and operate your first workflows. Our separate implementation service is scoped around your systems and team. You are not obliged to buy a later programme." },
+            { mark: "when-where", q: "Where and when is the workshop?", a: "The workshop is online. Your session date, time and joining details are confirmed on registration. You do not need to travel to Johannesburg." },
+            { mark: "tools", q: "Which tools and subscriptions do I need?", a: "Bring your laptop and a real task you can safely practise with. Contact us to confirm the tool list and any paid subscriptions before purchasing software. Tool costs are separate unless expressly included." },
+            { mark: "done-for-you", q: "How is this different from done-for-you automation?", a: "The workshop teaches you to build and operate your first workflows. Our separate implementation service is scoped around your systems and team. You are not obliged to buy a later programme." },
             {
               mark: "price",
               q: "Why is it only R990?",

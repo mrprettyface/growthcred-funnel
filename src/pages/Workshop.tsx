@@ -321,34 +321,42 @@ export default function WorkshopPage() {
         <Faq
           items={[
             {
+              mark: "not-technical",
               q: "I’m not technical. Will I keep up?",
               a: "Yes. If you can use WhatsApp and a browser, you can do this. We build everything with you online, step by step, on your own laptop. Nobody leaves stuck.",
             },
             {
+              mark: "youtube",
               q: "How is this different from watching AI videos on YouTube?",
               a: "YouTube teaches you what is possible. This gets it built. You leave with live systems running your actual work, not a playlist you will never finish.",
             },
             {
+              mark: "industry",
               q: "Will this work for my industry?",
               a: "It works because it is built around your business, not a template. Whatever you do, the systems learn your work, your clients, and your voice. We have had it done across very different businesses in the same room.",
             },
             {
+              mark: "diy",
               q: "Is it done for me, or do I do it myself?",
               a: "You build it, with us guiding every step. That is the point. You leave able to run and change it yourself, instead of depending on someone else every time something needs adjusting.",
             },
             {
+              mark: "bring",
               q: "What do I need to bring?",
               a: "Your laptop, and the real work you want off your plate. That is it. Come with the tasks you are sick of doing and we will hand them over on the day.",
             },
             {
+              mark: "after",
               q: "What happens after the day?",
               a: "You go home with the systems live and a simple daily rhythm to keep them running. You also stay in the operator group, so you are not on your own when a question comes up.",
             },
             {
+              mark: "behind",
               q: "What if I fall behind on the day?",
               a: "You will not be left behind. We move together, block by block, and there is help online the whole time. If a build takes you longer, we make sure you leave with it done.",
             },
             {
+              mark: "price",
               q: "Why should I pay for this when AI tools are cheap?",
               a: "The tools are cheap. Knowing how to make them run your business without you is the expensive part, and it is the only part that gives you your time back. That is what you are paying for.",
             },

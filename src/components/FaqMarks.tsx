@@ -17,7 +17,13 @@ export type FaqMarkName =
   | "bring"
   | "after"
   | "youtube"
-  | "recording";
+  | "recording"
+  | "when-where"
+  | "compare"
+  | "subscription"
+  | "tools"
+  | "done-for-you"
+  | "behind";
 
 const MARKS: Record<FaqMarkName, ReactElement> = {
   /* Why is it only R990 — a figure and a coin. */
@@ -90,6 +96,63 @@ const MARKS: Record<FaqMarkName, ReactElement> = {
       <path d="M20 24v18M20 30l-8 5M20 30l8 5M20 42l-6 12M20 42l6 12" />
       <circle cx="47" cy="30" r="12" />
       <circle cx="47" cy="30" r="5" fill={GOLD} stroke="none" />
+    </>
+  ),
+  /* When and where — a figure and a calendar with the day marked. */
+  "when-where": (
+    <>
+      <circle cx="18" cy="18" r="6" />
+      <path d="M18 24v18M18 30l-8 5M18 30l8 5M18 42l-6 12M18 42l6 12" />
+      <rect x="36" y="20" width="26" height="26" rx="3" />
+      <path d="M36 29h26M43 20v-5M55 20v-5" />
+      <rect x="42" y="34" width="8" height="7" rx="1.5" fill={GOLD} stroke="none" />
+    </>
+  ),
+  /* Free class or paid workshop — two cards, the paid one filled. */
+  compare: (
+    <>
+      <circle cx="16" cy="18" r="6" />
+      <path d="M16 24v18M16 30l-7 5M16 30l7 5M16 42l-5 12M16 42l5 12" />
+      <rect x="32" y="22" width="14" height="22" rx="2" />
+      <rect x="50" y="22" width="14" height="22" rx="2" fill={GOLD} stroke="none" />
+    </>
+  ),
+  /* Do I need a subscription — a figure and a payment card. */
+  subscription: (
+    <>
+      <circle cx="18" cy="18" r="6" />
+      <path d="M18 24v18M18 30l-8 5M18 30l8 5M18 42l-6 12M18 42l6 12" />
+      <rect x="34" y="23" width="28" height="19" rx="3" />
+      <path d="M34 31h28" stroke={GOLD} strokeWidth={3} />
+      <path d="M39 37h7" />
+    </>
+  ),
+  /* Which tools do I need — a figure and a toolbox. */
+  tools: (
+    <>
+      <circle cx="18" cy="18" r="6" />
+      <path d="M18 24v18M18 30l-8 5M18 30l8 5M18 42l-6 12M18 42l6 12" />
+      <path d="M42 28v-4a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v4" />
+      <rect x="34" y="28" width="28" height="18" rx="3" />
+      <rect x="34" y="34" width="28" height="6" fill={GOLD} stroke="none" />
+    </>
+  ),
+  /* Build it or have it built — one road, two ways out of it. */
+  "done-for-you": (
+    <>
+      <circle cx="15" cy="20" r="6" />
+      <path d="M15 26v16M15 32l-7 5M15 32l7 5M15 42l-5 12M15 42l5 12" />
+      <path d="M30 38h10l10-13h11M40 38l10 13h11" />
+      <circle cx="40" cy="38" r="4" fill={GOLD} stroke="none" />
+    </>
+  ),
+  /* What if I fall behind — the day comes back for you. */
+  behind: (
+    <>
+      <circle cx="22" cy="20" r="6" />
+      <path d="M22 26v16M22 32l-8 5M22 32l8 5M22 42l-6 12M22 42l6 12" />
+      <path d="M62 28a15 15 0 0 1-15 15h-6" stroke={GOLD} />
+      <path d="M47 37l-6 6 6 6" stroke={GOLD} />
     </>
   ),
 };
