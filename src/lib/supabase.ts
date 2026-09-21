@@ -1,4 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
+import { postToGoogleForm } from "./forms";
+import { refCode, activeReferrer } from "./referral";
 
 const url = import.meta.env.VITE_SUPABASE_URL;
 const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -129,12 +131,67 @@ export type WebinarRegistration = {
   source?: string;
 };
 
+/**
+ * The "Reserve Your Seat" Google Form, written alongside the Supabase row so the
+ * Sheet can be compared against the table before Supabase is retired for seats.
+ * See src/lib/forms.ts for why this exists and the no-cors caveat.
+ *
+ * Field entry IDs read from the live form on 2026-09-06. They are NOT
+ * contractual — rebuilding the form reissues them, and submissions then silently
+ * vanish. If the Sheet stops filling, re-read them from the form's page source.
+ *
+ * Deliberately unmapped, and why the Form CANNOT yet fully replace the table:
+ * - `whatsapp` — the form has no WhatsApp field, so the number is written to
+ *   Supabase only. The seat page promises a WhatsApp reminder an hour before, so
+ *   until a WhatsApp question is added to the form (or that promise is dropped),
+ *   Supabase stays the authority for seats.
+ * - Job Title and "#1 challenge" — the form asks these but the SeatStepper does
+ *   not collect them, so they arrive blank. They fill in only once the form is
+ *   retired or the stepper is extended.
+ */
+const WEBINAR_SEAT_FORM = "1FAIpQLSesfaf0wVTTRG6FATWh5INgZ16_II32IRnBfWcbXdJrgO_YKQ";
+const WEBINAR_SEAT_FIELDS = {
+  name: "entry.298115564",
+  email: "entry.84683276",
+} as const;
+
 export async function registerForWebinar(
   reg: WebinarRegistration,
-): Promise<{ ok: boolean; error?: string }> {
-  if (!supabase) return { ok: false, error: "not_configured" };
-  const { error } = await supabase.from("webinar_registrations").insert(reg);
-  return error ? { ok: false, error: error.message } : { ok: true };
+): Promise<{ ok: boolean; confirmed?: boolean; error?: string }> {
+  // Dual-write: Supabase (the authority during the transition) AND the Google
+  // Form (a safety net that never sleeps). Both fire in parallel, and the seat
+  // counts as saved if EITHER store accepts it — so the exact failure this
+  // guards against (Supabase's free tier paused, open item #6) no longer loses
+  // the lead: the Form still captures name and email. whatsapp is not on the
+  // form, so a Supabase outage does still lose the number for those rows.
+  // Referral: everyone gets their own stable code, and anyone who arrived on a
+  // `?ref=` link carries the referrer's code onto their row. A self-referral
+  // (their own link) is dropped rather than credited. These two columns live in
+  // Supabase only — the Google Form has no referral fields, so the form write
+  // below stays name + email.
+  const ref_code = refCode(reg.email);
+  const referrer = activeReferrer();
+  const referred_by = referrer && referrer !== ref_code ? referrer : null;
+  const row = { ...reg, ref_code, referred_by };
+
+  const gform = postToGoogleForm(WEBINAR_SEAT_FORM, {
+    [WEBINAR_SEAT_FIELDS.name]: reg.name,
+    [WEBINAR_SEAT_FIELDS.email]: reg.email,
+  });
+
+  const supaErr: Promise<string | null> = supabase
+    ? Promise.resolve(
+        supabase.from("webinar_registrations").insert(row).abortSignal(AbortSignal.timeout(12000)),
+      ).then(({ error }) => error?.message ?? null).catch(() => "network_error")
+    : Promise.resolve("not_configured");
+
+  const [supaResult, gformResult] = await Promise.all([supaErr, gform]);
+
+  if (supaResult === null) return { ok: true, confirmed: true };
+  // An opaque Google response proves only that a request was sent, not saved.
+  if (gformResult.ok) return { ok: true, confirmed: false };
+  // Both stores refused. Surface Supabase's reason; the form's is always opaque.
+  return { ok: false, error: supaResult };
 }
 
 /**
@@ -163,4 +220,48 @@ export async function captureMagnetSignup(
   if (!supabase) return { ok: false, error: "not_configured" };
   const { error } = await supabase.from("magnet_signups").insert(signup);
   return error ? { ok: false, error: error.message } : { ok: true };
+}
+
+/**
+ * A contact message, sent through the `contact-autoresponder` Edge Function.
+ *
+ * This is the one capture that does NOT go through the anon client: the table
+ * has no anon policy at all, deliberately. The function is the only door, and
+ * behind it the message is validated, rate-limited, saved with the service
+ * role, and acknowledged by email before the response comes back — so a 200
+ * here means the autoresponder has actually fired, not merely that a row
+ * might land. Deployed but unauthed? The function still rejects: JWT
+ * verification stays on and the anon key (a valid JWT) is what we send.
+ */
+export type ContactMessage = {
+  name: string;
+  email: string;
+  whatsapp: string | null;
+  message: string;
+  /** Honeypot. Real users never see this field; bots fill it and are dropped. */
+  company: string;
+};
+
+export async function submitContactMessage(
+  msg: ContactMessage,
+): Promise<{ ok: boolean; error?: string }> {
+  const base = url ?? "";
+  const key = anonKey ?? "";
+  if (!base || !key) return { ok: false, error: "not_configured" };
+  try {
+    const res = await fetch(`${base}/functions/v1/contact-autoresponder`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${key}`,
+        apikey: key,
+      },
+      body: JSON.stringify(msg),
+    });
+    if (res.ok) return { ok: true };
+    if (res.status === 429) return { ok: false, error: "rate_limited" };
+    return { ok: false, error: `http_${res.status}` };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "network_error" };
+  }
 }

@@ -74,7 +74,7 @@ const BLOCKS = [
   },
   {
     t: "Put it to work in front of you",
-    b: "This is where you feel it. You run a real task live: research, a first draft, a follow-up, whatever eats your week. What took an hour takes minutes, in your voice, with your own work.",
+    b: "This is where you feel it. You run a real task live: research, a first draft, a follow-up, whatever eats your week. Compare the draft with your usual process, check its accuracy and measure the time it saves.",
     h: "the manual grind. Research, first drafts, the busy work that never needed you.",
   },
   {
@@ -102,9 +102,9 @@ function BuyButton({ className }: { className?: string }) {
  * A price with no reason attached reads as either low value or bait. R990 is
  * the founding rate held against R1 950 — see the note in lib/offers.ts.
  */
-const FOUNDING = "Founding rate · R990 · goes to R1 950";
+const FOUNDING = "Online workshop · R990 · Details confirmed on registration";
 const GUARANTEE_NOTE = "One day · Get the 10 hours back or you don’t pay";
-const OUTCOME_NOTE = "One day · Ten hours a week · Built in the room";
+const OUTCOME_NOTE = "One day · Ten hours a week · Built online";
 
 export default function WorkshopExperience() {
   const reduced = useReducedMotion();
@@ -119,15 +119,19 @@ export default function WorkshopExperience() {
       {/* ---------- 1. The promise, and the VSL ---------- */}
       <Section id="hero" dark className="pt-10 md:pt-16">
         <div className="mx-auto max-w-[860px] text-center">
-          <Eyebrow dark>The one-day workshop</Eyebrow>
+          <Eyebrow dark>One-day online AI workshop · South Africa</Eyebrow>
           <h1 className="mx-auto mt-5 max-w-[15ch] text-4xl text-cream md:text-6xl lg:text-7xl">
-            Get 10 Hours a Week Back, <Faint dark>in One Day.</Faint>
+            Practical AI for Business Owners. <Faint dark>Build It in One Day.</Faint>
           </h1>
           <p className="mx-auto mt-6 max-w-[56ch] text-lg text-cream/85">
-            One day. You leave with the busy work already handed over, running without you.
+            Join GrowthCred’s online AI workshop for South African business owners. Build workflows around your real work, with Phila Ngwenya guiding the process.
           </p>
         </div>
 
+        <div className="mx-auto mt-7 grid max-w-[860px] gap-3 rounded-2xl border border-cream/20 p-5 text-sm text-cream sm:grid-cols-3" aria-label="Workshop details">
+          <p><strong className="block text-gold">Format</strong>One day · Online</p><p><strong className="block text-gold">Price</strong>R990 founding rate</p><p><strong className="block text-gold">Session details</strong>Confirmed on registration</p>
+          <p className="sm:col-span-3">Bring a laptop and a safe example of your work. Contact us to confirm required tools, any subscriptions and VAT treatment before paying.</p>
+        </div>
         <div className="mx-auto mt-10 max-w-[860px]">
           <VideoSlot slot="workshopVsl" label="workshop VSL video" />
         </div>
@@ -193,7 +197,7 @@ export default function WorkshopExperience() {
       </Section>
 
       <CtaBand
-        line="That number repeats every year you do nothing. One day is what stops it."
+        line="Start with one repetitive task. Measure the time before and after."
         note={FOUNDING}
         action={<BuyButton className="shrink-0" />}
       />
@@ -265,8 +269,8 @@ export default function WorkshopExperience() {
           />
           <Beat lead>
             <p className="max-w-[54ch] text-cream">
-              If you can send a WhatsApp voice note, you can do this. Nobody in my rooms is a
-              developer.
+              If you can send a WhatsApp voice note, you can do this. The owners in our sessions do not need to be
+              developers.
             </p>
           </Beat>
           <Beat>
@@ -287,7 +291,7 @@ export default function WorkshopExperience() {
 
       <CtaBand
         tone="dark"
-        line="If that is you, the next step is one day in a room."
+        line="If that is you, the next step is one day online."
         note={OUTCOME_NOTE}
         action={<BuyButton className="shrink-0" />}
       />
@@ -332,7 +336,7 @@ export default function WorkshopExperience() {
         </CardStack>
 
         <p className="mx-auto mt-8 max-w-[54ch] text-center text-lg font-medium text-cream">
-          The 10 hours are not a promise for later. They start the same week.
+          Start using your workflow that week and track the time you save. Results depend on your work and how you use the system.
         </p>
       </Section>
 
@@ -368,7 +372,7 @@ export default function WorkshopExperience() {
             },
             {
               icon: "people",
-              text: "A room of other operators making the same shift, and the group that keeps going after the day ends",
+              text: "A group of other operators making the same shift, and the group that keeps going after the day ends",
             },
           ]}
         />
@@ -435,8 +439,8 @@ export default function WorkshopExperience() {
             business days.
           </p>
           <p>
-            We can offer this because the systems do the work. The only way you do not get the time
-            back is if you never turn them on, and we spend the whole day making sure you do.
+            Your results depend on the workflows you choose and use. We help you build and test them
+            during the workshop; the refund commitment above remains in place.
           </p>
         </div>
       </Section>
@@ -504,7 +508,7 @@ export default function WorkshopExperience() {
               ))}
             </dl>
             <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.14em] text-cream/50">
-              Small room on purpose. Everyone leaves with their systems built.
+              Guided online sessions. Everyone leaves with their systems built.
             </p>
           </div>
         </Section>
@@ -525,15 +529,18 @@ export default function WorkshopExperience() {
         </div>
         <Faq
           items={[
+            { q: "Where and when is the workshop?", a: "The workshop is online. Your session date, time and joining details are confirmed on registration. You do not need to travel to Johannesburg." },
+            { q: "Which tools and subscriptions do I need?", a: "Bring your laptop and a real task you can safely practise with. Contact us to confirm the tool list and any paid subscriptions before purchasing software. Tool costs are separate unless expressly included." },
+            { q: "How is this different from done-for-you automation?", a: "The workshop teaches you to build and operate your first workflows. Our separate implementation service is scoped around your systems and team. You are not obliged to buy a later programme." },
             {
               mark: "price",
               q: "Why is it only R990?",
-              a: "Because it is the founding rate, and it goes to R1 950. I am building the room and the case studies at the same time, and early seats are priced for that. It is also the entry rung: the day gets your week back, and the deeper work is a separate, longer programme you are never obliged to take.",
+              a: "R990 is the current founding rate for the one-day online workshop. Session details are confirmed on registration. It is also the entry rung: the day gets your week back, and the deeper work is a separate, longer programme you are never obliged to take.",
             },
             {
               mark: "not-technical",
               q: "I’m not technical. Will I keep up?",
-              a: "Yes. If you can use WhatsApp and a browser, you can do this. We build everything with you in the room, step by step, on your own laptop. Nobody leaves stuck.",
+              a: "Yes. If you can use WhatsApp and a browser, you can do this. We build everything with you online, step by step, on your own laptop. Nobody leaves stuck.",
             },
             {
               mark: "youtube",

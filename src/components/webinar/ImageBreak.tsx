@@ -1,3 +1,4 @@
+import { ResponsiveImage } from "../ResponsiveImage";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -65,7 +66,7 @@ export function ImageBreak({
         height === "tall" ? "h-[58vh] min-h-[360px]" : "h-[38vh] min-h-[240px]",
       )}
     >
-      <img
+      <ResponsiveImage
         ref={imageRef}
         src={src}
         alt={alt}

@@ -1,3 +1,4 @@
+import { activePromo } from "../lib/promo";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Section, Eyebrow, H1, Faint, Button, ButtonLink, VideoSlot, CheckList } from "../components/ui";
@@ -71,12 +72,12 @@ export default function UpsellPage() {
   }
 
   /** Whop confirmed the R9 900 payment. */
-  function onPaid() {
+  function onPaid(receiptId?: string) {
     if (order) {
       setOrder({ ...order, items: [...order.items, UPSELL.id], upsellDecision: "accepted" });
     }
     void recordPayment(ref, "paid_operators_intensive");
-    track("upsell_paid");
+    track("upsell_paid", { transaction_id: receiptId, ...(activePromo() ? {} : { value: (UPSELL.amountCents ?? 0) / 100 }), currency: "ZAR" });
     setView("accepted");
   }
 

@@ -197,6 +197,9 @@ export default function Privacy() {
                 you press play, YouTube receives that request and applies its own privacy terms.
               </li>
               <li>
+                <strong>Google Analytics (optional)</strong> &mdash; when configured and you choose to allow analytics, it measures page visits and completed actions. You can change this choice using Analytics preferences in the footer. We do not send form answers or email addresses to this analytics integration.
+              </li>
+              <li>
                 <strong>Our web host</strong> &mdash; which serves these pages and keeps ordinary
                 server logs.
               </li>

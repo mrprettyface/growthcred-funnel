@@ -1,34 +1,67 @@
+Options -MultiViews -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
-  RewriteRule ^index\.html$ - [L]
-  # Serve .well-known as-is (Apple Pay domain verification). Must come before
-  # the SPA fallback, or Apple would receive the app's HTML instead of the file.
+  # Keep path and query intact, including campaign and payment parameters.
+  RewriteCond %{HTTP_HOST} ^www\.growthcred\.co\.za$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^growthcred\.co\.za$ [NC]
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} ^www\.growthcred\.co\.za$ [NC]
+  RewriteRule ^ https://growthcred.co.za%{REQUEST_URI} [R=301,L,NE]
+
+  RewriteRule ^workshop/?$ / [R=301,L]
+  RewriteRule ^agency/?$ /ai-automation-south-africa [R=301,L]
+  RewriteRule ^(class|webinar-plain)/?$ /webinar [R=301,L]
+
+  # Canonicalize only browser requests, not internal .html rewrites.
+  RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
+  RewriteRule ^index\.html$ / [R=301,L]
+  RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+  RewriteRule ^(.+)\.html$ /$1 [R=301,L]
+  RewriteCond %{THE_REQUEST} \s/+(.+?)/[\s?]
+  RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+  # Merchant verification must be served as a real file.
   RewriteRule ^\.well-known/ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+  # Only generated route documents resolve. Unknown URLs remain real 404s.
+  RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+  RewriteRule ^(.+)$ $1.html [L]
 </IfModule>
 
-# The Apple Pay file has no extension; serve it as a plain download and make
-# sure the hidden .well-known folder is publicly readable.
 <Files "apple-developer-merchantid-domain-association">
   ForceType application/octet-stream
   Require all granted
 </Files>
-
-<IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml
+<IfModule mod_headers.c>
+  <FilesMatch "^(checkout|upsell|downsell|build|thank-you|brain|call|404)\.html$">
+    Header set X-Robots-Tag "noindex, follow"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+  <FilesMatch "^(robots\.txt|sitemap\.xml)$">
+    Header set Cache-Control "public, max-age=3600"
+  </FilesMatch>
 </IfModule>
-
+<IfModule mod_mime.c>
+  AddType application/xml .xml
+  AddType image/webp .webp
+  AddType image/avif .avif
+</IfModule>
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json application/xml image/svg+xml
+</IfModule>
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/css "access plus 1 year"
   ExpiresByType application/javascript "access plus 1 year"
-  ExpiresByType image/jpg "access plus 1 year"
-  ExpiresByType image/jpeg "access plus 1 year"
-  ExpiresByType image/png "access plus 1 year"
-  ExpiresByType image/svg+xml "access plus 1 year"
   ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 month"
   ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>

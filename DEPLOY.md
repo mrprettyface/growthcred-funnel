@@ -1,3 +1,5 @@
+> Current cPanel search release: follow [docs/search/RELEASE.md](docs/search/RELEASE.md). The hosting alternatives below are historical; the current release uses prerendered HTML and explicit routes.
+
 # Deploying without a host bill
 
 The site is 100% static. Nothing on the server runs code: registrations go from
@@ -109,6 +111,107 @@ mailbox stops receiving — only switch when you're ready to let it go.
 
 That covers receiving. For *sending* as `info@`, Zoho Mail's free tier does one
 custom-domain user at no cost. Not urgent — send from Gmail until it is.
+
+### 5. Verified purchase confirmation email
+
+The purchase confirmation is not sent by the browser. The site stores the
+customer's order details before checkout, Whop sends a signed
+`payment.succeeded` event, and the Supabase Edge Function at
+`supabase/functions/whop-webhook` verifies that signature before updating
+`orders` and sending one personalised email through Resend.
+
+Run the payment-email block in `supabase/schema.sql` in the
+Supabase SQL editor, then deploy the function:
+
+```bash
+supabase functions deploy whop-webhook --no-verify-jwt
+```
+
+Set these as Supabase Edge Function secrets (Dashboard → Edge Functions →
+Secrets):
+
+- `WHOP_WEBHOOK_SECRET` — the signing secret for the Whop webhook
+- `WHOP_COMPANY_ID` — defaults to the GrowthCred account already used by the pixel
+- `RESEND_API_KEY` — a sending-only Resend key
+- `PURCHASE_EMAIL_FROM` — for example `GrowthCred <info@growthcred.co.za>`
+- `SUPABASE_SERVICE_ROLE_KEY` — only if it is not auto-provided by the project
+
+In Whop → Developer → Webhooks, create a webhook for
+`https://<project-ref>.supabase.co/functions/v1/whop-webhook` and subscribe to
+`payment.succeeded`. Send a dashboard test event, then make one sandbox or
+low-value test purchase. Confirm the Edge Function logs show a successful
+delivery and Resend shows exactly one email. The webhook is deliberately
+idempotent because Whop can retry the same event.
+
+### 6. Contact form + autoresponder
+
+`/contact` is the front door for messages. The form posts to the
+`contact-autoresponder` Edge Function, which saves the message to the
+`contact_messages` table and immediately emails two things: an acknowledgment
+to the sender (the autoresponder), and a copy to `info@growthcred.co.za` so a
+new message is seen without opening the dashboard.
+
+One-time setup:
+
+1. Run the **contact_messages block** at the end of `supabase/schema.sql` in the
+   Supabase SQL editor (idempotent, safe to re-run).
+2. Deploy the function — JWT verification stays ON, the browser sends the anon
+   key, which is a valid JWT:
+
+   ```bash
+   supabase functions deploy contact-autoresponder
+   ```
+
+3. Secrets (Dashboard → Edge Functions → Secrets). `RESEND_API_KEY` and
+   `PURCHASE_EMAIL_FROM` are shared with the purchase email function, so if
+   section 5 is done there is nothing new to set. Optional extras:
+   - `CONTACT_NOTIFY_EMAIL` — where new-message alerts go (default `info@growthcred.co.za`)
+   - `SITE_URL` — the site link in email copy (default `https://growthcred.co.za`)
+
+Test: submit the form at `/contact` with your own email. You should get the
+acknowledgment within seconds, the info@ copy at the same time, and the row in
+Supabase with `reply_status = 'sent'` (view: `contact_messages_recent`).
+
+Spam handling is built in: a hidden honeypot field, a per-address limit of two
+messages per ten minutes, and field/length validation. The table has no anon
+policy, so the public key alone cannot write rows or bypass the limit. If
+`RESEND_API_KEY` is not set, messages still save with `reply_status =
+'skipped'` — nothing is lost, the acknowledgment just does not send.
+
+### 7. The Business Brain builder (`/brain`)
+
+The interactive version of the worksheet: fifteen questions, one at a time,
+and a paste-ready instruction document assembled from the answers. Visitors
+copy or download it themselves (works with zero backend); "Email it to me"
+posts the structured answers to the `brain-send` Edge Function, which saves
+the row to `business_brains`, rebuilds the document server-side from the
+fixed template, and mails it. It also pings info@ so completions are seen.
+
+One-time setup:
+
+1. Run the **business_brains block** at the end of `supabase/schema.sql` in the
+   Supabase SQL editor (idempotent, safe to re-run).
+2. Deploy the function — JWT verification stays ON:
+
+   ```bash
+   supabase functions deploy brain-send
+   ```
+
+3. Secrets: same as section 6 — `RESEND_API_KEY` and `PURCHASE_EMAIL_FROM`
+   (optional `CONTACT_NOTIFY_EMAIL`, `SITE_URL`). Nothing new to create.
+
+> **Keep the two templates in sync.** `buildBrainMarkdown` in
+> `src/lib/brain.ts` and `buildBrain` in
+> `supabase/functions/brain-send/index.ts` must stay character-for-character
+> identical — the on-screen copy and the emailed copy are built from them.
+
+Without the function deployed, the builder still fully works: Copy and
+Download are pure browser, and the email button just shows the "you already
+have it" fallback. Drafts persist in localStorage regardless.
+
+During the live class: say "take out your phone, go to **growthcred.co.za/brain**".
+Every completion lands in the `business_brains` table with the builder's
+own lead (captured into `leads` on start, source `brain_builder`).
 
 ## Rollback
 

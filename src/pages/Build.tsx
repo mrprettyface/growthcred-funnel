@@ -56,7 +56,6 @@ export default function BuildPage() {
      * it. Knowing it failed lets us say so on the next screen.
      */
     if (order) setOrder({ ...order, buildDecision: "applied" });
-    track("build_apply", { timing, configured: isSupabaseConfigured });
     setState("done");
 
     const result = await submitBuildRequest({
@@ -73,6 +72,7 @@ export default function BuildPage() {
       return { ok: false as const, error: "threw" };
     });
 
+    if (result.ok) track("build_apply", { configured: isSupabaseConfigured });
     if (!result.ok) {
       console.error("[supabase] build request not saved:", result.error);
       // "not_configured" is the expected local/dev state, not a lost lead.

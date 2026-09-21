@@ -131,8 +131,7 @@ export function CostCalculator() {
             onChange={setRate}
           />
           <p className="mt-7 border-t border-midnight/10 pt-4 text-xs leading-relaxed text-muted">
-            Worked on {WORKING_WEEKS} working weeks a year and an {HOURS_PER_DAY} hour day. Rough by
-            design, honest on purpose.
+            Worked on {WORKING_WEEKS} working weeks a year and an {HOURS_PER_DAY} hour day. Illustrative estimates; actual results depend on the workflow.
           </p>
         </div>
 
@@ -160,7 +159,7 @@ export function CostCalculator() {
               </span>
             </div>
             <div className="mb-6 text-sm text-cream/60">
-              handed to work a system could carry for you
+              estimated annual time value, not guaranteed cash savings
             </div>
 
             <dl className="border-t border-cream/20">
@@ -188,7 +187,7 @@ export function CostCalculator() {
               </div>
               <div className="text-base font-semibold text-cream">
                 <span className="font-mono text-gold">R{group(stats.backCost)}</span> a year,
-                returned to you
+                in potential time value
               </div>
             </div>
 

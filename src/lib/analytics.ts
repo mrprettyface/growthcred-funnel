@@ -1,3 +1,4 @@
+import { analyticsEvent } from "./searchAnalytics";
 /**
  * Funnel event tracking, so we can see drop-off per stage.
  *
@@ -17,6 +18,8 @@ type FunnelStep =
   /** The parallel funnel: a lead magnet opt-in. */
   | "magnet_view"
   | "magnet_signup"
+  /** Referral loop: a registrant sharing their invite link. */
+  | "referral_share"
   | "workshop_view"
   | "checkout_view"
   | "checkout_submit"
@@ -37,7 +40,18 @@ type FunnelStep =
   | "thankyou_view"
   | "call_view"
   | "call_apply"
-  | "call_booked";
+  | "call_booked"
+  /** The contact page: form view, accepted submission, and a save that failed. */
+  | "contact_view"
+  | "contact_submit"
+  | "contact_save_failed"
+  /** The Business Brain builder: open, started, finished, and each export. */
+  | "brain_view"
+  | "brain_start"
+  | "brain_complete"
+  | "brain_copy"
+  | "brain_download"
+  | "brain_email_requested";
 
 declare global {
   interface Window {
@@ -50,6 +64,7 @@ export function track(step: FunnelStep, payload: Record<string, unknown> = {}): 
   if (typeof window !== "undefined") {
     window.dataLayer = window.dataLayer ?? [];
     window.dataLayer.push(event);
+    analyticsEvent(step, payload);
     if (import.meta.env.DEV) console.debug("[funnel]", event);
   }
 }

@@ -5,7 +5,7 @@ deployment:
     - export DEPLOYPATH=/home/growthc2/public_html/
     # 2. Copy the built site into place.
     - /bin/cp -R dist/* $DEPLOYPATH
-    # 3. Copy the SPA .htaccess explicitly (dist/* skips dotfiles, and without
+    # 3. Copy the search routing .htaccess explicitly (dist/* skips dotfiles, and without
     #    this file every route except "/" would 404 on Apache).
     - /bin/cp dist/.htaccess $DEPLOYPATH
     # 4. Copy the Apple Pay domain-association folder (also a dotfile, also

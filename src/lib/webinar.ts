@@ -1,36 +1,23 @@
-/**
- * The live class, in one place.
- *
- * Everything the webinar page and the registration form display comes from
- * here, so moving the date is a one-line change rather than a hunt through
- * copy. `slug` is what lands in `webinar_registrations.webinar`, so give each
- * new class its own slug and the old registrations stay separable.
- *
- * Times are South African (SAST, UTC+2). The calendar link uses UTC.
- */
+/** Session details are confirmed on registration. No invented calendar date. */
 export const WEBINAR = {
-  slug: "ai-80-2026-09-09",
-  title: "Can AI do your job for you — even if it’s complicated?",
-  dayLabel: "Wed 9 September 2026",
-  timeLabel: "12:00–13:00 SAST",
-  shortWhen: "Wednesday 9 September · 12:00",
-  where: "Live on Google Meet",
-  /** Just the date, for tight buttons. Never hardcode this in a component. */
-  dateOnly: "9 September",
-  /** UTC instants for the calendar link: 12:00 SAST is 10:00 UTC. */
-  startUtc: "20260909T100000Z",
-  endUtc: "20260909T110000Z",
+  slug: "online-ai-next-session",
+  title: "Give AI the context your business needs",
+  dayLabel: "Date confirmed on registration",
+  timeLabel: "Time confirmed on registration",
+  shortWhen: "our next online class",
+  where: "Online · Joining details confirmed on registration",
+  dateOnly: "Next online session",
+  startUtc: "",
+  endUtc: "",
 } as const;
-
-/** "Add to calendar" link. Works on Google Calendar, desktop and mobile. */
+export function hasFutureSession(start:string, now=Date.now()):boolean {
+  const iso=start.replace(/^(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z$/, '$1-$2-$3T$4:$5:$6Z');
+  const timestamp=Date.parse(iso);
+  return Number.isFinite(timestamp)&&timestamp>now;
+}
+/** An undated or expired session must never create a misleading calendar event. */
 export function calendarUrl(): string {
-  const params = new URLSearchParams({
-    action: "TEMPLATE",
-    text: `GrowthCred live class — ${WEBINAR.title}`,
-    dates: `${WEBINAR.startUtc}/${WEBINAR.endUtc}`,
-    details:
-      "Free 60-minute live class with Phila Ngwenya. The joining link reaches you before the class, and a reminder comes on WhatsApp an hour before we start.",
-    location: WEBINAR.where,
-  });
-  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+  if(!hasFutureSession(WEBINAR.startUtc))return 'https://growthcred.co.za/contact';
+  const params=new URLSearchParams({action:'TEMPLATE',text:`GrowthCred live class — ${WEBINAR.title}`,dates:`${WEBINAR.startUtc}/${WEBINAR.endUtc}`,details:'Online AI class with GrowthCred.',location:WEBINAR.where});
+  return `https://calendar.google.com/calendar/render?${params}`;
 }

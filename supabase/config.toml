@@ -1,0 +1,5 @@
+# Whop calls this function directly, so Supabase must not try to validate a
+# Supabase JWT before the function can verify Whop's own signature.
+[functions.whop-webhook]
+verify_jwt = false
+

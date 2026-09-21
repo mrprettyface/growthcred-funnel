@@ -1,8 +1,7 @@
-# SPA fallback for Cloudflare Pages (and Netlify). This is the portable twin of
-# the RewriteRule in dist/.htaccess: any path that is not a real file is served
-# index.html so the React router can resolve it.
-#
-# Static assets are matched BEFORE these rules, so this never shadows a real
-# file — including /.well-known/*, which Apache needs an explicit exemption for
-# but Pages handles on its own.
-/*    /index.html   200
+# scripts/prerender.mjs generates explicit public route rules in dist/_redirects.
+# No wildcard 200 fallback: unknown URLs must remain 404s.
+/workshop / 301
+/agency /ai-automation-south-africa 301
+/class /webinar 301
+/webinar-plain /webinar 301
+/* /404.html 404

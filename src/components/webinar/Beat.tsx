@@ -34,7 +34,7 @@ export function Beat({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
-  const [seen, setSeen] = useState(reduced);
+  const [seen, setSeen] = useState(true);
 
   useEffect(() => {
     // Fail open: no observer support means show the content, never hide it.

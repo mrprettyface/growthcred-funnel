@@ -93,15 +93,16 @@ export default function CheckoutPage() {
   }
 
   /** Fires once Whop confirms the payment went through. */
-  function onPaid() {
+  function onPaid(receiptId?: string) {
     if (order) setOrder({ ...order, items, bump, paid: true });
     void recordPayment(reference, bump ? "paid_workshop_plus_bump" : "paid_workshop");
-    track("checkout_paid", { bump });
+    track("checkout_paid", { bump, transaction_id: receiptId, ...(activePromo() ? {} : { value: (total ?? 0) / 100 }), currency: "ZAR" });
     navigate("/upsell");
   }
 
   return (
     <Section className="pt-8">
+      <div className="mx-auto mb-7 max-w-[860px] rounded-xl border border-gold/40 bg-gold/10 p-4 text-sm"><strong>One-day online workshop · R990.</strong> Session date, time and joining details are confirmed on registration. No travel is required. Please <Link to="/contact">contact us</Link> before paying if you need to confirm tool subscriptions or VAT treatment.</div>
       <div className="mb-10 text-center">
         <div className="inline-block rounded-full bg-midnight px-6 py-2.5">
           <Brand />

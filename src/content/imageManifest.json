@@ -1,0 +1,86 @@
+{
+  "the-drain": [
+    {
+      "src": "/images/the-drain-640.webp",
+      "width": 640,
+      "height": 478,
+      "bytes": 52828
+    },
+    {
+      "src": "/images/the-drain-1200.webp",
+      "width": 1200,
+      "height": 896,
+      "bytes": 125158
+    }
+  ],
+  "the-outcome": [
+    {
+      "src": "/images/the-outcome-640.webp",
+      "width": 640,
+      "height": 478,
+      "bytes": 28530
+    },
+    {
+      "src": "/images/the-outcome-1200.webp",
+      "width": 1200,
+      "height": 896,
+      "bytes": 62212
+    }
+  ],
+  "phila-event": [
+    {
+      "src": "/images/phila-event-640.webp",
+      "width": 640,
+      "height": 853,
+      "bytes": 46158
+    },
+    {
+      "src": "/images/phila-event-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "bytes": 107432
+    }
+  ],
+  "phila-team": [
+    {
+      "src": "/images/phila-team-640.webp",
+      "width": 640,
+      "height": 1138,
+      "bytes": 72864
+    },
+    {
+      "src": "/images/phila-team-900.webp",
+      "width": 900,
+      "height": 1600,
+      "bytes": 121306
+    }
+  ],
+  "phila-karen": [
+    {
+      "src": "/images/phila-karen-640.webp",
+      "width": 640,
+      "height": 518,
+      "bytes": 50676
+    },
+    {
+      "src": "/images/phila-karen-1280.webp",
+      "width": 1280,
+      "height": 1037,
+      "bytes": 119226
+    }
+  ],
+  "webinar-poster": [
+    {
+      "src": "/images/webinar-poster-640.webp",
+      "width": 640,
+      "height": 960,
+      "bytes": 54658
+    },
+    {
+      "src": "/images/webinar-poster-1024.webp",
+      "width": 1024,
+      "height": 1536,
+      "bytes": 112328
+    }
+  ]
+}

@@ -1,3 +1,5 @@
+> September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
+
 # GrowthCred funnel
 
 A value-ladder funnel: free class → one-day workshop → add-ons → done-for-you.
@@ -30,14 +32,16 @@ session you are redirected to `/checkout`, so nobody lands mid-funnel.
 
 ## Payments
 
-Phase 1 is **manual bank transfer**. There is no card on file, so there is no
-true one-click upsell yet. The upsell and downsell are add-ons that adjust the
-total shown on `/thank-you`. Nothing is charged automatically and no payment
-secrets exist in this codebase.
+Payments are handled by Whop's embedded checkout. The browser callback only
+advances the funnel; it is not proof of payment and it never sends fulfilment
+email. The source of truth for fulfilment is the signed `payment.succeeded`
+webhook in `supabase/functions/whop-webhook`.
 
-Phase 2 is **Stitch**. Implement `StitchProvider` in `src/lib/payment.ts`.
-Once `supportsOneClick` is true, `/upsell` and `/downsell` become real
-post-purchase one-click offers with no page changes.
+The webhook updates the matching order, records the provider event, and sends a
+personalised confirmation through Resend. It is idempotent so Whop retries do
+not create duplicate messages. Run the payment-email block in
+`supabase/schema.sql`, deploy the function, and configure the Whop webhook and
+the secrets described in `DEPLOY.md` before relying on automatic email.
 
 > **Never put a payment secret in a `VITE_` variable.** Everything prefixed
 > `VITE_` is compiled into the browser bundle and is readable by anyone.
@@ -88,3 +92,19 @@ if deep links break, that file is the first thing to check.
 | `VITE_SUPABASE_ANON_KEY` | Public anon key, protected by RLS |
 | `VITE_SCHEDULER_URL` | Cal.com / Calendly embed for `/call` |
 | `VITE_PAYMENT_PROVIDER` | `manual_wire` (default) or `stitch` |
+
+## Verified purchase confirmation email
+
+The automated email is intentionally server-side. In Supabase, deploy
+`supabase/functions/whop-webhook` with JWT verification disabled (the function
+verifies Whop's signature itself), then add a Whop webhook for
+`payment.succeeded` pointing at:
+
+`https://<project-ref>.supabase.co/functions/v1/whop-webhook`
+
+Set these Edge Function secrets in Supabase: `WHOP_WEBHOOK_SECRET`,
+`RESEND_API_KEY`, `PURCHASE_EMAIL_FROM`, `WHOP_COMPANY_ID`, and a service-role
+credential (`SUPABASE_SERVICE_ROLE_KEY`) if the project does not expose one to
+functions automatically. `PURCHASE_EMAIL_FROM` must use a domain verified in
+Resend. Never put any of these values in a `VITE_` variable or the browser
+bundle.

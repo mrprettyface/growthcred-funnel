@@ -730,7 +730,7 @@ export function LiveDemo() {
       </div>
 
       <p className="mx-auto mt-8 max-w-[30ch] text-center font-display text-xl font-extrabold tracking-[-0.03em] text-midnight md:text-2xl">
-        One of these you send. The other one you rewrite.
+        Illustrative example, not a customer result. Review every AI draft before sending.
       </p>
     </div>
   );

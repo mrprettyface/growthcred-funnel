@@ -1,3 +1,5 @@
+> September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
+
 # GrowthCred funnel — where things stand
 
 Living handover doc. Read this first if you're picking the project up cold.
@@ -69,11 +71,18 @@ record.
   in Whop's form, rather than showing two different prices on one screen
 - Three videos placed (workshop / Operators Intensive / Custom System)
 - Prewritten "email us" buttons at each step to info@growthcred.co.za
-## Sending: two promises kept by hand
+## Sending: paid confirmation automatic, live class fulfilment manual
 
-Nothing in this codebase sends email or WhatsApp. There is no mail service, and
-a static site has no backend to run one from. The registration form saves the
-row and stops there.
+Paid workshop, upsell and downsell confirmations now have a server-side path:
+Whop's signed `payment.succeeded` webhook is verified by
+`supabase/functions/whop-webhook`, which updates the order and sends one
+personalised Resend email. The browser callback is not trusted for fulfilment.
+Run the payment-email block in `supabase/schema.sql`, deploy the function, and
+configure the Whop/Resend secrets before relying on it in production. Full
+setup is in **[DEPLOY.md](DEPLOY.md)**.
+
+The live-class registration form still only saves the row; it does not send the
+joining link or WhatsApp reminder automatically.
 
 So the seat confirmation says the link "goes to you before Wednesday" rather
 than "is on its way" — the second reads as automatic, and someone checking an
@@ -107,6 +116,32 @@ emails point at.
   **Run the new block at the bottom of `supabase/schema.sql` in the SQL editor**
   or registrations will fail with `PGRST205` (table not in schema cache).
 - Read them from the dashboard via `webinar_registrations_recent`.
+- **Seats also dual-write to a Google Form** ("Reserve Your Seat"), alongside
+  Supabase, so the response Sheet can be compared against the table before
+  Supabase is retired for seats — the Form never sleeps, so a paused free tier
+  (open item #6) can no longer silently eat a registration. `registerForWebinar`
+  fires both in parallel and counts the seat saved if *either* accepts it; the
+  transport is `src/lib/forms.ts`, the form id + field mapping (with the read
+  date) sit above the function in `src/lib/supabase.ts`. Two things gate a full
+  switch-off of Supabase: the form has **no WhatsApp field** (so a Supabase
+  outage still loses the number, which the WhatsApp reminder needs), and the
+  `entry.*` field IDs are **not contractual** — rebuilding the form reissues
+  them and Form writes then stop silently while Supabase keeps working, so the
+  tell is the Sheet no longer filling. Re-read the IDs from the form source if
+  that happens.
+- **Referral loop.** Every seat confirmation (both the seat form and the magnet
+  flow) shows a share block: the registrant's own link `/webinar?ref=<code>`,
+  copy + WhatsApp, promising the "Stop the Leak" pack to referrer and referred
+  alike. `ref` is captured and kept in sessionStorage exactly like `?promo=`
+  (`src/lib/referral.ts`), because React Router drops the query string. Each
+  registrant's `ref_code` is derived from their email (stable, one-way, URL-safe
+  — never the address itself, so nothing personal lands in a link), and a
+  referred visitor's row carries `referred_by`. Both columns are Supabase-only
+  (the Google Form has no referral fields) — run the ALTER block in
+  `supabase/schema.sql`. **To reward a referral: match a row's `referred_by`
+  against the referrer's `ref_code`** in `webinar_registrations_recent`;
+  fulfilment of the pack is manual, like the sends below. Self-referrals (their
+  own link) are dropped, not credited.
 - Fulfilment is manual for now: joining link by email, reminder on WhatsApp an
   hour before. The page promises both, so send both.
 - The FAQ promises the recording **only to people who stay to the end**. That is

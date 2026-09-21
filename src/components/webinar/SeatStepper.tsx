@@ -5,6 +5,8 @@ import { WEBINAR, calendarUrl } from "../../lib/webinar";
 import { registerForWebinar, isSupabaseConfigured } from "../../lib/supabase";
 import { track } from "../../lib/analytics";
 import { WHATSAPP_DISPLAY, whatsappUrl } from "../../lib/contact";
+import { refCode } from "../../lib/referral";
+import { ShareInvite } from "../ShareInvite";
 
 /**
  * Registration, one question at a time.
@@ -103,6 +105,8 @@ export function SeatStepper({
         >
           Add it to my calendar <span aria-hidden="true">&#8599;</span>
         </a>
+
+        <ShareInvite code={refCode(form.email)} name={form.name} className="mt-8" />
       </div>
     );
   }

@@ -1,0 +1,224 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "title": "Online AI Workshop for Business Owners | GrowthCred SA",
+      "description": "Build practical AI workflows in GrowthCred’s one-day online workshop for South African business owners. R990. Session details confirmed on registration.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "index.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-training-south-africa",
+      "title": "Practical AI Training for Business Owners | GrowthCred",
+      "description": "Explore practical AI training for South African business owners. Build business context, practise real tasks and choose between training and implementation.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "ai-training-south-africa.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-automation-south-africa",
+      "title": "AI Automation Services South Africa | GrowthCred",
+      "description": "Discuss practical AI automation for your South African business. Scope proposals, follow-ups and recurring admin with GrowthCred in Johannesburg.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "ai-automation-south-africa.html",
+      "prerendered": true
+    },
+    {
+      "path": "/about",
+      "title": "About GrowthCred & Phila Ngwenya | Johannesburg",
+      "description": "Meet Phila Ngwenya, founder of GrowthCred. Practical AI workshops and business workflow support from Rosebank, Johannesburg.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "about.html",
+      "prerendered": true
+    },
+    {
+      "path": "/resources",
+      "title": "Practical AI Guides for Business Owners | GrowthCred",
+      "description": "Practical guides to AI training costs, business context, proposals, follow-ups and automation decisions for South African business owners.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "resources.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/ai-training-cost-south-africa",
+      "title": "AI Training Costs in South Africa: What to Compare",
+      "description": "Understand workshop fees, team quotes, tool subscriptions and support before choosing AI training for your South African business.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "guides/ai-training-cost-south-africa.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/business-brain",
+      "title": "Give AI Your Business Context: A Practical Guide",
+      "description": "Build a clear business context document for AI: services, customers, voice, approved facts and review rules. Includes a practical starting template.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "guides/business-brain.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/ai-proposals-and-follow-ups",
+      "title": "Use AI for Proposals and Follow-Ups | GrowthCred",
+      "description": "A practical proposal and follow-up workflow: prepare context, draft, check facts and approve before sending. Includes an illustrative briefing example.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "guides/ai-proposals-and-follow-ups.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/ai-training-vs-automation",
+      "title": "AI Workshop or Done-for-You Automation? | GrowthCred",
+      "description": "Compare learning to build AI workflows with hiring implementation support. Understand effort, scope, ownership and ongoing maintenance.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "guides/ai-training-vs-automation.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/ai-automation-cost-south-africa",
+      "title": "AI Automation Costs South Africa: Scope Your Project",
+      "description": "Understand AI automation setup costs, subscriptions, testing and maintenance. Use a scoping checklist before requesting a South African business quote.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "guides/ai-automation-cost-south-africa.html",
+      "prerendered": true
+    },
+    {
+      "path": "/tools/admin-time-calculator",
+      "title": "Admin Time Cost Calculator for Business | GrowthCred",
+      "description": "Estimate the annual time value of repetitive business admin. Explore hours and hourly value with transparent assumptions, not guaranteed AI savings.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "tools/admin-time-calculator.html",
+      "prerendered": true
+    },
+    {
+      "path": "/contact",
+      "title": "Contact GrowthCred | AI Training & Automation",
+      "description": "Contact GrowthCred in Johannesburg about online AI workshops, team training requests or business automation. Email and WhatsApp contact options.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "contact.html",
+      "prerendered": true
+    },
+    {
+      "path": "/webinar",
+      "title": "Free Online AI Class for Business Owners | GrowthCred",
+      "description": "Register for GrowthCred’s next free online AI class. Learn how business context improves AI workflows. Session details confirmed on registration.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "webinar.html",
+      "prerendered": true
+    },
+    {
+      "path": "/playbook",
+      "title": "Free AI Business Resources | GrowthCred",
+      "description": "Read GrowthCred’s free practical AI guides and use the Business Brain builder. Downloadable packs are being prepared.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "playbook.html",
+      "prerendered": true
+    },
+    {
+      "path": "/brain",
+      "title": "Free AI Business Brain Builder | GrowthCred",
+      "description": "Build a reusable business context document for AI. Answer practical questions, then copy or download your document.",
+      "index": false,
+      "file": "brain.html",
+      "prerendered": false
+    },
+    {
+      "path": "/call",
+      "title": "Discuss Your AI Automation Project | GrowthCred",
+      "description": "Tell GrowthCred about your business workflow and discuss a scoped implementation engagement.",
+      "index": false,
+      "file": "call.html",
+      "prerendered": true
+    },
+    {
+      "path": "/checkout",
+      "title": "Workshop Registration | GrowthCred",
+      "description": "Manage your GrowthCred registration and next steps.",
+      "index": false,
+      "file": "checkout.html",
+      "prerendered": false
+    },
+    {
+      "path": "/upsell",
+      "title": "Your Next Step | GrowthCred",
+      "description": "Manage your GrowthCred registration and next steps.",
+      "index": false,
+      "file": "upsell.html",
+      "prerendered": false
+    },
+    {
+      "path": "/downsell",
+      "title": "Your Options | GrowthCred",
+      "description": "Manage your GrowthCred registration and next steps.",
+      "index": false,
+      "file": "downsell.html",
+      "prerendered": false
+    },
+    {
+      "path": "/build",
+      "title": "Implementation Request | GrowthCred",
+      "description": "Manage your GrowthCred registration and next steps.",
+      "index": false,
+      "file": "build.html",
+      "prerendered": false
+    },
+    {
+      "path": "/thank-you",
+      "title": "Order Confirmation | GrowthCred",
+      "description": "Manage your GrowthCred registration and next steps.",
+      "index": false,
+      "file": "thank-you.html",
+      "prerendered": false
+    },
+    {
+      "path": "/terms",
+      "title": "Terms | GrowthCred",
+      "description": "Read GrowthCred’s terms policy and contact us with questions.",
+      "index": false,
+      "file": "terms.html",
+      "prerendered": true
+    },
+    {
+      "path": "/privacy",
+      "title": "Privacy | GrowthCred",
+      "description": "Read GrowthCred’s privacy policy and contact us with questions.",
+      "index": false,
+      "file": "privacy.html",
+      "prerendered": true
+    },
+    {
+      "path": "/refunds",
+      "title": "Refunds | GrowthCred",
+      "description": "Read GrowthCred’s refunds policy and contact us with questions.",
+      "index": false,
+      "file": "refunds.html",
+      "prerendered": true
+    },
+    {
+      "path": "/404",
+      "title": "Page Not Found | GrowthCred",
+      "description": "Find GrowthCred’s AI workshops, business guides and contact information.",
+      "index": false,
+      "file": "404.html",
+      "prerendered": true
+    }
+  ],
+  "aliases": {
+    "/workshop": "/",
+    "/agency": "/ai-automation-south-africa",
+    "/webinar-plain": "/webinar",
+    "/class": "/webinar"
+  }
+}

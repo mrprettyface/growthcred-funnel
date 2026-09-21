@@ -1,6 +1,7 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { ButtonLink, cn } from "./ui";
+import { AnalyticsChoice } from "./AnalyticsChoice";
 
 /** Brand wordmark. Gold "Cred" + gold full stop, matching the current site. */
 export function Brand({ dark = true }: { dark?: boolean }) {
@@ -19,12 +20,14 @@ export function Brand({ dark = true }: { dark?: boolean }) {
 }
 
 const NAV = [
-  { to: "/class", label: "Free class" },
+  { to: "/ai-training-south-africa", label: "AI training" },
   { to: "/", label: "The workshop" },
-  { to: "/call", label: "Done for you" },
+  { to: "/ai-automation-south-africa", label: "Automation" },
+  { to: "/resources", label: "Guides" },
 ];
 
 export function Header() {
+  const [menuOpen,setMenuOpen]=useState(false);
   return (
     <div className="sticky top-0 z-50 bg-paper/80 py-3 backdrop-blur">
       <div className="mx-auto flex w-[min(1120px,calc(100%-2.5rem))] items-center justify-between gap-5 rounded-full bg-midnight py-2.5 pl-6 pr-3 text-cream">
@@ -46,10 +49,12 @@ export function Header() {
             </NavLink>
           ))}
         </nav>
+        <button aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={()=>setMenuOpen(!menuOpen)} className="min-h-11 px-2 text-sm md:hidden">Menu</button>
         <ButtonLink to="/checkout" className="min-h-10 px-4 text-[13px]">
-          Get my time back <span aria-hidden="true">&#8599;</span>
+          Register <span aria-hidden="true">&#8599;</span>
         </ButtonLink>
       </div>
+      {menuOpen && <nav id="mobile-navigation" aria-label="Mobile navigation" className="mx-5 mt-3 rounded-2xl bg-midnight p-4 text-cream md:hidden">{[...NAV,{to:"/webinar",label:"Free online class"},{to:"/contact",label:"Contact"}].map(item=><Link key={item.to} to={item.to} onClick={()=>setMenuOpen(false)} className="block min-h-11 p-3 text-cream no-underline">{item.label}</Link>)}</nav>}
     </div>
   );
 }
@@ -92,12 +97,21 @@ export function Footer() {
             </a>
           </div>
         </div>
-        <nav className="flex flex-wrap gap-5 font-mono text-xs" aria-label="Footer">
-          <Link to="/class" className="text-midnight no-underline hover:text-gold">
+        <nav className="flex max-w-xl flex-wrap gap-5 font-mono text-xs" aria-label="Footer">
+          <Link to="/webinar" className="text-midnight no-underline hover:text-gold">
             Free class
           </Link>
-          <Link to="/call" className="text-midnight no-underline hover:text-gold">
+          <Link to="/ai-automation-south-africa" className="text-midnight no-underline hover:text-gold">
             Done for you
+          </Link>
+          <Link to="/about" className="text-midnight">About Phila &amp; GrowthCred</Link>
+          <Link to="/resources" className="text-midnight">AI guides</Link>
+          <Link to="/ai-training-south-africa" className="text-midnight">AI training</Link>
+          <Link to="/contact" className="text-midnight no-underline hover:text-gold">
+            Contact
+          </Link>
+          <Link to="/brain" className="text-midnight no-underline hover:text-gold">
+            Free tool: build your AI Business Brain
           </Link>
           <Link to="/terms" className="text-midnight no-underline hover:text-gold">
             Terms
@@ -116,6 +130,7 @@ export function Footer() {
           </a>
         </nav>
       </div>
+      <AnalyticsChoice />
     </footer>
   );
 }
@@ -124,7 +139,8 @@ export function Layout({ children, bare = false }: { children: ReactNode; bare?:
   return (
     <>
       {!bare && <Header />}
-      <main>{children}</main>
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-white focus:p-4">Skip to content</a>
+      <main id="main-content">{children}</main>
       {!bare && <Footer />}
     </>
   );

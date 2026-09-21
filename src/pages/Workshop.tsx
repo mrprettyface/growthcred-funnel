@@ -101,7 +101,7 @@ export default function WorkshopPage() {
           <p className="mx-auto mt-5 max-w-[54ch] text-ink">
             You walk in an operator. You walk out an owner, with the systems already running. Here is
             the day, block by block. Each one hands a chunk of your week over to a system you build
-            right there in the room.
+            right there online.
           </p>
         </div>
 
@@ -198,7 +198,7 @@ export default function WorkshopPage() {
             },
             {
               icon: "people",
-              text: "A room of other operators making the same shift, and the group that keeps going after the day ends",
+              text: "A group of other operators making the same shift, and the group that keeps going after the day ends",
             },
           ]}
         />
@@ -322,7 +322,7 @@ export default function WorkshopPage() {
           items={[
             {
               q: "I’m not technical. Will I keep up?",
-              a: "Yes. If you can use WhatsApp and a browser, you can do this. We build everything with you in the room, step by step, on your own laptop. Nobody leaves stuck.",
+              a: "Yes. If you can use WhatsApp and a browser, you can do this. We build everything with you online, step by step, on your own laptop. Nobody leaves stuck.",
             },
             {
               q: "How is this different from watching AI videos on YouTube?",
@@ -346,7 +346,7 @@ export default function WorkshopPage() {
             },
             {
               q: "What if I fall behind on the day?",
-              a: "You will not be left behind. We move together, block by block, and there is help in the room the whole time. If a build takes you longer, we make sure you leave with it done.",
+              a: "You will not be left behind. We move together, block by block, and there is help online the whole time. If a build takes you longer, we make sure you leave with it done.",
             },
             {
               q: "Why should I pay for this when AI tools are cheap?",

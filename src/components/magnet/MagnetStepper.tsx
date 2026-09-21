@@ -6,6 +6,8 @@ import { WEBINAR } from "../../lib/webinar";
 import { captureMagnetSignup, registerForWebinar, isSupabaseConfigured } from "../../lib/supabase";
 import { track } from "../../lib/analytics";
 import { WHATSAPP_DISPLAY, whatsappUrl } from "../../lib/contact";
+import { refCode } from "../../lib/referral";
+import { ShareInvite } from "../ShareInvite";
 
 const fieldCls =
   "w-full rounded-xl border border-midnight/15 bg-white px-4 py-3 text-lg outline-none focus:border-gold";
@@ -49,7 +51,7 @@ export function MagnetStepper({
   const [consent, setConsent] = useState(false);
   const [step, setStep] = useState(1);
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
-  const [seat, setSeat] = useState<"idle" | "saving" | "done">("idle");
+  const [seat, setSeat] = useState<"idle" | "saving" | "done" | "error">("idle");
 
   const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
@@ -86,16 +88,17 @@ export function MagnetStepper({
 
   /** The seat, in one tap, on what they have already given us. */
   async function claimSeat() {
-    if (seat !== "idle") return;
+    if (seat === "saving" || seat === "done") return;
     setSeat("saving");
-    await registerForWebinar({
+    const result = await registerForWebinar({
       webinar: WEBINAR.slug,
       name: form.name.trim(),
       email: form.email.trim(),
       whatsapp: form.whatsapp.trim(),
       source: `magnet:${magnet.slug}`,
     });
-    track("webinar_register", { webinar: WEBINAR.slug, from: magnet.slug });
+    if (!result.ok || result.confirmed === false) { setSeat("error"); return; }
+    track("webinar_register", { webinar: WEBINAR.slug, from: magnet.slug, configured: true });
     // Not gated on success: making someone who has typed everything once do it
     // again is worse than a seat we reconcile by hand from the dashboard.
     setSeat("done");
@@ -155,15 +158,19 @@ export function MagnetStepper({
             Reading it and having it are different things.
           </p>
           <p className="mt-3 text-ink">
-            On {WEBINAR.shortWhen} I take a real job out of a real business and build the thing
+            In {WEBINAR.shortWhen} I take a real job out of a real business and build the thing
             that does it, live, in the hour. Free, and you are already halfway signed up.
           </p>
 
+          {seat === "error" && <p role="alert" className="mt-4 text-sm text-red-700">We could not confirm the class registration. Please try again or contact us.</p>}
           {seat === "done" ? (
-            <p className="mt-5 border-l-2 border-gold pl-3 text-sm text-midnight">
-              Your seat is saved. The joining link goes to {form.email.trim()} before Wednesday
-              &mdash; check spam if you do not see it.
-            </p>
+            <>
+              <p className="mt-5 border-l-2 border-gold pl-3 text-sm text-midnight">
+                Your registration is received. Session details will be confirmed with you at {form.email.trim()}
+                &mdash; check spam if you do not see it.
+              </p>
+              <ShareInvite code={refCode(form.email)} name={form.name} className="mt-6" />
+            </>
           ) : (
             <button
               type="button"

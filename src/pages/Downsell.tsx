@@ -1,3 +1,4 @@
+import { activePromo } from "../lib/promo";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Section, Eyebrow, H1, Faint, Button, ButtonLink, CheckList } from "../components/ui";
@@ -46,7 +47,7 @@ export default function DownsellPage() {
     navigate("/build");
   }
 
-  function onPaid() {
+  function onPaid(receiptId?: string) {
     if (order) {
       setOrder({
         ...order,
@@ -55,7 +56,7 @@ export default function DownsellPage() {
       });
     }
     void recordPayment(ref, "paid_home_course");
-    track("downsell_paid");
+    track("downsell_paid", { transaction_id: receiptId, ...(activePromo() ? {} : { value: (DOWNSELL.amountCents ?? 0) / 100 }), currency: "ZAR" });
     setView("bought");
   }
 

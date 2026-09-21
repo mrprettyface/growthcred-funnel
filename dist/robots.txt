@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Search discovery is independent of model-training preferences.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://growthcred.co.za/sitemap.xml

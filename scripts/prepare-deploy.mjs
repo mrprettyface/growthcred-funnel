@@ -1,7 +1,6 @@
 /**
  * Prepares dist/ for cPanel upload.
- * Verifies the SPA fallback .htaccess survived the build, because without it
- * every route except "/" returns a 404 on Apache.
+ * Verifies the prerendered search release and Apache route rules survived the build.
  */
 import { existsSync, copyFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
@@ -26,4 +25,7 @@ if (!existsSync(htaccessDist)) {
   console.log("Copied .htaccess into dist/");
 }
 
-console.log("dist/ is ready to upload to public_html.");
+for (const file of ["robots.txt", "sitemap.xml", "404.html", "search-manifest.json", "ai-training-south-africa.html"]) {
+  if (!existsSync(resolve(dist, file))) throw new Error(`Missing ${file}; run npm run build.`);
+}
+console.log("dist/ is ready to upload to public_html, including .htaccess and .well-known.");

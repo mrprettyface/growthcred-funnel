@@ -1,26 +1,31 @@
 import { Suspense, lazy, useEffect, useMemo, useState, type ReactNode } from "react";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { OrderContext, loadOrder, saveOrder, clearOrder, useOrder, type Order } from "./lib/order";
 import { Layout } from "./components/Layout";
 import { ExperienceBoundary } from "./components/webinar/ExperienceBoundary";
 
-import ClassPage from "./pages/Class";
+import NextClass from "./pages/NextClass";
+import { Metadata } from "./seo/Metadata";
+import { SEARCH_PAGES } from "./content/searchPages";
+import { SearchPage, NotFound } from "./pages/SearchPage";
 
 import WorkshopPage from "./pages/Workshop";
-import CheckoutPage from "./pages/Checkout";
-import UpsellPage from "./pages/Upsell";
-import DownsellPage from "./pages/Downsell";
-import BuildPage from "./pages/Build";
-import ThankYouPage from "./pages/ThankYou";
-import CallPage from "./pages/Call";
-import WebinarPlainPage from "./pages/Webinar";
+const CheckoutPage = lazy(() => import("./pages/Checkout"));
+const UpsellPage = lazy(() => import("./pages/Upsell"));
+const DownsellPage = lazy(() => import("./pages/Downsell"));
+const BuildPage = lazy(() => import("./pages/Build"));
+const ThankYouPage = lazy(() => import("./pages/ThankYou"));
+const CallPage = lazy(() => import("./pages/Call"));
+
+import ContactPage from "./pages/Contact";
+const BrainPage = lazy(() => import("./pages/Brain"));
 
 /**
  * The webinar experience carries GSAP, Lenis, motion and a WebGL background.
  * None of that should slow down the money page, so it is split into its own
  * chunk and only fetched when someone actually opens /webinar.
  */
-const WebinarExperience = lazy(() => import("./pages/WebinarExperience"));
+
 
 /**
  * The money page as an experience, running alongside the original rather than
@@ -105,11 +110,12 @@ export default function App() {
 
   return (
     <OrderContext.Provider value={value}>
-      <BrowserRouter>
+      <>
+        <Metadata />
         <ScrollToTop />
-        <Routes>
+        <Suspense fallback={<LegalLoading />}><Routes>
           {/* Funnel */}
-          <Route path="/class" element={<Layout><ClassPage /></Layout>} />
+          <Route path="/class" element={<Layout><NextClass /></Layout>} />
           {/* The parallel funnel. A lead magnet opt-in whose thank-you state
               hands the pack over on the spot and offers a one-tap seat at the
               live class. Deliberately not in the nav: this is an ad
@@ -129,19 +135,9 @@ export default function App() {
               /webinar is the scroll experience; /webinar-plain is the same
               argument as a plain document, kept for slow connections and for
               A/B testing the two against each other. */}
-          <Route
-            path="/webinar"
-            element={
-              <Layout>
-                <ExperienceBoundary fallback={<WebinarPlainPage />}>
-                  <Suspense fallback={<WebinarLoading />}>
-                    <WebinarExperience />
-                  </Suspense>
-                </ExperienceBoundary>
-              </Layout>
-            }
-          />
-          <Route path="/webinar-plain" element={<Layout><WebinarPlainPage /></Layout>} />
+          <Route path="/webinar" element={<Layout><NextClass /></Layout>} />
+          <Route path="/webinar-plain" element={<Navigate to="/webinar" replace />} />
+          {SEARCH_PAGES.map(page => <Route key={page.path} path={page.path} element={<Layout><SearchPage page={page} /></Layout>} />)}
           {/* THE LANDING PAGE.
               The scroll experience is now what growthcred.co.za serves, with the
               original page kept as its crash fallback rather than deleted — if
@@ -181,7 +177,15 @@ export default function App() {
 
           {/* Backend offer */}
           <Route path="/call" element={<Layout><CallPage /></Layout>} />
-          <Route path="/agency" element={<Navigate to="/call" replace />} />
+          <Route path="/agency" element={<Navigate to="/ai-automation-south-africa" replace />} />
+
+          {/* Front door for anything that is not a funnel step. Deliberately
+              out of the header nav: the header sells, the footer serves. */}
+          <Route path="/contact" element={<Layout><ContactPage /></Layout>} />
+
+          {/* The Business Brain builder. Full-screen on purpose — it runs
+              live, in the room, on phones, so nothing else competes. */}
+          <Route path="/brain" element={<BrainPage />} />
 
           {/* Legal */}
           <Route
@@ -197,9 +201,9 @@ export default function App() {
             element={<Layout><Suspense fallback={<LegalLoading />}><Refunds /></Suspense></Layout>}
           />
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
+          <Route path="*" element={<Layout><NotFound /></Layout>} />
+        </Routes></Suspense>
+      </>
     </OrderContext.Provider>
   );
 }

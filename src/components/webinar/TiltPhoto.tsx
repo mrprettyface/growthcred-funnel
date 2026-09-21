@@ -1,3 +1,4 @@
+import { ResponsiveImage } from "../ResponsiveImage";
 import { useRef, type CSSProperties } from "react";
 import { cn } from "../ui";
 import { useReducedMotion } from "../../lib/motion";
@@ -65,7 +66,8 @@ export function TiltPhoto({
       }
       className={cn("[transform-style:preserve-3d]", className)}
     >
-      <img
+      <ResponsiveImage
+        sizes="(max-width: 767px) 90vw, 380px"
         src={src}
         alt={alt}
         loading="lazy"

@@ -5,11 +5,18 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && node scripts/prerender.mjs",
     "preview": "vite preview",
-    "deploy:prepare": "npm run build && node scripts/prepare-deploy.mjs"
+    "deploy:prepare": "npm run build && node scripts/prepare-deploy.mjs",
+    "verify:seo": "node scripts/verify-seo.mjs",
+    "verify:search-behavior": "node scripts/verify-search-behavior.mjs",
+    "preview:search": "node scripts/preview-search.mjs",
+    "verify:http": "node scripts/verify-http.mjs"
   },
   "dependencies": {
+    "@fontsource-variable/dm-sans": "^5.3.0",
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource/dm-mono": "^5.3.0",
     "@gsap/react": "^2.1.2",
     "@supabase/supabase-js": "^2.108.2",
     "@whop/checkout": "^0.6.0",

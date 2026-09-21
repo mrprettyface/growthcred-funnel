@@ -1,4 +1,4 @@
-import type { ReactNode, AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
+import { useState, type ReactNode, type AnchorHTMLAttributes, type ButtonHTMLAttributes } from "react";
 import { Link } from "react-router-dom";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -238,6 +238,7 @@ export function ToComeBlock({ label, note }: { label: string; note?: string }) {
  */
 export function VideoSlot({ slot, label }: { slot: string; label: string }) {
   const source = VIDEOS[slot] ?? null;
+  const [playing,setPlaying]=useState(false);
 
   if (source?.kind === "file") {
     return (
@@ -256,14 +257,19 @@ export function VideoSlot({ slot, label }: { slot: string; label: string }) {
   if (url) {
     return (
       <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-midnight">
-        <iframe
-          src={url}
+        {!playing ? <button type="button" onClick={()=>setPlaying(true)} aria-label={`Play ${label}`} className="absolute inset-0 flex h-full w-full flex-col items-center justify-center gap-5 bg-midnight px-6 text-cream">
+          <span className="grid h-20 w-20 place-items-center rounded-full bg-gold text-3xl text-midnight" aria-hidden="true">▶</span>
+          <span className="text-xl font-semibold">{slot==='workshopVsl'?'See how the online workshop works':'Watch the video'}</span>
+          <span className="text-sm text-cream/80">Play video · Loads when you choose</span>
+        </button> : <iframe
+          src={`${url}&autoplay=1`}
           title={label}
           loading="lazy"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
           className="absolute inset-0 h-full w-full border-0"
-        />
+        />}
+        {!playing && <a href={source?.kind === "youtube" ? `https://www.youtube.com/watch?v=${source.id}` : source?.kind === "vimeo" ? `https://vimeo.com/${source.id}` : undefined} target="_blank" rel="noopener" className="absolute bottom-3 right-4 z-10 text-xs text-cream/85">Open video in a new tab</a>}
       </div>
     );
   }
@@ -278,7 +284,7 @@ export function VideoSlot({ slot, label }: { slot: string; label: string }) {
           </svg>
         </div>
         <p className="px-6 font-mono text-[12px] uppercase tracking-[0.16em] text-cream/60 md:text-[11px]">
-          [TO COME: {label}]
+          Video not currently available. Please contact GrowthCred for details.
         </p>
       </div>
     </div>

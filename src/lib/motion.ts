@@ -16,10 +16,11 @@ export function prefersReducedMotion(): boolean {
  * to render the plain version, never to hide content.
  */
 export function useReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(prefersReducedMotion);
+  const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
     const mq = window.matchMedia(QUERY);
+    setReduced(mq.matches);
     const onChange = () => setReduced(mq.matches);
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
@@ -43,12 +44,7 @@ export function skipHeavyVisuals(): boolean {
 
 /** Live media-query match. */
 export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState(
-    () =>
-      typeof window !== "undefined" &&
-      typeof window.matchMedia === "function" &&
-      window.matchMedia(query).matches,
-  );
+  const [matches, setMatches] = useState(false);
 
   useEffect(() => {
     if (typeof window.matchMedia !== "function") return;

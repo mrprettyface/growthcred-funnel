@@ -45,8 +45,14 @@ create table if not exists public.orders (
   -- Phase 2 (Stitch): stores the provider token used for one-click upsells.
   -- NEVER store raw card numbers or CVV here, only the provider's token.
   provider_ref    text,
-  authorization_code text
+  authorization_code text,
+  paid_at         timestamptz,
+  whop_plan_id    text
 );
+
+-- Safe to run after the original orders table already exists.
+alter table public.orders add column if not exists paid_at timestamptz;
+alter table public.orders add column if not exists whop_plan_id text;
 
 alter table public.orders enable row level security;
 
@@ -58,6 +64,33 @@ create policy "anon can create an order"
 
 create index if not exists orders_reference_idx on public.orders (reference);
 create index if not exists orders_status_idx on public.orders (status);
+
+
+-- ---------- payment_webhook_events: verified provider events ----------
+-- This table is written only by the Whop webhook Edge Function with the
+-- service role. The webhook id and payment id make retries idempotent, while
+-- the email fields let a failed Resend call be retried without trusting the
+-- browser or sending the same message twice (Resend also receives the payment
+-- id as an idempotency key).
+create table if not exists public.payment_webhook_events (
+  webhook_id       text primary key,
+  payment_id       text not null unique,
+  received_at      timestamptz not null default now(),
+  email            text not null,
+  plan_id          text not null,
+  order_reference  text,
+  email_status     text not null default 'pending'
+                     check (email_status in ('pending','sent','failed')),
+  email_provider_id text,
+  last_error       text
+);
+
+alter table public.payment_webhook_events enable row level security;
+-- Intentionally no anon policies: customers must never write or read payment
+-- events. The service role used by the webhook bypasses RLS.
+
+create index if not exists payment_webhook_events_status_idx
+  on public.payment_webhook_events (email_status, received_at desc);
 
 
 -- ---------- upsell_events: funnel decisions ----------
@@ -138,20 +171,28 @@ create index if not exists build_requests_status_idx on public.build_requests (s
 
 
 -- ---------- convenience view for you (service role only) ----------
-create or replace view public.orders_awaiting_payment as
+-- security_invoker = true is REQUIRED on every view here. Without it a view
+-- runs with its owner's rights and bypasses the underlying table's RLS, and
+-- Supabase's default grants let anon SELECT from public views -- which would
+-- expose all this PII to anyone holding the public anon key. With it, the view
+-- respects the caller's RLS (anon gets nothing; service_role sees all).
+create or replace view public.orders_awaiting_payment
+  with (security_invoker = true) as
   select reference, created_at, name, email, items, amount_cents
   from public.orders
   where status = 'awaiting_payment'
   order by created_at desc;
 
-create or replace view public.applications_new as
+create or replace view public.applications_new
+  with (security_invoker = true) as
   select created_at, name, whatsapp, email, business, business_does,
          reason, outcome, frustration, team_size
   from public.applications
   where status = 'new'
   order by created_at desc;
 
-create or replace view public.build_requests_new as
+create or replace view public.build_requests_new
+  with (security_invoker = true) as
   select created_at, reference, name, whatsapp, email, industry,
          invest_timing, availability, notes
   from public.build_requests
@@ -185,8 +226,18 @@ create policy "anon can register for a webinar"
 create index if not exists webinar_registrations_webinar_idx
   on public.webinar_registrations (webinar, created_at desc);
 
-create or replace view public.webinar_registrations_recent as
-  select created_at, webinar, name, whatsapp, email, source
+-- Referral loop. `ref_code` is this registrant's own stable share code (derived
+-- client-side from their email, so no lookup table is needed); `referred_by` is
+-- the code of whoever's link brought them, or null. To reward a referral, match
+-- a row's `referred_by` against the `ref_code` of the referrer. Added as an
+-- idempotent ALTER so a live table upgrades in place without a drop.
+alter table public.webinar_registrations
+  add column if not exists ref_code    text,
+  add column if not exists referred_by text;
+
+create or replace view public.webinar_registrations_recent
+  with (security_invoker = true) as
+  select created_at, webinar, name, whatsapp, email, source, ref_code, referred_by
   from public.webinar_registrations
   order by created_at desc;
 
@@ -228,7 +279,78 @@ create policy "anon can claim a lead magnet"
 create index if not exists magnet_signups_magnet_idx
   on public.magnet_signups (magnet, created_at desc);
 
-create or replace view public.magnet_signups_recent as
+create or replace view public.magnet_signups_recent
+  with (security_invoker = true) as
   select created_at, magnet, name, whatsapp, email, company, consent, source
   from public.magnet_signups
+  order by created_at desc;
+
+-- ---------- business_brains: /brain builder completions ----------
+-- The /brain page walks a visitor through the fifteen Business Brain
+-- questions and assembles the paste-ready instruction document client-side.
+-- When they ask for it by email, the browser posts the STRUCTURED ANSWERS to
+-- the `brain-send` Edge Function, which re-generates the document from the
+-- server-side template, saves the row here, and mails it. No policies on this
+-- table, same reasoning as `contact_messages`: the function is the only door,
+-- so the email content can never be anything but the fixed template.
+create table if not exists public.business_brains (
+  id                uuid primary key default gen_random_uuid(),
+  created_at        timestamptz not null default now(),
+  name              text not null,
+  email             text not null,
+  answers           jsonb not null,
+  source            text not null default 'brain_builder',
+  email_status      text not null default 'pending'
+                      check (email_status in ('pending','sent','failed','skipped')),
+  email_provider_id text,
+  email_error       text
+);
+
+alter table public.business_brains enable row level security;
+-- Intentionally NO policies: only the Edge Function (service role) writes here.
+
+create index if not exists business_brains_created_idx
+  on public.business_brains (created_at desc);
+create index if not exists business_brains_email_idx
+  on public.business_brains (email, created_at desc);
+
+-- ---------- contact_messages: contact form + auto-acknowledgment ----------
+-- The /contact form does not write here directly. The browser posts to the
+-- `contact-autoresponder` Edge Function, which validates the payload, applies
+-- a light rate limit, stores the row with the service role, and then sends the
+-- acknowledgment email through Resend. Because the browser never inserts, this
+-- table has NO anon policy at all: the rate limit cannot be bypassed by
+-- writing straight to the table with the public anon key.
+--
+-- `reply_status` tracks the autoresponder so a failed acknowledgment can be
+-- spotted and retried without re-sending anything (`payment_webhook_events`
+-- plays the same trick for purchase email). 'skipped' means Resend is not
+-- configured: the message was saved, no email was attempted.
+create table if not exists public.contact_messages (
+  id                uuid primary key default gen_random_uuid(),
+  created_at        timestamptz not null default now(),
+  name              text not null,
+  email             text not null,
+  whatsapp          text,
+  message           text not null,
+  source            text not null default 'contact_page',
+  reply_status      text not null default 'pending'
+                      check (reply_status in ('pending','sent','failed','skipped')),
+  reply_provider_id text,
+  reply_error       text
+);
+
+alter table public.contact_messages enable row level security;
+-- Intentionally NO policies: only the Edge Function (service role) writes here.
+
+create index if not exists contact_messages_created_idx
+  on public.contact_messages (created_at desc);
+create index if not exists contact_messages_email_idx
+  on public.contact_messages (email, created_at desc);
+
+create or replace view public.contact_messages_recent
+  with (security_invoker = true) as
+  select created_at, name, email, whatsapp, message, source,
+         reply_status, reply_provider_id, reply_error
+  from public.contact_messages
   order by created_at desc;
