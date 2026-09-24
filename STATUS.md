@@ -1,5 +1,57 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **24 September 2026 — first-page SEO pass.** 12 new indexed pages: service
+> (`/ai-proposal-automation`, `/ai-follow-up-automation`, `/ai-admin-automation`),
+> industry (`/ai-for-waste-management`, `/ai-for-beauty-and-cosmetics`), market
+> (`/ai-automation-johannesburg`, `-uk`, `-united-states`, `-australia`, `-africa`)
+> and bottom-of-funnel (`/guides/how-we-work-first-30-days`,
+> `/guides/admin-assistant-vs-ai-automation`); `/data-and-security` is live and
+> linked from every footer (practices confirmed by Phila, 24 Sep 2026). FAQ sections with
+> matching FAQPage schema, author bios, ProfessionalService entity, a four-column
+> sitemap footer, HSTS on both hosts. Fixed a live bug: `public/.htaccess` still
+> 301'd `/workshop` to `/` on cPanel. supabase-js now loads on first form submit
+> (main chunk 126 KB → 63 KB gzipped). Enforced by
+> [GATES-seo-firstpage.md](GATES-seo-firstpage.md); owner's off-page to-do list is at the top of
+> [docs/search/GROWTH-PLAN.md](docs/search/GROWTH-PLAN.md).
+>
+> **24 September 2026 — "The Command Core" homepage and site-wide design.**
+> `/` is the high-ticket page in Phila's copy ("20–40% of your time drain.
+> Gone."), every "Apply" going to `/call`. Layout in `src/pages/Home.tsx`, every
+> word in `src/lib/home.ts` (also read by the crash fallback
+> `src/pages/HomeFallback.tsx`). `/` renders bare with its own header/footer
+> (`src/components/home/HomeChrome.tsx`). The **R990 workshop funnel lives
+> intact at `/workshop`**: Proof on the page (company names, WeWork talks, Parliament,
+> R3M–R10M, benchmarks, 20-hour guarantee) was supplied by Phila for
+> publication; the before/after figures must keep their "Illustrative
+> benchmarks" line (gate G20 enforces it). **WeWork brand use still needs
+> WeWork's sign-off** per the partnership note.
+>
+> The design system is shared, not per-page: `Section dark` draws the blueprint
+> grid + gold light (`DarkBackdrop` in `ui.tsx`, self-clipping so sections never
+> need `overflow-hidden`, which would break sticky), `Eyebrow` is the gold
+> hairline label, gold buttons glow, `PillLink` is the gold pill, headline
+> `<span class="text-gold">` accents are burnished gold, and the site header is
+> the dark bar. The CSS lives under "The Command Core" in `src/index.css`; all
+> motion there is `no-preference`-only and transform/opacity-only. New homepage
+> drawings are in `src/components/HomeScenes.tsx`, same hand as `sceneKit.tsx`.
+>
+> **Client stories (24 Sep)** are real indexed articles: `/stories` (hub),
+> `/stories/mne-waste`, `/stories/demure-international`,
+> `/stories/operators-intensive-wework-rosebank`, defined in
+> `src/content/searchPages.ts` (kind `"story"`, with `quote`, `images`,
+> `published`) and rendered by `SearchPage.tsx` with Article structured data.
+> Photos are crops of Phila's slides in `public/images/stories/` (low-res,
+> ~400px wide — swap in originals if you have them). TaiAscend's "3 days → 2
+> hours" appears on the homepage and hub (no page of its own yet). The homepage
+> carries the full site nav, the stories, "other ways in", every guide and an
+> FAQ (1,177 words); the founder photo is the original `phila-event.jpg`.
+>
+> Gates: [GATES-reposition.md](GATES-reposition.md), 15/15 met (G15: stories). G4 also
+> fails if any link about the workshop points at `/` (source and built HTML).
+> Two pre-existing failures, unrelated and left as-is: `verify-mobile.mjs
+> review-order` (regex case-mismatch) and `host-portable` (no SPA fallback by
+> design).
+
 # GrowthCred funnel — where things stand
 
 Living handover doc. Read this first if you're picking the project up cold.
@@ -19,8 +71,8 @@ Repo: https://github.com/mrprettyface/growthcred-funnel (public, no secrets)
 | `/class` | Free class opt-in | free | — |
 | `/webinar` | Live class registration — scroll experience | free | — |
 | `/webinar-plain` | Same class, plain document version | free | — |
-| `/workshop` | Redirects to `/` (old links) | — | — |
-| `/` | Workshop, as the scroll experience (money page) | R990 | `plan_72K2Kk6oPeLRY` |
+| `/` | The Command Core — high-ticket, "Apply" → `/call` | — | — |
+| `/workshop` | Workshop, as the scroll experience | R990 | `plan_72K2Kk6oPeLRY` |
 | `/checkout` | + "Skip the Setup" bump | R1 490 combined | `plan_UCryhOI0svT2W` |
 | `/upsell` | Operators Intensive (Done With You) | R9 900 | `plan_Lrt0EkLTJD5nx` |
 | `/downsell` | Home study course (Do It Yourself) | R3 999 | `plan_Pbw4zu8ngelfI` |

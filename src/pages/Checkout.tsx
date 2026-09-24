@@ -110,7 +110,7 @@ export default function CheckoutPage() {
         {/* The layout is bare here, so this is the only way back to the offer. */}
         <div className="mt-5">
           <Link
-            to="/"
+            to="/workshop"
             className="font-mono text-[12px] uppercase tracking-[0.14em] text-muted underline underline-offset-4 hover:text-midnight md:text-[11px]"
           >
             &larr; Back to the workshop

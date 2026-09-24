@@ -11,6 +11,7 @@ import { analyticsEvent } from "./searchAnalytics";
  */
 
 type FunnelStep =
+  | "home_view"
   | "class_view"
   | "class_optin"
   | "webinar_view"

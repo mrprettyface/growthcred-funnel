@@ -47,7 +47,7 @@ export default function ClassPage() {
           <VideoSlot slot="freeClass" label="free class video" />
         </div>
         <div className="mt-8 text-center">
-          <ButtonLink to="/">
+          <ButtonLink to="/workshop">
             See the one-day workshop <span aria-hidden="true">&#8599;</span>
           </ButtonLink>
         </div>

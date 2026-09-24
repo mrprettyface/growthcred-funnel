@@ -39,9 +39,16 @@ for(const route of manifest.routes){
 }
 const home=await read('dist/index.html');
 assert.throws(()=>validPage(home.replace(/<h1[\s\S]*?<\/h1>/,''),manifest.routes[0]));
-assert.match(home,/One day · Online|One-day online/);assert.match(home,/R990/);assert.match(home,/Confirmed on registration/);
+// The homepage now sells the high-ticket strategy call, not the R990 workshop.
+assert.match(home,/time drain/,'homepage no longer leads with the time-drain claim');
+assert.match(home,/href="\/call"/,'homepage has no strategy-call CTA');
+assert.doesNotMatch(home,/R990/,'homepage must not price the workshop that moved to /workshop');
 assert.doesNotMatch(home,/<iframe/,'Homepage player must be click-to-load');
 assert.doesNotMatch(home,/fonts\.googleapis\.com/,'Fonts are served locally');
+// The R990 workshop funnel moved to /workshop intact, and must keep its terms.
+const workshop=await read('dist/workshop.html');
+assert.match(workshop,/One day · Online|One-day online/);assert.match(workshop,/R990/);assert.match(workshop,/Confirmed on registration/);
+assert.doesNotMatch(workshop,/<iframe/,'Workshop player must be click-to-load');
 assert.equal((sitemap.match(/<loc>/g)||[]).length,publicRoutes.length);
 for(const privatePath of ['/checkout','/upsell','/downsell','/build','/thank-you','/brain','/call'])assert.equal(manifest.routes.find(r=>r.path===privatePath)?.index,false);
 const rules=await read('dist/.htaccess');assert.match(rules,/ErrorDocument 404 \/404\.html/);assert.match(rules,/RewriteCond %\{DOCUMENT_ROOT\}\/\$1\.html -f/);assert.doesNotMatch(rules,/RewriteRule \. \/index\.html/);

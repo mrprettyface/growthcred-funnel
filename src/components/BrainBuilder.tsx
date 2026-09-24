@@ -378,7 +378,7 @@ export function BrainBuilder() {
           </p>
           <div className="flex gap-3">
             <a
-              href="/"
+              href="/workshop"
               className="inline-flex min-h-11 items-center rounded-full border border-cream/25 px-5 text-sm font-semibold no-underline transition hover:border-gold hover:text-gold"
             >
               The workshop

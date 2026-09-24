@@ -4,12 +4,18 @@ import { OrderContext, loadOrder, saveOrder, clearOrder, useOrder, type Order } 
 import { Layout } from "./components/Layout";
 import { ExperienceBoundary } from "./components/webinar/ExperienceBoundary";
 
-import NextClass from "./pages/NextClass";
+/* Split out of the main bundle: each is needed by one or two routes, and every
+   byte in the main chunk is paid for on every page of the site. */
+const NextClass = lazy(() => import("./pages/NextClass"));
 import { Metadata } from "./seo/Metadata";
 import { SEARCH_PAGES } from "./content/searchPages";
 import { SearchPage, NotFound } from "./pages/SearchPage";
 
-import WorkshopPage from "./pages/Workshop";
+/* The workshop's crash fallback. Lazy: the outer <Suspense> around <Routes>
+   catches it if it is ever needed. */
+const WorkshopPage = lazy(() => import("./pages/Workshop"));
+import HomeFallback from "./pages/HomeFallback";
+const Home = lazy(() => import("./pages/Home"));
 const CheckoutPage = lazy(() => import("./pages/Checkout"));
 const UpsellPage = lazy(() => import("./pages/Upsell"));
 const DownsellPage = lazy(() => import("./pages/Downsell"));
@@ -17,7 +23,7 @@ const BuildPage = lazy(() => import("./pages/Build"));
 const ThankYouPage = lazy(() => import("./pages/ThankYou"));
 const CallPage = lazy(() => import("./pages/Call"));
 
-import ContactPage from "./pages/Contact";
+const ContactPage = lazy(() => import("./pages/Contact"));
 const BrainPage = lazy(() => import("./pages/Brain"));
 
 /**
@@ -138,13 +144,32 @@ export default function App() {
           <Route path="/webinar" element={<Layout><NextClass /></Layout>} />
           <Route path="/webinar-plain" element={<Navigate to="/webinar" replace />} />
           {SEARCH_PAGES.map(page => <Route key={page.path} path={page.path} element={<Layout><SearchPage page={page} /></Layout>} />)}
-          {/* THE LANDING PAGE.
-              The scroll experience is now what growthcred.co.za serves, with the
-              original page kept as its crash fallback rather than deleted — if
-              the experience ever throws, the visitor still lands on a complete
-              page that sells and still reaches the same checkout. */}
+          {/* THE LANDING PAGE — repositioned.
+              / now sells the high-ticket strategy call (src/pages/Home.tsx).
+              HomeFallback is its crash fallback: if Home ever throws, the
+              visitor still lands on a complete page that reaches the same call.
+              The R990 workshop funnel is not deleted — it moves to /workshop
+              below, unchanged, so every old link and the whole checkout flow
+              keep working. */}
           <Route
             path="/"
+            element={
+              /* Bare: the homepage brings its own header and footer, whose only
+                 ask is the application. */
+              <Layout bare>
+                <ExperienceBoundary fallback={<HomeFallback />}>
+                  <Suspense fallback={<WebinarLoading />}>
+                    <Home />
+                  </Suspense>
+                </ExperienceBoundary>
+              </Layout>
+            }
+          />
+          {/* The workshop, moved off the homepage. Same experience, same crash
+              fallback to the plain page, same checkout. Old /workshop links now
+              land on the workshop again rather than being redirected to /. */}
+          <Route
+            path="/workshop"
             element={
               <Layout>
                 <ExperienceBoundary fallback={<WorkshopPage />}>
@@ -155,8 +180,6 @@ export default function App() {
               </Layout>
             }
           />
-          {/* Anything already pointing at /workshop keeps working. */}
-          <Route path="/workshop" element={<Navigate to="/" replace />} />
           <Route path="/checkout" element={<Layout bare><CheckoutPage /></Layout>} />
           <Route
             path="/upsell"

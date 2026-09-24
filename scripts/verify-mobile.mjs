@@ -11,7 +11,12 @@ import { execFileSync } from "node:child_process";
 import { join } from "node:path";
 
 const WEBINAR_DIR = "src/components/webinar";
-const PAGES = ["src/pages/WebinarExperience.tsx", "src/pages/WorkshopExperience.tsx"];
+const PAGES = [
+  "src/pages/WebinarExperience.tsx",
+  "src/pages/WorkshopExperience.tsx",
+  "src/pages/Home.tsx",
+  "src/pages/HomeFallback.tsx",
+];
 /** Shared components the experience pages render. Swept by the same gates. */
 const SHARED = [
   "src/components/ui.tsx",
@@ -249,6 +254,16 @@ switch (gate) {
       fail("the proof section is not gated on real entries existing");
     if (!/\{WORKSHOP_EVENT && \(/.test(page))
       fail("the date section is not gated on the event being set");
+    // The homepage publishes proof Phila supplied. Its before/after figures
+    // are benchmarks, not a measured client result, so the disclaimer must
+    // exist in the copy and render in the same section as the figures.
+    const homeData = code("src/lib/home.ts");
+    if (!/disclaimer: "Illustrative benchmarks\. Results vary by engagement\."/.test(homeData))
+      fail("home.ts: the before/after benchmarks have lost their 'Illustrative benchmarks' disclaimer");
+    const homePage = code("src/pages/Home.tsx");
+    const results = homePage.slice(homePage.indexOf('id="results"'), homePage.indexOf('id="stories"'));
+    if (!/BEFORE_AFTER\.rows\.map/.test(results) || !/BEFORE_AFTER\.disclaimer/.test(results))
+      fail("Home: the benchmark figures render without their disclaimer beside them");
     finish("G20");
     break;
   }
@@ -272,15 +287,27 @@ switch (gate) {
     const app = code("src/App.tsx");
     if (!/lazy\(\(\) => import\("\.\/pages\/WorkshopExperience"\)\)/.test(app))
       fail("App: WorkshopExperience is not lazily imported");
-    // The landing page is the experience now, but it must never be able to
-    // leave a visitor with nothing: the original page is its crash fallback.
-    const landing = app.slice(app.indexOf('path="/"'), app.indexOf('path="/checkout"'));
-    if (!/<WorkshopExperience \/>/.test(landing))
-      fail("App: / does not render the workshop experience");
-    if (!/ExperienceBoundary fallback=\{<WorkshopPage \/>\}/.test(landing))
-      fail("App: / has no fallback to the original page if the experience throws");
-    if (!/path="\/workshop" element=\{<Navigate to="\/" replace \/>\}/.test(app))
-      fail("App: /workshop no longer redirects, so old links would 404");
+    if (!/lazy\(\(\) => import\("\.\/pages\/Home"\)\)/.test(app))
+      fail("App: Home is not lazily imported");
+    // Everything between the / route and /checkout: the repositioned homepage
+    // and the workshop moved off it both live in this block.
+    const block = app.slice(app.indexOf('path="/"'), app.indexOf('path="/checkout"'));
+    // / sells the strategy call now, and must never leave a visitor with
+    // nothing: HomeFallback is its crash fallback.
+    const home = block.slice(0, block.indexOf('path="/workshop"'));
+    if (!/<Home \/>/.test(home))
+      fail("App: / does not render the strategy home page");
+    if (!/ExperienceBoundary fallback=\{<HomeFallback \/>\}/.test(home))
+      fail("App: / has no crash fallback (HomeFallback) if Home throws");
+    // The R990 workshop funnel moved to /workshop, experience + plain fallback,
+    // rendered rather than redirected so old links land on the workshop again.
+    const workshop = block.slice(block.indexOf('path="/workshop"'));
+    if (/<Navigate to="\/" replace \/>/.test(workshop))
+      fail("App: /workshop still redirects to /, so the workshop is unreachable");
+    if (!/<WorkshopExperience \/>/.test(workshop))
+      fail("App: /workshop does not render the workshop experience");
+    if (!/ExperienceBoundary fallback=\{<WorkshopPage \/>\}/.test(workshop))
+      fail("App: /workshop has no fallback to the plain page if the experience throws");
     finish("G15");
     break;
   }

@@ -12,7 +12,6 @@ ErrorDocument 404 /404.html
   RewriteCond %{HTTP_HOST} ^www\.growthcred\.co\.za$ [NC]
   RewriteRule ^ https://growthcred.co.za%{REQUEST_URI} [R=301,L,NE]
 
-  RewriteRule ^workshop/?$ / [R=301,L]
   RewriteRule ^agency/?$ /ai-automation-south-africa [R=301,L]
   RewriteRule ^(class|webinar-plain)/?$ /webinar [R=301,L]
 
@@ -38,6 +37,9 @@ ErrorDocument 404 /404.html
   Require all granted
 </Files>
 <IfModule mod_headers.c>
+  # HTTPS only, for a year. No includeSubDomains/preload: the mail and cPanel
+  # subdomains on this host are not ours to force.
+  Header always set Strict-Transport-Security "max-age=31536000"
   <FilesMatch "^(checkout|upsell|downsell|build|thank-you|brain|call|404)\.html$">
     Header set X-Robots-Tag "noindex, follow"
   </FilesMatch>

@@ -14,7 +14,7 @@ export const cn = (...parts: unknown[]) => twMerge(clsx(parts));
 type Variant = "gold" | "dark" | "outline" | "ghostLight";
 
 const VARIANTS: Record<Variant, string> = {
-  gold: "bg-gold text-midnight hover:bg-gold-soft",
+  gold: "cc-shine bg-gold text-midnight shadow-[0_10px_40px_-12px_rgba(200,160,74,0.65)] hover:bg-gold-soft",
   dark: "bg-midnight text-cream hover:bg-midnight-soft",
   outline: "bg-transparent text-midnight border border-midnight/15 hover:border-midnight",
   ghostLight: "bg-transparent text-cream border border-cream/30 hover:border-gold hover:text-gold",
@@ -62,6 +62,60 @@ export function ButtonLink({
   );
 }
 
+/**
+ * The Command Core primary ask: a gold pill with a dark arrow chip. Used by the
+ * homepage and the site header, so every page asks the same way.
+ */
+export function PillLink({
+  to,
+  children,
+  size = "lg",
+  className,
+}: {
+  to: string;
+  children: ReactNode;
+  size?: "sm" | "lg";
+  className?: string;
+}) {
+  return (
+    <Link
+      to={to}
+      className={cn(
+        "cc-shine group inline-flex items-center justify-center gap-3 rounded-full bg-gold font-body font-semibold text-midnight no-underline shadow-[0_10px_40px_-10px_rgba(200,160,74,0.7)] transition-colors hover:bg-gold-soft",
+        size === "lg" ? "min-h-14 px-8 text-base" : "min-h-11 px-5 text-sm",
+        className,
+      )}
+    >
+      {children}
+      <span
+        aria-hidden="true"
+        className="grid h-7 w-7 place-items-center rounded-full bg-midnight text-sm text-gold transition-transform group-hover:translate-x-0.5"
+      >
+        &#8599;
+      </span>
+    </Link>
+  );
+}
+
+/**
+ * Dark-band backdrop: blueprint grid plus a gold light source (gradients, no
+ * blur filter). It clips itself, so the section it sits in never needs
+ * overflow-hidden — which would silently break position:sticky inside it.
+ */
+export function DarkBackdrop({ glow = "top" }: { glow?: "top" | "bottom" }) {
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+      <div className="cc-grid absolute inset-0" />
+      <div
+        className={cn(
+          "cc-glow absolute left-1/2 h-[44rem] w-[44rem] max-w-none -translate-x-1/2",
+          glow === "top" ? "-top-[22rem]" : "-bottom-[24rem]",
+        )}
+      />
+    </div>
+  );
+}
+
 /* ---------------- Layout primitives ---------------- */
 
 export function Section({
@@ -84,8 +138,9 @@ export function Section({
       /* Lets a fixed overlay (the webinar progress rail) know whether it is
          currently sitting over a dark or a light band, and invert itself. */
       data-tone={dark ? "dark" : "light"}
-      className={cn("py-16 md:py-24", dark && "bg-midnight text-cream", className)}
+      className={cn("py-16 md:py-24", dark && "relative isolate bg-midnight text-cream", className)}
     >
+      {dark ? <DarkBackdrop /> : null}
       <div className="mx-auto w-[min(1120px,calc(100%-2.5rem))]">
         {reveal ? <Reveal>{children}</Reveal> : children}
       </div>
@@ -97,11 +152,11 @@ export function Eyebrow({ children, dark = false }: { children: ReactNode; dark?
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 font-mono text-[12px] font-medium uppercase tracking-[0.18em] md:text-[11px]",
-        dark ? "text-cream/60" : "text-muted",
+        "inline-flex items-center gap-3 font-mono text-[12px] font-medium uppercase tracking-[0.22em]",
+        dark ? "text-cream/55" : "text-muted",
       )}
     >
-      <span className="text-gold">&#8599;</span>
+      <span aria-hidden="true" className="h-px w-8 bg-gold" />
       {children}
     </span>
   );

@@ -1,5 +1,47 @@
 # Search growth operating plan
 
+## Owner actions for first-page rankings (24 September 2026)
+
+The on-site checklist is implemented and enforced by `GATES-seo-firstpage.md`. What is
+left needs Phila's accounts, DNS and relationships. In order of impact:
+
+1. **Deploy first.** Push, then cPanel → Update from Remote → Deploy HEAD. Nothing
+   below works on pages Google cannot fetch.
+2. **Google Search Console.** Add a *Domain* property for `growthcred.co.za` and
+   verify it with the DNS TXT record Google gives you (in the DNS panel of the
+   hosting provider). Submit `https://growthcred.co.za/sitemap.xml`. Then use
+   URL Inspection → Request indexing for `/`, `/stories`, and the new service
+   pages. Check the Pages report after a week for anything "Crawled – not indexed".
+3. **Bing Webmaster Tools.** Import the site from Search Console (one click) and
+   submit the same sitemap. Bing's index also feeds several AI search products.
+4. **Google Business Profile — check eligibility honestly.** Google requires
+   in-person contact with customers. The WeWork Rosebank sessions may qualify
+   you as a *service-area business* (address hidden). Do not list WeWork's
+   address as GrowthCred's own, and do not invent opening hours.
+5. **Links from real relationships** (the highest-value item on the list). Ask
+   each client and partner for one link, for example to their story:
+   MNE Waste → `/stories/mne-waste`; Demure International / Enigma Essentials →
+   `/stories/demure-international`; TaiAscend, Ncedo Afrika, Melsoft Academy,
+   MpiloTech → `/` or the relevant service page. Ask WeWork for an event or blog
+   mention of the talks (this also settles the brand sign-off). If the
+   Parliament presentation was covered anywhere, ask for a link from that page.
+6. **A few real directory profiles, not bulk listings.** Clutch and GoodFirms,
+   plus one or two South African business directories you would actually be
+   found in. Use exactly the same details everywhere: GrowthCred (Pty) Ltd ·
+   Rosebank, Johannesburg · info@growthcred.co.za · https://growthcred.co.za.
+7. **Reviews.** Once a Business Profile or Clutch profile exists, ask Sandile,
+   Macaela and TaiAscend to leave a review in their own words. Never offer
+   anything in return; Google and Clutch both prohibit incentivised reviews.
+8. **Keep publishing.** One real story or task demonstration a month, from
+   actual work with permission. Share each on LinkedIn with a link to the page.
+9. **Measure after four weeks.** Search Console → Performance, by page and by
+   country. Run PageSpeed Insights on mobile for `/` and one service page.
+   Improve the titles of pages with impressions but a weak click-through rate.
+
+Confirmed by Phila on 24 September 2026: the practices on `/data-and-security`
+(now published), that UK, US, Australia and Africa engagements run online, and
+that Macaela and Sandile are happy to be named.
+
 ## Priorities and measurement
 
 The initial audit is in INITIAL-AUDIT.md. Candidate topics below reflect relevant commercial intent, not verified high search volumes. No Search Console, paid keyword data or GA4 ID was available. Do not equate broad trending AI searches with customers ready to buy.
@@ -16,7 +58,7 @@ The initial audit is in INITIAL-AUDIT.md. Candidate topics below reflect relevan
 
 Weeks 1–2: deploy and verify crawling; connect Search Console/Bing; collect a baseline of indexed pages, branded/nonbranded impressions, clicks and qualified enquiries. Configure GA4 with consent when an ID exists. Run mobile PageSpeed after deployment and record LCP/CLS/INP field data separately from lab results.
 
-Weeks 3–4: export Search Console queries by page and South Africa; compare with Keyword Planner/Trends if available. Choose two high-intent queries with impressions and weak CTR to improve titles and introductions. Record the change date; do not change titles every day. Avoid city doorway pages for an online workshop.
+Weeks 3–4: export Search Console queries by page and South Africa; compare with Keyword Planner/Trends if available. Choose two high-intent queries with impressions and weak CTR to improve titles and introductions. Record the change date; do not change titles every day. Avoid city doorway pages for an online workshop. (24 Sep 2026: market pages were added at the owner's request, each with distinct content; `verify-seo-onpage.mjs` fails if any two share more than 25% of their text.)
 
 Weeks 5–8: publish one consented case study and two task demonstrations based on actual work. Capture baseline task time, sample size, dates, workflow, tools, review steps and the measured result. Obtain written client approval for names/quotes/screenshots. Until then use clearly labelled examples. Publish one useful video with an accurate transcript and link the relevant guide.
 

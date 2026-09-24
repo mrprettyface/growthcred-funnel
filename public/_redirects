@@ -1,6 +1,5 @@
 # scripts/prerender.mjs generates explicit public route rules in dist/_redirects.
 # No wildcard 200 fallback: unknown URLs must remain 404s.
-/workshop / 301
 /agency /ai-automation-south-africa 301
 /class /webinar 301
 /webinar-plain /webinar 301

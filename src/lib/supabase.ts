@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { postToGoogleForm } from "./forms";
 import { refCode, activeReferrer } from "./referral";
 
@@ -8,10 +8,32 @@ const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 /** True only once the .env keys are present. Mirrors the Fumba pattern. */
 export const isSupabaseConfigured = Boolean(url && anonKey);
 
-/** Null until configured, so the UI shows a friendly message instead of crashing. */
-export const supabase = isSupabaseConfigured
-  ? createClient(url as string, anonKey as string)
-  : null;
+/**
+ * The client is loaded on first use, not with the page. supabase-js is only
+ * needed when someone submits a form, and bundling it eagerly put it on the
+ * critical path of every page on the site (speed is a ranking signal). A failed
+ * download resets, so the next submit can try again.
+ */
+let clientPromise: Promise<SupabaseClient> | null = null;
+function loadClient(): Promise<SupabaseClient> {
+  clientPromise ??= import("@supabase/supabase-js")
+    .then(({ createClient }) => createClient(url as string, anonKey as string))
+    .catch((e) => {
+      clientPromise = null;
+      throw e;
+    });
+  return clientPromise;
+}
+
+/** The client, or the reason there isn't one — never a throw. */
+async function client(): Promise<{ db: SupabaseClient } | { error: string }> {
+  if (!isSupabaseConfigured) return { error: "not_configured" };
+  try {
+    return { db: await loadClient() };
+  } catch {
+    return { error: "network_error" };
+  }
+}
 
 export type Lead = {
   email: string;
@@ -33,7 +55,9 @@ export type OrderRow = {
  * RLS allows anon INSERT only, so a failure here is never fatal to the UX.
  */
 export async function captureLead(lead: Lead): Promise<{ ok: boolean; error?: string }> {
-  if (!supabase) return { ok: false, error: "not_configured" };
+  const c = await client();
+  if ("error" in c) return { ok: false, error: c.error };
+  const supabase = c.db;
   const { error } = await supabase.from("leads").insert(lead);
   return error ? { ok: false, error: error.message } : { ok: true };
 }
@@ -44,7 +68,9 @@ export async function captureLead(lead: Lead): Promise<{ ok: boolean; error?: st
  * We generate the reference client-side so we never need a SELECT policy.
  */
 export async function createOrder(order: OrderRow): Promise<{ ok: boolean; error?: string }> {
-  if (!supabase) return { ok: false, error: "not_configured" };
+  const c = await client();
+  if ("error" in c) return { ok: false, error: c.error };
+  const supabase = c.db;
   const { error } = await supabase.from("orders").insert(order);
   return error ? { ok: false, error: error.message } : { ok: true };
 }
@@ -60,7 +86,9 @@ export async function recordPayment(
   reference: string,
   offer: string,
 ): Promise<{ ok: boolean; error?: string }> {
-  if (!supabase) return { ok: false, error: "not_configured" };
+  const c = await client();
+  if ("error" in c) return { ok: false, error: c.error };
+  const supabase = c.db;
   const { error } = await supabase
     .from("upsell_events")
     .insert({ reference, offer, accepted: true });
@@ -88,7 +116,9 @@ export type Application = {
 export async function submitApplication(
   app: Application,
 ): Promise<{ ok: boolean; error?: string }> {
-  if (!supabase) return { ok: false, error: "not_configured" };
+  const c = await client();
+  if ("error" in c) return { ok: false, error: c.error };
+  const supabase = c.db;
   const { error } = await supabase.from("applications").insert(app);
   return error ? { ok: false, error: error.message } : { ok: true };
 }
@@ -112,7 +142,9 @@ export type BuildRequest = {
 export async function submitBuildRequest(
   req: BuildRequest,
 ): Promise<{ ok: boolean; error?: string }> {
-  if (!supabase) return { ok: false, error: "not_configured" };
+  const c = await client();
+  if ("error" in c) return { ok: false, error: c.error };
+  const supabase = c.db;
   const { error } = await supabase.from("build_requests").insert(req);
   return error ? { ok: false, error: error.message } : { ok: true };
 }
@@ -179,11 +211,15 @@ export async function registerForWebinar(
     [WEBINAR_SEAT_FIELDS.email]: reg.email,
   });
 
-  const supaErr: Promise<string | null> = supabase
-    ? Promise.resolve(
-        supabase.from("webinar_registrations").insert(row).abortSignal(AbortSignal.timeout(12000)),
-      ).then(({ error }) => error?.message ?? null).catch(() => "network_error")
-    : Promise.resolve("not_configured");
+  const supaErr: Promise<string | null> = client()
+    .then((c) =>
+      "error" in c
+        ? c.error
+        : Promise.resolve(
+            c.db.from("webinar_registrations").insert(row).abortSignal(AbortSignal.timeout(12000)),
+          ).then(({ error }) => error?.message ?? null),
+    )
+    .catch(() => "network_error");
 
   const [supaResult, gformResult] = await Promise.all([supaErr, gform]);
 
@@ -217,7 +253,9 @@ export type MagnetSignup = {
 export async function captureMagnetSignup(
   signup: MagnetSignup,
 ): Promise<{ ok: boolean; error?: string }> {
-  if (!supabase) return { ok: false, error: "not_configured" };
+  const c = await client();
+  if ("error" in c) return { ok: false, error: c.error };
+  const supabase = c.db;
   const { error } = await supabase.from("magnet_signups").insert(signup);
   return error ? { ok: false, error: error.message } : { ok: true };
 }

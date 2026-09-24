@@ -2,11 +2,20 @@
   "routes": [
     {
       "path": "/",
+      "title": "The Command Core: Founder-Grade Operations | GrowthCred SA",
+      "description": "20–40% of your time drain, gone. GrowthCred deploys founder-grade AI operations across every department of owner-led businesses. Apply to work with us.",
+      "index": true,
+      "modified": "2026-09-20",
+      "file": "index.html",
+      "prerendered": true
+    },
+    {
+      "path": "/workshop",
       "title": "Online AI Workshop for Business Owners | GrowthCred SA",
       "description": "Build practical AI workflows in GrowthCred’s one-day online workshop for South African business owners. R990. Session details confirmed on registration.",
       "index": true,
       "modified": "2026-09-20",
-      "file": "index.html",
+      "file": "workshop.html",
       "prerendered": true
     },
     {
@@ -20,7 +29,7 @@
     },
     {
       "path": "/ai-automation-south-africa",
-      "title": "AI Automation Services South Africa | GrowthCred",
+      "title": "AI Automation Services in South Africa | GrowthCred SA",
       "description": "Discuss practical AI automation for your South African business. Scope proposals, follow-ups and recurring admin with GrowthCred in Johannesburg.",
       "index": true,
       "modified": "2026-09-20",
@@ -29,7 +38,7 @@
     },
     {
       "path": "/about",
-      "title": "About GrowthCred & Phila Ngwenya | Johannesburg",
+      "title": "About GrowthCred and Founder Phila Ngwenya | Johannesburg",
       "description": "Meet Phila Ngwenya, founder of GrowthCred. Practical AI workshops and business workflow support from Rosebank, Johannesburg.",
       "index": true,
       "modified": "2026-09-20",
@@ -56,7 +65,7 @@
     },
     {
       "path": "/guides/business-brain",
-      "title": "Give AI Your Business Context: A Practical Guide",
+      "title": "Give AI Your Business Context: A Practical Brain Guide",
       "description": "Build a clear business context document for AI: services, customers, voice, approved facts and review rules. Includes a practical starting template.",
       "index": true,
       "modified": "2026-09-20",
@@ -65,7 +74,7 @@
     },
     {
       "path": "/guides/ai-proposals-and-follow-ups",
-      "title": "Use AI for Proposals and Follow-Ups | GrowthCred",
+      "title": "How to Use AI for Proposals and Follow-Ups | GrowthCred",
       "description": "A practical proposal and follow-up workflow: prepare context, draft, check facts and approve before sending. Includes an illustrative briefing example.",
       "index": true,
       "modified": "2026-09-20",
@@ -91,6 +100,159 @@
       "prerendered": true
     },
     {
+      "path": "/stories",
+      "title": "Client Stories: AI Systems for SA Businesses | GrowthCred",
+      "description": "How South African owner-led businesses — from waste management to beauty and cosmetics — built AI systems from their own knowledge with GrowthCred.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "stories.html",
+      "prerendered": true
+    },
+    {
+      "path": "/stories/mne-waste",
+      "title": "MNE Waste: An Operator's Brain Built in One Day | GrowthCred",
+      "description": "Sandile runs MNE Waste, a South African waste management company. He built his Operator's Brain in one day at GrowthCred's first Operator Intensive.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "stories/mne-waste.html",
+      "prerendered": true
+    },
+    {
+      "path": "/stories/demure-international",
+      "title": "Demure International: Better AI in One Session | GrowthCred",
+      "description": "Macaela Oor runs Demure International (Enigma Essentials), a beauty and cosmetics business. After one GrowthCred session, her AI started working better.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "stories/demure-international.html",
+      "prerendered": true
+    },
+    {
+      "path": "/stories/operators-intensive-wework-rosebank",
+      "title": "Operator Intensive Sold Out at WeWork Rosebank | GrowthCred",
+      "description": "GrowthCred's first Operator Intensive sold out all five seats at WeWork Rosebank. Owners whose businesses depended on them left with working AI systems.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "stories/operators-intensive-wework-rosebank.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-proposal-automation",
+      "title": "AI Proposal Automation for Business | GrowthCred SA",
+      "description": "Cut proposal turnaround with AI drafted from your own scope, pricing and voice, with every figure checked by a person. Founder-led from Johannesburg.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "ai-proposal-automation.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-follow-up-automation",
+      "title": "AI Lead Follow-Up Automation for SMEs | GrowthCred SA",
+      "description": "Stop losing deals to slow replies. We build AI follow-up drafting from your own knowledge, with a person approving what goes out. Founder-led in Johannesburg.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "ai-follow-up-automation.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-admin-automation",
+      "title": "AI Admin Automation for Small Businesses | GrowthCred SA",
+      "description": "An alternative to outsourcing admin: AI systems built from your own business knowledge that take on repetitive admin, with people reviewing the output.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "ai-admin-automation.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-for-waste-management",
+      "title": "AI for Waste Management Companies in SA | GrowthCred",
+      "description": "How waste management companies use AI built from their own knowledge for compliance paperwork, contracts and admin. See how MNE Waste built its system.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "ai-for-waste-management.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-for-beauty-and-cosmetics",
+      "title": "AI for Beauty and Cosmetics Brands | GrowthCred SA",
+      "description": "Beauty and cosmetics brands use AI built from their own products and voice for content, bookings and customer questions. See Demure International's story.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "ai-for-beauty-and-cosmetics.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-automation-johannesburg",
+      "title": "AI Automation in Johannesburg | GrowthCred, Rosebank",
+      "description": "Founder-led AI automation and training from Rosebank, Johannesburg. The first Operator Intensive sold out at WeWork Rosebank. Apply to work with us.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "ai-automation-johannesburg.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-automation-uk",
+      "title": "AI Automation Services for UK Businesses | GrowthCred",
+      "description": "Founder-led AI automation for owner-led UK businesses, delivered online from Johannesburg — only one to two hours ahead of UK time. Apply to work with us.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "ai-automation-uk.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-automation-united-states",
+      "title": "AI Automation Services for US Businesses | GrowthCred",
+      "description": "AI systems built from your own knowledge for owner-led US businesses, delivered online. Working hours overlap with the US East Coast every morning.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "ai-automation-united-states.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-automation-australia",
+      "title": "AI Automation for Australian Businesses | GrowthCred",
+      "description": "Founder-led AI automation for owner-led Australian businesses, delivered online. Your afternoon is our morning, so live sessions fit your working day.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "ai-automation-australia.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-automation-africa",
+      "title": "AI Automation for Businesses Across Africa | GrowthCred",
+      "description": "Founder-led AI automation for owner-led businesses across Africa, from Johannesburg. Most African business hubs sit within one or two hours of our time zone.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "ai-automation-africa.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/how-we-work-first-30-days",
+      "title": "Working With GrowthCred: Your First 30 Days Explained",
+      "description": "What happens after you apply: the call, the audit, the first result in 14 days and monthly tracking. How a GrowthCred AI engagement runs from day one.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "guides/how-we-work-first-30-days.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/admin-assistant-vs-ai-automation",
+      "title": "Hire an Admin Assistant or Automate With AI? A Guide",
+      "description": "Should you hire an admin assistant, outsource admin or automate it with AI? An honest comparison of cost, control and fit for owner-led businesses.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "guides/admin-assistant-vs-ai-automation.html",
+      "prerendered": true
+    },
+    {
+      "path": "/data-and-security",
+      "title": "Data Protection and Security at GrowthCred | POPIA",
+      "description": "How GrowthCred handles your information: POPIA, encryption, write-only website forms, cross-border transfers, and human review in every AI system we build.",
+      "index": true,
+      "modified": "2026-09-24",
+      "file": "data-and-security.html",
+      "prerendered": true
+    },
+    {
       "path": "/tools/admin-time-calculator",
       "title": "Admin Time Cost Calculator for Business | GrowthCred",
       "description": "Estimate the annual time value of repetitive business admin. Explore hours and hourly value with transparent assumptions, not guaranteed AI savings.",
@@ -101,7 +263,7 @@
     },
     {
       "path": "/contact",
-      "title": "Contact GrowthCred | AI Training & Automation",
+      "title": "Contact GrowthCred | AI Training & Automation, Johannesburg",
       "description": "Contact GrowthCred in Johannesburg about online AI workshops, team training requests or business automation. Email and WhatsApp contact options.",
       "index": true,
       "modified": "2026-09-20",
@@ -119,8 +281,8 @@
     },
     {
       "path": "/playbook",
-      "title": "Free AI Business Resources | GrowthCred",
-      "description": "Read GrowthCred’s free practical AI guides and use the Business Brain builder. Downloadable packs are being prepared.",
+      "title": "Free AI Business Resources and Guides | GrowthCred SA",
+      "description": "Read GrowthCred’s free practical AI guides for business owners and use the Business Brain builder. Downloadable packs are being prepared.",
       "index": true,
       "modified": "2026-09-20",
       "file": "playbook.html",
@@ -216,7 +378,6 @@
     }
   ],
   "aliases": {
-    "/workshop": "/",
     "/agency": "/ai-automation-south-africa",
     "/webinar-plain": "/webinar",
     "/class": "/webinar"

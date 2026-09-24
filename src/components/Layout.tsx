@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { ButtonLink, cn } from "./ui";
+import { PillLink, cn } from "./ui";
 import { AnalyticsChoice } from "./AnalyticsChoice";
 
 /** Brand wordmark. Gold "Cred" + gold full stop, matching the current site. */
@@ -21,18 +21,25 @@ export function Brand({ dark = true }: { dark?: boolean }) {
 
 const NAV = [
   { to: "/ai-training-south-africa", label: "AI training" },
-  { to: "/", label: "The workshop" },
+  { to: "/workshop", label: "The workshop" },
   { to: "/ai-automation-south-africa", label: "Automation" },
+  { to: "/stories", label: "Stories" },
   { to: "/resources", label: "Guides" },
 ];
 
-export function Header() {
-  const [menuOpen,setMenuOpen]=useState(false);
+/**
+ * The site header. Every page shares the nav; the button is the page's one ask
+ * — "Register" for the workshop funnel by default, "Apply" on the homepage.
+ */
+export function Header({ cta = { to: "/checkout", label: "Register" } }: { cta?: { to: string; label: string } }) {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
-    <div className="sticky top-0 z-50 bg-paper/80 py-3 backdrop-blur">
-      <div className="mx-auto flex w-[min(1120px,calc(100%-2.5rem))] items-center justify-between gap-5 rounded-full bg-midnight py-2.5 pl-6 pr-3 text-cream">
+    /* Solid, not backdrop-blur: a blurred sticky bar re-rasterises on every
+       scroll frame, which the mobile rules in STATUS.md forbid. */
+    <header className="sticky top-0 z-50 border-b border-cream/10 bg-midnight/95 text-cream">
+      <div className="mx-auto flex h-16 w-[min(1120px,calc(100%-2.5rem))] items-center justify-between gap-5">
         <Brand />
-        <nav className="hidden items-center gap-7 md:flex" aria-label="Main">
+        <nav className="hidden items-center gap-8 md:flex" aria-label="Main">
           {NAV.map((item) => (
             <NavLink
               key={item.to}
@@ -40,8 +47,8 @@ export function Header() {
               end={item.to === "/"}
               className={({ isActive }) =>
                 cn(
-                  "text-[13px] font-medium no-underline transition",
-                  isActive ? "text-gold" : "text-cream/80 hover:text-gold",
+                  "font-mono text-[12px] uppercase tracking-[0.16em] no-underline transition-colors",
+                  isActive ? "text-gold" : "text-cream/65 hover:text-gold",
                 )
               }
             >
@@ -49,23 +56,101 @@ export function Header() {
             </NavLink>
           ))}
         </nav>
-        <button aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={()=>setMenuOpen(!menuOpen)} className="min-h-11 px-2 text-sm md:hidden">Menu</button>
-        <ButtonLink to="/checkout" className="min-h-10 px-4 text-[13px]">
-          Register <span aria-hidden="true">&#8599;</span>
-        </ButtonLink>
+        <div className="flex items-center gap-2">
+          <button
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="min-h-11 px-2 font-mono text-[12px] uppercase tracking-[0.16em] text-cream/80 md:hidden"
+          >
+            Menu
+          </button>
+          <PillLink to={cta.to} size="sm">
+            {cta.label}
+          </PillLink>
+        </div>
       </div>
-      {menuOpen && <nav id="mobile-navigation" aria-label="Mobile navigation" className="mx-5 mt-3 rounded-2xl bg-midnight p-4 text-cream md:hidden">{[...NAV,{to:"/webinar",label:"Free online class"},{to:"/contact",label:"Contact"}].map(item=><Link key={item.to} to={item.to} onClick={()=>setMenuOpen(false)} className="block min-h-11 p-3 text-cream no-underline">{item.label}</Link>)}</nav>}
-    </div>
+      {menuOpen && (
+        <nav
+          id="mobile-navigation"
+          aria-label="Mobile navigation"
+          className="border-t border-cream/10 bg-midnight px-5 pb-4 pt-2 md:hidden"
+        >
+          {[...NAV, { to: "/webinar", label: "Free online class" }, { to: "/contact", label: "Contact" }].map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              onClick={() => setMenuOpen(false)}
+              className="flex min-h-12 items-center border-b border-cream/10 font-mono text-[12px] uppercase tracking-[0.16em] text-cream no-underline last:border-b-0"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+      )}
+    </header>
   );
 }
+
+/**
+ * The footer is the site map a person can read: every service, industry,
+ * market and article is one click from every page. Internal links are how
+ * search engines learn what each page is about and how they relate.
+ */
+const FOOTER: { title: string; links: [string, string][] }[] = [
+  {
+    title: "Services",
+    links: [
+      ["/", "The Command Core"],
+      ["/ai-automation-south-africa", "AI automation"],
+      ["/ai-proposal-automation", "Proposal automation"],
+      ["/ai-follow-up-automation", "Follow-up automation"],
+      ["/ai-admin-automation", "Admin automation"],
+      ["/ai-training-south-africa", "AI training"],
+      ["/workshop", "The one-day workshop"],
+      ["/webinar", "Free online class"],
+    ],
+  },
+  {
+    title: "Industries",
+    links: [
+      ["/ai-for-waste-management", "Waste management"],
+      ["/ai-for-beauty-and-cosmetics", "Beauty & cosmetics"],
+    ],
+  },
+  {
+    title: "Where we work",
+    links: [
+      ["/ai-automation-johannesburg", "Johannesburg"],
+      ["/ai-automation-south-africa", "South Africa"],
+      ["/ai-automation-uk", "United Kingdom"],
+      ["/ai-automation-united-states", "United States"],
+      ["/ai-automation-australia", "Australia"],
+      ["/ai-automation-africa", "Africa"],
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      ["/about", "About Phila"],
+      ["/stories", "Client stories"],
+      ["/guides/how-we-work-first-30-days", "How we work"],
+      ["/resources", "AI guides"],
+      ["/tools/admin-time-calculator", "Admin time calculator"],
+      ["/brain", "Business Brain builder"],
+      ["/data-and-security", "Data & security"],
+      ["/contact", "Contact"],
+    ],
+  },
+];
 
 export function Footer() {
   return (
     <footer className="mx-auto w-[min(1120px,calc(100%-2.5rem))] py-12">
-      <div className="flex flex-wrap items-end justify-between gap-6 border-t border-midnight/10 pt-7">
+      <div className="flex flex-wrap items-start justify-between gap-10 border-t border-midnight/10 pt-7">
         <div>
           <Brand dark={false} />
-          <p className="mt-2.5 font-mono text-[11px] leading-relaxed text-muted">
+          <p className="mt-2.5 font-mono text-[12px] leading-relaxed text-muted">
             GrowthCred (Pty) Ltd &middot; Reg. 2026/229279/07
             <br />
             Rosebank, Johannesburg &middot; &copy; 2026
@@ -97,38 +182,33 @@ export function Footer() {
             </a>
           </div>
         </div>
-        <nav className="flex max-w-xl flex-wrap gap-5 font-mono text-xs" aria-label="Footer">
-          <Link to="/webinar" className="text-midnight no-underline hover:text-gold">
-            Free class
-          </Link>
-          <Link to="/ai-automation-south-africa" className="text-midnight no-underline hover:text-gold">
-            Done for you
-          </Link>
-          <Link to="/about" className="text-midnight">About Phila &amp; GrowthCred</Link>
-          <Link to="/resources" className="text-midnight">AI guides</Link>
-          <Link to="/ai-training-south-africa" className="text-midnight">AI training</Link>
-          <Link to="/contact" className="text-midnight no-underline hover:text-gold">
-            Contact
-          </Link>
-          <Link to="/brain" className="text-midnight no-underline hover:text-gold">
-            Free tool: build your AI Business Brain
-          </Link>
-          <Link to="/terms" className="text-midnight no-underline hover:text-gold">
-            Terms
-          </Link>
-          <Link to="/privacy" className="text-midnight no-underline hover:text-gold">
-            Privacy
-          </Link>
-          <Link to="/refunds" className="text-midnight no-underline hover:text-gold">
-            Refunds
-          </Link>
-          <a
-            href="mailto:info@growthcred.co.za"
-            className="text-midnight no-underline hover:text-gold"
-          >
-            info@growthcred.co.za
-          </a>
+        <nav aria-label="Footer" className="grid w-full max-w-3xl grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-4">
+          {FOOTER.map((col) => (
+            <div key={col.title}>
+              <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted">{col.title}</p>
+              <ul className="mt-4 space-y-1">
+                {col.links.map(([to, label]) => (
+                  <li key={to}>
+                    <Link
+                      to={to}
+                      className="inline-flex min-h-9 items-center text-sm text-midnight no-underline hover:text-gold"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </nav>
+      </div>
+      <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-midnight/10 pt-6 font-mono text-[12px] uppercase tracking-[0.14em]">
+        <a href="mailto:info@growthcred.co.za" className="text-midnight no-underline hover:text-gold">
+          info@growthcred.co.za
+        </a>
+        <Link to="/terms" className="text-midnight no-underline hover:text-gold">Terms</Link>
+        <Link to="/privacy" className="text-midnight no-underline hover:text-gold">Privacy</Link>
+        <Link to="/refunds" className="text-midnight no-underline hover:text-gold">Refunds</Link>
       </div>
       <AnalyticsChoice />
     </footer>

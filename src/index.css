@@ -178,3 +178,190 @@
     transition-duration: 0.001ms !important;
   }
 }
+
+/* ============================================================
+   The Command Core — the homepage (/).
+
+   Motion is decoration. Every animation below sits inside
+   prefers-reduced-motion: no-preference, moves only transform or opacity,
+   and the un-animated state is the complete, readable page. Light comes from
+   gradients, never from a blur filter (see static-blur-only, G13).
+   ============================================================ */
+
+/* Blueprint grid behind dark bands, faded out towards the edges. */
+.cc-grid {
+  background-image:
+    linear-gradient(to right, rgb(232 224 208 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(232 224 208 / 0.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 25%, transparent 78%);
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, #000 25%, transparent 78%);
+}
+
+/* A gold light source, as a gradient. */
+.cc-glow {
+  background: radial-gradient(closest-side, rgb(200 160 74 / 0.3), rgb(200 160 74 / 0.08) 55%, transparent);
+}
+
+/* Burnished gold type. Plain gold wherever background-clip:text is missing,
+   so the words can never render transparent. */
+.cc-gold-text {
+  color: var(--color-gold);
+}
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .cc-gold-text {
+    background-image: linear-gradient(100deg, #f3d995 0%, #c8a04a 42%, #ecce82 68%, #b38a37 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* "Live" status dot. */
+.cc-pulse {
+  position: relative;
+}
+.cc-pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0;
+}
+
+/* Proof strip. Static and wrapped by default; a seamless loop only where
+   motion is welcome. Each group carries its own trailing gap so -50% lands
+   exactly on the seam. */
+.cc-marquee-track {
+  display: flex;
+  justify-content: center;
+}
+.cc-marquee-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  column-gap: 3.5rem;
+  row-gap: 1.25rem;
+}
+.cc-marquee-dup {
+  display: none;
+}
+
+/* A bar filling to its value as it scrolls in. Full width is the resting
+   state, so an unsupported browser simply shows the finished chart. */
+.cc-bar {
+  transform-origin: left center;
+}
+
+/* Card lift. Named properties only — never transition-all. */
+.cc-card {
+  transition-property: transform, border-color, background-color, box-shadow;
+  transition-duration: 0.35s;
+  transition-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.cc-card:hover {
+  transform: translateY(-4px);
+}
+
+/* A light sweep across the primary button on hover. */
+.cc-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.cc-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.5) 50%, transparent 70%);
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cc-pulse::after {
+    animation: ccPulse 2.4s cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
+  }
+  .cc-marquee {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+  .cc-marquee-track {
+    width: max-content;
+    justify-content: flex-start;
+    animation: ccMarquee 42s linear infinite;
+  }
+  .cc-marquee-group {
+    flex-wrap: nowrap;
+    padding-right: 3.5rem;
+  }
+  .cc-marquee-dup {
+    display: flex;
+  }
+  .cc-marquee:hover .cc-marquee-track {
+    animation-play-state: paused;
+  }
+  .cc-spin {
+    animation: ccSpin 32s linear infinite;
+  }
+  .cc-shine::after {
+    transition: transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .cc-shine:hover::after {
+    transform: translateX(130%);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .cc-bar {
+      animation: ccBar linear both;
+      animation-timeline: view();
+      animation-range: entry 15% cover 45%;
+    }
+  }
+}
+
+@keyframes ccPulse {
+  from {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+@keyframes ccMarquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes ccSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ccBar {
+  from {
+    transform: scaleX(0.03);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Every headline accent on the site ("<h1>… <span class="text-gold">…</span>")
+   gets the same burnished gold as the homepage. Direct child spans only, so an
+   icon inside a gold span elsewhere is never made transparent. */
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  :is(h1, h2) > span.text-gold {
+    background-image: linear-gradient(100deg, #f3d995 0%, #c8a04a 42%, #ecce82 68%, #b38a37 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}

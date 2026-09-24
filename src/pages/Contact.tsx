@@ -43,7 +43,7 @@ export default function ContactPage() {
             className="rounded-2xl border border-midnight/10 bg-white p-6 no-underline transition hover:border-gold md:p-8"
           >
             <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">Fastest</p>
-            <h3 className="mt-2 text-xl text-midnight">WhatsApp {WHATSAPP_DISPLAY}</h3>
+            <h2 className="mt-2 text-xl text-midnight">WhatsApp {WHATSAPP_DISPLAY}</h2>
             <p className="mt-3 text-ink">
               Good for quick questions and anything urgent. Usually answered the same working day.
             </p>
@@ -58,7 +58,7 @@ export default function ContactPage() {
             <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
               Prefer email?
             </p>
-            <h3 className="mt-2 text-xl text-midnight">info@growthcred.co.za</h3>
+            <h2 className="mt-2 text-xl text-midnight">info@growthcred.co.za</h2>
             <p className="mt-3 text-ink">
               Write to us directly and it lands in the same inbox — you will still get a reply within
               one business day.

@@ -70,9 +70,9 @@ export function ContactForm({ id, className }: { id?: string; className?: string
         <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-gold">
           Message received
         </p>
-        <h3 className="mt-3 text-2xl text-midnight">
+        <h2 className="mt-3 text-2xl text-midnight">
           It is with us, and it is not going anywhere.
-        </h3>
+        </h2>
         <p className="mt-4 text-ink">
           We have received your message and will respond using the details you provided.
           You can also reach us directly if your question is urgent.
@@ -94,7 +94,7 @@ export function ContactForm({ id, className }: { id?: string; className?: string
 
   return (
     <div id={id} className={shell}>
-      <h3 className="text-xl text-midnight md:text-2xl">Send us a message</h3>
+      <h2 className="text-xl text-midnight md:text-2xl">Send us a message</h2>
       <p className="mt-2 font-mono text-[12px] leading-relaxed text-muted">
         Send your question, or use the direct WhatsApp and email options below.
       </p>

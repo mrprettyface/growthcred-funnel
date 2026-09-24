@@ -35,9 +35,11 @@ export function CtaBand({
       <div className="mx-auto w-[min(1120px,calc(100%-2.5rem))]">
         <div
           className={cn(
-            "flex flex-col items-stretch gap-5 rounded-2xl border px-5 py-6",
+            "flex flex-col items-stretch gap-5 rounded-3xl border px-5 py-6",
             "md:flex-row md:items-center md:justify-between md:gap-6 md:px-9 md:py-7",
-            dark ? "border-cream/15 bg-midnight-soft" : "border-midnight/10 bg-white",
+            dark
+              ? "border-gold/25 bg-midnight-soft shadow-[0_30px_80px_-40px_rgba(0,0,0,0.8)]"
+              : "border-midnight/10 bg-white shadow-[0_30px_80px_-40px_rgba(26,26,36,0.35)]",
           )}
         >
           <div>

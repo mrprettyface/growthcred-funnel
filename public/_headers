@@ -9,3 +9,7 @@
 # Vite fingerprints every filename under /assets, so these can never go stale.
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+# HTTPS only, for a year. Matches the Apache rule; no includeSubDomains/preload.
+/*
+  Strict-Transport-Security: max-age=31536000
