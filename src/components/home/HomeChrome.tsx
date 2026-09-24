@@ -27,7 +27,7 @@ export function ApplyButton({
 }
 
 export function HomeHeader() {
-  return <Header cta={{ to: APPLY_HREF, label: "Apply" }} />;
+  return <Header cta={{ to: APPLY_HREF, label: "Apply" }} tone="light" />;
 }
 
 export function HomeFooter() {

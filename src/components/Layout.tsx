@@ -31,14 +31,27 @@ const NAV = [
  * The site header. Every page shares the nav; the button is the page's one ask
  * — "Register" for the workshop funnel by default, "Apply" on the homepage.
  */
-export function Header({ cta = { to: "/checkout", label: "Register" } }: { cta?: { to: string; label: string } }) {
+export function Header({
+  cta = { to: "/checkout", label: "Register" },
+  tone = "dark",
+}: {
+  cta?: { to: string; label: string };
+  /** "light" over the homepage's white hero; dark everywhere else. */
+  tone?: "dark" | "light";
+}) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const light = tone === "light";
   return (
     /* Solid, not backdrop-blur: a blurred sticky bar re-rasterises on every
        scroll frame, which the mobile rules in STATUS.md forbid. */
-    <header className="sticky top-0 z-50 border-b border-cream/10 bg-midnight/95 text-cream">
+    <header
+      className={cn(
+        "sticky top-0 z-50 border-b",
+        light ? "border-midnight/10 bg-paper/95 text-midnight" : "border-cream/10 bg-midnight/95 text-cream",
+      )}
+    >
       <div className="mx-auto flex h-16 w-[min(1120px,calc(100%-2.5rem))] items-center justify-between gap-5">
-        <Brand />
+        <Brand dark={!light} />
         <nav className="hidden items-center gap-8 md:flex" aria-label="Main">
           {NAV.map((item) => (
             <NavLink
@@ -48,7 +61,7 @@ export function Header({ cta = { to: "/checkout", label: "Register" } }: { cta?:
               className={({ isActive }) =>
                 cn(
                   "font-mono text-[12px] uppercase tracking-[0.16em] no-underline transition-colors",
-                  isActive ? "text-gold" : "text-cream/65 hover:text-gold",
+                  isActive ? "text-gold" : light ? "text-midnight/70 hover:text-gold" : "text-cream/65 hover:text-gold",
                 )
               }
             >
@@ -61,7 +74,10 @@ export function Header({ cta = { to: "/checkout", label: "Register" } }: { cta?:
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
             onClick={() => setMenuOpen(!menuOpen)}
-            className="min-h-11 px-2 font-mono text-[12px] uppercase tracking-[0.16em] text-cream/80 md:hidden"
+            className={cn(
+              "min-h-11 px-2 font-mono text-[12px] uppercase tracking-[0.16em] md:hidden",
+              light ? "text-midnight/80" : "text-cream/80",
+            )}
           >
             Menu
           </button>
@@ -74,14 +90,20 @@ export function Header({ cta = { to: "/checkout", label: "Register" } }: { cta?:
         <nav
           id="mobile-navigation"
           aria-label="Mobile navigation"
-          className="border-t border-cream/10 bg-midnight px-5 pb-4 pt-2 md:hidden"
+          className={cn(
+            "border-t px-5 pb-4 pt-2 md:hidden",
+            light ? "border-midnight/10 bg-paper" : "border-cream/10 bg-midnight",
+          )}
         >
           {[...NAV, { to: "/webinar", label: "Free online class" }, { to: "/contact", label: "Contact" }].map((item) => (
             <Link
               key={item.to}
               to={item.to}
               onClick={() => setMenuOpen(false)}
-              className="flex min-h-12 items-center border-b border-cream/10 font-mono text-[12px] uppercase tracking-[0.16em] text-cream no-underline last:border-b-0"
+              className={cn(
+                "flex min-h-12 items-center border-b font-mono text-[12px] uppercase tracking-[0.16em] no-underline last:border-b-0",
+                light ? "border-midnight/10 text-midnight" : "border-cream/10 text-cream",
+              )}
             >
               {item.label}
             </Link>

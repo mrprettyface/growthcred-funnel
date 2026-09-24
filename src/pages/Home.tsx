@@ -5,6 +5,7 @@ import { DarkBackdrop, Faq } from "../components/ui";
 import { PageScene } from "../components/PageScenes";
 import { SEARCH_PAGES } from "../content/searchPages";
 import { HomeScene, STAGE_SCENES, METHOD_SCENES } from "../components/HomeScenes";
+import { HeroGraph } from "../components/home/HeroGraph";
 import { ApplyButton, HomeFooter, HomeHeader } from "../components/home/HomeChrome";
 import { track } from "../lib/analytics";
 import {
@@ -125,34 +126,40 @@ export default function Home() {
   return (
     <>
       <HomeHeader />
-      {/* ---------- 1. Hero + proof strip ---------- */}
-      <section id="hero" data-tone="dark" className="relative isolate overflow-hidden bg-midnight text-cream">
-        <DarkBackdrop />
-        <div className={`${WRAP} pb-14 pt-16 text-center md:pb-20 md:pt-28`}>
-          <p className="inline-flex items-center gap-3 rounded-full border border-gold/30 bg-gold/[0.07] px-4 py-2 font-mono text-[12px] uppercase tracking-[0.24em] text-gold">
-            <span aria-hidden="true" className="cc-pulse h-2 w-2 rounded-full bg-gold" />
-            {HERO.eyebrow}
-          </p>
-          <h1 className="mx-auto mt-8 max-w-[13ch] text-[length:clamp(2.75rem,8.4vw,6.75rem)] leading-[0.94] tracking-[-0.055em] text-cream">
-            {HERO.headlineLead} <span className="cc-gold-text">{HERO.headlineAccent}</span>
+      {/* ---------- 1. Hero + proof strip ----------
+          Light, left-aligned, with the graph climbing behind the headline to a
+          gold point: the time drain going the other way. */}
+      <section id="hero" data-tone="light" className="relative isolate overflow-hidden bg-paper text-midnight">
+        {/* The graph belongs to the headline block, not the company strip. */}
+        <div className="relative isolate">
+        <HeroGraph />
+        <div className={`${WRAP} pb-16 pt-16 md:pb-24 md:pt-28`}>
+          <h1 className="max-w-[12ch] text-[length:clamp(2.75rem,8vw,6.5rem)] leading-[0.98] tracking-[-0.055em] text-midnight">
+            {HERO.headlineLead} <span className="cc-marker">{HERO.headlineMark}</span>{" "}
+            <span className="cc-marker">{HERO.headlineAccent}</span>
           </h1>
-          <p className="mx-auto mt-7 max-w-[50ch] text-lg leading-relaxed text-cream/75 md:text-xl">
-            {HERO.sub}
-          </p>
-          <div className="mt-10 flex flex-col items-center gap-4">
+          <p className="mt-8 max-w-[46ch] text-lg leading-relaxed text-ink md:text-xl">{HERO.sub}</p>
+          <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-8">
             <ApplyButton className="w-full sm:w-auto">{HERO.cta}</ApplyButton>
-            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-cream/45">{HERO.scarcity}</p>
+            <Link
+              to={HERO.secondary.to}
+              className="inline-flex min-h-11 items-center gap-2 self-start border-b-2 border-midnight font-semibold text-midnight no-underline hover:border-gold hover:text-gold sm:self-auto"
+            >
+              {HERO.secondary.label} <span aria-hidden="true">&rarr;</span>
+            </Link>
           </div>
+          <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.16em] text-muted">{HERO.scarcity}</p>
+        </div>
         </div>
 
-        <div className="border-t border-cream/10 py-10 md:py-12">
+        <div className="border-t border-midnight/10 bg-paper/70 py-10 md:py-12">
           <div className="cc-marquee overflow-hidden">
             <div className="cc-marquee-track">
               <ul className="cc-marquee-group" aria-label="Organisations we have worked with">
                 {COMPANIES.map((name) => (
                   <li
                     key={name}
-                    className="whitespace-nowrap font-display text-xl font-extrabold tracking-[-0.03em] text-cream/50 md:text-2xl"
+                    className="whitespace-nowrap font-display text-xl font-extrabold tracking-[-0.03em] text-midnight/40 md:text-2xl"
                   >
                     {name}
                   </li>
@@ -162,7 +169,7 @@ export default function Home() {
                 {COMPANIES.map((name) => (
                   <li
                     key={name}
-                    className="whitespace-nowrap font-display text-xl font-extrabold tracking-[-0.03em] text-cream/50 md:text-2xl"
+                    className="whitespace-nowrap font-display text-xl font-extrabold tracking-[-0.03em] text-midnight/40 md:text-2xl"
                   >
                     {name}
                   </li>
@@ -170,7 +177,7 @@ export default function Home() {
               </ul>
             </div>
           </div>
-          <p className={`${WRAP} mt-8 text-center text-sm text-cream/60 md:text-base`}>
+          <p className={`${WRAP} mt-8 text-center text-sm text-ink md:text-base`}>
             <span aria-hidden="true" className="mr-2 text-gold">&#9670;</span>
             {PROOF_LINE}
           </p>

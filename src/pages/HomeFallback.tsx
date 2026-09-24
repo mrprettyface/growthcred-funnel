@@ -16,16 +16,16 @@ export default function HomeFallback() {
     <>
       <HomeHeader />
 
-      <section className="bg-midnight py-16 text-center text-cream md:py-24">
+      <section className="bg-paper py-16 text-midnight md:py-24">
         <div className={WRAP}>
-          <p className="font-mono text-[12px] uppercase tracking-[0.24em] text-gold">{HERO.eyebrow}</p>
-          <h1 className="mx-auto mt-6 max-w-[13ch] text-5xl text-cream md:text-7xl">
-            {HERO.headlineLead} <span className="text-gold">{HERO.headlineAccent}</span>
+          <h1 className="max-w-[12ch] text-5xl text-midnight md:text-7xl">
+            {HERO.headlineLead} <span className="cc-marker">{HERO.headlineMark}</span>{" "}
+            <span className="cc-marker">{HERO.headlineAccent}</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-[50ch] text-lg text-cream/75">{HERO.sub}</p>
-          <div className="mt-8 flex flex-col items-center gap-3">
+          <p className="mt-6 max-w-[46ch] text-lg text-ink">{HERO.sub}</p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
             <ApplyButton className="w-full sm:w-auto">{HERO.cta}</ApplyButton>
-            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-cream/45">{HERO.scarcity}</p>
+            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted">{HERO.scarcity}</p>
           </div>
         </div>
       </section>

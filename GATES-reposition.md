@@ -7,12 +7,12 @@ Scope: Replace `/` with a high-ticket "Book a Strategy Call" page (Hyros grammar
 - [x] G1: the whole site builds, type-checks, and prerenders
   CHECK: npm run build
   EXPECT: /route documents generated/
-  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=d31f0ce6dc1c/18 entries; output=✓ built in 381ms | Prerendered 37 complete pages; 43 route documents generated.
+  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=d31f0ce6dc1c/18 entries; output=✓ built in 945ms | Prerendered 37 complete pages; 43 route documents generated.
 
 - [x] G2: SEO gate passes with the new `/` and the moved `/workshop`
   CHECK: npm run verify:seo
   EXPECT: /SEO verification passed/
-  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=d31f0ce6dc1c/18 entries; output=> node scripts/verify-seo.mjs | SEO verification passed: 43 routes, 32 sitemap URLs, 1748 internal references; negative controls passed.
+  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=d31f0ce6dc1c/18 entries; output=> node scripts/verify-seo.mjs | SEO verification passed: 43 routes, 32 sitemap URLs, 1788 internal references; negative controls passed.
 
 - [x] G3: the prerendered `/` is the Command Core page: one h1, Apply CTA to /call, no R990, no placeholder, disclaimer present
   CHECK: node scripts/verify-strategy-home.mjs
@@ -67,7 +67,7 @@ Scope: Replace `/` with a high-ticket "Book a Strategy Call" page (Hyros grammar
 - [x] G13: the rendered `/` has enough context for readers and search (900–2,400 words), not a thin page
   CHECK: node scripts/wc-home.mjs
   EXPECT: /HOME_WORDCOUNT_OK/
-  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=d31f0ce6dc1c/18 entries; output=HOME_WORDCOUNT_OK: 1288 rendered words (range 900–2400)
+  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=d31f0ce6dc1c/18 entries; output=HOME_WORDCOUNT_OK: 1287 rendered words (range 900–2400)
 
 - [x] G14: unaffected mobile gates still pass (no collateral regression)
   CHECK: for g in sizer tap-targets drag-compare reveal-fails-open unique-ids perf-guards magnet-funnel; do node scripts/verify-mobile.mjs $g || exit 1; done

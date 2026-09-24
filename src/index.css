@@ -365,3 +365,138 @@
     color: transparent;
   }
 }
+
+/* ============================================================
+   The light hero (homepage): a graph climbing to a gold point.
+
+   Same motion rules as the rest of the Command Core layer: CSS only, the
+   un-animated state is the finished picture, and everything that loops moves
+   transform or opacity alone. The one-shot draw uses clip-path, which runs
+   once on load and never again.
+   ============================================================ */
+
+/* The fade that frames the moving layers. It sits on a still wrapper, so the
+   layers can drift underneath without dragging their edges with them. */
+.cc-drift-mask {
+  -webkit-mask-image: radial-gradient(ellipse 65% 85% at 78% 45%, #000 25%, transparent 78%);
+  mask-image: radial-gradient(ellipse 65% 85% at 78% 45%, #000 25%, transparent 78%);
+}
+
+/* Faint grid. One tile is 120px, so moving it exactly one tile loops seamlessly. */
+.cc-grid-light {
+  background-image:
+    linear-gradient(to right, rgb(26 26 36 / 0.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(26 26 36 / 0.055) 1px, transparent 1px);
+  background-size: 120px 120px;
+}
+
+/* A sparse field of gold specks: a second, slower layer for depth. */
+.cc-specks {
+  background-image:
+    radial-gradient(circle at 20% 30%, rgb(200 160 74 / 0.55) 1.5px, transparent 2.5px),
+    radial-gradient(circle at 70% 75%, rgb(200 160 74 / 0.35) 1px, transparent 2px),
+    radial-gradient(circle at 85% 15%, rgb(26 26 36 / 0.18) 1px, transparent 2px);
+  background-size: 240px 240px;
+}
+
+/* Marker-pen highlight behind a word; wraps cleanly across lines. */
+.cc-marker {
+  background-image: linear-gradient(
+    transparent 58%,
+    rgb(242 200 110 / 0.8) 58%,
+    rgb(242 200 110 / 0.8) 94%,
+    transparent 94%
+  );
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  padding: 0 0.06em;
+}
+
+/* The end of the line. Centred on its point without Tailwind's `translate`
+   property, so the keyframes below can own `transform` outright. */
+.cc-graph-dot,
+.cc-graph-halo {
+  transform: translate(-50%, -50%);
+}
+.cc-graph-halo {
+  transform: translate(-50%, -50%) scale(1.6);
+  opacity: 0.45;
+}
+
+/* The clock's hands turn around their shared centre. */
+.cc-clock-hand {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The background falls away down and to the left, forever, so the time
+     marker — which never moves — reads as climbing. One tile per loop. */
+  .cc-grid-drift {
+    animation: ccDrift 7s linear infinite;
+  }
+  .cc-specks-drift {
+    animation: ccDriftSlow 16s linear infinite;
+  }
+  .cc-clock-minute {
+    animation: ccSpin 3s linear infinite;
+  }
+  .cc-clock-hour {
+    animation: ccSpin 36s linear infinite;
+  }
+  .cc-graph-draw {
+    animation: ccDraw 2.4s cubic-bezier(0.25, 0.7, 0.2, 1) 0.2s both;
+  }
+  .cc-graph-dot {
+    animation: ccDotIn 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) 2.3s both;
+  }
+  .cc-graph-halo {
+    animation: ccHalo 2.8s ease-out 2.8s infinite both;
+  }
+}
+
+@keyframes ccDraw {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes ccDotIn {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+@keyframes ccHalo {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(3.4);
+    opacity: 0;
+  }
+}
+
+@keyframes ccDrift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-120px, 120px, 0);
+  }
+}
+@keyframes ccDriftSlow {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-240px, 240px, 0);
+  }
+}

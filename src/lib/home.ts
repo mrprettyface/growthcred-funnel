@@ -14,10 +14,13 @@
 export const APPLY_HREF = "/call";
 
 export const HERO = {
-  eyebrow: "The Command Core",
-  /** One static, prerendered <h1>: two beats, the second in gold. */
-  headlineLead: "20–40% of your time drain.",
+  /** One static, prerendered <h1>: "20–40% of your time drain. Gone.", with
+   *  the two marked phrases highlighted like a marker pen. */
+  headlineLead: "20–40% of your",
+  headlineMark: "time drain.",
   headlineAccent: "Gone.",
+  /** The quieter second way in, beside the Apply button. */
+  secondary: { label: "Read client stories", to: "/stories" },
   sub: "Founder-grade operations deployed across every department. 80% of your effectiveness. Without you in the room.",
   cta: "Apply to Work With Us",
   scarcity: "Engagements are limited. Not every application is accepted.",
@@ -172,8 +175,8 @@ export const STORIES = {
       image: {
         src: "/images/stories/operators-intensive-session.jpg",
         alt: "Owners working through the first Operator Intensive at WeWork Rosebank",
-        width: 390,
-        height: 292,
+        width: 1200,
+        height: 900,
       },
     },
     {
@@ -257,7 +260,7 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "How is this different from using ChatGPT on its own?",
-    a: "A raw AI tool knows nothing about your business, so it gives answers that could be for anyone. We build the system from your knowledge — how you run, who you serve, how you speak — so every task starts with full context.",
+    a: "A raw AI tool knows nothing about your business, so it gives answers that could be for anyone. We build the system from your knowledge (how you run, who you serve, how you speak), so every task starts with full context.",
   },
   {
     q: "Does it work in my industry?",
