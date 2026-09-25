@@ -10,7 +10,7 @@ import { FOUNDER } from "../lib/home";
 import { CostCalculator } from "../components/CostCalculator";
 import { PageScene } from "../components/PageScenes";
 import { FaqMark } from "../components/FaqMarks";
-const labels:Record<string,string>={"/workshop":"Online AI workshop","/":"The Command Core","/call":"Discuss an implementation project","/brain":"Build your Business Brain","/contact":"Contact GrowthCred"};
+const labels:Record<string,string>={"/workshop":"Online AI workshop","/":"The Command Core","/call":"Discuss an implementation project","/brain":"Build your Business Brain","/contact":"Contact GrowthCred","/corporate-ai-training":"Corporate AI training for teams"};
 export function SearchPage({page}:{page:Page}) {
   return <>
     <Section dark className="pt-10 md:pt-16">

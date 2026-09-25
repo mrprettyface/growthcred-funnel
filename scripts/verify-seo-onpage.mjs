@@ -110,7 +110,8 @@ for (const [path, html] of pages) {
 const needFaq = ["/", "/ai-automation-south-africa", "/ai-training-south-africa", "/ai-proposal-automation",
   "/ai-follow-up-automation", "/ai-admin-automation", "/ai-for-waste-management", "/ai-for-beauty-and-cosmetics",
   "/ai-automation-johannesburg", "/ai-automation-uk", "/ai-automation-united-states", "/ai-automation-australia",
-  "/ai-automation-africa", "/guides/how-we-work-first-30-days", "/guides/admin-assistant-vs-ai-automation"];
+  "/ai-automation-africa", "/guides/how-we-work-first-30-days", "/guides/admin-assistant-vs-ai-automation",
+  "/corporate-ai-training"];
 for (const path of needFaq) {
   const html = pages.get(path);
   if (!html) { failures.push(`${path}: missing, not indexed, or not built`); continue; }

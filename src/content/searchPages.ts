@@ -39,7 +39,7 @@ export const SEARCH_PAGES: SearchPage[] = [
       { q: "Is the training online?", a: "Yes. The one-day workshop is delivered online, and session dates, times and the joining link are confirmed on registration." },
       { q: "What does AI training cost?", a: "The workshop is currently advertised at a R990 founding rate. Confirm the next session, booking terms, VAT treatment and any separate tool costs with us before paying." },
     ],
-    related: ["/workshop", "/guides/ai-training-cost-south-africa", "/guides/ai-training-vs-automation", "/contact"],
+    related: ["/workshop", "/corporate-ai-training", "/guides/ai-training-cost-south-africa", "/guides/ai-training-vs-automation", "/contact"],
   },
   {
     path: "/ai-automation-south-africa", kind: "service",

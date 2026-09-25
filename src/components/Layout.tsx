@@ -21,6 +21,7 @@ export function Brand({ dark = true }: { dark?: boolean }) {
 
 const NAV = [
   { to: "/ai-training-south-africa", label: "AI training" },
+  { to: "/corporate-ai-training", label: "Corporate" },
   { to: "/workshop", label: "The workshop" },
   { to: "/ai-automation-south-africa", label: "Automation" },
   { to: "/stories", label: "Stories" },
@@ -52,7 +53,7 @@ export function Header({
     >
       <div className="mx-auto flex h-16 w-[min(1120px,calc(100%-2.5rem))] items-center justify-between gap-5">
         <Brand dark={!light} />
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Main">
+        <nav className="hidden items-center gap-7 lg:flex" aria-label="Main">
           {NAV.map((item) => (
             <NavLink
               key={item.to}
@@ -60,7 +61,7 @@ export function Header({
               end={item.to === "/"}
               className={({ isActive }) =>
                 cn(
-                  "font-mono text-[12px] uppercase tracking-[0.16em] no-underline transition-colors",
+                  "whitespace-nowrap font-mono text-[12px] uppercase tracking-[0.16em] no-underline transition-colors",
                   isActive ? "text-gold" : light ? "text-midnight/70 hover:text-gold" : "text-cream/65 hover:text-gold",
                 )
               }
@@ -75,13 +76,13 @@ export function Header({
             aria-controls="mobile-navigation"
             onClick={() => setMenuOpen(!menuOpen)}
             className={cn(
-              "min-h-11 px-2 font-mono text-[12px] uppercase tracking-[0.16em] md:hidden",
+              "min-h-11 px-2 font-mono text-[12px] uppercase tracking-[0.16em] lg:hidden",
               light ? "text-midnight/80" : "text-cream/80",
             )}
           >
             Menu
           </button>
-          <PillLink to={cta.to} size="sm">
+          <PillLink to={cta.to} size="sm" className="whitespace-nowrap">
             {cta.label}
           </PillLink>
         </div>
@@ -91,7 +92,7 @@ export function Header({
           id="mobile-navigation"
           aria-label="Mobile navigation"
           className={cn(
-            "border-t px-5 pb-4 pt-2 md:hidden",
+            "border-t px-5 pb-4 pt-2 lg:hidden",
             light ? "border-midnight/10 bg-paper" : "border-cream/10 bg-midnight",
           )}
         >
@@ -129,6 +130,7 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
       ["/ai-follow-up-automation", "Follow-up automation"],
       ["/ai-admin-automation", "Admin automation"],
       ["/ai-training-south-africa", "AI training"],
+      ["/corporate-ai-training", "Corporate AI training"],
       ["/workshop", "The one-day workshop"],
       ["/webinar", "Free online class"],
     ],

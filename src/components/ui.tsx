@@ -77,15 +77,13 @@ export function PillLink({
   size?: "sm" | "lg";
   className?: string;
 }) {
-  return (
-    <Link
-      to={to}
-      className={cn(
-        "cc-shine group inline-flex items-center justify-center gap-3 rounded-full bg-gold font-body font-semibold text-midnight no-underline shadow-[0_10px_40px_-10px_rgba(200,160,74,0.7)] transition-colors hover:bg-gold-soft",
-        size === "lg" ? "min-h-14 px-8 text-base" : "min-h-11 px-5 text-sm",
-        className,
-      )}
-    >
+  const cls = cn(
+    "cc-shine group inline-flex items-center justify-center gap-3 rounded-full bg-gold font-body font-semibold text-midnight no-underline shadow-[0_10px_40px_-10px_rgba(200,160,74,0.7)] transition-colors hover:bg-gold-soft",
+    size === "lg" ? "min-h-14 px-8 text-base" : "min-h-11 px-5 text-sm",
+    className,
+  );
+  const inner = (
+    <>
       {children}
       <span
         aria-hidden="true"
@@ -93,6 +91,19 @@ export function PillLink({
       >
         &#8599;
       </span>
+    </>
+  );
+  /* An in-page anchor ("#enquire") is a plain link: the router does not scroll to hashes. */
+  if (to.startsWith("#")) {
+    return (
+      <a href={to} className={cls}>
+        {inner}
+      </a>
+    );
+  }
+  return (
+    <Link to={to} className={cls}>
+      {inner}
     </Link>
   );
 }

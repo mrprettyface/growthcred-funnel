@@ -16,6 +16,10 @@ const PAGES = [
   "src/pages/WorkshopExperience.tsx",
   "src/pages/Home.tsx",
   "src/pages/HomeFallback.tsx",
+  "src/pages/Corporate.tsx",
+  "src/components/CorporateRoi.tsx",
+  "src/components/CorporateEnquiry.tsx",
+  "src/components/CorporateScenes.tsx",
 ];
 /** Shared components the experience pages render. Swept by the same gates. */
 const SHARED = [

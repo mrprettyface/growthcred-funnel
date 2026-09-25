@@ -12,6 +12,11 @@ import { analyticsEvent } from "./searchAnalytics";
 
 type FunnelStep =
   | "home_view"
+  /** /corporate-ai-training: the page, the ROI model, the proposal request. */
+  | "corporate_view"
+  | "corporate_roi_used"
+  | "corporate_enquiry_submit"
+  | "corporate_enquiry_failed"
   | "class_view"
   | "class_optin"
   | "webinar_view"

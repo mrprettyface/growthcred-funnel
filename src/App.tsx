@@ -16,6 +16,8 @@ import { SearchPage, NotFound } from "./pages/SearchPage";
 const WorkshopPage = lazy(() => import("./pages/Workshop"));
 import HomeFallback from "./pages/HomeFallback";
 const Home = lazy(() => import("./pages/Home"));
+/** Corporate AI training. Bare like /, with its own header ask: the proposal. */
+const CorporatePage = lazy(() => import("./pages/Corporate"));
 const CheckoutPage = lazy(() => import("./pages/Checkout"));
 const UpsellPage = lazy(() => import("./pages/Upsell"));
 const DownsellPage = lazy(() => import("./pages/Downsell"));
@@ -177,6 +179,16 @@ export default function App() {
                     <WorkshopExperience />
                   </Suspense>
                 </ExperienceBoundary>
+              </Layout>
+            }
+          />
+          <Route
+            path="/corporate-ai-training"
+            element={
+              <Layout bare>
+                <Suspense fallback={<LegalLoading />}>
+                  <CorporatePage />
+                </Suspense>
               </Layout>
             }
           />

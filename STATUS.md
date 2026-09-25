@@ -1,5 +1,24 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **25 September 2026 — corporate AI training page.** `/corporate-ai-training`
+> sells team training to organisations on a measured transformation ("Every
+> employee. Every report. 3× faster."), delivered as workshops with
+> follow-along packs and priced **per employee**. Copy in
+> `src/lib/corporate.ts` (FAQ + Service schema text in `src/lib/corporateSeo.ts`,
+> the only part in the main bundle), layout in `src/pages/Corporate.tsx`,
+> 14 drawings in `src/components/CorporateScenes.tsx`, the ROI model in
+> `src/components/CorporateRoi.tsx`. Proposal requests post through the
+> existing `contact-autoresponder` function with "CORPORATE TRAINING ENQUIRY",
+> organisation and team size at the top of the message. Linked from the header
+> nav ("Corporate"; the header nav now shows from 1024px, below that it is the
+> menu), the footer and `/ai-training-south-africa`. **Open for Phila:** no
+> per-employee rate is published — set one and it goes in the proposal, not on
+> the page, unless you decide otherwise; "3×" is worded as the target we
+> measure against, never as a result; confirm in-person delivery in
+> Johannesburg and the 30-day re-measurement are commitments you'll keep.
+> Research figures (MIT NANDA 2025, Microsoft/LinkedIn 2024, BCG 2026) are
+> attributed and linked. Gates: [GATES-corporate.md](GATES-corporate.md), 9/9.
+>
 > **24 September 2026 — first-page SEO pass.** 12 new indexed pages: service
 > (`/ai-proposal-automation`, `/ai-follow-up-automation`, `/ai-admin-automation`),
 > industry (`/ai-for-waste-management`, `/ai-for-beauty-and-cosmetics`), market
