@@ -12,6 +12,10 @@ export type SearchPage = {
   published?: string;
   /** A visible FAQ. Also emitted as FAQPage structured data, so it must match. */
   faq?: { q: string; a: string }[];
+  /** Primary and secondary next steps for pages that serve more than one offer. */
+  ctas?: { to: string; label: string }[];
+  /** Public evidence used for market claims on the page. */
+  sources?: { label: string; href: string }[];
   /** Kept out of search and the sitemap until the owner confirms it. */
   draft?: boolean;
 };
@@ -347,6 +351,81 @@ export const SEARCH_PAGES: SearchPage[] = [
       { q: "Do you work with beauty brands?", a: "Yes. Demure International, the company behind Enigma Essentials, worked with GrowthCred; Macaela's words about the result are on this page." },
     ],
     related: ["/stories/demure-international", "/ai-follow-up-automation", "/guides/business-brain", "/call"],
+  },
+  {
+    path: "/ai-for-financial-services", kind: "service", published: "2026-09-25",
+    title: "AI Workflows for Finance Teams & FSPs | GrowthCred SA",
+    description: "Practical AI workflows for South African finance teams, accounting firms and FSPs: controlled reporting, review packs and client admin with human sign-off.",
+    heading: "AI for finance work that still needs a professional at the controls.",
+    intro: "Finance teams do not need another tool that produces a fast answer nobody can defend. They need a controlled way to prepare recurring work from approved information, surface what is missing and hand every consequential decision to the right person.",
+    sections: [
+      { title: "The real problem is the work around the decision", mark: "industry", paragraphs: ["Month-end commentary, management packs, review preparation, meeting notes, document requests and recurring client questions consume senior time. The arithmetic may already be in the system, but the explanation, checking and follow-up still wait for the same finance lead, partner or adviser.", "A general AI tool does not solve that by itself. If every person uses different prompts and sources, the firm gets inconsistent drafts, unclear data handling and more work checking what the tool invented."], items: [
+        "Monthly packs are assembled and rewritten by hand for each audience.",
+        "Client questions interrupt senior people because the approved answer is scattered across files and email.",
+        "Onboarding and annual-review packs stall on missing documents, but nobody can safely guess what is absent.",
+        "Teams measure draft speed while ignoring preparation, correction and professional review time.",
+      ] },
+      { title: "A better way to look at it", paragraphs: ["Do not ask whether AI can do finance. Ask which part of one repeated workflow can be prepared safely before professional judgement begins. The useful unit is not a prompt; it is a controlled handoff with approved inputs, a defined output, a named reviewer and a route for exceptions.", "This keeps the valuable judgement with accountants, finance leaders and licensed advisers. The system handles preparation and consistency; the professional checks the figures, interpretation, suitability and communication." ] },
+      { title: "Start with one controlled workflow", paragraphs: ["Choose a task that happens often, has clear source material and already ends with human review. Record how long the whole task takes today, including corrections. Test a pilot on representative redacted examples, then compare elapsed time, review time, missing-input cases and errors before expanding."], items: [
+        "Draft management-pack commentary from approved figures, with every variance linked back to its source.",
+        "Turn meeting notes into a summary and action register for a professional to approve.",
+        "Prepare onboarding or annual-review checklists that flag missing information instead of filling the gap.",
+        "Draft recurring client or management updates from approved facts, with a person approving what is sent.",
+      ] },
+      { title: "Where the boundary belongs", paragraphs: ["GrowthCred does not replace an accountant, finance officer, compliance function or licensed financial adviser. We do not position a general AI model as a credit decision, investment recommendation, financial statement, filing or customer-impacting decision maker.", "Before implementation, your firm defines which information may be used, who may see it, what must be retained, what the system must never do and who signs off. Installing a tool does not by itself make a workflow compliant with POPIA or financial-sector rules."] },
+      { title: "Workshop or implementation?", mark: "diy", paragraphs: ["Choose the one-day workshop when your team needs a shared method and wants to build the first controlled workflow themselves. Bring a fictional or redacted example. You leave with a mapped task, an approved context pack, a review checklist and a way to measure the pilot—not merely a list of prompts.", "Apply for implementation when the workflow crosses tools, needs permissions or repeatable input handling, or must be handed over across a team. We scope one workflow, define acceptance tests, build and test it with your reviewers, then agree ownership and support before wider use."] },
+      { title: "Who has the strongest fit", paragraphs: ["The clearest starting fit is an accounting, bookkeeping, outsourced-finance, fractional-CFO, advisory or brokerage team of roughly 3–50 people with recurring document work and an identifiable professional reviewer. Internal finance teams in owner-led businesses can fit for the same reason.", "Large banks and insurers are investing heavily in AI, but their model-risk, procurement, security and integration requirements demand a different engagement. GrowthCred will only discuss work that matches its delivery capacity and your governance requirements."] },
+    ],
+    faq: [
+      { q: "Can AI give financial advice or approve credit?", a: "That is not the offer. GrowthCred focuses on controlled preparation, drafting and internal workflows. Licensed advice, credit decisions, financial statements, filings and other consequential decisions stay with appropriately authorised people and the firm's compliance process." },
+      { q: "What finance workflow should we start with?", a: "Choose a frequent task with approved source material and an existing human reviewer, such as management-pack commentary, meeting summaries, missing-document checklists or recurring client-update drafts." },
+      { q: "Should we choose the workshop or implementation?", a: "Choose the workshop if your team wants to learn the method and build a first controlled workflow. Apply for implementation if the process crosses systems, needs permissions or must be mapped, built, tested and handed over for you." },
+      { q: "Can we use real client financial data in the workshop?", a: "Bring a fictional or properly redacted example unless your organisation has explicitly approved another approach. Data access, retention and tool permissions belong in the implementation scope before real information is used." },
+    ],
+    ctas: [{ to: "/call", label: "Apply for implementation" }, { to: "/workshop", label: "Explore the workshop" }],
+    sources: [
+      { label: "SARB & FSCA: Artificial Intelligence in the South African Financial Sector (2025)", href: "https://www.resbank.co.za/en/home/publications/publication-detail-pages/prudential-authority/pa-public-awareness/Communication/2025/AI-in-the-South-African-Financial-Sector" },
+      { label: "FSCA & Prudential Authority: report release and key findings (2025)", href: "https://www.fsca.co.za/News%20Documents/Press%20Release%20-%20Artificial%20Intelligence%20in%20the%20South%20African%20Financial%20Sector%20Final_24%20November%202025.pdf" },
+    ],
+    related: ["/guides/how-we-work-first-30-days", "/data-and-security", "/workshop", "/call"],
+  },
+  {
+    path: "/ai-for-law-firms", kind: "service", published: "2026-09-25",
+    title: "AI Workflows for South African Law Firms | GrowthCred",
+    description: "Practical AI workflows for South African law firms: controlled intake, matter summaries, chronologies and client updates with practitioner verification.",
+    heading: "AI for law firms, without outsourcing professional judgement.",
+    intro: "A law firm does not need faster plausible text. It needs a repeatable way to collect facts, organise matter information and prepare first drafts while a legal practitioner remains responsible for every authority, proposition, deadline and client commitment.",
+    sections: [
+      { title: "Where legal work quietly loses time", mark: "industry", paragraphs: ["New enquiries arrive through calls, email and WhatsApp, but the facts, conflict-check information and documents are incomplete. Client updates wait while someone reconstructs the matter from notes. Partners review work that follows a different structure every time because the firm's preferred questions, precedents and escalation rules live in people's heads.", "Using a general AI tool without those controls can move the problem rather than solve it. A draft appears quickly, then a practitioner spends the saved time checking unsupported propositions, invented authorities and missing facts."], items: [
+        "Intake reaches a fee earner before the matter facts and documents are complete.",
+        "Chronologies and matter summaries are rebuilt from scattered notes and attachments.",
+        "Client updates wait even when the underlying work is moving.",
+        "Drafting practices vary by person, so partner review starts with structure instead of judgement.",
+      ] },
+      { title: "A better way to look at it", paragraphs: ["Separate legal judgement from workflow labour. A controlled system can collect supplied facts, identify missing documents, organise a chronology, compare a clause with an approved precedent or prepare a client-update draft. The practitioner verifies the output and makes every legal decision.", "The aim is not to trust AI more. It is to make verification visible: approved sources, source references, a review checklist, a named matter owner and an exception path when the information is incomplete." ] },
+      { title: "Fix one matter workflow first", paragraphs: ["Pick one repeated stage of one practice area. Map the inputs, the firm's approved precedent or playbook, the output, prohibited actions and sign-off. Test with fictional, redacted or appropriately authorised matters. Measure the whole task, including review and correction time."], items: [
+        "An intake pack that collects matter facts and flags missing conflict-check information for a person to decide.",
+        "A chronology or matter summary built only from supplied documents, with references back to those documents.",
+        "A first-draft structure based on an approved firm precedent, with unconfirmed facts marked as questions.",
+        "A client-update draft from approved matter notes, checked and sent by the responsible practitioner.",
+      ] },
+      { title: "What must stay with the practitioner", paragraphs: ["Every authority, legal proposition, deadline, material fact and quotation must be checked against the authoritative source before it reaches advice, pleadings or court. GrowthCred does not offer autonomous legal research, legal advice, conflict decisions, automatic filing or trust-account actions.", "Confidentiality, privilege, supervision, access and retention requirements must be defined by the firm. The Legal Practice Council's ethics material discusses the consequences of false AI-generated authorities; a fast draft never removes the practitioner's duties."] },
+      { title: "Workshop or implementation?", mark: "diy", paragraphs: ["Choose the one-day workshop when partners and staff need one safe-use method and want to build the first workflow themselves. Work on a fictional or redacted matter. The practical outputs are a mapped workflow, source-and-verification checklist, escalation rules and pilot scorecard.", "Apply for implementation when a practice group wants GrowthCred to map, build, test and hand over a repeatable intake, chronology, first-draft or client-update workflow. Your nominated practitioner defines acceptance and remains responsible for professional output."] },
+      { title: "Who has the strongest fit", paragraphs: ["Boutique and small-to-mid-sized commercial, property, employment, family, conveyancing and litigation teams have the clearest starting fit when they handle repeated matter patterns and partner review is the bottleneck. The first workflow should be operational and bounded, not the firm's hardest point of law.", "National firms may have strong appetite, but their information-security, conflicts, procurement and integration requirements are substantial. We scope only work that fits GrowthCred's capacity and the firm's governance process."] },
+    ],
+    faq: [
+      { q: "Can the system do legal research for us?", a: "GrowthCred does not offer unsupervised legal research or autonomous legal advice. Any research aid must point back to authoritative sources, and a legal practitioner must verify every authority and proposition before professional use." },
+      { q: "What law-firm workflow should we start with?", a: "Start with a repeated operational stage such as intake, a chronology from supplied documents, a precedent-based first-draft structure or a client-update draft. Avoid beginning with the firm's hardest legal judgement." },
+      { q: "How do we protect confidential information?", a: "Use fictional or redacted material in the workshop. For implementation, the firm must approve the tools, permissions, data access, retention and supervision rules before real matter information is used." },
+      { q: "Should we choose the workshop or implementation?", a: "Choose the workshop to teach a shared method and build a first workflow with your team. Apply for implementation when you want the workflow mapped, built, tested and handed over with a practitioner-defined acceptance test." },
+    ],
+    ctas: [{ to: "/call", label: "Apply for implementation" }, { to: "/workshop", label: "Explore the workshop" }],
+    sources: [
+      { label: "Legal Practice Council: Guide for Professional Legal Ethics (2026)", href: "https://lpc.org.za/wp-content/uploads/2026/03/b-LPC-Guide-for-Professional-Legal-Ethics-ito-Regulation-610b.pdf" },
+      { label: "Thomson Reuters: 2025 GenAI report for legal professionals", href: "https://legal.thomsonreuters.com/blog/genai-report-executive-summary-for-legal-professionals-tri/" },
+      { label: "Clio: 2025 Legal Trends Report", href: "https://www.clio.com/resources/legal-trends/read-online/" },
+    ],
+    related: ["/guides/how-we-work-first-30-days", "/data-and-security", "/workshop", "/call"],
   },
   {
     path: "/ai-automation-johannesburg", kind: "service", published: SEO_PUBLISHED,

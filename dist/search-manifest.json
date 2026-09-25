@@ -190,6 +190,24 @@
       "prerendered": true
     },
     {
+      "path": "/ai-for-financial-services",
+      "title": "AI Workflows for Finance Teams & FSPs | GrowthCred SA",
+      "description": "Practical AI workflows for South African finance teams, accounting firms and FSPs: controlled reporting, review packs and client admin with human sign-off.",
+      "index": true,
+      "modified": "2026-09-25",
+      "file": "ai-for-financial-services.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-for-law-firms",
+      "title": "AI Workflows for South African Law Firms | GrowthCred",
+      "description": "Practical AI workflows for South African law firms: controlled intake, matter summaries, chronologies and client updates with practitioner verification.",
+      "index": true,
+      "modified": "2026-09-25",
+      "file": "ai-for-law-firms.html",
+      "prerendered": true
+    },
+    {
       "path": "/ai-automation-johannesburg",
       "title": "AI Automation in Johannesburg | GrowthCred, Rosebank",
       "description": "Founder-led AI automation and training from Rosebank, Johannesburg. The first Operator Intensive sold out at WeWork Rosebank. Apply to work with us.",

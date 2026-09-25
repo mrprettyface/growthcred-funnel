@@ -138,6 +138,8 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
   {
     title: "Industries",
     links: [
+      ["/ai-for-financial-services", "Financial services"],
+      ["/ai-for-law-firms", "Law firms"],
       ["/ai-for-waste-management", "Waste management"],
       ["/ai-for-beauty-and-cosmetics", "Beauty & cosmetics"],
     ],

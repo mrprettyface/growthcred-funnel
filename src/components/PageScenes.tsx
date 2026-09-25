@@ -244,6 +244,29 @@ export const PAGE_SCENES: Record<string, ReactElement> = {
     </>
   ),
 
+  /* Financial services — source figures become a reviewed management pack. */
+  "/ai-for-financial-services": (
+    <>
+      <Figure x={42} y={62} arms="M0 10 l-13 12 M0 10 l28 -4" />
+      <rect x="102" y="34" width="62" height="78" rx="5" />
+      <path d="M114 52h38M114 66h20M114 82h38M114 96h26" />
+      <path d="M142 66l6 6 11-14" stroke={GOLD} strokeWidth={3.5} />
+      <circle cx="92" cy="102" r="10" fill={GOLD} stroke="none" />
+      <path d="M88 102h8M92 98v8" stroke={INK} />
+    </>
+  ),
+
+  /* Law firms — an ordered matter file with the practitioner sign-off marked. */
+  "/ai-for-law-firms": (
+    <>
+      <Figure x={42} y={62} arms="M0 10 l-13 12 M0 10 l28 -4" />
+      <path d="M98 42h26l8 9h38v62H98z" />
+      <path d="M112 68h44M112 82h36M112 96h44" />
+      <circle cx="158" cy="96" r="12" fill={GOLD} stroke="none" />
+      <path d="M152 96l4 4 7-9" stroke={INK} strokeWidth={2.5} />
+    </>
+  ),
+
   /* Johannesburg — here. */
   "/ai-automation-johannesburg": (
     <>

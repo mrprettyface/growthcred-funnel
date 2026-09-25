@@ -24,6 +24,9 @@ import {
   STAKEHOLDERS,
   PRICING,
   TRAINER,
+  CLIENTS,
+  BELIEF,
+  CLOSE,
   FAQ,
   ENQUIRY,
 } from "../lib/corporate";
@@ -120,7 +123,7 @@ export default function Corporate() {
         </div>
 
         <div className="border-t border-midnight/10 bg-paper/70 py-10 md:py-12">
-          <p className="mb-8 text-center font-mono text-[12px] uppercase tracking-[0.18em] text-muted">{HERO.clients}</p>
+          <p className="mb-8 text-center font-mono text-[12px] uppercase tracking-[0.18em] text-muted">{CLIENTS.label}</p>
           <ClientLogos />
         </div>
       </section>
@@ -149,6 +152,7 @@ export default function Corporate() {
                 </div>
                 <h3 className="mt-6 text-xl text-cream">{item.t}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-cream/65">{item.b}</p>
+                <p className="mt-4 border-t border-cream/10 pt-4 text-sm font-semibold leading-relaxed text-cream">{item.twist}</p>
               </article>
             ))}
           </Reveal>
@@ -175,14 +179,21 @@ export default function Corporate() {
             </dl>
             <p className="mt-5 font-mono text-[12px] uppercase tracking-[0.14em] text-cream/45">{RESEARCH.note}</p>
           </div>
-
-          <p className="mx-auto mt-20 max-w-[30ch] text-center font-display text-[length:clamp(1.75rem,3.6vw,2.75rem)] font-extrabold leading-tight tracking-[-0.04em] text-cream">
-            {TRIED.close}
-          </p>
         </div>
       </section>
 
-      {/* ---------- 3. How this is different ---------- */}
+      {/* ---------- 3. The one belief ---------- */}
+      <section id="belief" data-tone="dark" className="relative isolate bg-midnight py-24 text-cream md:py-40">
+        <DarkBackdrop glow="bottom" />
+        <div className={`${WRAP} text-center`}>
+          <h2 className="mx-auto max-w-[14ch] text-[length:clamp(2.75rem,8vw,6.5rem)] leading-[0.95] tracking-[-0.055em] text-cream">
+            {BELIEF.lead} <span className="text-gold">{BELIEF.mark}</span>
+          </h2>
+          <p className="mx-auto mt-8 max-w-[40ch] text-lg leading-relaxed text-cream/75 md:text-2xl">{BELIEF.sub}</p>
+        </div>
+      </section>
+
+      {/* ---------- 4. How this is different ---------- */}
       <section id="different" className="bg-paper py-20 md:py-32">
         <div className={WRAP}>
           <div className="max-w-[40ch]">
@@ -190,8 +201,15 @@ export default function Corporate() {
             <h2 className={`mt-5 ${H2}`}>{DIFFERENT.heading}</h2>
             <p className="mt-6 text-lg leading-relaxed text-ink">{DIFFERENT.sub}</p>
           </div>
+          <div className="mt-10 grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-end md:gap-16">
+            <p className="max-w-[58ch] text-lg leading-relaxed text-ink">{DIFFERENT.mechanism}</p>
+            <p className="font-display text-[length:clamp(1.75rem,3.4vw,2.5rem)] font-extrabold leading-tight tracking-[-0.04em] text-midnight">
+              {DIFFERENT.position}
+            </p>
+          </div>
+          <p className="mt-14 font-mono text-[12px] uppercase tracking-[0.16em] text-muted">{DIFFERENT.bridge}</p>
 
-          <Reveal className="mt-14 overflow-hidden rounded-3xl border border-midnight/10 bg-white shadow-[0_30px_80px_-40px_rgba(26,26,36,0.35)]">
+          <Reveal className="mt-5 overflow-hidden rounded-3xl border border-midnight/10 bg-white shadow-[0_30px_80px_-40px_rgba(26,26,36,0.35)]">
             <div className="hidden grid-cols-[0.8fr_1fr_1.2fr] border-b border-midnight/10 font-mono text-[12px] uppercase tracking-[0.16em] md:grid">
               <span className="p-6" />
               <span className="p-6 text-muted">{DIFFERENT.columns[0]}</span>
@@ -217,8 +235,56 @@ export default function Corporate() {
         </div>
       </section>
 
-      {/* ---------- 4. The transformation ---------- */}
-      <section id="target" className="bg-white py-20 md:py-32">
+      {/* ---------- 5. Who runs the room ---------- */}
+      <section id="trainer" className="bg-white py-20 md:py-32">
+        <Reveal className={`${WRAP} grid items-center gap-14 md:grid-cols-[0.8fr_1.2fr] md:gap-20`}>
+          <figure className="relative mx-auto w-full max-w-[360px]">
+            <div aria-hidden="true" className="absolute inset-0 translate-x-4 translate-y-4 rounded-3xl border border-gold/60" />
+            <picture>
+              <source type="image/webp" srcSet={TRAINER.photo.webp} sizes="(min-width: 768px) 360px, 90vw" />
+              <img
+                src={TRAINER.photo.src}
+                alt={TRAINER.photo.alt}
+                width={TRAINER.photo.width}
+                height={TRAINER.photo.height}
+                loading="lazy"
+                decoding="async"
+                className="relative aspect-[3/4] w-full rounded-3xl object-cover object-top"
+              />
+            </picture>
+          </figure>
+          <div>
+            <Label>{TRAINER.eyebrow}</Label>
+            <h2 className="mt-5 text-[length:clamp(2.25rem,5vw,3.75rem)]">{TRAINER.heading}</h2>
+            <p className="mt-6 text-lg leading-relaxed text-ink">
+              <strong className="font-semibold text-midnight">{FOUNDER.name}</strong> {TRAINER.lead}
+            </p>
+            <dl className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-midnight/10 bg-midnight/10 sm:grid-cols-3">
+              {TRAINER.proof.map((p) => (
+                <div key={p.t} className="bg-paper p-5">
+                  <dt className="font-display text-2xl font-extrabold tracking-[-0.04em] text-midnight">{p.k}</dt>
+                  <dd className="mt-2 text-sm leading-relaxed text-ink">{p.t}</dd>
+                </div>
+              ))}
+            </dl>
+            <blockquote className="mt-8 border-l-2 border-gold pl-5">
+              <p className="font-display text-xl font-bold leading-snug tracking-[-0.02em] text-midnight md:text-2xl">
+                &ldquo;{TRAINER.quote.text}&rdquo;
+              </p>
+              <footer className="mt-3 font-mono text-[12px] uppercase tracking-[0.14em] text-muted">{TRAINER.quote.by}</footer>
+            </blockquote>
+            <Link
+              to={TRAINER.stories.to}
+              className="mt-8 inline-flex min-h-11 items-center gap-2 font-semibold text-midnight no-underline hover:text-gold"
+            >
+              {TRAINER.stories.label} <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ---------- 6. The transformation ---------- */}
+      <section id="target" className="border-t border-midnight/10 bg-white py-20 md:py-32">
         <Reveal className={`${WRAP} grid gap-14 md:grid-cols-[1fr_1fr] md:items-center md:gap-20`}>
           <div>
             <Label>{TARGET.eyebrow}</Label>
@@ -289,13 +355,14 @@ export default function Corporate() {
         </Reveal>
       </section>
 
-      {/* ---------- 5. The business case ---------- */}
+      {/* ---------- 7. The business case ---------- */}
       <section id="roi" className="scroll-mt-20 border-t border-midnight/10 bg-paper py-20 md:py-32">
         <div className={WRAP}>
-          <div className="max-w-[44ch]">
+          <div className="max-w-[52ch]">
             <Label>{ROI.eyebrow}</Label>
             <h2 className={`mt-5 ${H2}`}>{ROI.heading}</h2>
-            <p className="mt-6 text-lg leading-relaxed text-ink">{ROI.sub}</p>
+            <p className="mt-6 text-lg leading-relaxed text-midnight md:text-xl">{ROI.bridge}</p>
+            <p className="mt-5 text-lg leading-relaxed text-ink">{ROI.sub}</p>
           </div>
           <div className="mt-12">
             <CorporateRoi />
@@ -303,7 +370,41 @@ export default function Corporate() {
         </div>
       </section>
 
-      {/* ---------- 6. Delivery ---------- */}
+      {/* ---------- 8. The people who sign it off ---------- */}
+      <section id="stakeholders" className="bg-white py-20 md:py-32">
+        <div className={WRAP}>
+          <div className="max-w-[40ch]">
+            <Label>{STAKEHOLDERS.eyebrow}</Label>
+            <h2 className={`mt-5 ${H2}`}>{STAKEHOLDERS.heading}</h2>
+          </div>
+          <Reveal className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {STAKEHOLDERS.items.map((item) => (
+              <article
+                key={item.role}
+                className="cc-card flex flex-col rounded-3xl border border-midnight/10 bg-paper p-6 hover:border-gold/50"
+              >
+                <div className="grid place-items-center rounded-2xl bg-white py-3">
+                  <CorporateScene name={item.scene} className="h-24 w-full text-midnight" />
+                </div>
+                <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.16em] text-gold">{item.role}</p>
+                <p className="mt-3 font-display text-lg font-bold italic leading-snug tracking-[-0.02em] text-midnight">
+                  &ldquo;{item.q}&rdquo;
+                </p>
+                <h3 className="mt-4 text-xl text-midnight">{item.t}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-ink">{item.b}</p>
+              </article>
+            ))}
+          </Reveal>
+          <Link
+            to={STAKEHOLDERS.dataLink.to}
+            className="mt-8 inline-flex min-h-11 items-center gap-2 font-semibold text-midnight no-underline hover:text-gold"
+          >
+            {STAKEHOLDERS.dataLink.label} <span aria-hidden="true">&rarr;</span>
+          </Link>
+        </div>
+      </section>
+
+      {/* ---------- 9. Delivery ---------- */}
       <section id="delivery" data-tone="dark" className="relative isolate bg-midnight py-20 text-cream md:py-32">
         <DarkBackdrop glow="bottom" />
         <div className={WRAP}>
@@ -336,7 +437,7 @@ export default function Corporate() {
         </div>
       </section>
 
-      {/* ---------- 7. The pack ---------- */}
+      {/* ---------- 10. The pack ---------- */}
       <section id="pack" className="bg-paper py-20 md:py-32">
         <Reveal className={`${WRAP} grid items-center gap-14 md:grid-cols-[0.9fr_1.1fr] md:gap-20`}>
           <figure className="mx-auto w-full max-w-[460px]">
@@ -374,38 +475,7 @@ export default function Corporate() {
         </Reveal>
       </section>
 
-      {/* ---------- 8. The people who sign it off ---------- */}
-      <section id="stakeholders" className="bg-white py-20 md:py-32">
-        <div className={WRAP}>
-          <div className="max-w-[40ch]">
-            <Label>{STAKEHOLDERS.eyebrow}</Label>
-            <h2 className={`mt-5 ${H2}`}>{STAKEHOLDERS.heading}</h2>
-          </div>
-          <Reveal className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {STAKEHOLDERS.items.map((item) => (
-              <article
-                key={item.role}
-                className="cc-card flex flex-col rounded-3xl border border-midnight/10 bg-paper p-6 hover:border-gold/50"
-              >
-                <div className="grid place-items-center rounded-2xl bg-white py-3">
-                  <CorporateScene name={item.scene} className="h-24 w-full text-midnight" />
-                </div>
-                <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.16em] text-gold">{item.role}</p>
-                <h3 className="mt-2 text-xl text-midnight">{item.t}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-ink">{item.b}</p>
-              </article>
-            ))}
-          </Reveal>
-          <Link
-            to={STAKEHOLDERS.dataLink.to}
-            className="mt-8 inline-flex min-h-11 items-center gap-2 font-semibold text-midnight no-underline hover:text-gold"
-          >
-            {STAKEHOLDERS.dataLink.label} <span aria-hidden="true">&rarr;</span>
-          </Link>
-        </div>
-      </section>
-
-      {/* ---------- 9. Pricing ---------- */}
+      {/* ---------- 11. Pricing ---------- */}
       <section id="pricing" data-tone="dark" className="relative isolate bg-midnight py-20 text-cream md:py-32">
         <DarkBackdrop />
         <div className={WRAP}>
@@ -453,66 +523,21 @@ export default function Corporate() {
         </div>
       </section>
 
-      {/* ---------- 10. Who runs the room ---------- */}
-      <section id="trainer" className="bg-white py-20 md:py-32">
-        <Reveal className={`${WRAP} grid items-center gap-14 md:grid-cols-[0.8fr_1.2fr] md:gap-20`}>
-          <figure className="relative mx-auto w-full max-w-[360px]">
-            <div aria-hidden="true" className="absolute inset-0 translate-x-4 translate-y-4 rounded-3xl border border-gold/60" />
-            <picture>
-              <source type="image/webp" srcSet={TRAINER.photo.webp} sizes="(min-width: 768px) 360px, 90vw" />
-              <img
-                src={TRAINER.photo.src}
-                alt={TRAINER.photo.alt}
-                width={TRAINER.photo.width}
-                height={TRAINER.photo.height}
-                loading="lazy"
-                decoding="async"
-                className="relative aspect-[3/4] w-full rounded-3xl object-cover object-top"
-              />
-            </picture>
-          </figure>
-          <div>
-            <Label>{TRAINER.eyebrow}</Label>
-            <h2 className="mt-5 text-[length:clamp(2.25rem,5vw,3.75rem)]">{TRAINER.heading}</h2>
-            <p className="mt-6 text-lg leading-relaxed text-ink">
-              <strong className="font-semibold text-midnight">{FOUNDER.name}</strong> {TRAINER.lead}
-            </p>
-            <dl className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-midnight/10 bg-midnight/10 sm:grid-cols-3">
-              {TRAINER.proof.map((p) => (
-                <div key={p.t} className="bg-paper p-5">
-                  <dt className="font-display text-2xl font-extrabold tracking-[-0.04em] text-midnight">{p.k}</dt>
-                  <dd className="mt-2 text-sm leading-relaxed text-ink">{p.t}</dd>
-                </div>
-              ))}
-            </dl>
-            <blockquote className="mt-8 border-l-2 border-gold pl-5">
-              <p className="font-display text-xl font-bold leading-snug tracking-[-0.02em] text-midnight md:text-2xl">
-                &ldquo;{TRAINER.quote.text}&rdquo;
-              </p>
-              <footer className="mt-3 font-mono text-[12px] uppercase tracking-[0.14em] text-muted">{TRAINER.quote.by}</footer>
-            </blockquote>
-            <Link
-              to={TRAINER.stories.to}
-              className="mt-8 inline-flex min-h-11 items-center gap-2 font-semibold text-midnight no-underline hover:text-gold"
-            >
-              {TRAINER.stories.label} <span aria-hidden="true">&rarr;</span>
-            </Link>
+      {/* ---------- 12. The close ---------- */}
+      <section id="close" className="bg-paper py-20 md:py-32">
+        <Reveal className={`${WRAP} max-w-[900px]`}>
+          <div className="space-y-6 text-lg leading-relaxed text-ink md:text-xl">
+            {CLOSE.body.map((line) => (
+              <p key={line}>{line}</p>
+            ))}
           </div>
+          <p className="mt-12 text-[length:clamp(2rem,4.6vw,3.5rem)] font-display font-extrabold leading-[1.05] tracking-[-0.045em] text-midnight">
+            {CLOSE.lead} <span className="text-gold">{CLOSE.mark}</span>
+          </p>
         </Reveal>
       </section>
 
-      {/* ---------- 11. FAQ ---------- */}
-      <section id="faq" className="border-t border-midnight/10 bg-paper py-20 md:py-32">
-        <div className={WRAP}>
-          <div className="mx-auto mb-12 max-w-[40ch] text-center">
-            <Label>Questions</Label>
-            <h2 className="mt-5 text-[length:clamp(2.25rem,5vw,3.75rem)]">Questions sponsors ask first.</h2>
-          </div>
-          <Faq items={FAQ} />
-        </div>
-      </section>
-
-      {/* ---------- 12. Enquiry ---------- */}
+      {/* ---------- 13. Enquiry ---------- */}
       <section id="enquire" data-tone="dark" className="relative isolate scroll-mt-16 bg-midnight py-20 text-cream md:py-32">
         <DarkBackdrop glow="bottom" />
         <div className={`${WRAP} grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16`}>
@@ -539,6 +564,20 @@ export default function Corporate() {
             </div>
           </div>
           <CorporateEnquiry id="corporate-enquiry" />
+        </div>
+      </section>
+
+      {/* ---------- 14. FAQ ---------- */}
+      <section id="faq" className="bg-paper py-20 md:py-32">
+        <div className={WRAP}>
+          <div className="mx-auto mb-12 max-w-[40ch] text-center">
+            <Label>Questions</Label>
+            <h2 className="mt-5 text-[length:clamp(2.25rem,5vw,3.75rem)]">Questions sponsors ask first.</h2>
+          </div>
+          <Faq items={FAQ} />
+          <div className="mt-12 text-center">
+            <PillLink to={ENQUIRE_ANCHOR}>{HERO.cta}</PillLink>
+          </div>
         </div>
       </section>
 

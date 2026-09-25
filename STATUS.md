@@ -1,5 +1,27 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **25 September 2026 — financial services and law-firm market pages.**
+> `/ai-for-financial-services` and `/ai-for-law-firms` are live in the generated
+> site, indexed, linked from every footer and written around controlled workflow
+> preparation rather than autonomous professional decisions. Both pages explain
+> the problem, an alternative operating model, a safe first pilot, the boundary
+> that stays with the professional, and separate calls to the workshop and the
+> `/call` implementation application. Sources are visible on-page. The underlying
+> segment and positioning audit is in
+> [docs/market-research/finance-and-law-firms.md](docs/market-research/finance-and-law-firms.md).
+> GrowthCred does **not** claim finance or legal client results on these pages.
+> Gates: [GATES-finance-law.md](GATES-finance-law.md), 7/7 met.
+
+> **25 September 2026 — corporate page reflow.** `/corporate-ai-training` now
+> runs: hero + client logos → what you've tried (each card ends on a "nobody
+> connected it" line) → research → "The tool was never the problem." as its own
+> section (`#belief`) → mechanism + comparison → who runs the room → 3× →
+> cost of the gap + ROI → stakeholders (each led by their question) → delivery
+> → pack → pricing → the close (`#close`) → form → FAQ, with a second CTA. No
+> existing copy was cut. **Waiting on Phila:** a told TaiAscend story (what the
+> document was, who produced it, what changed) — only "3 days → 2 hrs" is
+> confirmed, so no story has been written for it.
+>
 > **25 September 2026 — client logos.** The homepage proof strip and the same
 > scrolling strip under the `/corporate-ai-training` hero show client logos, all redrawn
 > in the site's midnight ink at balanced optical sizes by

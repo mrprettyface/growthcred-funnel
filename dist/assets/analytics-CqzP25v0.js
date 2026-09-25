@@ -1,0 +1,1 @@
+import{N as e}from"./index-qvkIThj1.js";function o(t,n={}){const a={event:`gc_${t}`,...n,ts:new Date().toISOString()};typeof window<"u"&&(window.dataLayer=window.dataLayer??[],window.dataLayer.push(a),e(t,n))}export{o as t};
