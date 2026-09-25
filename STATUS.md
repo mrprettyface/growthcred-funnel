@@ -1,5 +1,17 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **25 September 2026 — client logos.** The homepage proof strip and the same
+> scrolling strip under the `/corporate-ai-training` hero show client logos, all redrawn
+> in the site's midnight ink at balanced optical sizes by
+> `scripts/make-logos.py` (originals in `content/client-logos/`, output in
+> `public/images/clients/`, sizes in `src/content/clientLogos.json`, component
+> `src/components/ClientLogos.tsx`). MpiloTech's stacked logo is recomposed
+> side by side so its name stays readable. **Waiting on Phila:** Ncedo Afrika's
+> file has white lettering flattened onto white, so it is typeset as a name
+> until a dark or transparent version arrives; an eighth logo (a gold hook,
+> lettering lost the same way) could not be identified and is not shown.
+> WeWork's logo is shown at Phila's request; brand sign-off is still advisable.
+>
 > **25 September 2026 — favicon.** Google showed a grey globe beside
 > growthcred.co.za because `/favicon.ico` was a 404 and the only icon was an SVG
 > with live-text letters. The GC mark now ships as `favicon.ico` (16/32/48),

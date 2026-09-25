@@ -6,6 +6,7 @@ import { Footer, Header } from "../components/Layout";
 import { CorporateScene } from "../components/CorporateScenes";
 import { CorporateRoi } from "../components/CorporateRoi";
 import { CorporateEnquiry } from "../components/CorporateEnquiry";
+import { ClientLogos } from "../components/ClientLogos";
 import { track } from "../lib/analytics";
 import { WHATSAPP_DISPLAY, whatsappUrl } from "../lib/contact";
 import { FOUNDER } from "../lib/home";
@@ -116,6 +117,11 @@ export default function Corporate() {
               {HERO.photo.caption}
             </figcaption>
           </figure>
+        </div>
+
+        <div className="border-t border-midnight/10 bg-paper/70 py-10 md:py-12">
+          <p className="mb-8 text-center font-mono text-[12px] uppercase tracking-[0.18em] text-muted">{HERO.clients}</p>
+          <ClientLogos />
         </div>
       </section>
 

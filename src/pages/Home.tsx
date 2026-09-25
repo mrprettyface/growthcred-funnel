@@ -6,12 +6,12 @@ import { PageScene } from "../components/PageScenes";
 import { SEARCH_PAGES } from "../content/searchPages";
 import { HomeScene, STAGE_SCENES, METHOD_SCENES } from "../components/HomeScenes";
 import { HeroGraph } from "../components/home/HeroGraph";
+import { ClientLogos } from "../components/ClientLogos";
 import { ApplyButton, HomeFooter, HomeHeader } from "../components/home/HomeChrome";
 import { track } from "../lib/analytics";
 import {
   APPLY_HREF,
   HERO,
-  COMPANIES,
   PROOF_LINE,
   CAPACITY,
   BEFORE_AFTER,
@@ -153,30 +153,7 @@ export default function Home() {
         </div>
 
         <div className="border-t border-midnight/10 bg-paper/70 py-10 md:py-12">
-          <div className="cc-marquee overflow-hidden">
-            <div className="cc-marquee-track">
-              <ul className="cc-marquee-group" aria-label="Organisations we have worked with">
-                {COMPANIES.map((name) => (
-                  <li
-                    key={name}
-                    className="whitespace-nowrap font-display text-xl font-extrabold tracking-[-0.03em] text-midnight/40 md:text-2xl"
-                  >
-                    {name}
-                  </li>
-                ))}
-              </ul>
-              <ul className="cc-marquee-group cc-marquee-dup" aria-hidden="true">
-                {COMPANIES.map((name) => (
-                  <li
-                    key={name}
-                    className="whitespace-nowrap font-display text-xl font-extrabold tracking-[-0.03em] text-midnight/40 md:text-2xl"
-                  >
-                    {name}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+          <ClientLogos />
           <p className={`${WRAP} mt-8 text-center text-sm text-ink md:text-base`}>
             <span aria-hidden="true" className="mr-2 text-gold">&#9670;</span>
             {PROOF_LINE}

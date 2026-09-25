@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "wework",
+    "name": "WeWork",
+    "src": "/images/clients/wework.png",
+    "width": 619,
+    "height": 144,
+    "displayHeight": 31
+  },
+  {
+    "slug": "taiascend",
+    "name": "TaiAscend",
+    "src": "/images/clients/taiascend.png",
+    "width": 850,
+    "height": 144,
+    "displayHeight": 29
+  },
+  {
+    "slug": "mne-waste",
+    "name": "MNE Waste Management",
+    "src": "/images/clients/mne-waste.png",
+    "width": 165,
+    "height": 144,
+    "displayHeight": 48
+  },
+  {
+    "slug": "melsoft-academy",
+    "name": "Melsoft Academy",
+    "src": "/images/clients/melsoft-academy.png",
+    "width": 370,
+    "height": 144,
+    "displayHeight": 45
+  },
+  {
+    "slug": "lombia",
+    "name": "Lombia Johannesburg",
+    "src": "/images/clients/lombia.png",
+    "width": 414,
+    "height": 144,
+    "displayHeight": 42
+  },
+  {
+    "slug": "mpilotech",
+    "name": "MpiloTech",
+    "src": "/images/clients/mpilotech.png",
+    "width": 556,
+    "height": 144,
+    "displayHeight": 36
+  }
+]

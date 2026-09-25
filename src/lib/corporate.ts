@@ -30,6 +30,7 @@ export const HERO = {
   cta: "Request a team proposal",
   secondary: "Model your ROI",
   chips: ["Live workshops, in the room or online", "A playbook for every role", "Measured before and after"],
+  clients: "Organisations we have worked with",
   photo: {
     src: "/images/stories/operators-intensive-session.jpg",
     alt: "Phila Ngwenya facilitating a GrowthCred working session while a participant asks a question",
