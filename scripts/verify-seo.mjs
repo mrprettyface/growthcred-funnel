@@ -55,4 +55,13 @@ const rules=await read('dist/.htaccess');assert.match(rules,/ErrorDocument 404 \
 assert.match(rules,/\.well-known/);await access('dist/.well-known/apple-developer-merchantid-domain-association');
 const imageManifest=JSON.parse(await read('src/content/imageManifest.json'));
 for(const key of ['the-drain','the-outcome'])for(const v of imageManifest[key]){assert.ok(v.bytes<160000);await access('dist'+v.src);}
+// Favicon: Google shows a grey globe unless it can fetch a square raster icon
+// that is a multiple of 48px, linked from the homepage and served from the site.
+const pngSize=buf=>({w:buf.readUInt32BE(16),h:buf.readUInt32BE(20)});
+const iconOk=buf=>buf.subarray(1,4).toString()==='PNG'&&pngSize(buf).w===pngSize(buf).h&&pngSize(buf).w%48===0;
+{const bad=Buffer.alloc(24);bad.write('\x89PNG',0,'latin1');bad.writeUInt32BE(50,16);bad.writeUInt32BE(50,20);assert.ok(!iconOk(bad),'favicon size rule cannot fail');}
+for(const icon of ['/favicon-48x48.png','/favicon-96x96.png','/icon-192.png'])assert.ok(iconOk(await readFile('dist'+icon)),icon+' is not a square PNG in a multiple of 48px');
+const ico=await readFile('dist/favicon.ico');assert.equal(ico.readUInt16BE(0),0);assert.equal(ico.readUInt16LE(2),1,'favicon.ico is not an icon file');
+for(const route of manifest.routes){const html=await read('dist/'+route.file);assert.match(html,/<link rel="icon" href="\/favicon\.ico" sizes="48x48"/,route.path+' does not link the favicon');}
+assert.match(home,/"logo":\{"@type":"ImageObject","url":"https:\/\/growthcred\.co\.za\/icon-512\.png"/,'Organization logo is not the raster mark');
 console.log(`SEO verification passed: ${manifest.routes.length} routes, ${publicRoutes.length} sitemap URLs, ${checkedLinks} internal references; negative controls passed.`);
