@@ -109,6 +109,33 @@
       "prerendered": true
     },
     {
+      "path": "/guides/ai-business-proposals-faster",
+      "title": "How to Write Business Proposals Faster With AI | GrowthCred",
+      "description": "A practical AI proposal workflow built from your business brief, discovery notes and approved commercial rules—not a generic write-my-proposal prompt.",
+      "index": true,
+      "modified": "2026-09-25",
+      "file": "guides/ai-business-proposals-faster.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/choose-ai-tools-small-business",
+      "title": "How to Choose AI Tools for Small Business | GrowthCred",
+      "description": "Skip the best-AI-tools list. Score your bottleneck, choose the smallest tool category that fits and prove it on ten real examples before expanding.",
+      "index": true,
+      "modified": "2026-09-25",
+      "file": "guides/choose-ai-tools-small-business.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/ai-challenges-south-africa",
+      "title": "AI Challenges for South African Businesses | GrowthCred",
+      "description": "A South African AI implementation guide covering POPIA, mobile-first workflows, resilience, skills and professional review without imported assumptions.",
+      "index": true,
+      "modified": "2026-09-25",
+      "file": "guides/ai-challenges-south-africa.html",
+      "prerendered": true
+    },
+    {
       "path": "/stories",
       "title": "Client Stories: AI Systems for SA Businesses | GrowthCred",
       "description": "How South African owner-led businesses, from waste management to beauty and cosmetics, built AI systems from their own knowledge with GrowthCred.",

@@ -1,5 +1,19 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **25 September 2026 — three contrarian value articles.** The Resources hub
+> now includes `/guides/ai-business-proposals-faster`,
+> `/guides/choose-ai-tools-small-business` and
+> `/guides/ai-challenges-south-africa`. Their respective arguments are: proposal
+> delay is a missing-source system, not a typing problem; "best tool" lists age,
+> so use a buying test; and South Africa's problem is imported workflows, not
+> being behind. Unsupported claims in the supplied drafts were removed, including
+> unnamed client proof, guaranteed hours/ROI, universal product privacy claims,
+> stale loadshedding framing and the unsupported 95% adoption advantage. All
+> three pages link to the workshop and `/call`, carry FAQs and author markup,
+> and receive inbound links from the Resources hub and relevant service pages.
+> Editorial decisions: [docs/editorial/value-article-audit.md](docs/editorial/value-article-audit.md).
+> Gates: [GATES-value-articles.md](GATES-value-articles.md), 7/7 met.
+
 > **25 September 2026 — financial services and law-firm market pages.**
 > `/ai-for-financial-services` and `/ai-for-law-firms` are live in the generated
 > site, indexed, linked from every footer and written around controlled workflow

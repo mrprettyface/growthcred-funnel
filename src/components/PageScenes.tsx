@@ -315,6 +315,40 @@ export const PAGE_SCENES: Record<string, ReactElement> = {
     </>
   ),
 
+  /* Proposal guide — approved sources feed one reviewed proposal. */
+  "/guides/ai-business-proposals-faster": (
+    <>
+      <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l24 -5" />
+      <path d="M96 34h48l14 14v66H96z" />
+      <path d="M144 34v14h14M108 60h38M108 74h38M108 88h26" />
+      <path d="M108 102h34" stroke={GOLD} strokeWidth={3.5} />
+      <circle cx="170" cy="102" r="10" fill={GOLD} stroke="none" />
+      <path d="M165 102l4 4 6-8" stroke={INK} />
+    </>
+  ),
+
+  /* Tool-selection guide — one useful tool chosen from the noisy stack. */
+  "/guides/choose-ai-tools-small-business": (
+    <>
+      <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l26 -2" />
+      <rect x="96" y="40" width="26" height="26" rx="5" />
+      <rect x="132" y="40" width="26" height="26" rx="5" fill={GOLD} stroke="none" />
+      <rect x="96" y="76" width="26" height="26" rx="5" />
+      <rect x="132" y="76" width="26" height="26" rx="5" />
+      <path d="M168 52h14M175 45v14M168 89h14" />
+    </>
+  ),
+
+  /* South African context — a local operating map, not an imported template. */
+  "/guides/ai-challenges-south-africa": (
+    <>
+      <Figure x={42} y={62} arms="M0 10 l-13 12 M0 10 l23 -6" />
+      <path d="M128 34l18 8 10 20-6 18-16 10-4 24-12-8-4-20-14-14 8-18z" />
+      <circle cx="132" cy="72" r="7" fill={GOLD} stroke="none" />
+      <path d="M162 44h18M171 35v18M158 100h22" />
+    </>
+  ),
+
   /* How we work — the month, and the day the first result lands. */
   "/guides/how-we-work-first-30-days": (
     <>
