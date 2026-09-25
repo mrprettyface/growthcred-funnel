@@ -276,16 +276,22 @@ export type ContactMessage = {
   email: string;
   whatsapp: string | null;
   message: string;
+  /** Which form sent it, stored on the row (the function trims it to 40 chars). */
+  source?: string;
   /** Honeypot. Real users never see this field; bots fill it and are dropped. */
   company: string;
 };
 
-export async function submitContactMessage(
+/**
+ * One POST to the function. A paused or cold project can hang rather than
+ * refuse, so the call is capped: a spinner that never ends loses the visitor
+ * as surely as an error does.
+ */
+async function postContactOnce(
+  base: string,
+  key: string,
   msg: ContactMessage,
-): Promise<{ ok: boolean; error?: string }> {
-  const base = url ?? "";
-  const key = anonKey ?? "";
-  if (!base || !key) return { ok: false, error: "not_configured" };
+): Promise<{ ok: boolean; error?: string; retry?: boolean }> {
   try {
     const res = await fetch(`${base}/functions/v1/contact-autoresponder`, {
       method: "POST",
@@ -295,11 +301,50 @@ export async function submitContactMessage(
         apikey: key,
       },
       body: JSON.stringify(msg),
+      signal: AbortSignal.timeout(15000),
     });
     if (res.ok) return { ok: true };
     if (res.status === 429) return { ok: false, error: "rate_limited" };
-    return { ok: false, error: `http_${res.status}` };
+    // 5xx is the function or the project having a bad moment; 4xx is the
+    // request itself, and sending it again gets the same answer.
+    return { ok: false, error: `http_${res.status}`, retry: res.status >= 500 };
   } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : "network_error" };
+    return { ok: false, error: e instanceof Error ? e.message : "network_error", retry: true };
   }
+}
+
+/**
+ * Sends the message, and tries hard not to lose it:
+ *
+ * 1. A transient failure (network drop, timeout, 5xx) is retried once after a
+ *    short pause. If the first attempt did land and only the response was lost,
+ *    the retry can store a duplicate row; a duplicate is cheap, a lost firm is
+ *    not. The function's own throttle (two per address per ten minutes) caps it.
+ * 2. If it still fails, the email is written to `leads` through the anon client
+ *    (source `<source>_unsent`), so there is a record of who tried even when
+ *    the function is down or undeployed. It is only a trail: the message itself
+ *    is not in that table, which is why the form still reports the failure and
+ *    hands the whole enquiry to WhatsApp. `backup` says whether this landed.
+ */
+export async function submitContactMessage(
+  msg: ContactMessage,
+): Promise<{ ok: boolean; backup?: boolean; error?: string }> {
+  const base = url ?? "";
+  const key = anonKey ?? "";
+  if (!base || !key) return { ok: false, error: "not_configured" };
+
+  let result = await postContactOnce(base, key, msg);
+  if (!result.ok && result.retry) {
+    await new Promise((r) => setTimeout(r, 1500));
+    result = await postContactOnce(base, key, msg);
+  }
+  if (result.ok) return { ok: true };
+  if (result.error === "rate_limited") return { ok: false, error: "rate_limited" };
+
+  // Capped like the POST: a paused project would otherwise hold the form here.
+  const backup = await Promise.race([
+    captureLead({ email: msg.email, source: `${msg.source ?? "contact_page"}_unsent` }),
+    new Promise<{ ok: boolean }>((r) => setTimeout(() => r({ ok: false }), 8000)),
+  ]).catch(() => ({ ok: false }));
+  return { ok: false, backup: backup.ok, error: result.error };
 }

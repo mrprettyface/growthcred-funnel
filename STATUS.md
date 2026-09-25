@@ -1,5 +1,21 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **25 September 2026 — enquiry forms no longer dead-end.** A corporate
+> proposal request failed on a phone with "That did not send". The browser
+> could not tell us why: the function may be undeployed, the project paused
+> (open item #6) or a secret missing. **Check first:** Supabase → Edge
+> Functions → `contact-autoresponder` is deployed and its logs, and that
+> the project is not paused. Either way, `submitContactMessage` (shared by
+> `/contact` and `/corporate-ai-training`) now caps each attempt at 15s and
+> retries once on a network error or 5xx. If both fail it writes the email
+> to `leads` with source `<form>_unsent` (`corporate_training_unsent`,
+> `contact_page_unsent`), so there is a trail of who tried. The form then
+> shows a **Send it on WhatsApp** button with the whole enquiry typed out
+> (organisation, team size, name, email, phone, message). Corporate rows
+> now carry `source = 'corporate_training'` in `contact_messages`.
+> **Check `leads` for `%_unsent` rows** and follow each one up: those are
+> firms whose message did not reach the inbox.
+>
 > **25 September 2026 — client logos.** The homepage proof strip and the same
 > scrolling strip under the `/corporate-ai-training` hero show client logos, all redrawn
 > in the site's midnight ink at balanced optical sizes by

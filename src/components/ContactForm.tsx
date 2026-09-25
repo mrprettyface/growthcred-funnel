@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, cn } from "./ui";
 import { submitContactMessage } from "../lib/supabase";
 import { track } from "../lib/analytics";
-import { WHATSAPP_DISPLAY, WHATSAPP_URL } from "../lib/contact";
+import { WHATSAPP_URL, whatsappUrl } from "../lib/contact";
 
 /**
  * The contact form. Posts to the `contact-autoresponder` Edge Function, which
@@ -12,6 +12,9 @@ import { WHATSAPP_DISPLAY, WHATSAPP_URL } from "../lib/contact";
  *
  * `company` is the honeypot: hidden from humans, irresistible to bots, and
  * silently accepted (and dropped) server-side.
+ *
+ * If the send fails after its retry, the error carries a WhatsApp button with
+ * the message already typed, so nobody who wrote to us is left at a dead end.
  */
 
 const fieldCls =
@@ -25,6 +28,8 @@ export function ContactForm({ id, className }: { id?: string; className?: string
   const [form, setForm] = useState({ name: "", email: "", whatsapp: "", message: "", company: "" });
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
+  // The message as a WhatsApp text, set only when the send failed for good.
+  const [handoff, setHandoff] = useState("");
 
   const set =
     (key: keyof typeof form) =>
@@ -35,6 +40,7 @@ export function ContactForm({ id, className }: { id?: string; className?: string
     e.preventDefault();
     if (!form.name.trim() || !emailOk(form.email) || !form.message.trim()) return;
     setState("sending");
+    setHandoff("");
 
     const result = await submitContactMessage({
       name: form.name.trim(),
@@ -45,12 +51,19 @@ export function ContactForm({ id, className }: { id?: string; className?: string
     });
 
     if (!result.ok) {
-      track("contact_save_failed", { error: result.error ?? "unknown" });
+      track("contact_save_failed", { error: result.error ?? "unknown", backup: Boolean(result.backup) });
       setState("error");
-      setMessage(
-        result.error === "rate_limited"
-          ? "You just sent us a message — give it a few minutes, or WhatsApp us if it is urgent."
-          : `That did not send. Please try again, or WhatsApp ${WHATSAPP_DISPLAY}.`,
+      if (result.error === "rate_limited") {
+        setMessage("You just sent us a message — give it a few minutes, or WhatsApp us if it is urgent.");
+        return;
+      }
+      setMessage("Our form could not get through just now. Your message is written out below — one tap sends it to us on WhatsApp.");
+      setHandoff(
+        [
+          `Hi, this is ${form.name.trim()} (${form.email.trim()}).`,
+          "",
+          form.message.trim(),
+        ].join("\n"),
       );
       return;
     }
@@ -178,6 +191,18 @@ export function ContactForm({ id, className }: { id?: string; className?: string
         <p role="alert" className="mt-3 text-sm text-red-700">
           {message}
         </p>
+      )}
+
+      {state === "error" && handoff && (
+        <a
+          href={whatsappUrl(handoff)}
+          target="_blank"
+          rel="noopener"
+          onClick={() => track("contact_whatsapp_handoff")}
+          className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-midnight/15 bg-white px-6 font-body text-sm font-semibold text-midnight no-underline transition hover:border-midnight"
+        >
+          Send it on WhatsApp <span aria-hidden="true">&#8599;</span>
+        </a>
       )}
 
       <p className="mt-4 text-center font-mono text-[11px] leading-relaxed text-muted">

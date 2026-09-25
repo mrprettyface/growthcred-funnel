@@ -17,6 +17,7 @@ type FunnelStep =
   | "corporate_roi_used"
   | "corporate_enquiry_submit"
   | "corporate_enquiry_failed"
+  | "corporate_enquiry_whatsapp_handoff"
   | "class_view"
   | "class_optin"
   | "webinar_view"
@@ -51,6 +52,7 @@ type FunnelStep =
   | "contact_view"
   | "contact_submit"
   | "contact_save_failed"
+  | "contact_whatsapp_handoff"
   /** The Business Brain builder: open, started, finished, and each export. */
   | "brain_view"
   | "brain_start"

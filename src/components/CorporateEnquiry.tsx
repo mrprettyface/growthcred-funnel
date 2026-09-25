@@ -13,6 +13,11 @@ import { ENQUIRY } from "../lib/corporate";
  *
  * `company` is the contact form's honeypot, so the real organisation field is
  * named `organisation` and never sent under that key.
+ *
+ * A firm that fills this in is never left at a dead end. If the send fails
+ * after its retry, the error carries a WhatsApp button with the whole enquiry
+ * already typed (name, email, organisation, team size, phone, message), so one
+ * tap delivers it by a route that does not depend on the site's backend.
  */
 
 const fieldCls =
@@ -33,6 +38,8 @@ export function CorporateEnquiry({ id }: { id: string }) {
   });
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [error, setError] = useState("");
+  // The enquiry as a WhatsApp message, set only when the send failed for good.
+  const [handoff, setHandoff] = useState("");
 
   const set =
     (key: keyof typeof form) =>
@@ -49,30 +56,41 @@ export function CorporateEnquiry({ id }: { id: string }) {
       return;
     }
     setState("sending");
+    setHandoff("");
 
-    const message = [
+    const header = [
       "CORPORATE TRAINING ENQUIRY",
       `Organisation: ${form.organisation.trim()}`,
       `People to train: ${form.size || "not given"}`,
-      "",
-      form.message.trim(),
-    ].join("\n");
+    ];
+    const message = [...header, "", form.message.trim()].join("\n");
 
     const result = await submitContactMessage({
       name: form.name.trim(),
       email: form.email.trim(),
       whatsapp: form.whatsapp.trim() || null,
       message,
+      source: "corporate_training",
       company: form.company,
     });
 
     if (!result.ok) {
-      track("corporate_enquiry_failed", { error: result.error ?? "unknown" });
+      track("corporate_enquiry_failed", { error: result.error ?? "unknown", backup: Boolean(result.backup) });
       setState("error");
-      setError(
-        result.error === "rate_limited"
-          ? "You just sent us a request — give it a few minutes, or WhatsApp us if it is urgent."
-          : `That did not send. Please try again, or WhatsApp ${WHATSAPP_DISPLAY}.`,
+      if (result.error === "rate_limited") {
+        setError("You just sent us a request — give it a few minutes, or WhatsApp us if it is urgent.");
+        return;
+      }
+      setError("Our form could not get through just now. Your enquiry is written out below — one tap sends it to us on WhatsApp.");
+      setHandoff(
+        [
+          ...header,
+          `Name: ${form.name.trim()}`,
+          `Email: ${form.email.trim()}`,
+          ...(form.whatsapp.trim() ? [`Phone: ${form.whatsapp.trim()}`] : []),
+          "",
+          form.message.trim(),
+        ].join("\n"),
       );
       return;
     }
@@ -214,6 +232,18 @@ export function CorporateEnquiry({ id }: { id: string }) {
         <p role="alert" className="mt-3 text-sm text-red-700">
           {error}
         </p>
+      )}
+
+      {state === "error" && handoff && (
+        <a
+          href={whatsappUrl(handoff)}
+          target="_blank"
+          rel="noopener"
+          onClick={() => track("corporate_enquiry_whatsapp_handoff")}
+          className="mt-4 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-midnight/15 bg-white px-6 font-body text-sm font-semibold text-midnight no-underline transition hover:border-midnight"
+        >
+          Send it on WhatsApp <span aria-hidden="true">&#8599;</span>
+        </a>
       )}
 
       <p className="mt-4 text-center font-mono text-[12px] leading-relaxed text-muted">
