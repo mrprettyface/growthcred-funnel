@@ -17,7 +17,7 @@ export default function CallPage() {
     <>
       {/* The form first: whoever clicked "Apply" is ready now, so nothing
           stands between them and sending it. The detail follows below. */}
-      <Section className="pt-8 md:pt-14">
+      <Section className="pb-10 pt-8 md:pb-14 md:pt-12">
         <div className="mx-auto grid max-w-[1040px] items-start gap-8 lg:grid-cols-[1fr_440px] lg:gap-14">
           <div className="text-center lg:pt-6 lg:text-left">
             <Eyebrow>Done for you</Eyebrow>
@@ -37,7 +37,7 @@ export default function CallPage() {
       </Section>
 
       {/* 5.2 What the engagement includes */}
-      <Section className="pt-0">
+      <Section className="pb-10 pt-0 md:pb-14 md:pt-0">
         <div className="mx-auto max-w-[760px] rounded-2xl bg-midnight p-6 text-cream md:p-9">
           <Eyebrow dark>The engagement</Eyebrow>
           <h2 className="mt-4 text-2xl text-cream md:text-3xl">We take it all off your plate.</h2>
@@ -59,7 +59,7 @@ export default function CallPage() {
       </Section>
 
       {/* 5.1 Who this is for, and who it is not for */}
-      <Section className="pt-0">
+      <Section className="pb-10 pt-0 md:pb-14 md:pt-0">
         <div className="mx-auto grid max-w-[820px] gap-4 md:grid-cols-2">
           <div className="rounded-2xl border border-midnight/10 bg-white p-6 md:p-8">
             <h3 className="text-xl">This is for you if</h3>
