@@ -70,8 +70,10 @@ Then **Settings → Environment variables**, set for both Production and Preview
 
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
+- `VITE_GUIDE_EMAIL` = `1` (the guide card emails the guide; needs the current
+  `contact-autoresponder` deployed)
 
-Both are in your local `.env`. They are build-time values baked into the JS
+All three are in your local `.env`. They are build-time values baked into the JS
 bundle — that is fine and by design: the anon key is public, and your RLS is
 insert-only, so it cannot read anyone's data back.
 

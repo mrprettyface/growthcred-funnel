@@ -44,10 +44,10 @@
 > application is written twice in parallel — the `applications` row and a
 > `contact-autoresponder` message (source `call_application`), which emails
 > info@ ("New /call application: …") and sends the applicant a confirmation.
-> **Waiting on Phila:** (1) redeploy `contact-autoresponder` (dashboard → Edge
-> Functions, or `supabase functions deploy contact-autoresponder`) to get the
-> guide email, then set `VITE_GUIDE_EMAIL=1` and rebuild — until then guide
-> opt-ins are captured but not emailed; (2) read and approve the guide copy.
+> The guide email is **on** (function redeployed by Phila, `VITE_GUIDE_EMAIL=1`
+> in `.env` and in DEPLOY.md's Pages variables, 26 Sep): each opt-in is saved
+> to `magnet_signups` and emailed the guide; info@ gets "New guide sign-up".
+> **Waiting on Phila:** read and approve the guide copy.
 > `VITE_INSTANT_CALL` stays off until an AI-call workflow exists.
 > Pre-existing, not from this change: `verify-bundle-budget` fails (main chunk
 > 76 KB vs 70 KB budget at HEAD) and `verify-human-layer` flags the finance
