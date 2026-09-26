@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "./ui";
 import { GuideCover } from "./GuideCover";
-import { captureMagnetSignup } from "../lib/supabase";
+import { captureMagnetSignup, submitContactMessage } from "../lib/supabase";
 import { track } from "../lib/analytics";
 import { GUIDE_OFFER, GUIDE_PATH, GUIDE_SLUG } from "../lib/guide";
 
@@ -21,9 +21,12 @@ import { GUIDE_OFFER, GUIDE_PATH, GUIDE_SLUG } from "../lib/guide";
  * dismissed, it rests for 14 days; claimed, it never comes back.
  *
  * The opt-in lands in `magnet_signups` (slug `ai-implementation-guide`, source
- * `popup:<path>`). The email itself is sent by the n8n workflow that listens to
- * that table; VITE_GUIDE_EMAIL=1 is set once it does, and only then does the
- * confirmation say a copy is on its way. The guide opens on the spot either way.
+ * `popup:<path>`). With VITE_GUIDE_EMAIL=1 it is also sent through the
+ * `contact-autoresponder` function as source "ai_guide", which emails the
+ * visitor the guide and tells the business inbox. That flag waits until the
+ * function version with the guide email is deployed: the older one would send
+ * its generic "we got your message" reply instead. The guide opens on the spot
+ * either way.
  */
 
 const KEY = "gc_guide_offer";
@@ -123,16 +126,28 @@ export function GuideOffer() {
     setTried(true);
     if (!valid) return;
     setState("sending");
-    const result = await captureMagnetSignup({
-      magnet: GUIDE_SLUG,
-      name: name.trim(),
-      email: email.trim(),
-      whatsapp: "",
-      company: null,
-      consent: true,
-      source: `popup:${pathname}`,
-    });
-    if (!result.ok && result.error !== "not_configured") {
+    const [result, mail] = await Promise.all([
+      captureMagnetSignup({
+        magnet: GUIDE_SLUG,
+        name: name.trim(),
+        email: email.trim(),
+        whatsapp: "",
+        company: null,
+        consent: true,
+        source: `popup:${pathname}`,
+      }),
+      emailing
+        ? submitContactMessage({
+            name: name.trim(),
+            email: email.trim(),
+            whatsapp: null,
+            message: `AI Implementation Guide request (popup:${pathname})`,
+            company: "",
+            source: "ai_guide",
+          })
+        : Promise.resolve({ ok: false, error: "off" }),
+    ]);
+    if (!result.ok && !mail.ok && result.error !== "not_configured") {
       setState("error");
       return;
     }

@@ -278,6 +278,8 @@ export type ContactMessage = {
   message: string;
   /** Honeypot. Real users never see this field; bots fill it and are dropped. */
   company: string;
+  /** Picks the email the function sends: "call_application", "ai_guide", or the contact default. */
+  source?: string;
 };
 
 export async function submitContactMessage(

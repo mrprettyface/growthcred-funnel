@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Eyebrow, Faint, Button, cn } from "./ui";
 import { BrandIcon } from "./BrandIcons";
-import { submitApplication, isSupabaseConfigured, type Application } from "../lib/supabase";
+import { submitApplication, submitContactMessage, isSupabaseConfigured, type Application } from "../lib/supabase";
 import { track } from "../lib/analytics";
 import { IMESSAGE_NUMBER, LINKEDIN_URL, WHATSAPP_DISPLAY, whatsappUrl } from "../lib/contact";
 
@@ -19,6 +19,12 @@ import { IMESSAGE_NUMBER, LINKEDIN_URL, WHATSAPP_DISPLAY, whatsappUrl } from "..
  *   ring them within minutes. The confirmation promises that call.
  * - unset: nothing automatic is promised beyond a WhatsApp reply; the
  *   confirmation leads with "message Phila now".
+ * Every application is written twice, in parallel: the `applications` row, and
+ * a message through the `contact-autoresponder` function (source
+ * "call_application"), which emails the business inbox at once and sends the
+ * applicant a confirmation. It counts as captured if either one lands, so a
+ * single failure never loses a lead.
+ *
  * Either way the confirmation offers WhatsApp, iMessage and LinkedIn in one tap,
  * each opening with the message already written. The voice is the company's
  * ("speak to a specialist"), not one person's.
@@ -80,12 +86,21 @@ export function ApplicationForm({ schedulerUrl }: { schedulerUrl?: string }) {
       frustration: "",
       team_size: null,
     };
-    const result = await submitApplication(app);
-    if (!result.ok && result.error !== "not_configured") {
+    const message = [
+      "CALL APPLICATION: wants to speak to a specialist",
+      `Mobile: ${app.whatsapp}`,
+      `Wants off their plate: ${app.reason || "not said"}`,
+    ].join("\n");
+    const [row, mail] = await Promise.all([
+      submitApplication(app),
+      submitContactMessage({ name: app.name, email: app.email, whatsapp: app.whatsapp, message, company: "", source: "call_application" }),
+    ]);
+    const unconfigured = row.error === "not_configured" && mail.error === "not_configured";
+    if (!row.ok && !mail.ok && !unconfigured) {
       setState("error");
       return;
     }
-    track("call_apply", { configured: isSupabaseConfigured, instant_call: instantCall });
+    track("call_apply", { configured: isSupabaseConfigured, instant_call: instantCall, row: row.ok, email: mail.ok });
     setState("done");
   }
 

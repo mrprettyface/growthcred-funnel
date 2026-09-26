@@ -38,10 +38,17 @@
 > `/ai-implementation-guide`) appears after 15 s, 50% scroll or desktop exit
 > intent, never on form/checkout pages, and rests 14 days once closed.
 > Opt-ins go to `magnet_signups` (slug `ai-implementation-guide`).
-> **Waiting on Phila:** (1) Supabase Database Webhooks → n8n for
-> `applications` inserts (AI call) and guide opt-ins (email), then set
-> `VITE_INSTANT_CALL=1` / `VITE_GUIDE_EMAIL=1` and rebuild — until then the
-> site promises neither a call nor an email; (2) read and approve the guide copy.
+> **Capture (26 Sep, n8n parked):** live project `xnybzdbnbovirqwtpddn` has
+> every table; anon inserts into `applications` and `magnet_signups` verified
+> with rows the database had to reject (nothing written). Each /call
+> application is written twice in parallel — the `applications` row and a
+> `contact-autoresponder` message (source `call_application`), which emails
+> info@ ("New /call application: …") and sends the applicant a confirmation.
+> **Waiting on Phila:** (1) redeploy `contact-autoresponder` (dashboard → Edge
+> Functions, or `supabase functions deploy contact-autoresponder`) to get the
+> guide email, then set `VITE_GUIDE_EMAIL=1` and rebuild — until then guide
+> opt-ins are captured but not emailed; (2) read and approve the guide copy.
+> `VITE_INSTANT_CALL` stays off until an AI-call workflow exists.
 > Pre-existing, not from this change: `verify-bundle-budget` fails (main chunk
 > 76 KB vs 70 KB budget at HEAD) and `verify-human-layer` flags the finance
 > and law pages.
