@@ -14,9 +14,11 @@ import { GUIDE_OFFER, GUIDE_PATH, GUIDE_SLUG } from "../lib/guide";
  * full-screen popups on mobile as intrusive, and search is how most people
  * arrive, so this never covers the page they came to read.
  *
- * It opens as soon as the page has drawn (about a second after arriving, at
- * Phila's request, 26 Sep 2026: the offer should be the first thing seen). It
- * stays
+ * On larger screens it opens as soon as the page has drawn (about a second
+ * after arriving, at Phila's request, 26 Sep 2026). On phones, where the sheet
+ * covers much of the screen and Google can demote pages whose popups hide the
+ * content on arrival, it waits until the visitor is reading: 8 seconds or a
+ * quarter of the page scrolled, whichever comes first. It stays
  * away from pages where a form is already the point, and it shows once:
  * dismissed, it rests for 14 days; claimed, it never comes back.
  *
@@ -80,9 +82,18 @@ export function GuideOffer() {
       setOpen(true);
       track("guide_offer_view", { path: pathname });
     };
-    // One beat after arrival, so the page paints first and the card slides in over it.
-    const timer = window.setTimeout(show, 1_000);
-    return () => window.clearTimeout(timer);
+    // Phones: the same breakpoint where the card becomes a bottom sheet.
+    const phone = window.matchMedia("(max-width: 639px)").matches;
+    const timer = window.setTimeout(show, phone ? 8_000 : 1_000);
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      if (max > 0 && window.scrollY / max >= 0.25) show();
+    };
+    if (phone) window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, [eligible, pathname]);
 
   // A route change to a page it should not appear on closes it.
