@@ -35,8 +35,8 @@
 > its channel logo (`src/components/BrandIcons.tsx`); the footer shows all five.
 > A site-wide **AI Implementation Guide** card (`GuideOffer.tsx`, cover in
 > `GuideCover.tsx`, copy in `src/lib/guide.ts`, guide at the unindexed
-> `/ai-implementation-guide`) appears after 15 s, 50% scroll or desktop exit
-> intent, never on form/checkout pages, and rests 14 days once closed.
+> `/ai-implementation-guide`) opens about a second after arrival
+> (Phila, 26 Sep), never on form/checkout pages, and rests 14 days once closed.
 > Opt-ins go to `magnet_signups` (slug `ai-implementation-guide`).
 > **Capture (26 Sep, n8n parked):** live project `xnybzdbnbovirqwtpddn` has
 > every table; anon inserts into `applications` and `magnet_signups` verified

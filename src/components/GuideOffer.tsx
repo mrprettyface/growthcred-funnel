@@ -14,9 +14,9 @@ import { GUIDE_OFFER, GUIDE_PATH, GUIDE_SLUG } from "../lib/guide";
  * full-screen popups on mobile as intrusive, and search is how most people
  * arrive, so this never covers the page they came to read.
  *
- * It waits until someone is reading: 15 seconds on the page, or half of it
- * scrolled, or on desktop the pointer heading for the tab bar, whichever
- * comes first. It stays
+ * It opens as soon as the page has drawn (about a second after arriving, at
+ * Phila's request, 26 Sep 2026: the offer should be the first thing seen). It
+ * stays
  * away from pages where a form is already the point, and it shows once:
  * dismissed, it rests for 14 days; claimed, it never comes back.
  *
@@ -80,23 +80,9 @@ export function GuideOffer() {
       setOpen(true);
       track("guide_offer_view", { path: pathname });
     };
-    const onScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      if (max > 0 && window.scrollY / max >= 0.5) show();
-    };
-    const timer = window.setTimeout(show, 15_000);
-    // Leaving for the tab bar or the back button, on a pointer device only.
-    const armExit = window.setTimeout(() => document.addEventListener("mouseout", onExit), 8_000);
-    function onExit(e: MouseEvent) {
-      if (!e.relatedTarget && e.clientY <= 0 && window.matchMedia("(pointer: fine)").matches) show();
-    }
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.clearTimeout(timer);
-      window.clearTimeout(armExit);
-      window.removeEventListener("scroll", onScroll);
-      document.removeEventListener("mouseout", onExit);
-    };
+    // One beat after arrival, so the page paints first and the card slides in over it.
+    const timer = window.setTimeout(show, 1_000);
+    return () => window.clearTimeout(timer);
   }, [eligible, pathname]);
 
   // A route change to a page it should not appear on closes it.
