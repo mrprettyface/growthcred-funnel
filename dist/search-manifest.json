@@ -343,6 +343,14 @@
       "prerendered": true
     },
     {
+      "path": "/ai-implementation-guide",
+      "title": "The AI Implementation Guide | GrowthCred",
+      "description": "Seven steps to put AI to work in your business without changing the way you work or the platforms you work in.",
+      "index": false,
+      "file": "ai-implementation-guide.html",
+      "prerendered": true
+    },
+    {
       "path": "/brain",
       "title": "Free AI Business Brain Builder | GrowthCred",
       "description": "Build a reusable business context document for AI. Answer practical questions, then copy or download your document.",

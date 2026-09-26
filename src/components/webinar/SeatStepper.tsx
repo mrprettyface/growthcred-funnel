@@ -5,6 +5,7 @@ import { WEBINAR, calendarUrl } from "../../lib/webinar";
 import { registerForWebinar, isSupabaseConfigured } from "../../lib/supabase";
 import { track } from "../../lib/analytics";
 import { WHATSAPP_DISPLAY, whatsappUrl } from "../../lib/contact";
+import { BrandIcon } from "../BrandIcons";
 import { refCode } from "../../lib/referral";
 import { ShareInvite } from "../ShareInvite";
 
@@ -200,9 +201,9 @@ export function SeatStepper({
             href={whatsappUrl(`Hi Phila, I tried to book a seat for the ${WEBINAR.dayLabel} class and the form did not save.`)}
             target="_blank"
             rel="noopener noreferrer"
-            className="underline decoration-red-400 underline-offset-2"
+            className="inline-flex items-center gap-1 underline decoration-red-400 underline-offset-2"
           >
-            WhatsApp me on {WHATSAPP_DISPLAY}
+            <BrandIcon name="whatsapp" className="h-4 w-4" /> WhatsApp me on {WHATSAPP_DISPLAY}
           </a>{" "}
           and I&rsquo;ll add you myself.
         </p>

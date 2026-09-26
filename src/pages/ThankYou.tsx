@@ -4,6 +4,7 @@ import { OFFERS, formatPrice, sumOffers } from "../lib/offers";
 import { useOrder } from "../lib/order";
 import { track } from "../lib/analytics";
 import { WHATSAPP_URL } from "../lib/contact";
+import { BrandIcon } from "../components/BrandIcons";
 
 /**
  * CONFIRMATION. Locked headline: "Your Time Back Starts Now"
@@ -83,12 +84,12 @@ export default function ThankYouPage() {
 
           <p className="mt-5 text-sm text-cream/70">
             Cannot wait? Reach us on WhatsApp{" "}
-            <a href={WHATSAPP_URL} className="text-gold underline">
-              066 283 0289
+            <a href={WHATSAPP_URL} className="inline-flex items-center gap-1 text-gold underline">
+              <BrandIcon name="whatsapp" className="h-4 w-4" /> 066 283 0289
             </a>{" "}
             or email{" "}
-            <a href="mailto:info@growthcred.co.za" className="text-gold underline">
-              info@growthcred.co.za
+            <a href="mailto:info@growthcred.co.za" className="inline-flex items-center gap-1 text-gold underline">
+              <BrandIcon name="email" className="h-4 w-4" /> info@growthcred.co.za
             </a>
             .
           </p>

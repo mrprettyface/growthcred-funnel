@@ -1,7 +1,9 @@
 import { useState, type ReactNode } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { PillLink, cn } from "./ui";
 import { AnalyticsChoice } from "./AnalyticsChoice";
+import { BrandIcon, type Brand } from "./BrandIcons";
+import { IMESSAGE_NUMBER, LINKEDIN_URL, whatsappUrl } from "../lib/contact";
 
 /** Brand wordmark. Gold "Cred" + gold full stop, matching the current site. */
 export function Brand({ dark = true }: { dark?: boolean }) {
@@ -42,6 +44,8 @@ export function Header({
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const light = tone === "light";
+  // /call is already the form: a "Register" button there only pulls people away from it.
+  const showCta = useLocation().pathname !== "/call";
   return (
     /* Solid, not backdrop-blur: a blurred sticky bar re-rasterises on every
        scroll frame, which the mobile rules in STATUS.md forbid. */
@@ -82,9 +86,11 @@ export function Header({
           >
             Menu
           </button>
-          <PillLink to={cta.to} size="sm" className="whitespace-nowrap">
-            {cta.label}
-          </PillLink>
+          {showCta && (
+            <PillLink to={cta.to} size="sm" className="whitespace-nowrap">
+              {cta.label}
+            </PillLink>
+          )}
         </div>
       </div>
       {menuOpen && (
@@ -170,6 +176,15 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
   },
 ];
 
+/** Every way to reach us, as logos, in the footer of every page. */
+const SOCIAL: { name: Brand; href: string; label: string }[] = [
+  { name: "whatsapp", href: whatsappUrl("Hi GrowthCred, I'd like to speak to a specialist."), label: "WhatsApp GrowthCred" },
+  { name: "imessage", href: `sms:+${IMESSAGE_NUMBER}`, label: "iMessage or text GrowthCred" },
+  { name: "linkedin", href: LINKEDIN_URL, label: "GrowthCred on LinkedIn" },
+  { name: "youtube", href: "https://www.youtube.com/@PhilaNgwenyagrowth", label: "GrowthCred on YouTube" },
+  { name: "email", href: "mailto:info@growthcred.co.za", label: "Email GrowthCred" },
+];
+
 export function Footer() {
   return (
     <footer className="mx-auto w-[min(1120px,calc(100%-2.5rem))] py-12">
@@ -183,29 +198,20 @@ export function Footer() {
           </p>
 
           {/* Social, carried over from the previous site */}
-          <div className="mt-4 flex items-center gap-3">
-            <a
-              href="https://www.youtube.com/@PhilaNgwenyagrowth"
-              target="_blank"
-              rel="noopener"
-              aria-label="GrowthCred on YouTube"
-              className="grid h-9 w-9 place-items-center rounded-full border border-midnight/15 text-midnight transition hover:border-gold hover:text-gold"
-            >
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.376.505A3.016 3.016 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.376-.505a3.016 3.016 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814ZM9.545 15.568V8.432L15.818 12l-6.273 3.568Z" />
-              </svg>
-            </a>
-            <a
-              href="https://www.linkedin.com/in/phila-ngwenya-908b1a179/"
-              target="_blank"
-              rel="noopener"
-              aria-label="Phila Ngwenya on LinkedIn"
-              className="grid h-9 w-9 place-items-center rounded-full border border-midnight/15 text-midnight transition hover:border-gold hover:text-gold"
-            >
-              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden="true">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286ZM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065Zm1.782 13.019H3.555V9h3.564v11.452ZM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0Z" />
-              </svg>
-            </a>
+          <div className="mt-4 flex flex-wrap items-center gap-2">
+            {SOCIAL.map((c) => (
+              <a
+                key={c.name}
+                href={c.href}
+                target={c.href.startsWith("http") ? "_blank" : undefined}
+                rel={c.href.startsWith("http") ? "noopener" : undefined}
+                aria-label={c.label}
+                title={c.label}
+                className="grid h-11 w-11 place-items-center rounded-full border border-midnight/10 bg-white text-midnight transition hover:border-gold"
+              >
+                <BrandIcon name={c.name} className="h-5 w-5" />
+              </a>
+            ))}
           </div>
         </div>
         <nav aria-label="Footer" className="grid w-full max-w-3xl grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-4">
@@ -229,8 +235,8 @@ export function Footer() {
         </nav>
       </div>
       <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-midnight/10 pt-6 font-mono text-[12px] uppercase tracking-[0.14em]">
-        <a href="mailto:info@growthcred.co.za" className="text-midnight no-underline hover:text-gold">
-          info@growthcred.co.za
+        <a href="mailto:info@growthcred.co.za" className="inline-flex items-center gap-2 text-midnight no-underline hover:text-gold">
+          <BrandIcon name="email" className="h-4 w-4" /> info@growthcred.co.za
         </a>
         <Link to="/terms" className="text-midnight no-underline hover:text-gold">Terms</Link>
         <Link to="/privacy" className="text-midnight no-underline hover:text-gold">Privacy</Link>

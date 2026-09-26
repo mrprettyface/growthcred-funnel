@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { BrandIcon } from "../components/BrandIcons";
 import { SEARCH_PAGES, REVIEWED, type SearchPage as Page } from "../content/searchPages";
 
 const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -29,7 +30,7 @@ export function SearchPage({page}:{page:Page}) {
       {page.quote&&<figure className="max-w-[860px] border-l-4 border-gold pl-6 md:pl-8"><blockquote className="font-display text-2xl font-extrabold leading-snug tracking-[-0.03em] text-midnight md:text-4xl"><span aria-hidden="true" className="text-gold">&ldquo;</span>{page.quote.text}<span aria-hidden="true" className="text-gold">&rdquo;</span></blockquote><figcaption className="mt-4 font-mono text-[12px] uppercase tracking-[0.14em] text-muted">{page.quote.by}</figcaption></figure>}
       {page.images&&<div className={`grid gap-5 ${page.quote?'mt-10':''} ${page.images.length>1?'md:grid-cols-2':''}`}>{page.images.map(img=><figure key={img.src} className="overflow-hidden rounded-3xl border border-midnight/10 bg-white shadow-[0_30px_80px_-40px_rgba(26,26,36,0.35)]"><img src={img.src} alt={img.alt} width={img.width} height={img.height} loading="lazy" decoding="async" className="h-auto w-full"/>{img.caption&&<figcaption className="px-5 py-4 font-mono text-[12px] uppercase tracking-[0.14em] text-muted">{img.caption}</figcaption>}</figure>)}</div>}
     </Section>}
-    {page.kind==='about'&&<Section className="pb-0 md:pb-0"><img src="/images/phila-event-640.webp" width="640" height="853" alt="Phila Ngwenya, founder of GrowthCred" className="w-full max-w-sm rounded-2xl"/><p className="mt-4 flex flex-wrap gap-5"><a href="https://www.youtube.com/@PhilaNgwenyagrowth">Watch Phila on YouTube</a><a href="https://www.linkedin.com/in/phila-ngwenya-908b1a179/">Phila on LinkedIn</a></p></Section>}
+    {page.kind==='about'&&<Section className="pb-0 md:pb-0"><img src="/images/phila-event-640.webp" width="640" height="853" alt="Phila Ngwenya, founder of GrowthCred" className="w-full max-w-sm rounded-2xl"/><p className="mt-4 flex flex-wrap gap-5"><a href="https://www.youtube.com/@PhilaNgwenyagrowth" className="inline-flex min-h-11 items-center gap-2"><BrandIcon name="youtube"/>Watch Phila on YouTube</a><a href="https://www.linkedin.com/in/phila-ngwenya-908b1a179/" className="inline-flex min-h-11 items-center gap-2"><BrandIcon name="linkedin"/>Phila on LinkedIn</a></p></Section>}
     <Section>
       <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,760px)_1fr]">
         <article className="min-w-0 space-y-10">

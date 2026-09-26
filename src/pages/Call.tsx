@@ -5,8 +5,9 @@ import { track } from "../lib/analytics";
 
 /**
  * BACKEND OFFER. Locked headline: "We Take It All Off Your Plate"
- * Booked on a call, not bought in a cart, and the call is EARNED through a
- * thoughtful application rather than a bare "name + email + book" form.
+ * Booked on a call, not bought in a cart. The form sits first and asks for
+ * three things, because every extra step loses someone who was ready: the
+ * qualifying questions are asked on the call (see ApplicationForm).
  */
 export default function CallPage() {
   useEffect(() => track("call_view"), []);
@@ -14,15 +15,25 @@ export default function CallPage() {
 
   return (
     <>
-      <Section className="pt-10 text-center md:pt-16">
-        <Eyebrow>Done for you</Eyebrow>
-        <H1 className="mx-auto mt-5 max-w-[16ch]">
-          We Take It All <Faint>Off Your Plate.</Faint>
-        </H1>
-        <p className="mx-auto mt-6 max-w-[54ch] text-lg text-ink">
-          You do not build it, learn it, or run it. We map it, build it, and run it with your team,
-          so the time comes back without you lifting a finger.
-        </p>
+      {/* The form first: whoever clicked "Apply" is ready now, so nothing
+          stands between them and sending it. The detail follows below. */}
+      <Section className="pt-8 md:pt-14">
+        <div className="mx-auto grid max-w-[1040px] items-start gap-8 lg:grid-cols-[1fr_440px] lg:gap-14">
+          <div className="text-center lg:pt-6 lg:text-left">
+            <Eyebrow>Done for you</Eyebrow>
+            <H1 className="mx-auto mt-4 max-w-[16ch] text-[length:clamp(2.25rem,6vw,4.5rem)] lg:mx-0">
+              We Take It All <Faint>Off Your Plate.</Faint>
+            </H1>
+            <p className="mx-auto mt-5 max-w-[46ch] text-lg text-ink lg:mx-0">
+              Leave your number. We'll talk to you today, not next week.
+            </p>
+            <p className="mx-auto mt-4 hidden max-w-[50ch] text-ink lg:mx-0 lg:block">
+              You do not build it, learn it, or run it. We map it, build it, and run it with your team,
+              so the time comes back without you lifting a finger.
+            </p>
+          </div>
+          <ApplicationForm schedulerUrl={scheduler} />
+        </div>
       </Section>
 
       {/* 5.2 What the engagement includes */}
@@ -41,8 +52,8 @@ export default function CallPage() {
             hand over and disappear from. It is an outcome we own with you.
           </p>
           <p className="mt-4 text-cream/85">
-            The fit, the scope, and what it costs, we work out on the call. Apply below and let us
-            see if this is right for you.
+            The fit, the scope, and what it costs, we work out on the call. Leave your number above
+            and let us see if this is right for you.
           </p>
         </div>
       </Section>
@@ -86,26 +97,6 @@ export default function CallPage() {
         </div>
       </Section>
 
-      {/* Application: the form begins the relationship before the call */}
-      <Section className="pt-0">
-        <div className="mx-auto max-w-[820px]">
-          <div className="mb-8 text-center">
-            <Eyebrow>Book a time</Eyebrow>
-            <h2 className="mt-4 text-3xl md:text-4xl">
-              Apply first. <Faint>Then we talk.</Faint>
-            </h2>
-            <p className="mx-auto mt-4 max-w-[52ch] text-ink">
-              We only take on a handful of these at a time, so we start with a short application
-              rather than a booking link. Tell us where you are, and the call is useful from minute
-              one. If we are not the right fit, we will say so and point you somewhere better.
-            </p>
-          </div>
-
-          {/* No VITE_SCHEDULER_URL set? The form falls back to booking over
-              WhatsApp on its own, so there is nothing to say here. */}
-          <ApplicationForm schedulerUrl={scheduler} />
-        </div>
-      </Section>
     </>
   );
 }

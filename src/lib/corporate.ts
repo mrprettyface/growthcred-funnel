@@ -427,5 +427,5 @@ export const ENQUIRY = {
   sub: "Tell us the team and the documents that slow it down. We'll come back with a baseline plan and a per-employee quote.",
   sizes: ["10–25 people", "26–100 people", "101–500 people", "500+ people"],
   placeholder: "Which teams, and which documents take too long? For example: monthly management reports, client proposals, board packs.",
-  whatsapp: "Hi Phila, I'd like to discuss AI training for my team.",
+  whatsapp: "Hi GrowthCred, I'd like to speak to a specialist about AI training for my team.",
 };

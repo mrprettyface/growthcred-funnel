@@ -3,6 +3,7 @@ import { Button, cn } from "./ui";
 import { submitContactMessage } from "../lib/supabase";
 import { track } from "../lib/analytics";
 import { WHATSAPP_DISPLAY, WHATSAPP_URL } from "../lib/contact";
+import { BrandIcon } from "./BrandIcons";
 
 /**
  * The contact form. Posts to the `contact-autoresponder` Edge Function, which
@@ -86,7 +87,7 @@ export function ContactForm({ id, className }: { id?: string; className?: string
           rel="noopener"
           className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-midnight/15 px-6 font-body text-sm font-semibold text-midnight no-underline transition hover:border-midnight"
         >
-          WhatsApp us <span aria-hidden="true">&#8599;</span>
+          <BrandIcon name="whatsapp" /> WhatsApp us
         </a>
       </div>
     );
@@ -96,7 +97,7 @@ export function ContactForm({ id, className }: { id?: string; className?: string
     <div id={id} className={shell}>
       <h2 className="text-xl text-midnight md:text-2xl">Send us a message</h2>
       <p className="mt-2 font-mono text-[12px] leading-relaxed text-muted">
-        Send your question, or use the direct WhatsApp and email options below.
+        Send your question here, or use any of the direct options above.
       </p>
 
       <form onSubmit={onSubmit} className="mt-6" noValidate>

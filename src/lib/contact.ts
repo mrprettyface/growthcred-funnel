@@ -14,3 +14,13 @@ export const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 export function whatsappUrl(message?: string): string {
   return message ? `${WHATSAPP_URL}?text=${encodeURIComponent(message)}` : WHATSAPP_URL;
 }
+
+/** iMessage / SMS line for people who would rather not use WhatsApp. */
+export const IMESSAGE_NUMBER = "27847505788";
+export const IMESSAGE_DISPLAY = "+27 84 750 5788";
+
+/**
+ * LinkedIn has no link that pre-fills a direct message, so the site copies the
+ * message to the clipboard and opens the profile, where "Message" is one tap.
+ */
+export const LINKEDIN_URL = "https://www.linkedin.com/in/phila-ngwenya-908b1a179/";

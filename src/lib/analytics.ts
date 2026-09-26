@@ -46,6 +46,14 @@ type FunnelStep =
   | "thankyou_view"
   | "call_view"
   | "call_apply"
+  /** /call confirmation: the visitor opened WhatsApp or Messages to talk now. */
+  | "call_whatsapp"
+  | "call_imessage"
+  | "call_linkedin"
+  /** The site-wide AI implementation guide offer: shown, claimed, dismissed. */
+  | "guide_offer_view"
+  | "guide_offer_claim"
+  | "guide_offer_dismiss"
   | "call_booked"
   /** The contact page: form view, accepted submission, and a save that failed. */
   | "contact_view"

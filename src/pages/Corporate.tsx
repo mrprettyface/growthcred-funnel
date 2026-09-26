@@ -8,7 +8,8 @@ import { CorporateRoi } from "../components/CorporateRoi";
 import { CorporateEnquiry } from "../components/CorporateEnquiry";
 import { ClientLogos } from "../components/ClientLogos";
 import { track } from "../lib/analytics";
-import { WHATSAPP_DISPLAY, whatsappUrl } from "../lib/contact";
+import { IMESSAGE_DISPLAY, IMESSAGE_NUMBER, LINKEDIN_URL, WHATSAPP_DISPLAY, whatsappUrl } from "../lib/contact";
+import { BrandIcon } from "../components/BrandIcons";
 import { FOUNDER } from "../lib/home";
 import {
   ENQUIRE_ANCHOR,
@@ -551,15 +552,29 @@ export default function Corporate() {
                 href={whatsappUrl(ENQUIRY.whatsapp)}
                 target="_blank"
                 rel="noopener"
-                className="flex min-h-11 items-center gap-2 text-cream/75 no-underline hover:text-gold"
+                className="flex min-h-11 items-center gap-3 text-cream/75 no-underline hover:text-gold"
               >
-                WhatsApp {WHATSAPP_DISPLAY} <span aria-hidden="true">&#8599;</span>
+                <BrandIcon name="whatsapp" /> WhatsApp {WHATSAPP_DISPLAY}
+              </a>
+              <a
+                href={`sms:+${IMESSAGE_NUMBER}`}
+                className="flex min-h-11 items-center gap-3 text-cream/75 no-underline hover:text-gold"
+              >
+                <BrandIcon name="imessage" /> iMessage {IMESSAGE_DISPLAY}
+              </a>
+              <a
+                href={LINKEDIN_URL}
+                target="_blank"
+                rel="noopener"
+                className="flex min-h-11 items-center gap-3 text-cream/75 no-underline hover:text-gold"
+              >
+                <BrandIcon name="linkedin" /> Message us on LinkedIn
               </a>
               <a
                 href="mailto:info@growthcred.co.za?subject=Corporate%20AI%20training"
-                className="flex min-h-11 items-center gap-2 text-cream/75 no-underline hover:text-gold"
+                className="flex min-h-11 items-center gap-3 text-cream/75 no-underline hover:text-gold"
               >
-                info@growthcred.co.za <span aria-hidden="true">&#8599;</span>
+                <BrandIcon name="email" /> info@growthcred.co.za
               </a>
             </div>
           </div>

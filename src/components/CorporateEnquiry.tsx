@@ -3,6 +3,7 @@ import { Button, cn } from "./ui";
 import { submitContactMessage } from "../lib/supabase";
 import { track } from "../lib/analytics";
 import { WHATSAPP_DISPLAY, whatsappUrl } from "../lib/contact";
+import { BrandIcon } from "./BrandIcons";
 import { ENQUIRY } from "../lib/corporate";
 
 /**
@@ -98,7 +99,7 @@ export function CorporateEnquiry({ id }: { id: string }) {
           rel="noopener"
           className="mt-6 inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-midnight/15 px-6 font-body text-sm font-semibold text-midnight no-underline transition hover:border-midnight"
         >
-          Prefer WhatsApp? {WHATSAPP_DISPLAY} <span aria-hidden="true">&#8599;</span>
+          <BrandIcon name="whatsapp" /> Prefer WhatsApp? {WHATSAPP_DISPLAY}
         </a>
       </div>
     );

@@ -26,6 +26,26 @@
 > GrowthCred does **not** claim finance or legal client results on these pages.
 > Gates: [GATES-finance-law.md](GATES-finance-law.md), 7/7 met.
 
+> **26 September 2026 — faster /call, contact channels, guide popup.**
+> `/call` opens on a three-field form (name, mobile, email, plus one optional
+> line) instead of the nine-step application; the qualifying questions move to
+> the call. After sending: "Speak to a specialist" on WhatsApp, iMessage/SMS on
+> +27 84 750 5788, or LinkedIn (message copied, profile opened). The header
+> "Register" button is hidden on `/call`. Every contact link site-wide carries
+> its channel logo (`src/components/BrandIcons.tsx`); the footer shows all five.
+> A site-wide **AI Implementation Guide** card (`GuideOffer.tsx`, cover in
+> `GuideCover.tsx`, copy in `src/lib/guide.ts`, guide at the unindexed
+> `/ai-implementation-guide`) appears after 15 s, 50% scroll or desktop exit
+> intent, never on form/checkout pages, and rests 14 days once closed.
+> Opt-ins go to `magnet_signups` (slug `ai-implementation-guide`).
+> **Waiting on Phila:** (1) Supabase Database Webhooks → n8n for
+> `applications` inserts (AI call) and guide opt-ins (email), then set
+> `VITE_INSTANT_CALL=1` / `VITE_GUIDE_EMAIL=1` and rebuild — until then the
+> site promises neither a call nor an email; (2) read and approve the guide copy.
+> Pre-existing, not from this change: `verify-bundle-budget` fails (main chunk
+> 76 KB vs 70 KB budget at HEAD) and `verify-human-layer` flags the finance
+> and law pages.
+>
 > **25 September 2026 — corporate page reflow.** `/corporate-ai-training` now
 > runs: hero + client logos → what you've tried (each card ends on a "nobody
 > connected it" line) → research → "The tool was never the problem." as its own

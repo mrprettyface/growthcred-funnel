@@ -4,6 +4,7 @@ import { MAGNETS } from "../lib/magnets";
 import { WEBINAR } from "../lib/webinar";
 import { referralUrl } from "../lib/referral";
 import { whatsappUrl } from "../lib/contact";
+import { BrandIcon } from "./BrandIcons";
 import { track } from "../lib/analytics";
 
 /**
@@ -91,7 +92,7 @@ export function ShareInvite({
         onClick={() => track("referral_share", { via: "whatsapp" })}
         className="mt-3 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-midnight px-7 font-body text-sm font-semibold text-cream no-underline transition hover:bg-midnight-soft"
       >
-        Share on WhatsApp <span aria-hidden="true">&#8599;</span>
+        <BrandIcon name="whatsapp" /> Share on WhatsApp
       </a>
     </div>
   );

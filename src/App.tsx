@@ -26,6 +26,9 @@ const ThankYouPage = lazy(() => import("./pages/ThankYou"));
 const CallPage = lazy(() => import("./pages/Call"));
 
 const ContactPage = lazy(() => import("./pages/Contact"));
+/** The AI Implementation Guide, and the site-wide card that offers it. */
+const GuidePage = lazy(() => import("./pages/Guide"));
+const GuideOffer = lazy(() => import("./components/GuideOffer").then((m) => ({ default: m.GuideOffer })));
 const BrainPage = lazy(() => import("./pages/Brain"));
 
 /**
@@ -144,6 +147,7 @@ export default function App() {
               argument as a plain document, kept for slow connections and for
               A/B testing the two against each other. */}
           <Route path="/webinar" element={<Layout><NextClass /></Layout>} />
+          <Route path="/ai-implementation-guide" element={<Layout><GuidePage /></Layout>} />
           <Route path="/webinar-plain" element={<Navigate to="/webinar" replace />} />
           {SEARCH_PAGES.map(page => <Route key={page.path} path={page.path} element={<Layout><SearchPage page={page} /></Layout>} />)}
           {/* THE LANDING PAGE — repositioned.
@@ -238,6 +242,9 @@ export default function App() {
 
           <Route path="*" element={<Layout><NotFound /></Layout>} />
         </Routes></Suspense>
+        <Suspense fallback={null}>
+          <GuideOffer />
+        </Suspense>
       </>
     </OrderContext.Provider>
   );

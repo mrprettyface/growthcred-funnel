@@ -5,6 +5,8 @@ interface ImportMetaEnv {
   readonly VITE_SUPABASE_URL?: string;
   readonly VITE_SUPABASE_ANON_KEY?: string;
   readonly VITE_SCHEDULER_URL?: string;
+  readonly VITE_INSTANT_CALL?: string;
+  readonly VITE_GUIDE_EMAIL?: string;
   readonly VITE_PAYMENT_PROVIDER?: string;
 }
 interface ImportMeta {
