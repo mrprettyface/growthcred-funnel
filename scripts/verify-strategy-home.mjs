@@ -13,7 +13,7 @@ const home = await readFile("dist/index.html", "utf8");
 // Exactly one H1, and it is the strategy claim, prerendered (not JS-dependent).
 assert.equal((home.match(/<h1(?:\s|>)/g) || []).length, 1, "homepage must have exactly one <h1>");
 assert.match(home, /data-prerendered="\/"/, "homepage is not prerendered");
-assert.match(home, /time drain/, "homepage headline does not lead with the time-drain claim");
+assert.match(home, /lost to admin/, "homepage headline does not lead with the time-lost-to-admin claim");
 
 // The one ask is the strategy call.
 assert.match(home, /href="\/call"/, "homepage has no link to the strategy call");

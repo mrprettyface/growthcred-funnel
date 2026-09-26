@@ -40,7 +40,7 @@ for(const route of manifest.routes){
 const home=await read('dist/index.html');
 assert.throws(()=>validPage(home.replace(/<h1[\s\S]*?<\/h1>/,''),manifest.routes[0]));
 // The homepage now sells the high-ticket strategy call, not the R990 workshop.
-assert.match(home,/time drain/,'homepage no longer leads with the time-drain claim');
+assert.match(home,/lost to admin/,'homepage no longer leads with the time-lost-to-admin claim');
 assert.match(home,/href="\/call"/,'homepage has no strategy-call CTA');
 assert.doesNotMatch(home,/R990/,'homepage must not price the workshop that moved to /workshop');
 assert.doesNotMatch(home,/<iframe/,'Homepage player must be click-to-load');

@@ -4,7 +4,7 @@ import { FAQ as CORPORATE_FAQ, CORPORATE_PATH, CORPORATE_SERVICE } from "../lib/
 export const SITE = "https://growthcred.co.za";
 export type RouteMeta = {path:string; title:string; description:string; index:boolean; canonical?:string; modified?:string};
 export const ROUTES: RouteMeta[] = [
-  {path:"/",title:"The Command Core: Founder-Grade Operations | GrowthCred SA",description:"20–40% of your time drain, gone. GrowthCred deploys founder-grade AI operations across every department of owner-led businesses. Apply to work with us.",index:true,modified:REVIEWED},
+  {path:"/",title:"The Command Core: Founder-Grade Operations | GrowthCred SA",description:"Win back the 20–40% of your time lost to admin. GrowthCred deploys founder-grade AI operations across every department of owner-led businesses. Apply today.",index:true,modified:REVIEWED},
   {path:CORPORATE_PATH,title:"Corporate AI Training for Teams in South Africa | GrowthCred",description:"Corporate AI training that gets every employee producing documents and reports 3× faster. Live workshops, role playbooks, measured ROI, priced per head.",index:true,modified:"2026-09-25"},
   {path:"/workshop",title:"Online AI Workshop for Business Owners | GrowthCred SA",description:"Build practical AI workflows in GrowthCred’s one-day online workshop for South African business owners. R990. Session details confirmed on registration.",index:true,modified:REVIEWED},
   ...SEARCH_PAGES.map(p=>({path:p.path,title:p.title,description:p.description,index:!p.draft,modified:p.published??REVIEWED})),

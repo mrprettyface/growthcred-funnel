@@ -14,10 +14,12 @@
 export const APPLY_HREF = "/call";
 
 export const HERO = {
-  /** One static, prerendered <h1>: "20–40% of your time drain. Gone.", with
-   *  the two marked phrases highlighted like a marker pen. */
-  headlineLead: "20–40% of your",
-  headlineMark: "time drain.",
+  /** One static, prerendered <h1>: "20–40% of your time lost to admin. Gone.",
+   *  with the two marked phrases highlighted like a marker pen. Phila's
+   *  rewrite (26 Sep 2026) of "time drain", so the problem is named in plain
+   *  words the moment the page opens. */
+  headlineLead: "20–40% of your time",
+  headlineMark: "lost to admin.",
   headlineAccent: "Gone.",
   /** The quieter second way in, beside the Apply button. */
   secondary: { label: "Read client stories", to: "/stories" },

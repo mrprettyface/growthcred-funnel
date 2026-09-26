@@ -121,8 +121,8 @@
 > [docs/search/GROWTH-PLAN.md](docs/search/GROWTH-PLAN.md).
 >
 > **24 September 2026 — "The Command Core" homepage and site-wide design.**
-> `/` is the high-ticket page in Phila's copy ("20–40% of your time drain.
-> Gone."), every "Apply" going to `/call`. Layout in `src/pages/Home.tsx`, every
+> `/` is the high-ticket page in Phila's copy ("20–40% of your time lost to
+> admin. Gone.", reworded from "time drain" by Phila on 26 Sep 2026), every "Apply" going to `/call`. Layout in `src/pages/Home.tsx`, every
 > word in `src/lib/home.ts` (also read by the crash fallback
 > `src/pages/HomeFallback.tsx`). `/` renders bare with its own header/footer
 > (`src/components/home/HomeChrome.tsx`). The **R990 workshop funnel lives
