@@ -8,8 +8,8 @@ import { ExperienceBoundary } from "./components/webinar/ExperienceBoundary";
    byte in the main chunk is paid for on every page of the site. */
 const NextClass = lazy(() => import("./pages/NextClass"));
 import { Metadata } from "./seo/Metadata";
-import { SEARCH_PAGES } from "./content/searchPages";
-import { SearchPage, NotFound } from "./pages/SearchPage";
+/** Search pages and the 404: their copy is too big for the main bundle. */
+const SearchRoute = lazy(() => import("./pages/SearchRoute"));
 
 /* The workshop's crash fallback. Lazy: the outer <Suspense> around <Routes>
    catches it if it is ever needed. */
@@ -149,7 +149,6 @@ export default function App() {
           <Route path="/webinar" element={<Layout><NextClass /></Layout>} />
           <Route path="/ai-implementation-guide" element={<Layout><GuidePage /></Layout>} />
           <Route path="/webinar-plain" element={<Navigate to="/webinar" replace />} />
-          {SEARCH_PAGES.map(page => <Route key={page.path} path={page.path} element={<Layout><SearchPage page={page} /></Layout>} />)}
           {/* THE LANDING PAGE — repositioned.
               / now sells the high-ticket strategy call (src/pages/Home.tsx).
               HomeFallback is its crash fallback: if Home ever throws, the
@@ -240,7 +239,7 @@ export default function App() {
             element={<Layout><Suspense fallback={<LegalLoading />}><Refunds /></Suspense></Layout>}
           />
 
-          <Route path="*" element={<Layout><NotFound /></Layout>} />
+          <Route path="*" element={<Layout><SearchRoute /></Layout>} />
         </Routes></Suspense>
         <Suspense fallback={null}>
           <GuideOffer />

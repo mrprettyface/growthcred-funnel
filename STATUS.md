@@ -49,9 +49,11 @@
 > to `magnet_signups` and emailed the guide; info@ gets "New guide sign-up".
 > **Waiting on Phila:** read and approve the guide copy.
 > `VITE_INSTANT_CALL` stays off until an AI-call workflow exists.
-> Pre-existing, not from this change: `verify-bundle-budget` fails (main chunk
-> 76 KB vs 70 KB budget at HEAD) and `verify-human-layer` flags the finance
-> and law pages.
+> Bundle budget fixed 26 Sep: searchPages.ts (107 KB raw, 43% of the main
+> chunk) now loads only with a search page, via the lazy `src/pages/SearchRoute.tsx`
+> (also the 404), and `Metadata` imports the route table on demand. Main chunk
+> 77 KB → 37 KB gzipped; prerendered HTML unchanged. Still open, pre-existing:
+> `verify-human-layer` flags the finance and law pages.
 >
 > **25 September 2026 — corporate page reflow.** `/corporate-ai-training` now
 > runs: hero + client logos → what you've tried (each card ends on a "nobody

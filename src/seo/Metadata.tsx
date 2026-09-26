@@ -1,11 +1,17 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { SITE, routeMeta, structuredData } from "./routes";
 import { pageView } from "../lib/searchAnalytics";
-/** Initial tags are generated at build time. Keep them accurate on client navigation. */
+/**
+ * Initial tags are generated at build time. Keep them accurate on client
+ * navigation. The route table is imported on demand: it carries every search
+ * page's title and FAQ, which would otherwise sit in the main bundle.
+ */
 export function Metadata() {
   const {pathname}=useLocation();
   useEffect(()=>{
+    let live=true;
+    void import("./routes").then(({SITE,routeMeta,structuredData})=>{
+    if(!live)return;
     const meta=routeMeta(pathname);
     document.title=meta.title;
     const set=(selector:string,tag:string,attrs:Record<string,string>)=>{
@@ -22,6 +28,8 @@ export function Metadata() {
     if(!json){json=document.createElement('script');json.id='site-schema';json.setAttribute('type','application/ld+json');document.head.appendChild(json);}
     json.textContent=JSON.stringify(structuredData(meta));
     pageView(meta.title.startsWith("Page Not Found") ? "/404" : meta.path,meta.title);
+    });
+    return()=>{live=false;};
   },[pathname]);
   return null;
 }
