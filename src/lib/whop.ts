@@ -6,7 +6,7 @@
  *
  *   workshop only            -> WORKSHOP_ONLY  (R990)
  *   workshop + Skip the Setup -> WORKSHOP_PLUS_BUMP (R1 490)
- *   Operators Intensive       -> OPERATORS_INTENSIVE (R9 900)
+ *   Operators Intensive       -> OPERATORS_INTENSIVE (R25 000, repriced from R9 900 on 27 Sep 2026)
  *
  * All plans are priced in ZAR in the Whop dashboard. If you change a price in
  * Whop, change the matching amount in src/lib/offers.ts so the site agrees

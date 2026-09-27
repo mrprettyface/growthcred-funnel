@@ -34,7 +34,7 @@ export const UPSELL: Offer = {
   name: "Done With You: Get Your Time Back",
   blurb:
     "We build your core systems with you, so you get your time back faster and never get stuck doing it alone.",
-  amountCents: 990000, // R9 900 recommended
+  amountCents: 2500000, // R25 000 per person (Phila, 27 Sep 2026), matching Whop plan plan_Lrt0EkLTJD5nx
 };
 
 /**

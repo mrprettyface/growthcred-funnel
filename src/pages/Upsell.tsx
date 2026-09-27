@@ -71,7 +71,7 @@ export default function UpsellPage() {
     setView("pay");
   }
 
-  /** Whop confirmed the R9 900 payment. */
+  /** Whop confirmed the Intensive payment (UPSELL.amountCents). */
   function onPaid(receiptId?: string) {
     if (order) {
       setOrder({ ...order, items: [...order.items, UPSELL.id], upsellDecision: "accepted" });

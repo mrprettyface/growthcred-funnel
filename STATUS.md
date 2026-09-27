@@ -180,7 +180,7 @@ Repo: https://github.com/mrprettyface/growthcred-funnel (public, no secrets)
 | `/` | The Command Core — high-ticket, "Apply" → `/call` | — | — |
 | `/workshop` | Workshop, as the scroll experience | R990 | `plan_72K2Kk6oPeLRY` |
 | `/checkout` | + "Skip the Setup" bump | R1 490 combined | `plan_UCryhOI0svT2W` |
-| `/upsell` | Operators Intensive (Done With You) | R9 900 | `plan_Lrt0EkLTJD5nx` |
+| `/upsell` | Operators Intensive (Done With You) | R25 000 per person (from 27 Sep 2026; was R9 900) | `plan_Lrt0EkLTJD5nx` |
 | `/downsell` | Home study course (Do It Yourself) | R3 999 | `plan_Pbw4zu8ngelfI` |
 | `/build` | Custom System — application, no price | — | — |
 | `/thank-you` | Confirmation, "watch your email" | — | — |
