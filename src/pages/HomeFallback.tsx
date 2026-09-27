@@ -32,9 +32,12 @@ export default function HomeFallback() {
 
       <section className="bg-paper py-16 md:py-24">
         <div className={`${WRAP} max-w-[760px]`}>
-          <h2 className="text-3xl md:text-5xl">
+          <h2 className="text-3xl md:text-5xl">{CAPACITY.heading}</h2>
+          <p className="mt-6 text-lg">{CAPACITY.gap}</p>
+          <p className="mt-6 text-2xl font-semibold md:text-3xl">
             {CAPACITY.lead} <span className="text-gold">{CAPACITY.figure}</span> {CAPACITY.tail}
-          </h2>
+          </p>
+          <p className="mt-6 text-lg">{CAPACITY.tried}</p>
           <p className="mt-6 text-lg">
             {CAPACITY.closeA} <strong>{CAPACITY.closeB}</strong>
           </p>

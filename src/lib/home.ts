@@ -23,7 +23,7 @@ export const HERO = {
   headlineAccent: "Gone.",
   /** The quieter second way in, beside the Apply button. */
   secondary: { label: "Read client stories", to: "/stories" },
-  sub: "Founder-grade operations deployed across every department. 80% of your effectiveness. Without you in the room.",
+  sub: "Proposals. Follow-ups. Approvals. The work that waits on your desk. The Command Core takes it off, so the business keeps moving without you in the room.",
   cta: "Apply to Work With Us",
   scarcity: "Engagements are limited. Not every application is accepted.",
 } as const;
@@ -35,13 +35,15 @@ export const PROOF_LINE =
   "7 AI talks at WeWork Johannesburg. AI system presented at Parliament, Cape Town.";
 
 export const CAPACITY = {
-  lead: "Owner-led firms at R20M–R100M lose an estimated",
+  heading: "That 20–40% isn't just admin. It's your most expensive hours.",
+  gap: "Your decisions are worth R20,000 an hour. Admin is R200-an-hour work. When you do both, the business pays the gap.",
+  lead: "For a R20M–R100M firm, that gap costs",
   figure: "R3M–R10M",
-  tail: "a year in capacity trapped in the founder.",
-  notThis: "Not in bad hires. Not in wasted spend.",
-  butThis: "In the founder doing R200/hour work when their decisions are worth R20,000/hour.",
-  closeA: "That's not a strategy failure.",
-  closeB: "It's an infrastructure gap.",
+  tail: "a year.",
+  /** Sits under the R200 vs R20,000 comparison. */
+  tried: "Hiring didn't fix it. New tools didn't either. Both still need you to check the work.",
+  closeA: "The fix is not more people.",
+  closeB: "It's building your judgment into the business.",
   /** The two hourly figures the comparison bar is drawn from. */
   lowRate: 200,
   highRate: 20000,
@@ -58,7 +60,7 @@ export type Benchmark = {
 
 export const BEFORE_AFTER = {
   eyebrow: "Before / After",
-  heading: "What changes.",
+  heading: "What changes when the work stops waiting for you.",
   rows: [
     { metric: "Owner hours per week", before: "65", after: "35", from: 65, to: 35 },
     { metric: "Proposal turnaround", before: "3 days", after: "3 hrs", from: 72, to: 3 },
@@ -74,43 +76,44 @@ export type Stage = { band: string; family: string; name: string; line: string }
 export const STAGES = {
   eyebrow: "Engagements",
   heading: "Pick your stage.",
+  sub: "Same method. The scope grows with the business.",
   items: [
     {
       band: "R5M–R50M",
       family: "Command Core",
       name: "Velocity",
-      line: "New speed operations deployed in one day. Time drain reduced 20–40% before you leave the room.",
+      line: "One day. Your biggest admin drains fixed before you leave the room.",
     },
     {
       band: "R50M–R200M",
       family: "Command Core",
       name: "Integration",
-      line: "Departmental implementation of founder-grade operations across sales, delivery, and admin. 80% founder effectiveness per department. 90 days.",
+      line: "90 days. The same fix built into sales, delivery and admin.",
     },
     {
       band: "R200M+",
       family: "Command Core",
       name: "Transformation",
-      line: "Full operating model produced and deployed. Cost transformation plans across every department. Custom scope.",
+      line: "Your whole operating model rebuilt, department by department. Custom scope.",
     },
   ] satisfies Stage[],
 };
 
 export const METHOD = {
   eyebrow: "The Method",
-  heading: "Three steps.",
+  heading: "How you get the 20–40% back.",
   steps: [
     {
       t: "Audit",
-      b: "Find where the founder is the bottleneck. Put a rand value on every hour trapped in low-leverage work.",
+      b: "Find where your week goes. Put a rand value on every hour stuck on your desk.",
     },
     {
       t: "Deploy",
-      b: "Install operations that replicate the founder's judgment across each department. First result in 14 days.",
+      b: "Build systems that do that work the way you would. First result in 14 days.",
     },
     {
       t: "Embed",
-      b: "Ongoing optimisation. New capabilities every quarter. Performance tracked monthly.",
+      b: "Keep them sharp. New capabilities every quarter. Hours back tracked every month.",
     },
   ],
 };
@@ -120,22 +123,22 @@ export const FOUNDER = {
   title: "Founder, GrowthCred",
   /** The bio, one line per credential, in the order Phila wrote it. */
   credentials: [
-    "Built 5 companies with AI.",
+    "Runs his own companies on the same systems he builds for clients.",
     "Co-developed an AI system presented at Parliament, Cape Town.",
-    "7 talks at WeWork Johannesburg.",
+    "7 AI talks at WeWork Johannesburg.",
     "Rosebank, South Africa.",
   ],
 };
 
 export const GUARANTEE = {
-  lead: "20 hours back.",
+  lead: "20% of your week back.",
   accent: "Or you don't pay.",
-  body: "If the Command Core doesn't reclaim at least 20 hours of your week, the engagement is on us.",
+  body: "If the Command Core doesn't give you back at least 20% of your week, the engagement is on us.",
 };
 
 export const CLOSE = {
-  heading: "Your business is losing capacity every week you wait.",
-  sub: "Engagements are limited. Apply and we'll determine fit.",
+  heading: "Next week, that 20–40% goes again.",
+  sub: "Unless something changes. Apply and we'll tell you if it's a fit.",
   cta: "Apply",
 };
 
@@ -158,7 +161,7 @@ export type HomeStory = {
 export const STORIES = {
   eyebrow: "Client stories",
   heading: "This isn't theory.",
-  sub: "Different industries, one method. The system is built from your knowledge, not a template.",
+  sub: "Same method, different industries. Built from your knowledge, not a template.",
   all: "Read all client stories",
   items: [
     {
@@ -210,8 +213,8 @@ export const STORIES = {
 
 export const WAYS = {
   eyebrow: "Other ways in",
-  heading: "Not ready for an engagement?",
-  sub: "Start with the part that fits where you are. Every route is built on the same method.",
+  heading: "Not ready for an engagement? Start smaller.",
+  sub: "Every route below uses the same method, at a smaller scale.",
   items: [
     {
       href: "/ai-automation-south-africa",
@@ -247,7 +250,7 @@ export const GUIDES = {
 export const FAQ: { q: string; a: string }[] = [
   {
     q: "What is the Command Core?",
-    a: "Founder-grade operations deployed across every department of an owner-led business: AI systems built from your own knowledge, so the work stops waiting for you.",
+    a: "AI systems built from how you work, so the admin eating 20–40% of your week stops landing on your desk.",
   },
   {
     q: "Who is it for?",

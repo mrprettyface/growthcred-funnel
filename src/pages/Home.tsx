@@ -164,24 +164,26 @@ export default function Home() {
       {/* ---------- 2. The number ---------- */}
       <section id="capacity" className="bg-paper py-20 md:py-32">
         <Reveal className={`${WRAP} grid gap-14 md:grid-cols-[1.15fr_1fr] md:items-center md:gap-20`}>
-          <h2 className="text-midnight">
-            <span className="block max-w-[26ch] font-body text-lg font-medium tracking-normal text-ink md:text-xl">
-              {CAPACITY.lead}
-            </span>
-            <span className="mt-3 block text-[length:clamp(3.5rem,11vw,8.5rem)] leading-[0.9] tracking-[-0.06em]">
-              {CAPACITY.figure}
-            </span>
-            <span className="mt-4 block max-w-[24ch] font-body text-lg font-medium tracking-normal text-ink md:text-xl">
-              {CAPACITY.tail}
-            </span>
-          </h2>
+          <div>
+            <h2 className="max-w-[20ch] text-[length:clamp(2rem,4.5vw,3.5rem)] text-midnight">{CAPACITY.heading}</h2>
+            <p className="mt-6 max-w-[44ch] text-lg leading-relaxed text-ink md:text-xl">{CAPACITY.gap}</p>
+            <p className="mt-10 text-midnight">
+              <span className="block max-w-[26ch] font-body text-lg font-medium tracking-normal text-ink md:text-xl">
+                {CAPACITY.lead}
+              </span>
+              <span className="mt-3 block font-display text-[length:clamp(3.5rem,11vw,8.5rem)] font-extrabold leading-[0.9] tracking-[-0.06em]">
+                {CAPACITY.figure}
+              </span>
+              <span className="mt-4 block max-w-[24ch] font-body text-lg font-medium tracking-normal text-ink md:text-xl">
+                {CAPACITY.tail}
+              </span>
+            </p>
+          </div>
 
           <div className="rounded-3xl border border-midnight/10 bg-white p-7 shadow-[0_30px_80px_-40px_rgba(26,26,36,0.35)] md:p-9">
             <HomeScene name="drain" className="mb-5 h-24 w-32 text-midnight" />
-            <p className="text-muted">{CAPACITY.notThis}</p>
-            <p className="mt-3 text-lg font-semibold text-midnight">{CAPACITY.butThis}</p>
 
-            <div className="mt-8 space-y-5" aria-hidden="true">
+            <div className="space-y-5" aria-hidden="true">
               <div>
                 <div className="flex items-baseline justify-between font-mono text-[12px] uppercase tracking-[0.14em] text-muted">
                   <span>Work done at</span>
@@ -208,7 +210,8 @@ export default function Home() {
               </p>
             </div>
 
-            <p className="mt-8 border-t border-midnight/10 pt-6 text-lg text-midnight">
+            <p className="mt-8 text-muted">{CAPACITY.tried}</p>
+            <p className="mt-6 border-t border-midnight/10 pt-6 text-lg text-midnight">
               {CAPACITY.closeA}{" "}
               <strong className="font-extrabold text-gold">{CAPACITY.closeB}</strong>
             </p>
@@ -334,6 +337,7 @@ export default function Home() {
             <div>
               <Label>{STAGES.eyebrow}</Label>
               <h2 className="mt-5 text-[length:clamp(2.5rem,6vw,4.5rem)]">{STAGES.heading}</h2>
+              <p className="mt-5 text-lg leading-relaxed text-ink">{STAGES.sub}</p>
             </div>
           </div>
           <Reveal className="mt-12 grid gap-5 md:grid-cols-3">
@@ -546,7 +550,7 @@ export default function Home() {
 
 /** Guarantee seal. The ring turns slowly where motion is welcome; decorative only. */
 function Seal() {
-  const ring = "20 HOURS BACK · OR YOU DON'T PAY · ";
+  const ring = "20% OF YOUR WEEK BACK · OR YOU DON'T PAY · ";
   return (
     <div aria-hidden="true" className="relative mx-auto h-44 w-44 md:h-52 md:w-52">
       <svg viewBox="0 0 200 200" className="cc-spin h-full w-full text-gold">
@@ -563,8 +567,8 @@ function Seal() {
       </svg>
       <div className="absolute inset-[22%] grid place-items-center rounded-full border border-gold/50 bg-gold/10">
         <span className="text-center">
-          <span className="block font-display text-5xl font-extrabold leading-none tracking-[-0.05em] text-cream">20</span>
-          <span className="mt-1 block font-mono text-[12px] tracking-[0.2em] text-gold">HOURS</span>
+          <span className="block font-display text-5xl font-extrabold leading-none tracking-[-0.05em] text-cream">20%</span>
+          <span className="mt-1 block font-mono text-[12px] tracking-[0.2em] text-gold">BACK</span>
         </span>
       </div>
     </div>
