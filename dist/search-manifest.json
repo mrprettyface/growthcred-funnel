@@ -298,6 +298,15 @@
       "prerendered": true
     },
     {
+      "path": "/guides/law-firm-billing-leakage",
+      "title": "Law Firm Billing Leakage: Where Your Fees Go | GrowthCred",
+      "description": "You work eight hours and get paid for 2.4. Where law firm billing leaks, what it costs a R50M practice, and the AI system that stops it.",
+      "index": true,
+      "modified": "2026-09-28",
+      "file": "guides/law-firm-billing-leakage.html",
+      "prerendered": true
+    },
+    {
       "path": "/data-and-security",
       "title": "Data Protection and Security at GrowthCred | POPIA",
       "description": "How GrowthCred handles your information: POPIA, encryption, write-only website forms, cross-border transfers, and human review in every AI system we build.",

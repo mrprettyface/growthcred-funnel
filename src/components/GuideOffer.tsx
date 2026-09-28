@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "./ui";
 import { GuideCover } from "./GuideCover";
 import { captureMagnetSignup, submitContactMessage } from "../lib/supabase";
 import { track } from "../lib/analytics";
-import { GUIDE_OFFER, GUIDE_PATH, GUIDE_SLUG } from "../lib/guide";
+import { GUIDE_EVENT, GUIDE_OFFER, GUIDE_PATH, GUIDE_SLUG } from "../lib/guide";
 
 /**
  * The site-wide offer of the AI Implementation Guide.
@@ -53,6 +53,14 @@ function resting(): boolean {
   }
 }
 
+function claimed(): boolean {
+  try {
+    return JSON.parse(localStorage.getItem(KEY) ?? "{}").state === "claimed";
+  } catch {
+    return false;
+  }
+}
+
 function remember(state: "claimed" | "dismissed") {
   try {
     localStorage.setItem(KEY, JSON.stringify({ state, at: Date.now() }));
@@ -63,6 +71,7 @@ function remember(state: "claimed" | "dismissed") {
 
 export function GuideOffer() {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -95,6 +104,26 @@ export function GuideOffer() {
       window.removeEventListener("scroll", onScroll);
     };
   }, [eligible, pathname]);
+
+  // An in-article "get the guide" button asked for it. A click is consent to
+  // see the card, so the 14-day rest does not apply; someone who already
+  // claimed the guide goes straight to it instead of filling the form again.
+  useEffect(() => {
+    const flagged = window as Window & { __gcGuideRequested?: boolean };
+    const openNow = () => {
+      flagged.__gcGuideRequested = false;
+      if (claimed()) {
+        navigate(GUIDE_PATH);
+        return;
+      }
+      shown.current = true;
+      setOpen(true);
+      track("guide_offer_view", { path: pathname });
+    };
+    if (flagged.__gcGuideRequested) openNow();
+    window.addEventListener(GUIDE_EVENT, openNow);
+    return () => window.removeEventListener(GUIDE_EVENT, openNow);
+  }, [navigate, pathname]);
 
   // A route change to a page it should not appear on closes it.
   useEffect(() => {

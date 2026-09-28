@@ -254,7 +254,7 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Who is it for?",
-    a: "Owner-led businesses where the founder is the bottleneck, from R5M to over R200M in revenue. Pick your stage above; the engagement changes with the size of the business.",
+    a: "Owner-led businesses where you, the founder, are the bottleneck. From R5M to over R200M in revenue. Pick your stage above. The engagement grows with your business.",
   },
   {
     q: "How is this different from using ChatGPT on its own?",
@@ -262,7 +262,7 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Does it work in my industry?",
-    a: "MNE Waste runs trucks, drivers, compliance and municipal contracts. Demure International runs a beauty and cosmetics brand. The system is built from your knowledge, not a template, so the industry changes and the method does not.",
+    a: "MNE Waste runs trucks, drivers, compliance and municipal contracts. Demure International runs a beauty and cosmetics brand. Your system is built from your knowledge, not a template. So your industry changes. The method doesn't.",
   },
   {
     q: "How is it different from the one-day workshop?",
@@ -270,10 +270,10 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "What does it cost?",
-    a: "It depends on your stage and scope, and transformation engagements are custom-scoped. Engagements are limited: apply and we'll determine fit.",
+    a: "It depends on your stage and your scope. Transformation engagements are scoped to you. Engagements are limited, so apply and we'll tell you if it's a fit.",
   },
   {
     q: "Where is GrowthCred based?",
-    a: "GrowthCred is founder-led from Rosebank, Johannesburg, South Africa.",
+    a: "Rosebank, Johannesburg, South Africa. I run GrowthCred from here myself.",
   },
 ];

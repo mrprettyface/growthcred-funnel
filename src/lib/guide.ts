@@ -14,6 +14,18 @@
 export const GUIDE_PATH = "/ai-implementation-guide";
 export const GUIDE_SLUG = "ai-implementation-guide";
 
+/** Fired by an in-article "get the guide" button; GuideOffer opens its card. */
+export const GUIDE_EVENT = "gc:open-guide";
+
+/**
+ * Ask for the opt-in card. GuideOffer is lazy, so a click can land before it
+ * has mounted: the flag lets it open on arrival instead of missing the event.
+ */
+export function requestGuide(): void {
+  (window as Window & { __gcGuideRequested?: boolean }).__gcGuideRequested = true;
+  window.dispatchEvent(new Event(GUIDE_EVENT));
+}
+
 export const GUIDE_OFFER = {
   eyebrow: "Free guide",
   title: "The AI Implementation Guide",
@@ -32,24 +44,24 @@ export const GUIDE = {
   eyebrow: "The AI Implementation Guide",
   heading: "Put AI to work without changing how you work.",
   intro: [
-    "Most AI projects fail at the same point: they ask a business to change first. New software, a new process, a new way of filing things, and a team that has to learn all of it before anything gets faster. Most people quietly go back to the old way within a month.",
-    "This guide works the other way round. You keep your tools, your process and your people. AI goes into the steps you already do, in the platforms you already have open, one task at a time. Nothing moves until it has proved itself.",
+    "Most AI projects fail at the same point. They ask your business to change first. New software. A new process. A new way of filing things. And a team that has to learn all of it before anything gets faster. So what happens? Most people quietly go back to the old way within a month.",
+    "This guide works the other way round. You keep your tools, your process and your people. AI goes into the steps you already do. In the platforms you already have open. One task at a time. Nothing moves until it has proved itself.",
   ],
   steps: [
     {
       n: "01",
       t: "Find the AI you already have",
       body: [
-        "Before you buy anything, look at what is already on your screen. Microsoft 365 and Google Workspace now build AI assistants into many plans, and most teams already use a chat assistant such as ChatGPT or Claude somewhere, officially or not.",
-        "Write down which of these your business already pays for, and which your people are already using. That list is your platform. The goal is to use it properly, not to add to it.",
+        "Before you buy anything, look at what's already on your screen. Microsoft 365 and Google Workspace now build AI assistants into many plans. And your team probably already uses a chat assistant like ChatGPT or Claude somewhere. Officially or not.",
+        "Write down which of these you already pay for. And which your people already use. That list is your platform. Your job is to use it properly. Not to add to it.",
       ],
     },
     {
       n: "02",
       t: "Map one normal week",
       body: [
-        "For one week, list every document and message that leaves the business more than once: proposals, quotes, client updates, reports, minutes, follow-ups, job descriptions, standard replies.",
-        "Next to each one, note roughly how long it takes and who does it. You are not redesigning anything. You are finding out where the hours already go, and that number becomes the baseline you measure against later.",
+        "For one week, list every document and message that leaves your business more than once. Proposals. Quotes. Client updates. Reports. Minutes. Follow-ups. Job descriptions. Standard replies.",
+        "Next to each one, note roughly how long it takes and who does it. You're not redesigning anything. You're finding out where your hours already go. That number becomes the baseline you measure against later.",
       ],
     },
     {
@@ -67,15 +79,15 @@ export const GUIDE = {
       n: "04",
       t: "Write your context once",
       body: [
-        "AI writes generic work when it knows nothing about you. Fix that once: one page on who you are, who you serve, what you sell, how you write, and the rules you never break. Paste it in at the start of a conversation, or save it as a project or custom instruction in the tool you already use.",
-        "This is the step most people skip, and it is the one that makes the output sound like your business instead of the internet.",
+        "AI writes generic work when it knows nothing about you. So fix that once. Write one page. Who you are. Who you serve. What you sell. How you write. The rules you never break. Paste it in at the start of a conversation. Or save it as a project or custom instruction in the tool you already use.",
+        "Most people skip this step. It's the one that makes the output sound like your business instead of the internet.",
       ],
     },
     {
       n: "05",
       t: "Turn the task into a brief",
       body: [
-        "A prompt is an instruction you type once. A brief is one you save and reuse, so the task comes out the same way every time. A good brief has five parts: the role, the input you will paste, the output you want, the format, and the checks it must pass.",
+        "A prompt is an instruction you type once. A brief is one you save and reuse, so the task comes out the same way every time. A good brief has five parts. The role. The input you'll paste. The output you want. The format. And the checks it must pass.",
         "An illustrative brief for a weekly client update:",
       ],
       list: [
@@ -90,16 +102,16 @@ export const GUIDE = {
       n: "06",
       t: "Keep the human check",
       body: [
-        "The person who checked the work before still checks it now. AI takes the blank page and the reformatting; a person still owns what goes out. Write a short review checklist for the task, so the check is quick and consistent.",
-        "Decide what never goes into an AI tool: ID numbers, banking details, health information, and confidential client material unless your organisation has approved a tool for it. Under POPIA, personal information needs a reason and protection wherever it goes, and that includes a chat window.",
+        "Whoever checked the work before still checks it now. AI takes the blank page and the reformatting. A person still owns what goes out. Write a short review checklist for the task, so your check is quick and consistent.",
+        "Decide what never goes into an AI tool. ID numbers. Banking details. Health information. Confidential client material, unless your organisation has approved a tool for it. Under POPIA, personal information needs a reason and protection wherever it goes. That includes a chat window.",
       ],
     },
     {
       n: "07",
       t: "Measure, keep, then add the next one",
       body: [
-        "After two weeks, time the same task again against your baseline from step two. If it is faster and the quality held, the brief becomes part of how the task is done and the next person inherits it. If it is not, change the brief or drop the task. Either answer is useful.",
-        "Then go back to your list from step two and pick the next task. One task at a time, each one proved before the next, is how AI ends up in the whole business without anyone having to change how they work.",
+        "After two weeks, time the same task again against your baseline from step two. Is it faster, with the quality intact? Then the brief becomes part of how the task is done. The next person inherits it. Not faster? Change the brief or drop the task. Either answer is useful.",
+        "Then go back to your list from step two and pick the next task. One task at a time. Each one proved before the next. That's how AI ends up in your whole business without anyone changing how they work.",
       ],
     },
   ] satisfies GuideStep[],

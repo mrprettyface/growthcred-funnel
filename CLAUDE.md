@@ -5,6 +5,13 @@ prices, what is done, what is open, and the rules each page has to keep.
 
 ## Working agreements
 
+- **Every word is written in the house voice.** Before writing or editing any
+  copy (pages, articles, FAQs, emails, buttons) read
+  **[docs/editorial/VOICE.md](docs/editorial/VOICE.md)**: short sentences,
+  "you" and "I", real sourced numbers, no bullet points unless necessary,
+  and the article structure. Its fact rules win over its style rules.
+  `node scripts/verify-voice.mjs check` measures it after a build.
+
 - **Prices must match Whop exactly.** Site prices are in `src/lib/offers.ts`
   (cents), plan IDs in `src/lib/whop.ts`. A mismatch has bitten us twice.
 - **No invented proof.** Testimonials, figures and named results go on the site

@@ -15,31 +15,31 @@ export const CORPORATE_SERVICE =
 export const FAQ: { q: string; a: string }[] = [
   {
     q: "What does corporate AI training from GrowthCred include?",
-    a: "A baseline of how long your teams take on their real documents, live workshop sessions run team by team, a follow-along pack for every role, and a measurement thirty days later reported to your sponsor in hours and rand.",
+    a: "Four things. A baseline of how long your teams take on their real documents. Live workshops, run team by team. A follow-along pack for every role. And a measurement thirty days later, reported to your sponsor in hours and rand.",
   },
   {
     q: "How do you measure 3× faster?",
-    a: "Before training we time a sample of real documents per team, at the review standard you already use. Thirty days after, we time the same kinds of document again. 3× is the target we train to; the report shows the measured number, whatever it is.",
+    a: "Before training, we time a sample of your real documents per team, at the review standard you already use. Thirty days after, we time the same kinds of document again. 3× is the target we train to. Your report shows the measured number, whatever it is.",
   },
   {
     q: "How is corporate AI training priced?",
-    a: "Per employee trained. We quote after the baseline, so the fee is set against the capacity it returns. The number of people, teams and role-specific packs changes the quote.",
+    a: "Per employee trained. We quote after the baseline, so your fee is set against the capacity it returns. The number of people, teams and role-specific packs changes your quote.",
   },
   {
     q: "Which AI tools do you train on?",
-    a: "Whichever platform your organisation has approved, such as Microsoft Copilot, ChatGPT, Claude or Gemini. The method stays the same; the packs are written for your tool.",
+    a: "Whichever platform you've approved. Microsoft Copilot, ChatGPT, Claude or Gemini, say. The method stays the same. We write your packs for your tool.",
   },
   {
     q: "Is the training in person or online?",
-    a: "Either. Sessions run in the room in Johannesburg, or online for teams elsewhere in South Africa and abroad.",
+    a: "Either. We run sessions in the room in Johannesburg, or online if your teams are elsewhere in South Africa or abroad.",
   },
   {
     q: "What about confidential information and POPIA?",
-    a: "Practice uses redacted or fictional material, and every pack sets out what may never go into an AI tool. Training happens inside your approved, company-controlled accounts. Training alone does not make a workflow compliant; your policies and legal team still decide.",
+    a: "Your people practise on redacted or made-up material. Every pack sets out what may never go into an AI tool. Training happens inside your approved, company-controlled accounts. And training alone doesn't make a workflow compliant. Your policies and your legal team still decide.",
   },
   {
     q: "Do our people need to be technical?",
-    a: "No. If they can write an email and work in a spreadsheet, they can do this. Every session is built around documents they already produce.",
+    a: "No. If your people can write an email and work in a spreadsheet, they can do this. We build every session around documents they already produce.",
   },
   {
     q: "Is the training accredited?",

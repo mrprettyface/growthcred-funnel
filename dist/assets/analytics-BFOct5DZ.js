@@ -1,1 +1,0 @@
-import{X as e}from"./index-Cer-z4ge.js";function o(t,n={}){const a={event:`gc_${t}`,...n,ts:new Date().toISOString()};typeof window<"u"&&(window.dataLayer=window.dataLayer??[],window.dataLayer.push(a),e(t,n))}export{o as t};

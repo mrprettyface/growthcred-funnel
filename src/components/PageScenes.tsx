@@ -267,6 +267,18 @@ export const PAGE_SCENES: Record<string, ReactElement> = {
     </>
   ),
 
+  /* Law-firm billing — an invoice with the rand leaking out of the bottom. */
+  "/guides/law-firm-billing-leakage": (
+    <>
+      <Figure x={42} y={62} arms="M0 10 l-13 12 M0 10 l26 -8" />
+      <path d="M100 30h52l12 12v56H100z" />
+      <path d="M112 50h30M112 62h40M112 74h24" />
+      <path d="M100 98l10 8 10-8 10 8 10-8 10 8 14-8" />
+      <circle cx="126" cy="118" r="4" fill={GOLD} stroke="none" />
+      <circle cx="142" cy="126" r="3" fill={GOLD} stroke="none" />
+    </>
+  ),
+
   /* Johannesburg — here. */
   "/ai-automation-johannesburg": (
     <>

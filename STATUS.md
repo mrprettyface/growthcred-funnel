@@ -1,5 +1,31 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **28 September 2026 — house voice site-wide + law-firm article.** Every page
+> is now written in the voice Phila adopted: short sentences, "you" and "I",
+> sourced numbers, few bullets, headings a person would say. The guide, the
+> article structure, the fact rules and a swipe file live in
+> [docs/editorial/VOICE.md](docs/editorial/VOICE.md); CLAUDE.md and AGENTS.md
+> send every writing task there. `scripts/verify-voice.mjs` scores every
+> prerendered page (`check`: banned words, textbook headings, avg sentence
+> ≤ 12.5 words, ≤ 3% over 25 words, ≥ 5 you/I per 100 words) and scans source
+> for the gated funnel pages (`source`). All 36 search pages, the corporate
+> page, the guide and the homepage FAQ answers were rewritten; Phila's
+> homepage headline, hero, figures and guarantee are unchanged. Bullet lists on
+> search pages went from 27 to 9 real checklists. New article:
+> `/guides/law-firm-billing-leakage`, built on Clio 2025 benchmarks and 8am's
+> 2026 Admin Misery Index; the pitch's unsourced figures (89–90%, 47 cents,
+> 54%, salary numbers) and invented proof were removed — claim-by-claim record
+> in [docs/editorial/law-firm-article.md](docs/editorial/law-firm-article.md).
+> Search pages can now carry a mid-article guide offer (`guide`, opens the
+> opt-in card via `requestGuide()`) and a closing Apply block (`close`).
+> **Fixed a live inconsistency:** `/guides/how-we-work-first-30-days` promised
+> "20 hours of your week"; it now matches the homepage's "20% of your week".
+> **Waiting on Phila:** confirm 20% is the Command Core guarantee; answer the
+> two new HUMAN-LAYER questions (tools guide, SA challenges guide).
+> Pre-existing and still open: `/corporate-ai-training` has no author byline
+> or author box, so `verify-human-layer` flags it. Gates:
+> [GATES-voice.md](GATES-voice.md).
+
 > **25 September 2026 — three contrarian value articles.** The Resources hub
 > now includes `/guides/ai-business-proposals-faster`,
 > `/guides/choose-ai-tools-small-business` and

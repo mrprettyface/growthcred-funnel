@@ -26,7 +26,7 @@ export const HERO = {
   /** One static <h1>: "Every employee. Every report. 3× faster." */
   headlineLead: "Every employee. Every report.",
   headlineMark: "3× faster.",
-  sub: "Your people already have the AI licence. What they don't have is a method for the documents they produce every week. This is hands-on AI training for corporate teams, delivered as live workshops with packs to follow along. We time how long your people take today, train them on their own reports, proposals and board packs, then measure it again. Priced per employee, against the capacity it returns.",
+  sub: "Your people already have the AI licence. What they don't have is a method for the documents they produce every week. So I train your teams hands-on, in live workshops, with packs they follow along. We time how long your people take today. We train them on their own reports, proposals and board packs. Then we measure again. You pay per employee, against the capacity it returns.",
   cta: "Request a team proposal",
   secondary: "Model your ROI",
   chips: ["Live workshops, in the room or online", "A playbook for every role", "Measured before and after"],
@@ -47,36 +47,36 @@ export type TriedItem = { scene: "licence" | "lunch" | "module" | "pilot" | "pol
 export const TRIED = {
   eyebrow: "What you've already tried",
   heading: "You bought the licences. The work didn't change.",
-  sub: "Most organisations have already spent on AI. The spend shows up in the budget. It rarely shows up in how long the monthly report takes.",
+  sub: "You've probably already spent on AI. The spend shows up in your budget. Does it show up in how long your monthly report takes?",
   items: [
     {
       scene: "licence",
       t: "The licence rollout",
-      b: "Seats for Copilot or ChatGPT, a launch email, a spike in logins. By week six the usage dashboard tells the real story.",
+      b: "You bought seats for Copilot or ChatGPT. You sent a launch email. Logins spiked. By week six, your usage dashboard tells the real story.",
       twist: "The tool works. Nobody connected it to the work.",
     },
     {
       scene: "lunch",
       t: "The lunch-and-learn",
-      b: "An inspiring hour on what AI can do. Everyone nods. Monday's board pack is built exactly the way it was last month.",
+      b: "You booked an inspiring hour on what AI can do. Everyone nodded. Monday's board pack got built exactly the way it was last month.",
       twist: "Nobody connected the tool to the board pack.",
     },
     {
       scene: "module",
       t: "The e-learning module",
-      b: "Forty minutes of generic video and a green tick in the LMS. Completion was measured. Capability wasn't.",
+      b: "Your people sat through forty minutes of generic video and got a green tick in the LMS. You measured completion. Not capability.",
       twist: "The tool was taught. The documents were left alone.",
     },
     {
       scene: "pilot",
       t: "The innovation pilot",
-      b: "One clever proof of concept in one team. It impressed ExCo, then never left the sandbox.",
+      b: "One of your teams built a clever proof of concept. It impressed ExCo. Then it never left the sandbox.",
       twist: "It connected the tool to a demo, not to the reports people produce every Monday.",
     },
     {
       scene: "policy",
       t: "The policy memo",
-      b: "AI restricted pending review. Meanwhile people paste company documents into personal accounts, because the deadline didn't wait.",
+      b: "You restricted AI pending review. Meanwhile your people paste company documents into personal accounts. Because the deadline didn't wait.",
       twist: "The tool was locked. The risk walked right past it.",
     },
   ] satisfies TriedItem[],
@@ -134,9 +134,9 @@ export const BELIEF = {
 export const DIFFERENT = {
   eyebrow: "The difference",
   heading: "Built on your documents, not the tool's feature list.",
-  sub: "Adoption stalls when training teaches the tool and leaves the work alone. We start from the other end.",
+  sub: "Adoption stalls when training teaches the tool and leaves your work alone. I start from the other end.",
   mechanism:
-    "The tool already works. What doesn't work is the gap between the tool and the document your person produces every Monday morning. A monthly report doesn't need someone who knows more AI features. It needs a method: a structured brief instead of a blank page, the right source material already summarised, the house style applied in seconds instead of hours. Close that gap and the tool does what the licence promised.",
+    "Your tool already works. What doesn't work is the gap between the tool and the document your person produces every Monday morning. Does a monthly report need someone who knows more AI features? No. It needs a method. A structured brief instead of a blank page. The right source material, already summarised. Your house style, applied in seconds instead of hours. Close that gap and the tool does what your licence promised.",
   position: "That gap is where we work.",
   bridge: "Here's what that looks like, line by line.",
   columns: ["Typical AI training", "GrowthCred"],
@@ -155,7 +155,7 @@ export const DIFFERENT = {
 export const TARGET = {
   eyebrow: "The transformation",
   heading: "The target is 3×.",
-  body: "A report that takes six hours takes two. Not by learning more features, and not by skipping review, but by connecting the tool to the actual document and removing what surrounds it: the blank page, the hunt for last month's numbers, the reformatting, the third rewrite for a different audience.",
+  body: "A report that takes you six hours takes two. Not by learning more features. Not by skipping review. By connecting the tool to your actual document and removing what surrounds it. The blank page. The hunt for last month's numbers. The reformatting. The third rewrite for a different audience.",
   /** Illustrative: one report, before and after, in hours. */
   before: 6,
   after: 2,
@@ -233,8 +233,8 @@ export const ROI = {
   heading: "What 3× is worth on your headcount.",
   /** Cost of leaving the gap open, so the calculator reads as a receipt rather than a feature. */
   bridge:
-    "Every month the gap stays open, your team produces the same documents at the same speed, at full salary. The licence you already paid for sits open on their screens, and the reports take as long as they always did. The cost isn't what training costs. It's what the gap costs, every month you leave it.",
-  sub: "Move the numbers to match one team. The model is deliberately simple, so you can check it before you take it to ExCo.",
+    "Every month the gap stays open, your team produces the same documents at the same speed. At full salary. The licence you already paid for sits open on their screens. And your reports take as long as they always did. Your real cost isn't what training costs. It's what the gap costs you, every month you leave it.",
+  sub: "Move the numbers to match one of your teams. I kept the model simple on purpose, so you can check it before you take it to ExCo.",
   inputs: {
     employees: { label: "People to train", help: "One department, or the whole organisation." },
     docHours: {
@@ -251,9 +251,9 @@ export const ROI = {
     perEmployee: "Value per employee, per year",
   },
   perEmployeeNote:
-    "That last figure is the ceiling on what training should cost per head. A per-employee fee well under it is the case for training; one near it is the case against.",
+    "That last figure is the ceiling on what your training should cost per head. A fee well under it is your case for training. A fee near it is your case against.",
   capacityNote:
-    "Capacity is not cash. Saved hours only become savings if output grows or hiring slows, so we agree with you where the hours go before the first session.",
+    "Capacity isn't cash. Your saved hours only become savings if output grows or hiring slows. So we agree with you where the hours go before the first session.",
   disclaimer: `Estimate from your inputs: ${WORKING_WEEKS} working weeks, ${HOURS_PER_WEEK}-hour weeks. Not a result measured at your organisation.`,
 };
 
@@ -268,22 +268,22 @@ export const DELIVERY = {
     {
       scene: "baseline",
       t: "Baseline",
-      b: "We time a sample of the documents each team produces today: monthly reports, proposals, board packs, client letters. That is the number we are measured against.",
+      b: "We time a sample of the documents your teams produce today. Monthly reports. Proposals. Board packs. Client letters. That's the number you hold us to.",
     },
     {
       scene: "workshop",
       t: "Live workshops",
-      b: "Presentation-style sessions, in the room or online, run team by team. Every person works on a real document from their own desk, not a demo on ours.",
+      b: "Presentation-style sessions, in the room or online, run team by team. Every one of your people works on a real document from their own desk. Not a demo on ours.",
     },
     {
       scene: "packs",
       t: "Follow-along packs",
-      b: "Each role gets a printed and digital pack to follow during the session and keep afterwards, so the method outlives the day.",
+      b: "Each role gets a printed and digital pack. Your people follow it during the session and keep it afterwards. So the method outlives the day.",
     },
     {
       scene: "measure",
       t: "Measure and report",
-      b: "Thirty days later we time the same documents again and report to the sponsor: hours returned, by team, in rand.",
+      b: "Thirty days later we time the same documents again. Then we report to your sponsor. Hours returned, by team, in rand.",
     },
   ] satisfies Step[],
 };
@@ -299,10 +299,10 @@ export const PACK = {
     caption: "A pack at every seat, before a GrowthCred session.",
   },
   items: [
-    { t: "A step-by-step playbook", b: "The method for their role, written for the AI tool your organisation has approved." },
+    { t: "A step-by-step playbook", b: "The method for their role, written for the AI tool you've approved." },
     { t: "A prompt library", b: "Ready briefs for the ten documents their role produces most." },
-    { t: "A team context document", b: "How your organisation works, who it serves and how it writes, so every draft starts informed." },
-    { t: "A review checklist", b: "What must be checked before anything leaves the building, and what never goes into an AI tool." },
+    { t: "A team context document", b: "How your organisation works, who you serve and how you write. So every draft starts informed." },
+    { t: "A review checklist", b: "What your people check before anything leaves the building. And what never goes into an AI tool." },
     { t: "Their own before and after", b: "The time they took on a real document at the baseline, and the time they take now." },
   ],
 };
@@ -321,28 +321,28 @@ export const STAKEHOLDERS = {
       role: "CFO / FD",
       q: "What's the return, in rand?",
       t: "A rand figure, before and after.",
-      b: "The baseline and the thirty-day measurement are in rand per team, so the return is a number, not a feeling.",
+      b: "You get the baseline and the thirty-day measurement in rand per team. So your return is a number, not a feeling.",
     },
     {
       scene: "people",
       role: "HR / L&D",
       q: "What happens when people leave?",
       t: "Capability that stays when people move.",
-      b: "Every role has a written playbook, so new hires inherit the method on day one instead of waiting for the next training budget.",
+      b: "Every role gets a written playbook. So your new hires inherit the method on day one. They don't wait for the next training budget.",
     },
     {
       scene: "operations",
       role: "COO / Heads of department",
       q: "Which documents get faster?",
       t: "Shorter cycles on the documents that hold up decisions.",
-      b: "The reports, packs and proposals your decisions wait for are the ones we train on first. You name them at the baseline.",
+      b: "We train first on the reports, packs and proposals your decisions wait for. You name them at the baseline.",
     },
     {
       scene: "risk",
       role: "IT / Risk",
       q: "What about our data?",
       t: "Inside the tools you already approved.",
-      b: "We train on your sanctioned platform, practise on redacted material, and write what may never go into an AI tool into every pack.",
+      b: "We train on your sanctioned platform. We practise on redacted material. And every pack spells out what may never go into an AI tool.",
     },
   ] satisfies Stakeholder[],
   dataLink: { to: "/data-and-security", label: "How we handle data and security" },
@@ -353,22 +353,22 @@ export const STAKEHOLDERS = {
 export const PRICING = {
   eyebrow: "Pricing",
   heading: "Priced per employee. Anchored to what it returns.",
-  body: "You already paid for the tool. This is the missing piece: the method that connects it to the work. You pay per person trained, so the investment scales with the headcount that produces the return. We quote after the baseline, so the per-employee fee sits beside the per-employee value in the same proposal. If the numbers don't make the case, you'll see that before you sign.",
+  body: "You already paid for the tool. This is the missing piece. The method that connects it to your work. You pay per person trained, so your investment scales with the headcount that produces the return. We quote after the baseline. So the per-employee fee sits beside the per-employee value in the same proposal. If the numbers don't make the case, you'll see that before you sign.",
   tiers: [
     {
       name: "Pilot team",
       scope: "One department, one document type",
-      line: "Prove the number on one team before anyone commits to a rollout.",
+      line: "Prove the number on one of your teams before you commit to a rollout.",
     },
     {
       name: "Department rollout",
       scope: "Several teams, a pack per role",
-      line: "The documents each team produces most, trained team by team, measured team by team.",
+      line: "The documents each of your teams produces most. Trained team by team. Measured team by team.",
     },
     {
       name: "Organisation-wide",
       scope: "Multiple departments or sites",
-      line: "Phased across the business, with the baseline and measurement reported to one sponsor.",
+      line: "Phased across your business, with the baseline and measurement reported to your sponsor.",
     },
   ],
   note: "Every tier is priced per employee. The rate is set in the proposal, after the baseline.",
@@ -412,8 +412,8 @@ export { FAQ, CORPORATE_PATH } from "./corporateSeo";
 
 export const CLOSE = {
   body: [
-    "Every week this stays unfixed, your people open the AI tool, stare at it, and go back to the way they've always done it. The licence renews. The reports stay slow.",
-    "And odds are that right now someone on your team is pasting a client document into a personal AI account, because the deadline didn't wait for the training budget.",
+    "Every week this stays unfixed, your people open the AI tool. They stare at it. Then they go back to the way they've always done it. Your licence renews. Your reports stay slow.",
+    "And right now? Odds are someone on your team is pasting a client document into a personal AI account. Because the deadline didn't wait for your training budget.",
   ],
   lead: "The tool was never the problem. The connection was.",
   mark: "This is the connection.",
