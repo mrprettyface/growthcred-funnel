@@ -14,7 +14,7 @@
  * against a known-bad input, so a rule that cannot fail is caught.
  */
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, access } from "node:fs/promises";
 
 const FILE = "dist/private-ai.html";
 const mode = process.argv[2];
@@ -113,9 +113,95 @@ async function reach() {
   console.log("private-ai reach verification passed");
 }
 
+/* ---------------- visuals, motion, photos ---------------- */
+
+const TEXT_SECTIONS = ["hero", "pain", "cost-of-renting", "fixes", "own", "evidence", "cost", "who", "wrong-call", "how", "close"];
+
+function visualProblems(html) {
+  const out = [];
+  const main = mainOf(html);
+  const scenes = new Set([...main.matchAll(/data-scene="([a-z]+)"/g)].map((m) => m[1]));
+  if (scenes.size < 18) out.push(`only ${scenes.size} distinct drawn scenes (need 18)`);
+  for (const id of TEXT_SECTIONS) {
+    const sec = (main.match(new RegExp(`<section[^>]*id="${id}"[\\s\\S]*?</section>`)) || [""])[0];
+    if (!sec) out.push(`section #${id} missing`);
+    else if (!/data-scene=|<img\b/.test(sec)) out.push(`section #${id} is text only`);
+  }
+  return out;
+}
+
+async function visuals() {
+  assert.ok(visualProblems('<main id="main-content"><section id="hero"><p>words</p></section></main>').length > 5, "visual rules cannot fail");
+  const problems = visualProblems(await readFile(FILE, "utf8"));
+  if (problems.length) {
+    console.error(`PRIVATE AI VISUALS FAILED:\n  - ` + problems.join("\n  - "));
+    process.exit(1);
+  }
+  console.log("private-ai visuals verification passed");
+}
+
+function motionProblems(css) {
+  const out = [];
+  const kf = (css.match(/@keyframes gcPop\s*\{[\s\S]*?\n\}/) || [""])[0];
+  if (!kf) out.push("no gcPop keyframes");
+  const props = [...kf.matchAll(/^\s+([a-z-]+):/gm)].map((m) => m[1]);
+  for (const prop of props) if (!["opacity", "scale", "transform", "translate"].includes(prop)) out.push(`gcPop animates ${prop}`);
+  // Every .gc-pop rule sits inside the view-timeline support check and the no-preference query.
+  const uses = [...css.matchAll(/\.gc-pop\s*\{/g)].map((m) => m.index);
+  if (!uses.length) out.push("no .gc-pop rule");
+  for (const at of uses) {
+    const before = css.slice(Math.max(0, at - 220), at);
+    if (!/@supports \(animation-timeline: view\(\)\)\s*\{\s*@media \(prefers-reduced-motion: no-preference\)\s*\{\s*$/.test(before))
+      out.push(".gc-pop is styled outside @supports(view()) + no-preference");
+  }
+  return out;
+}
+
+async function motion() {
+  assert.ok(motionProblems("@keyframes gcPop {\n  from {\n    width: 0;\n  }\n}\n.gc-pop { animation: gcPop; }").length >= 2, "motion rules cannot fail");
+  const problems = motionProblems(await readFile("src/index.css", "utf8"));
+  if (problems.length) {
+    console.error(`PRIVATE AI MOTION FAILED:\n  - ` + problems.join("\n  - "));
+    process.exit(1);
+  }
+  console.log("private-ai motion verification passed");
+}
+
+/** Captions may say what a photo shows. They may not say a client runs private AI. */
+const OVERCLAIM = /(client|customer)s?[^.]{0,60}\b(run|running|deployed|uses|using)\b[^.]{0,30}private ai/i;
+
+async function photos() {
+  assert.ok(OVERCLAIM.test("Our clients are running private AI"), "overclaim rule cannot fail");
+  const main = mainOf(await readFile(FILE, "utf8"));
+  const problems = [];
+  const imgs = [...main.matchAll(/<img\b[^>]*>/g)].map((m) => m[0]);
+  if (imgs.length < 2) problems.push(`only ${imgs.length} photos`);
+  for (const tag of imgs) {
+    const src = (tag.match(/src="([^"]+)"/) || [])[1];
+    const alt = decode((tag.match(/alt="([^"]*)"/) || [])[1] ?? "");
+    if (alt.length < 12) problems.push(`${src}: alt text too short`);
+    if (!/width="\d+"/.test(tag) || !/height="\d+"/.test(tag)) problems.push(`${src}: no width/height (layout shift)`);
+    try {
+      await access("dist" + src);
+    } catch {
+      problems.push(`${src}: not shipped in dist`);
+    }
+  }
+  for (const m of main.matchAll(/<figcaption[^>]*>([\s\S]*?)<\/figcaption>/g))
+    if (OVERCLAIM.test(text(m[1]))) problems.push(`caption overclaims: ${text(m[1]).slice(0, 80)}`);
+  if (problems.length) {
+    console.error(`PRIVATE AI PHOTOS FAILED:\n  - ` + problems.join("\n  - "));
+    process.exit(1);
+  }
+  console.log(`private-ai photos verification passed: ${imgs.length} photos`);
+}
+
 if (mode === "page") await page();
 else if (mode === "reach") await reach();
+else if (mode === "visuals") await visuals();
+else if (mode === "motion") await motion();
+else if (mode === "photos") await photos();
 else {
-  console.error("usage: verify-private-ai.mjs page|reach");
+  console.error("usage: verify-private-ai.mjs page|reach|visuals|motion|photos");
   process.exit(2);
 }

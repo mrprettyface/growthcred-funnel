@@ -17,7 +17,32 @@
 
 export { PRIVATE_AI_FAQ as FAQ, PRIVATE_AI_PATH } from "./privateAiSeo";
 
+import type { PrivateAiSceneName } from "../components/PrivateAiScenes";
+
+/** A card or row on the page: its drawing, its title, its line, and an optional link. */
+export type Item = { scene: PrivateAiSceneName; t: string; b: string; href?: string };
+
 export const APPLY = "/call";
+
+/**
+ * GrowthCred's own photos. Captions say only what the photo shows: neither
+ * is a private AI deployment, and neither caption says it is.
+ */
+export const PHOTOS = {
+  phila: {
+    src: "/images/phila-event.jpg",
+    alt: "Phila Ngwenya, founder of GrowthCred, at an event",
+    width: 1200,
+    height: 1600,
+  },
+  session: {
+    src: "/images/stories/operators-intensive-session.jpg",
+    alt: "Business owners working through a GrowthCred session at WeWork Rosebank while Phila answers a question",
+    width: 1200,
+    height: 900,
+    caption: "Training is part of every deployment. This is a GrowthCred working session at WeWork Rosebank: owners building on their own work, not a demo.",
+  },
+};
 
 export type Source = { label: string; href: string };
 
@@ -73,10 +98,10 @@ export const FIXES = {
   eyebrow: "The usual fixes",
   heading: "Why banning it, buying seats or building it yourself doesn't work.",
   items: [
-    { t: "Ban it.", b: "People use it anyway, on their phones. Now you have all the risk and none of the control." },
-    { t: "Buy enterprise seats.", b: "Better terms. Same problem. Your data still leaves, and the bill still grows with every hire." },
-    { t: "Build it yourself.", b: "Running your own AI takes people who look after the equipment, update the models and check the answers. Most firms don't have that team. Without it, the system slowly gets worse." },
-  ],
+    { scene: "ban", t: "Ban it.", b: "People use it anyway, on their phones. Now you have all the risk and none of the control." },
+    { scene: "seats", t: "Buy enterprise seats.", b: "Better terms. Same problem. Your data still leaves, and the bill still grows with every hire." },
+    { scene: "build", t: "Build it yourself.", b: "Running your own AI takes people who look after the equipment, update the models and check the answers. Most firms don't have that team. Without it, the system slowly gets worse." },
+  ] as Item[],
   punch: "You don't need a data science department. You need someone to be one for you.",
 };
 
@@ -85,10 +110,10 @@ export const OWN = {
   heading: "Your own AI. Run for you.",
   lead: "Private AI means the AI runs on equipment inside your business. Not ours. Not a tech giant's. Yours. We choose the equipment that fits. We set it up on your documents and build agents for your work. Then we keep it running.",
   proofs: [
-    { t: "Your data stays in the building.", b: "Contracts, client files and numbers never go to an outside AI company. POPIA gets simpler, not scarier." },
-    { t: "The cost stops climbing.", b: "You pay to set it up and to run it. Not per person. Your next hire uses it without a new seat." },
-    { t: "It knows your business.", b: "It's set up on your templates, your past work and the way you write. So it starts every task already knowing you." },
-  ],
+    { scene: "stays", t: "Your data stays in the building.", b: "Contracts, client files and numbers never go to an outside AI company. POPIA gets simpler, not scarier." },
+    { scene: "flat", t: "The cost stops climbing.", b: "You pay to set it up and to run it. Not per person. Your next hire uses it without a new seat." },
+    { scene: "knows", t: "It knows your business.", b: "It's set up on your templates, your past work and the way you write. So it starts every task already knowing you." },
+  ] as Item[],
   guide: "If this sounds like you, get the AI Implementation Guide. It's the method we start every client on, free.",
 };
 
@@ -136,21 +161,21 @@ export const WHO = {
   heading: "Who should own their AI first?",
   lead: "Anyone whose documents would hurt if they leaked.",
   items: [
-    { t: "Law firms", b: "Privileged client files and case documents that can't sit on anyone else's servers.", href: "/ai-for-law-firms" },
-    { t: "Financial services", b: "Client money, records and advice, with the regulator watching.", href: "/ai-for-financial-services" },
-    { t: "Healthcare", b: "Patient records that POPIA treats as special personal information." },
-    { t: "Owner-led firms", b: "Proposals, pricing and client lists. The things your competitors would love to read." },
-  ],
+    { scene: "law", t: "Law firms", b: "Privileged client files and case documents that can't sit on anyone else's servers.", href: "/ai-for-law-firms" },
+    { scene: "finance", t: "Financial services", b: "Client money, records and advice, with the regulator watching.", href: "/ai-for-financial-services" },
+    { scene: "health", t: "Healthcare", b: "Patient records that POPIA treats as special personal information." },
+    { scene: "owner", t: "Owner-led firms", b: "Proposals, pricing and client lists. The things your competitors would love to read." },
+  ] as Item[],
 };
 
 export const WRONG = {
   eyebrow: "When it's the wrong call",
   heading: "When private AI isn't for you. Yet.",
   items: [
-    { t: "Your files are a mess.", b: "AI is only as good as what you feed it. If your documents are scattered and out of date, we fix that first. It takes time. We'll tell you how much." },
-    { t: "You want a creative all-rounder.", b: "For open-ended brainstorming, the biggest rented models still have an edge. Private AI wins on your own documents and your own processes." },
-    { t: "Your team barely uses AI yet.", b: "Start smaller. Our corporate training gets them using it on their real work first.", href: "/corporate-ai-training" },
-  ],
+    { scene: "messy", t: "Your files are a mess.", b: "AI is only as good as what you feed it. If your documents are scattered and out of date, we fix that first. It takes time. We'll tell you how much." },
+    { scene: "bulb", t: "You want a creative all-rounder.", b: "For open-ended brainstorming, the biggest rented models still have an edge. Private AI wins on your own documents and your own processes." },
+    { scene: "seed", t: "Your team barely uses AI yet.", b: "Start smaller. Our corporate training gets them using it on their real work first.", href: "/corporate-ai-training" },
+  ] as Item[],
   punch: "I'd rather lose a sale than sell you the wrong thing.",
 };
 
@@ -158,10 +183,10 @@ export const HOW = {
   eyebrow: "How it works",
   heading: "Three steps. You own the result.",
   steps: [
-    { t: "Audit", b: "We map where your week goes, what your documents look like and how much you'd use it. You see when owning beats renting." },
-    { t: "Deploy", b: "We choose and set up the equipment, load your documents, build your agents and train your team. First result in 14 days." },
-    { t: "Embed", b: "We keep it running. Better models go in as they come out. Hours back tracked every month." },
-  ],
+    { scene: "audit", t: "Audit", b: "We map where your week goes, what your documents look like and how much you'd use it. You see when owning beats renting." },
+    { scene: "deploy", t: "Deploy", b: "We choose and set up the equipment, load your documents, build your agents and train your team. First result in 14 days." },
+    { scene: "embed", t: "Embed", b: "We keep it running. Better models go in as they come out. Hours back tracked every month." },
+  ] as Item[],
 };
 
 export const GUARANTEE = {

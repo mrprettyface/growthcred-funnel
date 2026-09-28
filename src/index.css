@@ -163,6 +163,30 @@
   }
 }
 
+/* A drawn scene popping in as it arrives (PrivateAiScenes). Same safety as
+   .gc-reveal: scroll-driven, no-preference only, opacity and scale only, and
+   where the browser can't do it the drawing is simply there. */
+@keyframes gcPop {
+  from {
+    opacity: 0;
+    scale: 0.8;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .gc-pop {
+      animation: gcPop cubic-bezier(0.2, 0.8, 0.2, 1.15) both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 60%;
+    }
+  }
+}
+
 .gc-flip-in {
   animation: gcFlipIn 0.45s ease both;
 }
