@@ -17,15 +17,15 @@ Scope: break up /private-ai with a drawn scene in every section, real GrowthCred
 - [x] G3: every photo on the page has descriptive alt text, a caption that doesn't overclaim, and its file ships in dist
   CHECK: node scripts/verify-private-ai.mjs photos
   EXPECT: private-ai photos verification passed
-  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=f306a2d5df23/16 entries; output=private-ai photos verification passed: 3 photos
+  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=f306a2d5df23/16 entries; output=private-ai photos verification passed: 6 photos
 
 - [x] G4: the page's copy, reach and every pre-existing check still pass
   CHECK: node scripts/verify-private-ai.mjs page && node scripts/verify-private-ai.mjs reach && node scripts/verify-own-intelligence.mjs suite
   EXPECT: own-intelligence suite passed
   EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=f306a2d5df23/16 entries; output=private-ai reach verification passed | own-intelligence suite passed: 33 existing checks
 
-- [ ] G5: stock photos: each one approved by Phila by file, source and licence before download
-  EVIDENCE: pending
+- [x] G5: stock photos: each one approved by Phila by file, source and licence before download
+  EVIDENCE: 29 Sep 2026 Phila approved 3 of 4 offered (declined the server rack, which shows hardware). Downloaded at 1200px from Unsplash under the Unsplash License: joburg-skyline.jpg (Simon Hurry, 268038 B, 1200x727), team-laptop.jpg (UK Black Tech, 138085 B, 1200x800), stacks-of-files.jpg (Wesley Tingey, 186529 B, 1200x800), all image/jpeg, viewed before use; provenance recorded in src/lib/privateAi.ts PHOTOS. On the built page all three load at naturalWidth 1200 (checked in preview), placed in #pain, #wrong-call and behind #close.
 
 - [x] G6: visual review at desktop and phone width: scenes read at card size, photos load, nothing overflows
   EVIDENCE: 29 Sep 2026, built site via vite preview :4174. 347px pane (narrow phone): hero drawing (person beside own AI in a house) full width and legible; hero CTA no longer wraps after the whitespace-nowrap fix (height 56px, one line); #pain paste drawing (document flying to a cloud, gold document) reads above the 78% stat; #how audit/deploy/embed drawings beside 01/02/03 at opacity 1, scale 1 (computed); scrollWidth 347 = innerWidth. 1200px: hero two-column with drawing card; #fixes cards each open on a drawing. Photos: Phila (evidence) and the WeWork session (how) load with width/height set.

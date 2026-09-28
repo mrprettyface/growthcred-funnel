@@ -42,6 +42,32 @@ export const PHOTOS = {
     height: 900,
     caption: "Training is part of every deployment. This is a GrowthCred working session at WeWork Rosebank: owners building on their own work, not a demo.",
   },
+  /*
+   * Free-licence photos, approved by Phila on 29 Sep 2026 and downloaded at
+   * 1200px from Unsplash (Unsplash License: free for commercial use, no credit
+   * required). They are illustration, not GrowthCred clients or offices.
+   *   team:   UK Black Tech   https://unsplash.com/photos/1g96LfUK3lU
+   *   files:  Wesley Tingey   https://unsplash.com/photos/stacks-of-paper-documents-and-file-folders-snNHKZ-mGfE
+   *   joburg: Simon Hurry     https://unsplash.com/photos/johannesburg-skyline-at-golden-hour-_h-L45TSmGM
+   */
+  team: {
+    src: "/images/private-ai/team-laptop.jpg",
+    alt: "Two colleagues looking at a laptop together in a bright office",
+    width: 1200,
+    height: 800,
+  },
+  files: {
+    src: "/images/private-ai/stacks-of-files.jpg",
+    alt: "Tall stacks of paper files and folders on an office desk",
+    width: 1200,
+    height: 800,
+  },
+  joburg: {
+    src: "/images/private-ai/joburg-skyline.jpg",
+    alt: "Johannesburg city skyline at golden hour",
+    width: 1200,
+    height: 727,
+  },
 };
 
 export type Source = { label: string; href: string };

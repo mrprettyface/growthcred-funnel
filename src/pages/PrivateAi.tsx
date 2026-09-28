@@ -63,6 +63,20 @@ function Cite({ source, dark = false }: { source: Source; dark?: boolean }) {
   );
 }
 
+function Photo({ photo, className = "" }: { photo: { src: string; alt: string; width: number; height: number }; className?: string }) {
+  return (
+    <img
+      src={photo.src}
+      alt={photo.alt}
+      width={photo.width}
+      height={photo.height}
+      loading="lazy"
+      decoding="async"
+      className={`w-full rounded-3xl object-cover shadow-[0_30px_80px_-40px_rgba(26,26,36,0.45)] ${className}`}
+    />
+  );
+}
+
 function Punch({ children, dark = false }: { children: ReactNode; dark?: boolean }) {
   return (
     <p
@@ -123,6 +137,7 @@ export default function PrivateAi() {
                 {p}
               </p>
             ))}
+            <Photo photo={PHOTOS.team} className="mt-10 aspect-[3/2]" />
           </div>
           <div className="rounded-3xl border border-cream/10 bg-midnight-soft/70 p-7 md:p-9">
             <PrivateAiScene name="paste" className="mb-4 h-28 w-40 text-cream/75" />
@@ -335,9 +350,12 @@ export default function PrivateAi() {
       {/* ---------- When it's the wrong call ---------- */}
       <section id="wrong-call" className="bg-white py-20 md:py-32">
         <div className={WRAP}>
-          <div className="max-w-[40ch]">
-            <Label>{WRONG.eyebrow}</Label>
-            <h2 className={`mt-5 ${H2}`}>{WRONG.heading}</h2>
+          <div className="grid items-center gap-10 md:grid-cols-[1fr_0.9fr] md:gap-16">
+            <div className="max-w-[40ch]">
+              <Label>{WRONG.eyebrow}</Label>
+              <h2 className={`mt-5 ${H2}`}>{WRONG.heading}</h2>
+            </div>
+            <Photo photo={PHOTOS.files} className="aspect-[3/2]" />
           </div>
           <ul className="mt-12 divide-y divide-midnight/10 border-y border-midnight/10">
             {WRONG.items.map((item) => (
@@ -422,8 +440,17 @@ export default function PrivateAi() {
       </section>
 
       {/* ---------- Close ---------- */}
-      <section id="close" data-tone="dark" className="relative isolate bg-midnight py-24 text-center text-cream md:py-36">
-        <DarkBackdrop glow="bottom" />
+      <section id="close" data-tone="dark" className="relative isolate overflow-hidden bg-midnight py-24 text-center text-cream md:py-36">
+        <img
+          src={PHOTOS.joburg.src}
+          alt={PHOTOS.joburg.alt}
+          width={PHOTOS.joburg.width}
+          height={PHOTOS.joburg.height}
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 -z-20 h-full w-full object-cover"
+        />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-midnight/80" />
         <div className={WRAP}>
           <PrivateAiScene name="key" className="mx-auto mb-6 h-32 w-48 text-cream/75" />
           <h2 className="mx-auto max-w-[18ch] text-[length:clamp(2.25rem,5.5vw,4.5rem)] text-cream">{CLOSE.heading}</h2>

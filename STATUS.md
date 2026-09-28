@@ -55,6 +55,13 @@
 > GrowthCred does **not** claim finance or legal client results on these pages.
 > Gates: [GATES-finance-law.md](GATES-finance-law.md), 7/7 met.
 
+> **29 September 2026 — /private-ai visuals.** 23 stick-figure scenes
+> (`src/components/PrivateAiScenes.tsx`) pop in on scroll (`.gc-pop`,
+> scroll-driven CSS, no-preference only). Photos: Phila's event photo, the
+> WeWork session, and three Unsplash photos Phila approved (skyline, team,
+> files) in `public/images/private-ai/`, sources in `privateAi.ts` PHOTOS.
+> Gates: [GATES-private-ai-visuals.md](GATES-private-ai-visuals.md).
+>
 > **29 September 2026 — /private-ai sales page.** The long-form case for the
 > Command Core: pain (rented AI, data leaving the building, POPIA section 72),
 > the usual fixes, the fix, third-party evidence, the rent-or-buy maths, who
