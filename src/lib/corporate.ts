@@ -19,6 +19,9 @@
 
 /** In-page anchors. Plain <a href="#…">, because the router does not scroll to hashes. */
 export const ENQUIRE_ANCHOR = "#enquire";
+
+/** First published (STATUS.md, 25 Sep 2026). Shown in the byline. */
+export const PUBLISHED = "2026-09-25";
 export const ROI_ANCHOR = "#roi";
 
 export const HERO = {

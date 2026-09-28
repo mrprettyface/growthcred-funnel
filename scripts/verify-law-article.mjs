@@ -147,25 +147,7 @@ if (mode === "guide") {
   assert.deepEqual(fresh, [], `new rand figures not in the baseline: ${fresh.join(", ")}`);
   assert.ok(baseline.has("R990") && baseline.has("R25 000"), "baseline snapshot is missing known prices");
   console.log("price verification passed");
-} else if (mode === "humanlayer") {
-  // verify-human-layer failed at HEAD (1a33a45) on eight lines. This work fixed five
-  // (finance, law, proposals: first-hand lines; tools, SA challenges: queued for Phila).
-  // The corporate page's missing byline/author box is a layout gap that predates it,
-  // so exactly those three lines are tolerated, and nothing else.
-  const PRE_EXISTING = new Set([
-    "/corporate-ai-training: no author byline",
-    "/corporate-ai-training: no visible date",
-    "/corporate-ai-training: no author box",
-  ]);
-  let out = "";
-  try { out = execFileSync("node", ["scripts/verify-human-layer.mjs"], { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] }); }
-  catch (e) { out = `${e.stdout ?? ""}${e.stderr ?? ""}`; }
-  const lines = [...out.matchAll(/^\s+- (.+)$/gm)].map((m) => m[1].trim());
-  const fresh = lines.filter((l) => !PRE_EXISTING.has(l));
-  assert.ok(lines.length > 0 || /human layer verification passed/.test(out), `unexpected human-layer output: ${out.slice(0, 200)}`);
-  assert.deepEqual(fresh, [], `new human-layer failures: ${fresh.join(" | ")}`);
-  console.log(`human layer: no new failures (${lines.length} pre-existing corporate line(s) tolerated)`);
 } else {
-  console.error("usage: node scripts/verify-law-article.mjs guide|copy|integration|prices|humanlayer");
+  console.error("usage: node scripts/verify-law-article.mjs guide|copy|integration|prices");
   process.exit(2);
 }

@@ -2,12 +2,9 @@ import { Link } from "react-router-dom";
 import { BrandIcon } from "../components/BrandIcons";
 import { SEARCH_PAGES, REVIEWED, type SearchPage as Page } from "../content/searchPages";
 
-const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
-/** "2026-09-24" -> "24 September 2026", without the locale APIs (server and browser must agree). */
-const longDate=(iso:string)=>{const [y,m,d]=iso.split("-").map(Number);return `${d} ${MONTHS[m-1]} ${y}`;};
 const kindLabel=(kind?:Page["kind"])=>kind==="tool"?"Calculator":kind==="story"?"Client story":"Guide";
 import { Button, ButtonLink, Section, Eyebrow, Faq } from "../components/ui";
-import { FOUNDER } from "../lib/home";
+import { AuthorBox, Byline } from "../components/AuthorBox";
 import { CostCalculator } from "../components/CostCalculator";
 import { PageScene } from "../components/PageScenes";
 import { FaqMark } from "../components/FaqMarks";
@@ -22,7 +19,7 @@ export function SearchPage({page}:{page:Page}) {
         <Eyebrow dark>{page.kind==='guide'?'The GrowthCred field guide':page.kind==='story'?'Client story':page.path==='/stories'?'Client stories':page.kind==='tool'?'Work out the time':'GrowthCred · South Africa'}</Eyebrow>
         <h1 className="mt-5 text-4xl leading-tight text-cream md:text-6xl">{page.heading}</h1>
         <p className="mt-7 max-w-[68ch] text-lg leading-relaxed text-cream/75">{page.intro}</p>
-        {page.kind!=='hub'&&page.kind!=='about'&&<p className="mt-6 text-sm text-cream/55 [&_a]:text-cream">By <Link to="/about">Phila Ngwenya</Link> · {page.published?'Published':'Reviewed'} <time dateTime={page.published??REVIEWED}>{longDate(page.published??REVIEWED)}</time></p>}
+        {page.kind!=='hub'&&page.kind!=='about'&&<Byline dark className="mt-6" date={page.published??REVIEWED} label={page.published?'Published':'Reviewed'}/>}
       </div>
       <div aria-hidden="true" className="mx-auto w-full max-w-[320px] rounded-3xl border border-cream/10 bg-midnight-soft/70 p-5 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.8)] md:mx-0"><PageScene path={page.path} className="h-40 w-full text-cream/80 md:h-48" /></div>
       </div>
@@ -51,6 +48,4 @@ export function SearchPage({page}:{page:Page}) {
 }
 /** The mid-article guide offer. A button, not a link: the guide is swapped for an email. */
 function GuideCallout({line}:{line:string}){return <aside aria-label={GUIDE_OFFER.title} className="mt-8 rounded-3xl border border-gold/40 bg-gold/[0.06] p-6"><p className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted">{GUIDE_OFFER.eyebrow}</p><p className="mt-2 max-w-[60ch] leading-relaxed text-ink">{line}</p><Button type="button" onClick={requestGuide} className="mt-5">{GUIDE_OFFER.cta}</Button></aside>}
-/** Who wrote this. Experience and authorship, stated plainly, on every article. */
-function AuthorBox(){return <aside aria-label="About the author" className="flex flex-col gap-5 rounded-3xl border border-midnight/10 bg-white p-6 shadow-[0_30px_80px_-40px_rgba(26,26,36,0.35)] sm:flex-row sm:items-center"><img src="/images/phila-event-640.webp" width="640" height="853" alt="Phila Ngwenya, founder of GrowthCred" loading="lazy" decoding="async" className="h-28 w-24 shrink-0 rounded-2xl object-cover object-top"/><div><p className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted">About the author</p><p className="mt-1 font-display text-xl font-extrabold tracking-[-0.03em] text-midnight"><Link to="/about" className="no-underline hover:text-gold">{FOUNDER.name}</Link></p><p className="mt-1 text-sm text-muted">{FOUNDER.title}</p><p className="mt-3 text-sm leading-relaxed text-ink">{FOUNDER.credentials.join(" ")}</p></div></aside>}
 export function NotFound(){return <Section className="min-h-[65vh] pt-16"><Eyebrow>404 · Page not found</Eyebrow><h1 className="mt-5 text-4xl md:text-6xl">Let’s get you to the right place.</h1><p className="mt-6 max-w-xl text-lg">This address doesn’t match a page on our site. Explore the workshop, find a practical guide, or contact us.</p><div className="mt-8 flex flex-wrap gap-4"><ButtonLink to="/workshop">The workshop</ButtonLink><ButtonLink to="/resources" variant="outline">Practical guides</ButtonLink><ButtonLink to="/contact" variant="outline">Contact</ButtonLink></div></Section>}

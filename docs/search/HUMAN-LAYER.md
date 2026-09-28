@@ -50,14 +50,6 @@ The money page for the R990 funnel shows no attendee result.
 ### `/guides/ai-proposals-and-follow-ups`
 1. TaiAscend's three-day document process, step by step: what took the time, and what the two-hour version looks like.
 
-### `/guides/choose-ai-tools-small-business`
-1. One tool you (or a client) bought and later dropped: what it was for, why it didn't stick.
-2. The tool category you'd tell an owner to fix first, and the real case that taught you that.
-
-### `/guides/ai-challenges-south-africa`
-1. A South African workflow you adapted because an imported template didn't fit: what changed (channel, POPIA step, fallback).
-2. One question about POPIA or WhatsApp that owners actually ask you in workshops.
-
 ### `/guides/ai-training-cost-south-africa`
 1. The questions workshop and Intensive attendees actually asked about cost before booking.
 

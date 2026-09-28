@@ -11,7 +11,9 @@ import { track } from "../lib/analytics";
 import { IMESSAGE_DISPLAY, IMESSAGE_NUMBER, LINKEDIN_URL, WHATSAPP_DISPLAY, whatsappUrl } from "../lib/contact";
 import { BrandIcon } from "../components/BrandIcons";
 import { FOUNDER } from "../lib/home";
+import { AuthorBox, Byline } from "../components/AuthorBox";
 import {
+  PUBLISHED,
   ENQUIRE_ANCHOR,
   ROI_ANCHOR,
   HERO,
@@ -102,6 +104,7 @@ export default function Corporate() {
                 </li>
               ))}
             </ul>
+            <Byline date={PUBLISHED} className="mt-8" />
           </div>
 
           <figure className="mx-auto w-full max-w-[520px]">
@@ -593,6 +596,7 @@ export default function Corporate() {
           <div className="mt-12 text-center">
             <PillLink to={ENQUIRE_ANCHOR}>{HERO.cta}</PillLink>
           </div>
+          <AuthorBox className="mx-auto mt-16 max-w-[760px]" />
         </div>
       </section>
 

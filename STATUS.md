@@ -20,10 +20,13 @@
 > opt-in card via `requestGuide()`) and a closing Apply block (`close`).
 > **Fixed a live inconsistency:** `/guides/how-we-work-first-30-days` promised
 > "20 hours of your week"; it now matches the homepage's "20% of your week".
-> **Waiting on Phila:** confirm 20% is the Command Core guarantee; answer the
-> two new HUMAN-LAYER questions (tools guide, SA challenges guide).
-> Pre-existing and still open: `/corporate-ai-training` has no author byline
-> or author box, so `verify-human-layer` flags it. Gates:
+> **Decided 29 Sep (Phila: "go with what you think is good"):** the Command
+> Core guarantee is "20% of your week", as on the homepage. The tools and SA
+> challenges guides carry first-hand proof from already-permissioned stories
+> (Macaela's quote; MNE Waste built from its own operation) instead of joining
+> the HUMAN-LAYER queue. `/corporate-ai-training` now has a byline (published
+> 25 Sep 2026) and the author box, shared with every article via
+> `src/components/AuthorBox.tsx`, so `verify-human-layer` passes outright. Gates:
 > [GATES-voice.md](GATES-voice.md).
 
 > **25 September 2026 — three contrarian value articles.** The Resources hub

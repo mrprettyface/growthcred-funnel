@@ -27,17 +27,17 @@ Scope: write the voice guide into the repo so every future AI session uses it, r
 - [x] G5: no banned word survives anywhere in source copy, including gated funnel pages the prerender skips; bullet lists on search pages cut to real checklists (≤ 12)
   CHECK: node scripts/verify-voice.mjs source
   EXPECT: source voice verification passed
-  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=f306a2d5df23/16 entries; output=source voice verification passed: 101 files, no banned words; 9 checklists on search pages.
+  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=f306a2d5df23/16 entries; output=source voice verification passed: 102 files, no banned words; 9 checklists on search pages.
 
 - [x] G6: the article is indexed, in the sitemap, linked from /resources and /ai-for-law-firms, and its guide button opens the opt-in
   CHECK: node scripts/verify-law-article.mjs integration
   EXPECT: law article integration verification passed
   EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=f306a2d5df23/16 entries; output=law article integration verification passed
 
-- [x] G7: every pre-existing content verifier still passes (SEO, on-page SEO, finance-law, value articles, stories, strategy home, corporate, bundle budget), and the human layer has no failure beyond the three corporate-byline lines that already failed at HEAD 1a33a45 (five of HEAD's eight failures fixed)
-  CHECK: node scripts/verify-seo.mjs && node scripts/verify-seo-onpage.mjs && node scripts/verify-finance-law.mjs copy && node scripts/verify-finance-law.mjs integration && node scripts/verify-value-articles.mjs copy && node scripts/verify-value-articles.mjs integration && node scripts/verify-stories.mjs && node scripts/verify-strategy-home.mjs && node scripts/verify-corporate.mjs page && node scripts/verify-corporate.mjs roi && node scripts/verify-bundle-budget.mjs && node scripts/verify-law-article.mjs humanlayer && echo ALL-EXISTING-VERIFIERS-PASS
+- [x] G7: every pre-existing content verifier still passes (SEO, on-page SEO, finance-law, value articles, stories, strategy home, corporate, bundle budget), and the human layer passes outright (all eight failures at HEAD 1a33a45 fixed, including the corporate byline and author box)
+  CHECK: node scripts/verify-seo.mjs && node scripts/verify-seo-onpage.mjs && node scripts/verify-finance-law.mjs copy && node scripts/verify-finance-law.mjs integration && node scripts/verify-value-articles.mjs copy && node scripts/verify-value-articles.mjs integration && node scripts/verify-stories.mjs && node scripts/verify-strategy-home.mjs && node scripts/verify-corporate.mjs page && node scripts/verify-corporate.mjs roi && node scripts/verify-bundle-budget.mjs && node scripts/verify-human-layer.mjs && echo ALL-EXISTING-VERIFIERS-PASS
   EXPECT: ALL-EXISTING-VERIFIERS-PASS
-  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=f306a2d5df23/16 entries; output=human layer: no new failures (3 pre-existing corporate line(s) tolerated) | ALL-EXISTING-VERIFIERS-PASS
+  EVIDENCE: exit=0; shell=/bin/sh; cwd=/Users/PhilaNgwenya/Projects/growthcred-funnel; path=f306a2d5df23/16 entries; output=human layer verification passed: 20 pages carry first-hand evidence; 12 await Phila's input (/workshop, /guides/ai-training-cost-south-africa, /guides/business-brain, /guides/ai-proposals-and-follow-ups, /guides/ai-training-vs-automation, /
 
 - [x] G8: the price and plan-ID rule still holds (no price text changed against src/lib/offers.ts)
   CHECK: node scripts/verify-law-article.mjs prices
