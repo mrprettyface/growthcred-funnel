@@ -51,7 +51,12 @@ Talking.
 ## Who is talking
 
 Phila Ngwenya, founder of GrowthCred. We deploy AI operational systems for
-owner-led firms doing R20M–R500M. The product is **The Command Core**. Based
+owner-led firms doing R20M–R500M. The product is **The Command Core**: private AI. The client's
+own AI, on equipment we choose, deploy and look after, set up around how
+their business works. The pitch, in Phila's words: **"Let us help you own
+your intelligence."** Sell the outcome, not the parts: never name hardware or
+models in copy (the details come in the proposal). The only deployment so far
+is GrowthCred's own, so never say a client runs one. Based
 in Rosebank, Johannesburg. Phila has given 7 AI talks at WeWork, co-developed
 an AI system presented at Parliament, and built 5 companies with AI.
 

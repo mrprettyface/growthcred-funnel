@@ -20,12 +20,12 @@ export default function CallPage() {
       <Section className="pb-10 pt-8 md:pb-14 md:pt-12">
         <div className="mx-auto grid max-w-[1040px] items-start gap-8 lg:grid-cols-[1fr_440px] lg:gap-14">
           <div className="text-center lg:pt-6 lg:text-left">
-            <Eyebrow>Done for you</Eyebrow>
+            <Eyebrow>The Command Core</Eyebrow>
             <H1 className="mx-auto mt-4 max-w-[16ch] text-[length:clamp(2.25rem,6vw,4.5rem)] lg:mx-0">
               We Take It All <Faint>Off Your Plate.</Faint>
             </H1>
             <p className="mx-auto mt-5 max-w-[46ch] text-lg text-ink lg:mx-0">
-              Leave your number. We'll talk to you today, not next week.
+              Let us help you own your intelligence. Leave your number. We'll talk to you today, not next week.
             </p>
             <p className="mx-auto mt-4 hidden max-w-[50ch] text-ink lg:mx-0 lg:block">
               You do not build it, learn it, or run it. We map it, build it, and run it with your team,

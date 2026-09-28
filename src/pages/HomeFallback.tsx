@@ -19,8 +19,7 @@ export default function HomeFallback() {
       <section className="bg-paper py-16 text-midnight md:py-24">
         <div className={WRAP}>
           <h1 className="max-w-[12ch] text-5xl text-midnight md:text-7xl">
-            {HERO.headlineLead} <span className="cc-marker">{HERO.headlineMark}</span>{" "}
-            <span className="cc-marker">{HERO.headlineAccent}</span>
+            {HERO.headlineLead} <span className="cc-marker">{HERO.headlineMark}</span>
           </h1>
           <p className="mt-6 max-w-[46ch] text-lg text-ink">{HERO.sub}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">

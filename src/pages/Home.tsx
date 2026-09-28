@@ -13,7 +13,10 @@ import {
   APPLY_HREF,
   HERO,
   PROOF_LINE,
+  LOGOS_LABEL,
   CAPACITY,
+  RENTING,
+  OWN,
   BEFORE_AFTER,
   STAGES,
   METHOD,
@@ -135,8 +138,7 @@ export default function Home() {
         <HeroGraph />
         <div className={`${WRAP} pb-16 pt-16 md:pb-24 md:pt-28`}>
           <h1 className="max-w-[12ch] text-[length:clamp(2.75rem,8vw,6.5rem)] leading-[0.98] tracking-[-0.055em] text-midnight">
-            {HERO.headlineLead} <span className="cc-marker">{HERO.headlineMark}</span>{" "}
-            <span className="cc-marker">{HERO.headlineAccent}</span>
+            {HERO.headlineLead} <span className="cc-marker">{HERO.headlineMark}</span>
           </h1>
           <p className="mt-8 max-w-[46ch] text-lg leading-relaxed text-ink md:text-xl">{HERO.sub}</p>
           <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-8">
@@ -153,6 +155,7 @@ export default function Home() {
         </div>
 
         <div className="border-t border-midnight/10 bg-paper/70 py-10 md:py-12">
+          <p className="mb-8 text-center font-mono text-[12px] uppercase tracking-[0.18em] text-muted">{LOGOS_LABEL}</p>
           <ClientLogos />
           <p className={`${WRAP} mt-8 text-center text-sm text-ink md:text-base`}>
             <span aria-hidden="true" className="mr-2 text-gold">&#9670;</span>
@@ -217,6 +220,56 @@ export default function Home() {
             </p>
           </div>
         </Reveal>
+      </section>
+
+      {/* ---------- 2b. Renting AI doesn't fix it ---------- */}
+      <section id="renting" data-tone="dark" className="relative isolate overflow-hidden bg-midnight py-20 text-cream md:py-32">
+        <DarkBackdrop />
+        <div className={WRAP}>
+          <div className="max-w-[44ch]">
+            <Label dark>{RENTING.eyebrow}</Label>
+            <h2 className="mt-5 text-[length:clamp(2.5rem,6vw,4.5rem)] text-cream">{RENTING.heading}</h2>
+            <p className="mt-6 text-lg leading-relaxed text-cream/75 md:text-xl">{RENTING.lead}</p>
+          </div>
+          <Reveal className="mt-12 grid gap-5 md:grid-cols-3">
+            {RENTING.items.map((item, i) => (
+              <article key={item.t} className="cc-card flex flex-col rounded-3xl border border-cream/10 bg-midnight-soft/70 p-7">
+                <span className="font-mono text-sm text-gold">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="mt-4 text-2xl text-cream">{item.t}</h3>
+                <p className="mt-3 leading-relaxed text-cream/70">{item.b}</p>
+              </article>
+            ))}
+          </Reveal>
+          <p className="mx-auto mt-16 max-w-[30ch] text-center font-display text-[length:clamp(1.75rem,3.6vw,2.75rem)] font-extrabold leading-tight tracking-[-0.04em] text-cream">
+            {RENTING.close}
+          </p>
+        </div>
+      </section>
+
+      {/* ---------- 2c. Owning it: the Command Core ---------- */}
+      <section id="own" className="bg-white py-20 md:py-32">
+        <div className={WRAP}>
+          <div className="max-w-[44ch]">
+            <Label>{OWN.eyebrow}</Label>
+            <h2 className="mt-5 text-[length:clamp(2.5rem,6vw,4.5rem)]">{OWN.heading}</h2>
+            <p className="mt-6 text-lg leading-relaxed text-ink md:text-xl">{OWN.lead}</p>
+          </div>
+          <Reveal className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-midnight/10 bg-midnight/10 sm:grid-cols-2">
+            {OWN.items.map((item, i) => (
+              <div key={item.t} className="bg-paper p-7 md:p-9">
+                <span className="font-mono text-sm text-gold">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="mt-4 text-2xl text-midnight md:text-3xl">{item.t}</h3>
+                <p className="mt-3 max-w-[40ch] leading-relaxed text-ink">{item.b}</p>
+              </div>
+            ))}
+          </Reveal>
+          <div className="mt-10 grid gap-6 md:grid-cols-[1.2fr_1fr] md:items-center md:gap-14">
+            <p className="max-w-[56ch] text-lg leading-relaxed text-ink">{OWN.honest}</p>
+            <p className="font-display text-[length:clamp(1.5rem,2.6vw,2rem)] font-extrabold leading-tight tracking-[-0.03em] text-midnight">
+              {OWN.owned}
+            </p>
+          </div>
+        </div>
       </section>
 
       {/* ---------- 3. Before / after console ---------- */}
@@ -338,6 +391,7 @@ export default function Home() {
               <Label>{STAGES.eyebrow}</Label>
               <h2 className="mt-5 text-[length:clamp(2.5rem,6vw,4.5rem)]">{STAGES.heading}</h2>
               <p className="mt-5 text-lg leading-relaxed text-ink">{STAGES.sub}</p>
+              <p className="mt-3 max-w-[52ch] font-semibold leading-relaxed text-midnight">{STAGES.equipment}</p>
             </div>
           </div>
           <Reveal className="mt-12 grid gap-5 md:grid-cols-3">
@@ -450,7 +504,7 @@ export default function Home() {
             <h2 className="mt-5 text-[length:clamp(2.5rem,6vw,4.5rem)] text-cream">{WAYS.heading}</h2>
             <p className="mt-5 text-lg leading-relaxed text-cream/70">{WAYS.sub}</p>
           </div>
-          <Reveal className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <Reveal className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {WAYS.items.map((way) => (
               <Link
                 key={way.href}

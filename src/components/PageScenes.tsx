@@ -24,6 +24,20 @@ export const PAGE_SCENES: Record<string, ReactElement> = {
     </>
   ),
 
+  /* Corporate training — one trainer at the board, a row of the team at their seats. */
+  "/corporate-ai-training": (
+    <>
+      <Figure x={34} y={58} arms="M0 10 l-11 12 M0 10 l24 -8" />
+      <rect x="66" y="30" width="62" height="40" rx="4" />
+      <rect x="74" y="40" width="26" height="7" rx="2" fill={GOLD} stroke="none" />
+      <path d="M74 56h40" />
+      <circle cx="140" cy="80" r="6" />
+      <circle cx="160" cy="80" r="6" />
+      <circle cx="180" cy="80" r="6" />
+      <path d="M130 100h60M134 88q6 -4 12 0M154 88q6 -4 12 0M174 88q6 -4 12 0" />
+    </>
+  ),
+
   /* AI automation — the work moves along a belt without anyone carrying it. */
   "/ai-automation-south-africa": (
     <>

@@ -55,6 +55,22 @@
 > GrowthCred does **not** claim finance or legal client results on these pages.
 > Gates: [GATES-finance-law.md](GATES-finance-law.md), 7/7 met.
 
+> **29 September 2026 — own your intelligence.** The Command Core is now sold
+> as private AI: the client's own AI on equipment we choose, deploy and look
+> after. `/` leads with "Let us help you own your intelligence." and adds two
+> sections, `#renting` ("Renting AI doesn't fix it either") and `#own` ("Your
+> own intelligence. Owned, not rented."). Logos and stories are labelled as
+> training and build work, not private AI. The FAQ gains data, equipment,
+> model-update and ChatGPT answers. The header is grouped Harvey-style:
+> Command Core / Solutions ▾ / Customers / Security / Resources ▾, with the
+> dropdown links prerendered for crawlers. `/call` carries the pitch. Rules
+> (Phila): no hardware or model names in copy; application only; the only
+> deployment is GrowthCred's own. Gates: [GATES-own-intelligence.md](GATES-own-intelligence.md).
+> **Confirm, Phila:** three commitments now in the copy: better models go in as
+> they come out (Method, FAQ), access to the system agreed in writing before
+> anything goes in (FAQ), and every stage, Velocity included, runs on
+> equipment we deploy (Pick your stage).
+>
 > **26 September 2026 — faster /call, contact channels, guide popup.**
 > `/call` opens on a three-field form (name, mobile, email, plus one optional
 > line) instead of the nine-step application; the qualifying questions move to

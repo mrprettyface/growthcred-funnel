@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { PillLink, cn } from "./ui";
 import { AnalyticsChoice } from "./AnalyticsChoice";
@@ -21,18 +21,70 @@ export function Brand({ dark = true }: { dark?: boolean }) {
   );
 }
 
+type NavLinkItem = { to: string; label: string; blurb: string };
+type NavItem =
+  | { label: string; to: string; menu?: undefined }
+  | { label: string; to?: undefined; menu: { heading?: string; links: NavLinkItem[] }[] };
+
+/**
+ * The main nav, grouped the way Harvey groups theirs: the product first, then
+ * what we do, who we've done it for, how we keep data safe, and the ways in.
+ * scripts/verify-corporate.mjs reads this array, so it must stay named NAV.
+ */
 const NAV = [
-  { to: "/ai-training-south-africa", label: "AI training" },
-  { to: "/corporate-ai-training", label: "Corporate" },
-  { to: "/workshop", label: "The workshop" },
-  { to: "/ai-automation-south-africa", label: "Automation" },
-  { to: "/stories", label: "Stories" },
-  { to: "/resources", label: "Guides" },
-];
+  { label: "Command Core", to: "/" },
+  {
+    label: "Solutions",
+    menu: [
+      {
+        heading: "For teams and owners",
+        links: [
+          { to: "/corporate-ai-training", label: "Corporate AI training", blurb: "Every team producing its reports and documents faster." },
+          { to: "/ai-automation-south-africa", label: "AI automation", blurb: "Your repetitive work, built into AI workflows." },
+          { to: "/ai-training-south-africa", label: "AI training for owners", blurb: "AI on the work your business already does." },
+        ],
+      },
+      {
+        heading: "By industry",
+        links: [
+          { to: "/ai-for-law-firms", label: "Law firms", blurb: "Faster drafts. Your lawyers still sign off." },
+          { to: "/ai-for-financial-services", label: "Financial services", blurb: "Prepared work, with the adviser in charge." },
+          { to: "/ai-for-waste-management", label: "Waste management", blurb: "Trucks, compliance and contracts, organised." },
+          { to: "/ai-for-beauty-and-cosmetics", label: "Beauty and cosmetics", blurb: "Orders, bookings and brand content." },
+        ],
+      },
+    ],
+  },
+  { label: "Customers", to: "/stories" },
+  { label: "Security", to: "/data-and-security" },
+  {
+    label: "Resources",
+    menu: [
+      {
+        links: [
+          { to: "/resources", label: "Guides", blurb: "Articles for owners who want AI to do real work." },
+          { to: "/workshop", label: "The one-day workshop", blurb: "Build your first systems yourself, in one day." },
+          { to: "/webinar", label: "Free online class", blurb: "A first hour on giving AI your business context." },
+        ],
+      },
+      {
+        links: [
+          { to: "/tools/admin-time-calculator", label: "Admin time calculator", blurb: "Put a rand figure on the hours admin takes." },
+          { to: "/about", label: "About GrowthCred", blurb: "Who we are, and why we build this way." },
+        ],
+      },
+    ],
+  },
+] as NavItem[];
 
 /**
  * The site header. Every page shares the nav; the button is the page's one ask
  * — "Register" for the workshop funnel by default, "Apply" on the homepage.
+ *
+ * Dropdowns: every panel is in the prerendered HTML (hidden until opened), so
+ * crawlers follow the links. They open on hover (pointer devices), click or
+ * keyboard, and close on Escape, an outside click, or a route change. No
+ * animation, so there is nothing to switch off under reduced motion.
  */
 export function Header({
   cta = { to: "/checkout", label: "Register" },
@@ -43,13 +95,49 @@ export function Header({
   tone?: "dark" | "light";
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const { pathname } = useLocation();
   const light = tone === "light";
   // /call is already the form: a "Register" button there only pulls people away from it.
-  const showCta = useLocation().pathname !== "/call";
+  const showCta = pathname !== "/call";
+
+  useEffect(() => {
+    setOpenGroup(null);
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!openGroup) return;
+    const onDown = (e: MouseEvent) => {
+      if (!headerRef.current?.contains(e.target as Node)) setOpenGroup(null);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      document.getElementById(`nav-button-${openGroup}`)?.focus();
+      setOpenGroup(null);
+    };
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [openGroup]);
+
+  const hoverable = () => typeof window !== "undefined" && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const itemCls = (active: boolean) =>
+    cn(
+      "inline-flex h-16 items-center gap-1.5 whitespace-nowrap border-b-2 font-mono text-[12px] uppercase tracking-[0.16em] no-underline transition-colors",
+      active ? "border-gold text-gold" : cn("border-transparent", light ? "text-midnight/70 hover:text-gold" : "text-cream/65 hover:text-gold"),
+    );
+  const groupActive = (item: NavItem) => Boolean(item.menu?.some((col) => col.links.some((l) => l.to === pathname)));
+
   return (
     /* Solid, not backdrop-blur: a blurred sticky bar re-rasterises on every
        scroll frame, which the mobile rules in STATUS.md forbid. */
     <header
+      ref={headerRef}
       className={cn(
         "sticky top-0 z-50 border-b",
         light ? "border-midnight/10 bg-paper/95 text-midnight" : "border-cream/10 bg-midnight/95 text-cream",
@@ -57,22 +145,81 @@ export function Header({
     >
       <div className="mx-auto flex h-16 w-[min(1120px,calc(100%-2.5rem))] items-center justify-between gap-5">
         <Brand dark={!light} />
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Main">
-          {NAV.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.to === "/"}
-              className={({ isActive }) =>
-                cn(
-                  "whitespace-nowrap font-mono text-[12px] uppercase tracking-[0.16em] no-underline transition-colors",
-                  isActive ? "text-gold" : light ? "text-midnight/70 hover:text-gold" : "text-cream/65 hover:text-gold",
-                )
-              }
-            >
-              {item.label}
-            </NavLink>
-          ))}
+        <nav className="hidden h-16 lg:block" aria-label="Main">
+          <ul className="flex h-16 items-center gap-7">
+            {NAV.map((item) => {
+              if (!item.menu)
+                return (
+                  <li key={item.label}>
+                    <NavLink to={item.to} end={item.to === "/"} className={({ isActive }) => itemCls(isActive)}>
+                      {item.label}
+                    </NavLink>
+                  </li>
+                );
+              const open = openGroup === item.label;
+              const id = item.label.toLowerCase();
+              return (
+                <li
+                  key={item.label}
+                  onMouseEnter={() => hoverable() && setOpenGroup(item.label)}
+                  onMouseLeave={() => hoverable() && setOpenGroup(null)}
+                >
+                  <button
+                    id={`nav-button-${item.label}`}
+                    type="button"
+                    aria-expanded={open}
+                    aria-controls={`nav-panel-${id}`}
+                    onClick={() => setOpenGroup(open ? null : item.label)}
+                    className={itemCls(open || groupActive(item))}
+                  >
+                    {item.label}
+                    <svg viewBox="0 0 12 12" aria-hidden="true" className={cn("h-3 w-3", open && "rotate-180")}>
+                      <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                  <div
+                    id={`nav-panel-${id}`}
+                    hidden={!open}
+                    className={cn(
+                      "absolute inset-x-0 top-full border-b shadow-[0_30px_60px_-30px_rgba(26,26,36,0.35)]",
+                      light ? "border-midnight/10 bg-paper" : "border-cream/10 bg-midnight",
+                    )}
+                  >
+                    <div className="mx-auto grid w-[min(1120px,calc(100%-2.5rem))] grid-cols-2 gap-x-16 gap-y-2 py-10">
+                      {item.menu.map((col, c) => (
+                        <div key={c}>
+                          {col.heading ? (
+                            <p className={cn("mb-3 font-mono text-[12px] uppercase tracking-[0.18em]", light ? "text-muted" : "text-cream/45")}>
+                              {col.heading}
+                            </p>
+                          ) : null}
+                          <ul className="space-y-1">
+                            {col.links.map((link) => (
+                              <li key={link.to}>
+                                <Link
+                                  to={link.to}
+                                  onClick={() => setOpenGroup(null)}
+                                  className={cn(
+                                    "group block rounded-xl px-3 py-3 no-underline -mx-3",
+                                    light ? "hover:bg-midnight/[0.04]" : "hover:bg-cream/[0.05]",
+                                  )}
+                                >
+                                  <span className={cn("block font-display text-lg font-bold tracking-[-0.02em] group-hover:text-gold", light ? "text-midnight" : "text-cream")}>
+                                    {link.label}
+                                  </span>
+                                  <span className={cn("mt-1 block text-sm leading-relaxed", light ? "text-ink" : "text-cream/60")}>{link.blurb}</span>
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
         </nav>
         <div className="flex items-center gap-2">
           <button
@@ -98,23 +245,46 @@ export function Header({
           id="mobile-navigation"
           aria-label="Mobile navigation"
           className={cn(
-            "border-t px-5 pb-4 pt-2 lg:hidden",
+            "max-h-[calc(100vh-4rem)] overflow-y-auto border-t px-5 pb-4 pt-2 lg:hidden",
             light ? "border-midnight/10 bg-paper" : "border-cream/10 bg-midnight",
           )}
         >
-          {[...NAV, { to: "/webinar", label: "Free online class" }, { to: "/contact", label: "Contact" }].map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              onClick={() => setMenuOpen(false)}
-              className={cn(
-                "flex min-h-12 items-center border-b font-mono text-[12px] uppercase tracking-[0.16em] no-underline last:border-b-0",
-                light ? "border-midnight/10 text-midnight" : "border-cream/10 text-cream",
-              )}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {NAV.map((item) =>
+            item.menu ? (
+              <div key={item.label} className={cn("border-b py-2", light ? "border-midnight/10" : "border-cream/10")}>
+                <p className={cn("pt-2 font-mono text-[12px] uppercase tracking-[0.16em]", light ? "text-muted" : "text-cream/45")}>{item.label}</p>
+                {item.menu.flatMap((col) => col.links).map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    onClick={() => setMenuOpen(false)}
+                    className={cn("flex min-h-11 items-center pl-3 text-base no-underline", light ? "text-midnight" : "text-cream")}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <Link
+                key={item.label}
+                to={item.to}
+                onClick={() => setMenuOpen(false)}
+                className={cn(
+                  "flex min-h-12 items-center border-b font-mono text-[12px] uppercase tracking-[0.16em] no-underline",
+                  light ? "border-midnight/10 text-midnight" : "border-cream/10 text-cream",
+                )}
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
+          <Link
+            to="/contact"
+            onClick={() => setMenuOpen(false)}
+            className={cn("flex min-h-12 items-center font-mono text-[12px] uppercase tracking-[0.16em] no-underline", light ? "text-midnight" : "text-cream")}
+          >
+            Contact
+          </Link>
         </nav>
       )}
     </header>
