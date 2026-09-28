@@ -55,6 +55,20 @@
 > GrowthCred does **not** claim finance or legal client results on these pages.
 > Gates: [GATES-finance-law.md](GATES-finance-law.md), 7/7 met.
 
+> **29 September 2026 — /private-ai sales page.** The long-form case for the
+> Command Core: pain (rented AI, data leaving the building, POPIA section 72),
+> the usual fixes, the fix, third-party evidence, the rent-or-buy maths, who
+> it's for, when it's the wrong call, how it works, guarantee, FAQ. Copy in
+> `src/lib/privateAi.ts`, FAQ + Service schema in `src/lib/privateAiSeo.ts`,
+> layout in `src/pages/PrivateAi.tsx`. Linked from the Command Core nav
+> dropdown, the footer and the homepage `#own` section. Every figure was
+> checked against its source on 29 Sep 2026 and is linked beside it; four
+> claims from the pasted research were rejected (see the header of
+> privateAi.ts) and `scripts/verify-private-ai.mjs` fails if they return.
+> `verify-seo.mjs`'s stale-date ban was narrowed to `(?<!\d)9 September 2026`
+> because it also matched "29 September 2026".
+> Gates: [GATES-private-ai.md](GATES-private-ai.md).
+>
 > **29 September 2026 — own your intelligence.** The Command Core is now sold
 > as private AI: the client's own AI on equipment we choose, deploy and look
 > after. `/` leads with "Let us help you own your intelligence." and adds two

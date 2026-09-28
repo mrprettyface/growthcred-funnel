@@ -105,6 +105,7 @@ export const OWN = {
   ],
   honest: "Is it magic? No. It's excellent at documents, questions and the admin in between. Before you sign, we tell you straight what it will and won't do for you.",
   owned: "No per-seat subscriptions. Your data stays in the building. And it's yours.",
+  more: { to: "/private-ai", label: "Why own it? The full case" },
 };
 
 /** Before/after. `from`/`to` are the same quantity in one unit, for the bars. */

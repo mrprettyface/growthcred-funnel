@@ -30,7 +30,7 @@ let checkedLinks=0;
 const known=new Set([...manifest.routes.map(r=>r.path),...Object.keys(manifest.aliases)]);
 for(const route of manifest.routes){
  const html=await read('dist/'+route.file);validPage(html,route);
- if(route.index){assert.ok(sitemap.includes(`<loc>https://growthcred.co.za${route.path}</loc>`));assert.doesNotMatch(html,/9 September 2026|before Wednesday|\[TO COME:/);}
+ if(route.index){assert.ok(sitemap.includes(`<loc>https://growthcred.co.za${route.path}</loc>`));assert.doesNotMatch(html,/(?<!\d)9 September 2026|before Wednesday|\[TO COME:/);}
  else assert.ok(!sitemap.includes(`<loc>https://growthcred.co.za${route.path}</loc>`));
  for(const match of html.matchAll(/(?:href|src)="(\/[^"#?]*)(?:[?#][^"]*)?"/g)){
    const dest=match[1];if(known.has(dest)){checkedLinks++;continue;}

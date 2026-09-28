@@ -14,6 +14,8 @@ type FunnelStep =
   | "home_view"
   /** /corporate-ai-training: the page, the ROI model, the proposal request. */
   | "corporate_view"
+  /** /private-ai: the long-form Command Core sales page. */
+  | "private_ai_view"
   | "corporate_roi_used"
   | "corporate_enquiry_submit"
   | "corporate_enquiry_failed"

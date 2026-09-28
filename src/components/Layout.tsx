@@ -32,7 +32,17 @@ type NavItem =
  * scripts/verify-corporate.mjs reads this array, so it must stay named NAV.
  */
 const NAV = [
-  { label: "Command Core", to: "/" },
+  {
+    label: "Command Core",
+    menu: [
+      {
+        links: [
+          { to: "/", label: "The Command Core", blurb: "Your own AI, deployed and run for you." },
+          { to: "/private-ai", label: "Private AI, explained", blurb: "Why firms are moving AI in-house, and what owning costs." },
+        ],
+      },
+    ],
+  },
   {
     label: "Solutions",
     menu: [
@@ -306,6 +316,7 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
       ["/ai-follow-up-automation", "Follow-up automation"],
       ["/ai-admin-automation", "Admin automation"],
       ["/ai-training-south-africa", "AI training"],
+      ["/private-ai", "Private AI"],
       ["/corporate-ai-training", "Corporate AI training"],
       ["/workshop", "The one-day workshop"],
       ["/webinar", "Free online class"],

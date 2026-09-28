@@ -269,6 +269,12 @@ export default function Home() {
               {OWN.owned}
             </p>
           </div>
+          <Link
+            to={OWN.more.to}
+            className="mt-10 inline-flex min-h-11 items-center gap-2 border-b-2 border-midnight font-semibold text-midnight no-underline hover:border-gold hover:text-gold"
+          >
+            {OWN.more.label} <span aria-hidden="true">&rarr;</span>
+          </Link>
         </div>
       </section>
 

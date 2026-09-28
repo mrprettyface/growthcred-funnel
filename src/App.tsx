@@ -18,6 +18,8 @@ import HomeFallback from "./pages/HomeFallback";
 const Home = lazy(() => import("./pages/Home"));
 /** Corporate AI training. Bare like /, with its own header ask: the proposal. */
 const CorporatePage = lazy(() => import("./pages/Corporate"));
+/** The long-form private AI sales page: the Command Core, explained. */
+const PrivateAiPage = lazy(() => import("./pages/PrivateAi"));
 const CheckoutPage = lazy(() => import("./pages/Checkout"));
 const UpsellPage = lazy(() => import("./pages/Upsell"));
 const DownsellPage = lazy(() => import("./pages/Downsell"));
@@ -191,6 +193,16 @@ export default function App() {
               <Layout bare>
                 <Suspense fallback={<LegalLoading />}>
                   <CorporatePage />
+                </Suspense>
+              </Layout>
+            }
+          />
+          <Route
+            path="/private-ai"
+            element={
+              <Layout bare>
+                <Suspense fallback={<LegalLoading />}>
+                  <PrivateAiPage />
                 </Suspense>
               </Layout>
             }

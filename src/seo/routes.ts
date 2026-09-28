@@ -1,10 +1,12 @@
 import { SEARCH_PAGES, REVIEWED } from "../content/searchPages";
 import { FAQ as HOME_FAQ, FOUNDER } from "../lib/home";
 import { FAQ as CORPORATE_FAQ, CORPORATE_PATH, CORPORATE_SERVICE } from "../lib/corporateSeo";
+import { PRIVATE_AI_FAQ, PRIVATE_AI_PATH, PRIVATE_AI_SERVICE } from "../lib/privateAiSeo";
 export const SITE = "https://growthcred.co.za";
 export type RouteMeta = {path:string; title:string; description:string; index:boolean; canonical?:string; modified?:string};
 export const ROUTES: RouteMeta[] = [
   {path:"/",title:"Own Your Intelligence: The Command Core | GrowthCred SA",description:"Let us help you own your intelligence. Your own AI on equipment we deploy, built around your business. No per-seat subscriptions. Apply today.",index:true,modified:REVIEWED},
+  {path:PRIVATE_AI_PATH,title:"Private AI South Africa: Own Your Intelligence | GrowthCred",description:"Your own AI, on your own equipment, set up around your business. Why firms are moving AI in-house, what owning costs, and when it's the wrong call.",index:true,modified:"2026-09-29"},
   {path:CORPORATE_PATH,title:"Corporate AI Training for Teams in South Africa | GrowthCred",description:"Corporate AI training that gets every employee producing documents and reports 3× faster. Live workshops, role playbooks, measured ROI, priced per head.",index:true,modified:"2026-09-25"},
   {path:"/workshop",title:"Online AI Workshop for Business Owners | GrowthCred SA",description:"Build practical AI workflows in GrowthCred’s one-day online workshop for South African business owners. R990. Session details confirmed on registration.",index:true,modified:REVIEWED},
   ...SEARCH_PAGES.map(p=>({path:p.path,title:p.title,description:p.description,index:!p.draft,modified:p.published??REVIEWED})),
@@ -35,11 +37,12 @@ export function structuredData(meta:RouteMeta) {
   const page=SEARCH_PAGES.find(p=>p.path===meta.path);
   const graph:Record<string,unknown>[]=[organization,person,{"@type":"WebSite","@id":`${SITE}/#website`,url:SITE,name:"GrowthCred",publisher:{"@id":`${SITE}/#organization`},inLanguage:"en-ZA"},{"@type":page?.kind==="about"?"AboutPage":"WebPage","@id":`${url}#page`,url,name:meta.title,description:meta.description,isPartOf:{"@id":`${SITE}/#website`},inLanguage:"en-ZA"}];
   if(page?.kind==="guide"||page?.kind==="story") graph.push({"@type":"Article",headline:page.heading,description:page.description,mainEntityOfPage:{"@id":`${url}#page`},author:{"@id":`${SITE}/about#phila`},publisher:{"@id":`${SITE}/#organization`},...(page.published?{datePublished:page.published}:{}),dateModified:page.published??REVIEWED,image:page.images?.[0]?`${SITE}${page.images[0].src}`:`${SITE}/images/search-share.png`});
+  if(meta.path===PRIVATE_AI_PATH) graph.push({"@type":"Service",name:"Private AI: the Command Core",serviceType:"Private AI deployment",description:PRIVATE_AI_SERVICE,provider:{"@id":`${SITE}/#organization`},areaServed:{"@type":"Country",name:"South Africa"},url});
   if(meta.path===CORPORATE_PATH) graph.push({"@type":"Service",name:"Corporate AI training",serviceType:"Corporate AI training",description:CORPORATE_SERVICE,provider:{"@id":`${SITE}/#organization`},areaServed:[{"@type":"Country",name:"South Africa"},{"@type":"Place",name:"Online"}],audience:{"@type":"BusinessAudience",name:"Organisations training their teams"},url});
   if(page?.kind==="service") graph.push({"@type":"Service",name:page.heading,description:page.intro,provider:{"@id":`${SITE}/#organization`},areaServed:{"@type":"Country",name:"South Africa"},url});
   /* FAQPage only where the same questions are visible on the page. */
-  const faq=meta.path==="/"?HOME_FAQ:meta.path===CORPORATE_PATH?CORPORATE_FAQ:page?.faq;
+  const faq=meta.path==="/"?HOME_FAQ:meta.path===CORPORATE_PATH?CORPORATE_FAQ:meta.path===PRIVATE_AI_PATH?PRIVATE_AI_FAQ:page?.faq;
   if(faq?.length) graph.push({"@type":"FAQPage","@id":`${url}#faq`,mainEntity:faq.map(f=>({"@type":"Question",name:f.q,acceptedAnswer:{"@type":"Answer",text:f.a}}))});
-  if(meta.path!=="/") graph.push({"@type":"BreadcrumbList",itemListElement:[{"@type":"ListItem",position:1,name:"Home",item:SITE+"/"},{"@type":"ListItem",position:2,name:page?.heading??(meta.path===CORPORATE_PATH?"Corporate AI training":meta.title),item:url}]});
+  if(meta.path!=="/") graph.push({"@type":"BreadcrumbList",itemListElement:[{"@type":"ListItem",position:1,name:"Home",item:SITE+"/"},{"@type":"ListItem",position:2,name:page?.heading??(meta.path===CORPORATE_PATH?"Corporate AI training":meta.path===PRIVATE_AI_PATH?"Private AI":meta.title),item:url}]});
   return {"@context":"https://schema.org","@graph":graph};
 }

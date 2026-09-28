@@ -15,6 +15,7 @@ const PAGES = [
   "src/pages/WebinarExperience.tsx",
   "src/pages/WorkshopExperience.tsx",
   "src/pages/Home.tsx",
+  "src/pages/PrivateAi.tsx",
   "src/pages/HomeFallback.tsx",
   "src/pages/Corporate.tsx",
   "src/components/CorporateRoi.tsx",
