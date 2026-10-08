@@ -7,7 +7,7 @@ import { Modal } from "../components/Modal";
 import { UPSELL, formatPrice } from "../lib/offers";
 import { WHOP_PLANS } from "../lib/whop";
 import { useOrder } from "../lib/order";
-import { recordPayment } from "../lib/supabase";
+import { claimPayment, readWhopReturn, recordPaymentOnce } from "../lib/whopReturn";
 import { track } from "../lib/analytics";
 import { mailtoHref } from "../lib/mailto";
 
@@ -25,9 +25,22 @@ export default function UpsellPage() {
   const navigate = useNavigate();
   const { order, setOrder } = useOrder();
   const [params] = useSearchParams();
-  const [view, setView] = useState<"offer" | "pay" | "accepted">("offer");
+  /*
+   * Whop sends the tab back here after the Intensive payment finishes or an
+   * off-site step (3-D Secure, a bank page) ends. Succeeded shows the
+   * congratulations; failed or cancelled reopens the payment to try again.
+   */
+  const [whopReturn] = useState(() => readWhopReturn(params, "intensive"));
+  const [view, setView] = useState<"offer" | "pay" | "accepted">(
+    whopReturn?.status === "succeeded" ? "accepted" : whopReturn ? "pay" : "offer",
+  );
 
   useEffect(() => track("upsell_view"), []);
+
+  useEffect(() => {
+    if (whopReturn?.status === "succeeded") settlePayment(whopReturn.paymentId);
+    // Runs once, for the visit Whop returned with.
+  }, []);
 
   /*
    * Whether to CONGRATULATE them on the workshop. An order exists from the
@@ -36,12 +49,12 @@ export default function UpsellPage() {
    * one. Telling that person "Welcome to the workshop, we'll email you the
    * details" is a promise against money that never moved.
    *
-   * `paid` is set when Whop confirms in-page; `?paid=1` is the marker Whop
-   * returns with when a payment method took over the whole page and onPaid
-   * never got to run. Both only decide what we say. Nothing here is gated on
-   * it, and Whop's dashboard remains the authority on who has actually paid.
+   * `paid` is set when Whop confirms, in the page or when it sends the tab back
+   * to /checkout with `status=succeeded`. It only decides what we say. Nothing
+   * here is gated on it, and Whop's dashboard remains the authority on who has
+   * actually paid.
    */
-  const workshopPaid = order?.paid === true || params.get("paid") === "1";
+  const workshopPaid = order?.paid === true;
 
   const ref = order?.reference ?? "";
   const name = order?.name ?? "";
@@ -72,13 +85,20 @@ export default function UpsellPage() {
   }
 
   /** Whop confirmed the Intensive payment (UPSELL.amountCents). */
-  function onPaid(receiptId?: string) {
-    if (order) {
-      setOrder({ ...order, items: [...order.items, UPSELL.id], upsellDecision: "accepted" });
-    }
-    void recordPayment(ref, "paid_operators_intensive");
-    track("upsell_paid", { transaction_id: receiptId, ...(activePromo() ? {} : { value: (UPSELL.amountCents ?? 0) / 100 }), currency: "ZAR" });
+  function onPaid(paymentId: string) {
+    settlePayment(paymentId);
     setView("accepted");
+  }
+
+  /** Records the Intensive once per Whop payment, however many times it reaches us. */
+  function settlePayment(paymentId: string) {
+    if (claimPayment(paymentId)) {
+      if (order && !order.items.includes(UPSELL.id)) {
+        setOrder({ ...order, items: [...order.items, UPSELL.id], upsellDecision: "accepted" });
+      }
+      track("upsell_paid", { transaction_id: paymentId, ...(activePromo() ? {} : { value: (UPSELL.amountCents ?? 0) / 100 }), currency: "ZAR" });
+    }
+    void recordPaymentOnce(paymentId, ref, "paid_operators_intensive");
   }
 
   function decline() {
@@ -208,8 +228,8 @@ export default function UpsellPage() {
           planId={WHOP_PLANS.operatorsIntensive}
           email={order?.email}
           reference={ref}
-          buttonText="Add Done With You"
-          returnPath="/build"
+          offer="intensive"
+          returnPath="/upsell"
           onPaid={onPaid}
         />
       </Modal>

@@ -266,16 +266,24 @@ anything that tells a customer they have bought something must check it — the
 "Welcome to the workshop" block on `/upsell` does. Nothing paid sits behind the
 gate itself, so the gate stays deliberately loose: an order-less visitor gets
 sent back to the start, and Whop's dashboard remains the authority on money.
-Payment methods that take over the whole page (3-D Secure) come back to
-`?paid=1`, which decides what we *say* on that page and never what we grant or
-record.
+Whop sends the tab back to the page each payment was made on, tagged
+`?whop=workshop|intensive|course`, after an off-site step (3-D Secure, a bank
+page) and after a finished checkout. Whop appends `status` (`succeeded`,
+`failed`, `canceled`) and `payment` (`pay_…`). Succeeded settles the step and
+moves on; anything else reopens the payment with the details kept. Each payment
+id is settled once per tab (`src/lib/whopReturn.ts`), because it can reach us
+from `onComplete` and from the redirect. Like everything in the browser, this
+decides what we *say*, never what we grant: the webhook settles money.
 
 **Prices must match Whop exactly.** Site prices live in `src/lib/offers.ts`
 (cents), plan IDs in `src/lib/whop.ts`. A mismatch has bitten us twice.
 
 ## Done and working
 
-- Whop embedded checkout on `/checkout`, `/upsell`, `/downsell`, opening in a
+- Whop **Elements** checkout (`@whop/elements` + `@whop/elements-react`,
+  `src/components/WhopPay.tsx`) on `/checkout`, `/upsell`, `/downsell`. It
+  replaced the legacy `@whop/checkout` embed, which Whop switched off on
+  21 Oct 2026. It opens in a
   **modal** over the offer (`src/components/Modal.tsx`) so the sales content
   stays visible while paying
 - Order bump swaps the Whop plan (workshop-only vs workshop+bump)

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { Section, Eyebrow, Faint, Button, cn } from "../components/ui";
 import { Brand } from "../components/Layout";
 import { WhopPay } from "../components/WhopPay";
@@ -9,7 +9,8 @@ import { newReference } from "../lib/payment";
 import { workshopPlanId } from "../lib/whop";
 import { useOrder } from "../lib/order";
 import { activePromo } from "../lib/promo";
-import { createOrder, recordPayment } from "../lib/supabase";
+import { createOrder } from "../lib/supabase";
+import { claimPayment, readWhopReturn, recordPaymentOnce } from "../lib/whopReturn";
 import { track } from "../lib/analytics";
 
 /**
@@ -26,11 +27,23 @@ import { track } from "../lib/analytics";
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { order, setOrder } = useOrder();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [bump, setBump] = useState(false);
+  const [params] = useSearchParams();
+
+  /*
+   * Whop sends the tab back here after a finished payment or an off-site step
+   * (3-D Secure, a bank page). A failed or cancelled step reopens the payment
+   * with their details as they left them; a successful one moves on.
+   */
+  const [whopReturn] = useState(() => readWhopReturn(params, "workshop"));
+  const resumed = whopReturn && order ? order : null;
+
+  const [name, setName] = useState(resumed?.name ?? "");
+  const [email, setEmail] = useState(resumed?.email ?? "");
+  const [bump, setBump] = useState(resumed?.bump ?? false);
   const [busy, setBusy] = useState(false);
-  const [stage, setStage] = useState<"details" | "pay">("details");
+  const [stage, setStage] = useState<"details" | "pay">(
+    resumed && whopReturn?.status !== "succeeded" ? "pay" : "details",
+  );
 
   /**
    * ONE reference per visit to this page. Generating a fresh one on every
@@ -38,11 +51,19 @@ export default function CheckoutPage() {
    * left an orphan order row behind, and paid against a reference that no
    * longer matched the one we had stored.
    */
-  const [reference] = useState(newReference);
+  const [reference] = useState(() => resumed?.reference ?? newReference());
   /** The reference already written to Supabase, so a retry does not re-insert. */
-  const savedRef = useRef<string | null>(null);
+  const savedRef = useRef<string | null>(resumed?.reference ?? null);
 
   useEffect(() => track("checkout_view"), []);
+
+  /* Back from Whop with the payment through: settle it, then on to the upsell. */
+  useEffect(() => {
+    if (whopReturn?.status !== "succeeded") return;
+    if (order) settlePayment(whopReturn.paymentId, order.bump, order.reference);
+    navigate("/upsell", { replace: true });
+    // Runs once, for the visit Whop returned with.
+  }, []);
 
   const promo = activePromo();
   const items = ["workshop", ...(bump ? ["bump"] : [])];
@@ -92,13 +113,28 @@ export default function CheckoutPage() {
     setStage("pay");
   }
 
+  /**
+   * Marks the workshop paid, once per Whop payment. It can be reached twice for
+   * the same payment (in the page, then again when Whop redirects back here).
+   */
+  function settlePayment(paymentId: string, paidBump: boolean, paidReference: string) {
+    const paidItems = ["workshop", ...(paidBump ? ["bump"] : [])];
+    if (claimPayment(paymentId)) {
+      if (order) setOrder({ ...order, items: paidItems, bump: paidBump, paid: true });
+      const paidTotal = sumOffers(paidItems);
+      track("checkout_paid", { bump: paidBump, transaction_id: paymentId, ...(activePromo() ? {} : { value: (paidTotal ?? 0) / 100 }), currency: "ZAR" });
+    }
+    void recordPaymentOnce(paymentId, paidReference, paidBump ? "paid_workshop_plus_bump" : "paid_workshop");
+  }
+
   /** Fires once Whop confirms the payment went through. */
-  function onPaid(receiptId?: string) {
-    if (order) setOrder({ ...order, items, bump, paid: true });
-    void recordPayment(reference, bump ? "paid_workshop_plus_bump" : "paid_workshop");
-    track("checkout_paid", { bump, transaction_id: receiptId, ...(activePromo() ? {} : { value: (total ?? 0) / 100 }), currency: "ZAR" });
+  function onPaid(paymentId: string) {
+    settlePayment(paymentId, bump, reference);
     navigate("/upsell");
   }
+
+  /* Moving on to the upsell; nothing to show for the moment it takes. */
+  if (whopReturn?.status === "succeeded") return null;
 
   return (
     <Section className="pt-8">
@@ -250,8 +286,8 @@ export default function CheckoutPage() {
           planId={workshopPlanId(bump)}
           email={email}
           reference={reference}
-          buttonText="Get my time back"
-          returnPath="/upsell"
+          offer="workshop"
+          returnPath="/checkout"
           onPaid={onPaid}
         />
       </Modal>

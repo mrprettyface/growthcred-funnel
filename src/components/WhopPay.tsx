@@ -1,86 +1,102 @@
-import { WhopCheckoutEmbed } from "@whop/checkout/react";
+import { useState } from "react";
+import { WhopElements, Checkout, CheckoutElement } from "@whop/elements-react";
+import { loadWhop } from "@whop/elements";
 import { activePromo } from "../lib/promo";
+import { whopReturnUrl, type WhopOffer } from "../lib/whopReturn";
 
 /**
  * Whop payment, themed to GrowthCred (gold on midnight).
  *
- * ONE checkout, no duplicates. Whop's embedded form handles every payment
- * method itself, including Apple Pay (once the domain is verified for Apple
- * Pay) and Google Pay. We deliberately do NOT add the separate express button
- * on top: it rendered a second Apple Pay button, and a "Whop Pay" button that
- * only opened this same form.
+ * Built on Whop Elements, which replaced the legacy embedded checkout
+ * (@whop/checkout) before it stopped working on 21 October 2026.
  *
- * Card details never touch our site: everything happens inside Whop's iframe.
+ * ONE checkout, no duplicates. Whop's checkout element handles every payment
+ * method itself, including Apple Pay and Google Pay. We deliberately do NOT add
+ * the separate express element on top: the legacy version rendered a second
+ * Apple Pay button above the one already in the form.
+ *
+ * Card details never touch our site: everything happens inside Whop's frame.
  */
+
+const LOADING = (
+  <div className="grid min-h-[420px] place-items-center rounded-2xl bg-midnight">
+    <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-cream/60">
+      Loading secure checkout&hellip;
+    </p>
+  </div>
+);
 
 export function WhopPay({
   planId,
   email,
   reference,
-  buttonText,
-  returnPath = "/thank-you",
+  offer,
+  returnPath,
   onPaid,
 }: {
   planId: string;
   email?: string;
   /** Our order reference, tagged onto the payment so it can be matched later. */
   reference?: string;
-  buttonText?: string;
-  /** Where Whop sends the customer if a payment method needs a full redirect. */
-  returnPath?: string;
-  onPaid: (receiptId: string | undefined) => void;
+  /** Which paid step this is, so the page Whop returns to knows it is its own payment. */
+  offer: WhopOffer;
+  /** The page Whop sends the buyer back to: the page this checkout sits on. */
+  returnPath: string;
+  onPaid: (paymentId: string) => void;
 }) {
+  /* One load for the whole session: loadWhop() hands back the same promise. */
+  const [elements] = useState(() => loadWhop());
+  const [loadError, setLoadError] = useState(false);
+
   /* ?promo=CODE on any checkout URL, remembered for the rest of the funnel. */
   const promoCode = activePromo();
 
-  /*
-   * Where Whop sends the customer when a payment method takes over the whole
-   * page (3-D Secure, some wallets). That path leaves the SPA, so onPaid never
-   * runs and the order in sessionStorage still says paid: false. The marker
-   * lets the page they land on know a payment was just completed. It is a hint
-   * for what we SAY, never for what we grant: anyone can type it, and only
-   * Whop's dashboard (and, once it exists, a Whop webhook) settles the money.
-   */
-  const returnUrl =
-    typeof window !== "undefined"
-      ? window.location.origin + returnPath + (returnPath.includes("?") ? "&" : "?") + "paid=1"
-      : undefined;
-
-  const utm: Record<string, string> = { utm_source: "growthcred_funnel" };
-  if (reference) utm.utm_content = reference;
+  if (loadError) {
+    return (
+      <div className="grid min-h-[200px] place-items-center rounded-2xl bg-midnight p-6 text-center">
+        <p className="text-sm text-cream/80">
+          The secure checkout didn&rsquo;t load. Check your connection, then close this and try again.
+        </p>
+      </div>
+    );
+  }
 
   return (
-    <div className="overflow-hidden rounded-2xl">
-      <WhopCheckoutEmbed
-        /* Remounts cleanly if the plan changes (e.g. the bump is toggled). */
-        key={`embed-${planId}-${promoCode ?? ""}`}
-        planId={planId}
-        theme="dark"
-        themeOptions={{
-          accentColor: "#C8A04A", // brand gold
-          backgroundColor: "#1A1A24", // brand midnight
-          borderRadius: 14,
-          ...(buttonText ? { buttonText } : {}),
+    /* Whop's dark theme draws on a transparent ground, so the midnight comes from us. */
+    <div className="overflow-hidden rounded-2xl bg-midnight p-4 md:p-5">
+      <WhopElements
+        elements={elements}
+        appearance={{ theme: { appearance: "dark", accentColor: "gold", grayColor: "sand" } }}
+        onLoadError={(error) => {
+          console.error("[whop] elements failed to load", error);
+          setLoadError(true);
         }}
-        prefill={email ? { email } : undefined}
-        promoCode={promoCode}
-        /* Stay on our page after payment so onComplete can run. */
-        skipRedirect
-        returnUrl={returnUrl}
-        utm={utm}
-        onComplete={(_idOrPlan: string, receiptId: string | undefined) => onPaid(receiptId)}
-        onPaymentError={(error) => {
-          // Whop shows the customer its own message; this is for our console.
-          console.error("[whop] payment error", error);
-        }}
-        fallback={
-          <div className="grid min-h-[420px] place-items-center rounded-2xl bg-midnight">
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-cream/60">
-              Loading secure checkout&hellip;
-            </p>
-          </div>
-        }
-      />
+      >
+        <Checkout
+          /*
+           * Every checkout option is fixed when the session is minted, so a
+           * different plan (the bump toggled) or promo needs a fresh mount.
+           */
+          key={`checkout-${planId}-${promoCode ?? ""}`}
+          plan={planId}
+          promoCode={promoCode}
+          returnUrl={whopReturnUrl(returnPath, offer)}
+          metadata={reference ? { reference, offer } : { offer }}
+          attribution={{ utmSource: "growthcred_funnel", ...(reference ? { utmContent: reference } : {}) }}
+          onComplete={(result) => {
+            if (result.result === "payment") onPaid(result.paymentId);
+          }}
+          fallback={LOADING}
+        >
+          <CheckoutElement
+            buyerEmail={email ?? ""}
+            onError={(error) => {
+              // Whop shows the customer its own message; this is for our console.
+              console.error("[whop] checkout error", error);
+            }}
+          />
+        </Checkout>
+      </WhopElements>
     </div>
   );
 }

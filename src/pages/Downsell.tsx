@@ -1,13 +1,13 @@
 import { activePromo } from "../lib/promo";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Section, Eyebrow, H1, Faint, Button, ButtonLink, CheckList } from "../components/ui";
 import { WhopPay } from "../components/WhopPay";
 import { Modal } from "../components/Modal";
 import { DOWNSELL, UPSELL, formatPrice } from "../lib/offers";
 import { WHOP_PLANS } from "../lib/whop";
 import { useOrder } from "../lib/order";
-import { recordPayment } from "../lib/supabase";
+import { claimPayment, readWhopReturn, recordPaymentOnce } from "../lib/whopReturn";
 import { track } from "../lib/analytics";
 import { mailtoHref } from "../lib/mailto";
 
@@ -21,11 +21,22 @@ import { mailtoHref } from "../lib/mailto";
 export default function DownsellPage() {
   const navigate = useNavigate();
   const { order, setOrder } = useOrder();
-  const [view, setView] = useState<"offer" | "pay" | "bought">("offer");
+  const [params] = useSearchParams();
+
+  /* Back from Whop: succeeded shows the confirmation, anything else reopens payment. */
+  const [whopReturn] = useState(() => readWhopReturn(params, "course"));
+  const [view, setView] = useState<"offer" | "pay" | "bought">(
+    whopReturn?.status === "succeeded" ? "bought" : whopReturn ? "pay" : "offer",
+  );
 
   useEffect(() => track("downsell_view"), []);
 
   const ref = order?.reference ?? "";
+
+  useEffect(() => {
+    if (whopReturn?.status === "succeeded") settlePayment(whopReturn.paymentId);
+    // Runs once, for the visit Whop returned with.
+  }, []);
 
   const boughtCourseEmail = mailtoHref("I bought the home study course", [
     "Hey, I just got the home study course.",
@@ -47,17 +58,24 @@ export default function DownsellPage() {
     navigate("/build");
   }
 
-  function onPaid(receiptId?: string) {
-    if (order) {
-      setOrder({
-        ...order,
-        items: [...order.items, DOWNSELL.id],
-        downsellDecision: "accepted",
-      });
-    }
-    void recordPayment(ref, "paid_home_course");
-    track("downsell_paid", { transaction_id: receiptId, ...(activePromo() ? {} : { value: (DOWNSELL.amountCents ?? 0) / 100 }), currency: "ZAR" });
+  function onPaid(paymentId: string) {
+    settlePayment(paymentId);
     setView("bought");
+  }
+
+  /** Records the course once per Whop payment, however many times it reaches us. */
+  function settlePayment(paymentId: string) {
+    if (claimPayment(paymentId)) {
+      if (order && !order.items.includes(DOWNSELL.id)) {
+        setOrder({
+          ...order,
+          items: [...order.items, DOWNSELL.id],
+          downsellDecision: "accepted",
+        });
+      }
+      track("downsell_paid", { transaction_id: paymentId, ...(activePromo() ? {} : { value: (DOWNSELL.amountCents ?? 0) / 100 }), currency: "ZAR" });
+    }
+    void recordPaymentOnce(paymentId, ref, "paid_home_course");
   }
 
   /* ---------------- Paid: confirmation ---------------- */
@@ -155,8 +173,8 @@ export default function DownsellPage() {
           planId={WHOP_PLANS.homeCourse}
           email={order?.email}
           reference={ref}
-          buttonText="Get the course"
-          returnPath="/build"
+          offer="course"
+          returnPath="/downsell"
           onPaid={onPaid}
         />
       </Modal>
