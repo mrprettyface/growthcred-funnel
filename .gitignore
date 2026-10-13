@@ -11,3 +11,8 @@ dist-ssr
 
 # TypeScript build cache
 *.tsbuildinfo
+
+# Claude Code: personal settings, and Impeccable's engine binary (platform
+# specific, ~20 MB; its launcher downloads the right one on first use).
+.claude/settings.local.json
+.claude/skills/impeccable/scripts/bin/
