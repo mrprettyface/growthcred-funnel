@@ -21,7 +21,7 @@ const VARIANTS: Record<Variant, string> = {
 };
 
 const BASE =
-  "inline-flex items-center justify-center gap-2 rounded-full px-6 min-h-12 font-body text-sm font-semibold no-underline transition hover:-translate-y-0.5 disabled:opacity-50 disabled:pointer-events-none";
+  "inline-flex items-center justify-center gap-2 rounded-full px-6 min-h-12 font-body text-sm font-semibold no-underline transition-[translate,scale,background-color,border-color,color,box-shadow] duration-200 ease-snap hover:-translate-y-0.5 active:scale-[0.97] disabled:opacity-50 disabled:pointer-events-none";
 
 export function Button({
   variant = "gold",
@@ -78,7 +78,7 @@ export function PillLink({
   className?: string;
 }) {
   const cls = cn(
-    "cc-shine group inline-flex items-center justify-center gap-3 rounded-full bg-gold font-body font-semibold text-midnight no-underline shadow-[0_10px_40px_-10px_rgba(200,160,74,0.7)] transition-colors hover:bg-gold-soft",
+    "cc-shine group inline-flex items-center justify-center gap-3 rounded-full bg-gold font-body font-semibold text-midnight no-underline shadow-[0_10px_40px_-10px_rgba(200,160,74,0.7)] transition-[scale,background-color] duration-200 ease-snap hover:bg-gold-soft active:scale-[0.97]",
     size === "lg" ? "min-h-14 px-8 text-base" : "min-h-11 px-5 text-sm",
     className,
   );
@@ -87,7 +87,7 @@ export function PillLink({
       {children}
       <span
         aria-hidden="true"
-        className="grid h-7 w-7 place-items-center rounded-full bg-midnight text-sm text-gold transition-transform group-hover:translate-x-0.5"
+        className="grid h-7 w-7 place-items-center rounded-full bg-midnight text-sm text-gold transition-[translate] duration-200 ease-snap group-hover:translate-x-0.5"
       >
         &#8599;
       </span>
@@ -261,12 +261,12 @@ export function Faq({ items }: { items: { q: string; a: ReactNode; mark?: FaqMar
             </span>
             <span
               aria-hidden="true"
-              className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-midnight/15 text-gold transition group-open:rotate-45"
+              className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-midnight/15 text-gold transition-[rotate] duration-200 ease-snap group-open:rotate-45"
             >
               +
             </span>
           </summary>
-          <div className={cn("max-w-[62ch] pb-4 text-ink", items.some((x) => x.mark) && "pl-14")}>
+          <div className={cn("cc-answer-in max-w-[62ch] pb-4 text-ink", items.some((x) => x.mark) && "pl-14")}>
             {item.a}
           </div>
         </details>

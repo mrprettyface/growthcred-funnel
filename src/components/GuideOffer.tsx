@@ -198,7 +198,7 @@ export function GuideOffer() {
         type="button"
         onClick={close}
         aria-label="Close"
-        className="absolute right-3 top-3 grid h-11 w-11 place-items-center rounded-full text-xl text-muted hover:text-midnight"
+        className="absolute right-3 top-3 grid h-11 w-11 place-items-center rounded-full text-xl text-muted transition-colors duration-150 hover:text-midnight active:scale-[0.94]"
       >
         &times;
       </button>
@@ -220,7 +220,7 @@ export function GuideOffer() {
           <Link
             to={GUIDE_PATH}
             onClick={() => setOpen(false)}
-            className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-gold px-6 font-semibold text-midnight no-underline hover:bg-gold-soft"
+            className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full bg-gold px-6 font-semibold text-midnight no-underline transition-[scale,background-color] duration-200 ease-snap hover:bg-gold-soft active:scale-[0.97]"
           >
             {GUIDE_OFFER.read} <span aria-hidden="true">&rarr;</span>
           </Link>

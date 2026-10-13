@@ -183,7 +183,7 @@ export function Header({
                     className={itemCls(open || groupActive(item))}
                   >
                     {item.label}
-                    <svg viewBox="0 0 12 12" aria-hidden="true" className={cn("h-3 w-3", open && "rotate-180")}>
+                    <svg viewBox="0 0 12 12" aria-hidden="true" className={cn("h-3 w-3 transition-[rotate] duration-200 ease-snap", open && "rotate-180")}>
                       <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </button>
@@ -191,7 +191,7 @@ export function Header({
                     id={`nav-panel-${id}`}
                     hidden={!open}
                     className={cn(
-                      "absolute inset-x-0 top-full border-b shadow-[0_30px_60px_-30px_rgba(26,26,36,0.35)]",
+                      "cc-panel-in absolute inset-x-0 top-full border-b shadow-[0_30px_60px_-30px_rgba(26,26,36,0.35)]",
                       light ? "border-midnight/10 bg-paper" : "border-cream/10 bg-midnight",
                     )}
                   >
@@ -210,7 +210,7 @@ export function Header({
                                   to={link.to}
                                   onClick={() => setOpenGroup(null)}
                                   className={cn(
-                                    "group block rounded-xl px-3 py-3 no-underline -mx-3",
+                                    "group block rounded-xl px-3 py-3 no-underline -mx-3 transition-colors duration-150",
                                     light ? "hover:bg-midnight/[0.04]" : "hover:bg-cream/[0.05]",
                                   )}
                                 >
