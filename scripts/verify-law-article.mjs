@@ -137,7 +137,8 @@ if (mode === "guide") {
   assert.equal(amounts(now), "99000,50000,2500000,399900", "offers.ts amounts are not the Whop-matched set");
   // Every rand figure in source copy was either there before this work or is one of the article's sourced figures.
   const baseline = new Set((await read("scripts/fixtures/voice-rand-baseline.txt")).split("\n").map((l) => l.trim().replace(/^\d+\s+/, "")).filter(Boolean));
-  const allowedNew = new Set(["R50 million", "R3.5 million", "R100", "R82", "R18"]);
+  // "R10 million" is POPIA's administrative-fine cap (s 109), cited in the two POPIA guides. Not a price.
+  const allowedNew = new Set(["R50 million", "R3.5 million", "R100", "R82", "R18", "R10 million"]);
   const files = [];
   const walk = async (dir) => { for (const e of await readdir(dir, { withFileTypes: true })) { const p = join(dir, e.name); if (e.isDirectory()) await walk(p); else if (/\.(ts|tsx)$/.test(e.name)) files.push(p); } };
   for (const dir of ["src/content", "src/lib", "src/pages", "src/components"]) await walk(dir);

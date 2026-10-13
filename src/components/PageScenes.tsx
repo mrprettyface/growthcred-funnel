@@ -293,6 +293,28 @@ export const PAGE_SCENES: Record<string, ReactElement> = {
     </>
   ),
 
+  /* Private AI and POPIA — the client file stays inside the building. */
+  "/guides/private-ai-popia-compliance": (
+    <>
+      <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l24 -6" />
+      <path d="M92 58l38-26 38 26v56H92z" />
+      <path d="M116 72h28v30h-28z" />
+      <path d="M122 82h16M122 90h12" />
+      <circle cx="144" cy="102" r="5" fill={GOLD} stroke="none" />
+    </>
+  ),
+
+  /* A client file on its way out of the window, into someone else's cloud. */
+  "/guides/chatgpt-client-files-popia": (
+    <>
+      <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l22 4" />
+      <path d="M70 92h40v-28H70zM64 92h52" />
+      <path d="M126 40a12 12 0 0 1 22-6 10 10 0 0 1 14 10h-36z" />
+      <path d="M112 74l14-14" strokeDasharray="3 4" />
+      <path d="M128 54h12v14h-12z" fill={GOLD} stroke="none" />
+    </>
+  ),
+
   /* Johannesburg — here. */
   "/ai-automation-johannesburg": (
     <>

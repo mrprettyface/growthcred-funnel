@@ -19,6 +19,13 @@ a useful answer too: it changes what the page should promise.
 
 Highest value first.
 
+### `/guides/private-ai-popia-compliance`, `/guides/chatgpt-client-files-popia`
+Both POPIA guides state the law and the Command Core's design, but carry nothing only GrowthCred can say.
+1. Your own Command Core: what client or business information goes into it today, and what you decided must never leave the building.
+2. An owner you sat down with (no name needed unless they agree): what they found when they asked their team which AI tools they use.
+3. The access agreement: what it actually covers when we look after a client's system (who can log in, how, and what is logged).
+4. Has an attorney read either guide? If so, can we say so, and name them with permission?
+
 ### `/workshop`
 The money page for the R990 funnel shows no attendee result.
 1. One workshop attendee: the task they brought, how long it took before, how long after.

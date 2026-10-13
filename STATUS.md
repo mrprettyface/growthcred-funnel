@@ -1,5 +1,19 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **13 October 2026 — two POPIA guides.** `/guides/private-ai-popia-compliance`
+> ("How does private AI help with POPIA compliance?") and
+> `/guides/chatgpt-client-files-popia` ("Can your staff paste client files into
+> ChatGPT?") are live in the generated site, indexed, first in the Resources hub
+> and linked to each other. Built from Phila's drafts; every legal point was
+> checked against the Act and the Regulator (sections 19, 21, 22, 72; the R10
+> million fine cap in s 109), and "staff use it anyway" now rests on Microsoft
+> and LinkedIn's 2024 figure (78% of AI users bring their own tools). Unsourced
+> "most firms" lines and the R5M–R200M range were removed; change record in
+> [docs/editorial/popia-articles.md](docs/editorial/popia-articles.md). Both
+> pages wait in `docs/search/HUMAN-LAYER.md` for first-hand input.
+> `verify-law-article prices` now allows "R10 million" (a statutory fine, not a
+> price). **Ask an attorney to read both before promoting them.**
+
 > **28 September 2026 — house voice site-wide + law-firm article.** Every page
 > is now written in the voice Phila adopted: short sentences, "you" and "I",
 > sourced numbers, few bullets, headings a person would say. The guide, the
