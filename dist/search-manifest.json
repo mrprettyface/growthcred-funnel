@@ -2,7 +2,7 @@
   "routes": [
     {
       "path": "/",
-      "title": "Own Your Intelligence: The Command Core | GrowthCred SA",
+      "title": "Private AI Implementation in Johannesburg & South Africa | GrowthCred",
       "description": "Let us help you own your intelligence. Your own AI on equipment we deploy, built around your business. No per-seat subscriptions. Apply today.",
       "index": true,
       "modified": "2026-09-20",
@@ -313,6 +313,24 @@
       "index": true,
       "modified": "2026-09-28",
       "file": "guides/law-firm-billing-leakage.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/can-staff-paste-client-files-into-chatgpt",
+      "title": "Can Staff Paste Client Files into ChatGPT? | POPIA Guide",
+      "description": "POPIA does not give a blanket yes or no. Check purpose, authority, safeguards, operators, cross-border transfers and your client duties first.",
+      "index": true,
+      "modified": "2026-10-13",
+      "file": "guides/can-staff-paste-client-files-into-chatgpt.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/private-ai-popia",
+      "title": "How Private AI Can Help with POPIA | GrowthCred",
+      "description": "Private AI can reduce some data exposure by keeping processing inside your business. It cannot make a workflow POPIA-compliant on its own.",
+      "index": true,
+      "modified": "2026-10-13",
+      "file": "guides/private-ai-popia.html",
       "prerendered": true
     },
     {

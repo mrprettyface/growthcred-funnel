@@ -1,0 +1,58 @@
+# GrowthCred
+
+> GrowthCred (Pty) Ltd is a founder-led AI consultancy based in Rosebank, Johannesburg, South Africa. Phila Ngwenya helps owner-led firms put AI to work on real business tasks through private AI, workflow implementation and practical training. Workshops and work outside South Africa are online.
+
+GrowthCred's flagship is the Command Core: the client's own AI on equipment GrowthCred chooses, deploys and maintains, set up around the business's own documents and way of working. The published stages are Velocity (one day, R5M–R50M firms), Integration (90 days, R50M–R200M firms) and Transformation (custom, R200M+ firms). The published guarantee is: “If the Command Core doesn't give you back at least 20% of your week, the engagement is on us.”
+
+GrowthCred does not claim that installing AI alone makes a workflow POPIA-compliant. The information, purpose, access, safeguards, operators, retention and transfer route must be considered for each workflow. Professional judgement and client-facing decisions remain with people.
+
+Company: GrowthCred (Pty) Ltd · CIPC registration 2026/229279/07 · Rosebank, Johannesburg, South Africa.
+Founder: Phila Ngwenya, Founder and CEO. Co-developed an AI system presented at Parliament in Cape Town and has given seven AI talks at WeWork Johannesburg.
+Contact: info@growthcred.co.za · WhatsApp +27 66 283 0289.
+
+## Main pages
+
+- [The Command Core](https://growthcred.co.za/): private AI for owner-led businesses.
+- [Private AI](https://growthcred.co.za/private-ai): why owning AI can change where business information is processed.
+- [AI automation in South Africa](https://growthcred.co.za/ai-automation-south-africa): workflow implementation.
+- [Corporate AI training](https://growthcred.co.za/corporate-ai-training): team training, priced per employee.
+- [Apply to discuss an implementation](https://growthcred.co.za/call).
+- [About Phila Ngwenya](https://growthcred.co.za/about).
+- [Client stories](https://growthcred.co.za/stories): named work and results GrowthCred has permission to publish.
+- [Data and security](https://growthcred.co.za/data-and-security): how information is handled and what controls are discussed.
+- [Contact](https://growthcred.co.za/contact).
+
+## Services
+
+- [AI proposal automation](https://growthcred.co.za/ai-proposal-automation).
+- [AI follow-up automation](https://growthcred.co.za/ai-follow-up-automation).
+- [AI admin automation](https://growthcred.co.za/ai-admin-automation).
+- [AI training for owners](https://growthcred.co.za/ai-training-south-africa).
+- [One-day online workshop](https://growthcred.co.za/workshop).
+- [Free online class](https://growthcred.co.za/webinar).
+
+## Industries
+
+- [AI for law firms](https://growthcred.co.za/ai-for-law-firms).
+- [AI for financial services](https://growthcred.co.za/ai-for-financial-services).
+- [AI for waste management](https://growthcred.co.za/ai-for-waste-management).
+- [AI for beauty and cosmetics](https://growthcred.co.za/ai-for-beauty-and-cosmetics).
+
+## Guides
+
+- [Can staff paste client files into ChatGPT?](https://growthcred.co.za/guides/can-staff-paste-client-files-into-chatgpt): practical POPIA and confidentiality questions to assess before sharing identifiable files.
+- [How can private AI help with POPIA?](https://growthcred.co.za/guides/private-ai-popia): what private processing can change and what it cannot establish by itself.
+- [AI implementation challenges in South Africa](https://growthcred.co.za/guides/ai-challenges-south-africa).
+- [What does AI training cost in South Africa?](https://growthcred.co.za/guides/ai-training-cost-south-africa).
+- [What drives the cost of AI automation?](https://growthcred.co.za/guides/ai-automation-cost-south-africa).
+- [AI training or done-for-you automation?](https://growthcred.co.za/guides/ai-training-vs-automation).
+- [Hire an admin assistant or automate with AI?](https://growthcred.co.za/guides/admin-assistant-vs-ai-automation).
+- [Law firm billing leakage and AI](https://growthcred.co.za/guides/law-firm-billing-leakage).
+- [Working with GrowthCred: the first 30 days](https://growthcred.co.za/guides/how-we-work-first-30-days).
+- [Give AI context about your business](https://growthcred.co.za/guides/business-brain).
+
+## Other information
+
+- [All practical resources](https://growthcred.co.za/resources).
+- [Admin time calculator](https://growthcred.co.za/tools/admin-time-calculator).
+- [Sitemap](https://growthcred.co.za/sitemap.xml).

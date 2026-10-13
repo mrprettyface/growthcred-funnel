@@ -14,8 +14,14 @@ export type WorkshopEvent = {
   date: string;
   /** e.g. "09:00–16:00" */
   time: string;
-  /** e.g. "WeWork Rosebank, Johannesburg" */
+  /** e.g. "WeWork Rosebank, Johannesburg", or "Online" */
   venue: string;
+  /** True when the day runs online; the venue line is then shown, not mapped. */
+  online: boolean;
+  /** Start and end as ISO UTC, e.g. "2026-10-24T07:00:00Z" (09:00 SAST). They
+   * drive the Event markup search engines read, so they must match date and time. */
+  startUtc: string;
+  endUtc: string;
   /** Total seats in the room. */
   seats: number;
   /** Seats already taken, so the page can say how many are left. */

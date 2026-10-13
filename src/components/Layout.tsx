@@ -424,6 +424,17 @@ export function Footer() {
         <Link to="/refunds" className="text-midnight no-underline hover:text-gold">Refunds</Link>
       </div>
       <AnalyticsChoice />
+      <a
+        href={whatsappUrl("Hi GrowthCred, I found you through your website and have a question.")}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Message GrowthCred on WhatsApp"
+        title="Message GrowthCred on WhatsApp"
+        className="fixed bottom-24 right-4 z-50 inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#075e54] text-white shadow-[0_8px_28px_rgba(0,0,0,0.28)] transition-transform hover:scale-105 focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-4 focus-visible:outline-gold md:bottom-6 md:right-6 md:h-auto md:w-auto md:gap-3 md:rounded-full md:px-5 md:py-3"
+      >
+        <BrandIcon name="whatsapp" className="h-6 w-6" />
+        <span className="sr-only md:not-sr-only">Ask us a question</span>
+      </a>
     </footer>
   );
 }

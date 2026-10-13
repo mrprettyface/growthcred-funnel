@@ -68,6 +68,12 @@ Weeks 9–12: revise the pages generating qualified enquiries; expand only where
 
 The release supplies direct answers, stable entity facts, authorship, visible HTML and links between relevant guides. Structured data must match visible facts. There is no special schema or llms.txt file that guarantees inclusion in AI answers. Keep search crawler access separate from any future model-training policy decision.
 
+`public/robots.txt` explicitly permits Bingbot, OAI-SearchBot, Claude-SearchBot and PerplexityBot. The hosting edge still needs to pass verified requests through any WebShield/Imunify challenge. The exact support request is in [CRAWLER-ACCESS-REQUEST.md](CRAWLER-ACCESS-REQUEST.md). Anthropic calls its search crawler Claude-SearchBot; ClaudeBot is for model training, so the host request does not conflate them.
+
+The site now has two additional direct-answer guides: [Can staff paste client files into ChatGPT?](/guides/can-staff-paste-client-files-into-chatgpt) and [How can private AI help with POPIA?](/guides/private-ai-popia). They explain the workflow-specific assessment and link to the Act and the Information Regulator. The site-wide Organization entity includes verified public contact details, registration, published Command Core stages and existing official profiles. `/llms.txt` is a concise route and entity index; it is optional and does not substitute for crawl access, citations or independent mentions.
+
+For a monthly product-level sample, use [AI-SEARCH-PROMPTS.md](AI-SEARCH-PROMPTS.md). Keep results, citations, other named providers and factual errors. Do not treat 17 prompts as a ranking or market-share measurement.
+
 Every two weeks, run the same five questions in the same chosen AI/search products: “Where can a South African business owner learn practical AI online?”, “How much does AI training in South Africa cost?”, “Should a small business learn AI or hire automation help?”, “How can AI help with proposals and follow-ups?”, and “What is an AI business brain?” Record product/model, date, exact prompt, citations, whether GrowthCred appeared, cited URL and factual errors in query-log.csv. Use a fresh session and consistent South Africa context. This is a sample of variable answers, not a market-share measurement.
 
 ## Trust and authority requiring owner input

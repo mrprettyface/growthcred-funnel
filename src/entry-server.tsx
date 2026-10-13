@@ -2,7 +2,7 @@ import { renderToPipeableStream, renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom";
 import { PassThrough } from "node:stream";
 import App from "./App";
-export { ROUTES, ALIASES, SITE, structuredData } from "./seo/routes";
+export { ROUTES, ALIASES, SITE, structuredData, eventNode, eventSession } from "./seo/routes";
 export { SEARCH_PAGES } from "./content/searchPages";
 export { hasFutureSession, calendarUrl } from "./lib/webinar";
 export { cleanPage, safeEventPayload, validGaId } from "./lib/searchAnalytics";

@@ -1,8 +1,14 @@
 User-agent: *
 Allow: /
 
-# Search discovery is independent of model-training preferences.
+# Search discovery is separate from model-training crawls.
+User-agent: Bingbot
+Allow: /
+
 User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Claude-SearchBot
 Allow: /
 
 User-agent: PerplexityBot
