@@ -8,7 +8,7 @@ import { WORKSHOP } from "../lib/offers";
 export const SITE = "https://growthcred.co.za";
 export type RouteMeta = {path:string; title:string; description:string; index:boolean; canonical?:string; modified?:string};
 export const ROUTES: RouteMeta[] = [
-  {path:"/",title:"Private AI Implementation in Johannesburg & South Africa | GrowthCred",description:"Let us help you own your intelligence. Your own AI on equipment we deploy, built around your business. No per-seat subscriptions. Apply today.",index:true,modified:REVIEWED},
+  {path:"/",title:"Private AI Implementation in Johannesburg & South Africa | GrowthCred",description:"For South African owners every quote, hire and question runs through. Own your intelligence. Your data stays in the building. Apply today.",index:true,modified:REVIEWED},
   {path:PRIVATE_AI_PATH,title:"Private AI South Africa: Own Your Intelligence | GrowthCred",description:"Your own AI, on your own equipment, set up around your business. Why firms are moving AI in-house, what owning costs, and when it's the wrong call.",index:true,modified:"2026-09-29"},
   {path:CORPORATE_PATH,title:"Corporate AI Training for Teams in South Africa | GrowthCred",description:"Corporate AI training that gets every employee producing documents and reports 3× faster. Live workshops, role playbooks, measured ROI, priced per head.",index:true,modified:"2026-09-25"},
   {path:"/workshop",title:"Online AI Workshop for Business Owners | GrowthCred SA",description:"Build practical AI workflows in GrowthCred’s one-day online workshop for South African business owners. R990. Session details confirmed on registration.",index:true,modified:REVIEWED},
@@ -62,7 +62,7 @@ export function structuredData(meta:RouteMeta) {
   if(page?.kind==="guide"||page?.kind==="story") graph.push({"@type":"Article",headline:page.heading,description:page.description,mainEntityOfPage:{"@id":`${url}#page`},author:{"@id":`${SITE}/about#phila`},publisher:{"@id":`${SITE}/#organization`},...(page.published?{datePublished:page.published}:{}),dateModified:page.published??REVIEWED,image:page.images?.[0]?`${SITE}${page.images[0].src}`:`${SITE}/images/search-share.png`});
   if(meta.path===PRIVATE_AI_PATH) graph.push({"@type":"Service",name:"Private AI: the Command Core",serviceType:"Private AI deployment",description:PRIVATE_AI_SERVICE,provider:{"@id":`${SITE}/#organization`},areaServed:{"@type":"Country",name:"South Africa"},url});
   if(meta.path===CORPORATE_PATH) graph.push({"@type":"Service",name:"Corporate AI training",serviceType:"Corporate AI training",description:CORPORATE_SERVICE,provider:{"@id":`${SITE}/#organization`},areaServed:[{"@type":"Country",name:"South Africa"},{"@type":"Place",name:"Online"}],audience:{"@type":"BusinessAudience",name:"Organisations training their teams"},url});
-  if(page?.kind==="service") graph.push({"@type":"Service",name:page.heading,description:page.intro,provider:{"@id":`${SITE}/#organization`},areaServed:{"@type":"Country",name:"South Africa"},url});
+  if(page?.kind==="service"||page?.kind==="situation") graph.push({"@type":"Service",name:page.heading,description:page.intro,provider:{"@id":`${SITE}/#organization`},areaServed:{"@type":"Country",name:"South Africa"},url});
   const event=eventNode(eventSession(meta.path));
   if(event) graph.push(event);
   /* FAQPage only where the same questions are visible on the page. */

@@ -4,6 +4,7 @@ import { PillLink, cn } from "./ui";
 import { AnalyticsChoice } from "./AnalyticsChoice";
 import { BrandIcon, type Brand } from "./BrandIcons";
 import { IMESSAGE_NUMBER, LINKEDIN_URL, whatsappUrl } from "../lib/contact";
+import { SITUATION_LINKS } from "../content/situationLinks";
 
 /** Brand wordmark. Gold "Cred" + gold full stop, matching the current site. */
 export function Brand({ dark = true }: { dark?: boolean }) {
@@ -343,6 +344,10 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
     ],
   },
   {
+    title: "If this is you",
+    links: SITUATION_LINKS.map((item) => [item.path, item.label] as [string, string]),
+  },
+  {
     title: "Company",
     links: [
       ["/about", "About Phila"],
@@ -395,7 +400,7 @@ export function Footer() {
             ))}
           </div>
         </div>
-        <nav aria-label="Footer" className="grid w-full max-w-3xl grid-cols-2 gap-x-8 gap-y-10 md:grid-cols-4">
+        <nav aria-label="Footer" className="grid w-full max-w-5xl grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 xl:grid-cols-5">
           {FOOTER.map((col) => (
             <div key={col.title}>
               <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted">{col.title}</p>

@@ -1,5 +1,20 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **23 October 2026 — long-tail situations, unproven figures removed.** Homepage
+> headline is option A: "For South African owners who are still the person
+> every quote, hire and question runs through." The own-your-intelligence and
+> POPIA pitch stays. Removed from `/`: the illustrative benchmarks (65→35,
+> 3 days→3 hrs, 48 hrs→4 min, 20%→2%), "R3M–R10M a year", the R20,000 / R200
+> hourly comparison, and every "20–40% of your week". The published guarantee
+> ("at least 20% of your week") is unchanged. Five situation pages, no named
+> customer: `/how-to-send-ppe-quotes-faster`,
+> `/quoting-uniforms-for-a-security-company`,
+> `/chatgpt-client-files-popia-south-africa`,
+> `/i-still-train-every-new-hire-myself`, `/senior-dispatcher-on-leave`.
+> Linked from the homepage and the footer, and in the sitemap. Proof for those
+> pages is queued in [docs/search/HUMAN-LAYER.md](docs/search/HUMAN-LAYER.md).
+> Not merged. Phila approves the merge.
+
 > **28 September 2026 — house voice site-wide + law-firm article.** Every page
 > is now written in the voice Phila adopted: short sentences, "you" and "I",
 > sourced numbers, few bullets, headings a person would say. The guide, the

@@ -3,7 +3,7 @@
     {
       "path": "/",
       "title": "Private AI Implementation in Johannesburg & South Africa | GrowthCred",
-      "description": "Let us help you own your intelligence. Your own AI on equipment we deploy, built around your business. No per-seat subscriptions. Apply today.",
+      "description": "For South African owners every quote, hire and question runs through. Own your intelligence. Your data stays in the building. Apply today.",
       "index": true,
       "modified": "2026-09-20",
       "file": "index.html",
@@ -34,6 +34,51 @@
       "index": true,
       "modified": "2026-09-20",
       "file": "workshop.html",
+      "prerendered": true
+    },
+    {
+      "path": "/how-to-send-ppe-quotes-faster",
+      "title": "How to Send PPE Quotes Faster Without the Owner Doing Every Quote | GrowthCred",
+      "description": "How to send PPE quotes faster without the owner doing every quote. Your prices stay on equipment we set up. You still approve every quote that goes out.",
+      "index": true,
+      "modified": "2026-10-23",
+      "file": "how-to-send-ppe-quotes-faster.html",
+      "prerendered": true
+    },
+    {
+      "path": "/quoting-uniforms-for-a-security-company",
+      "title": "Quoting Uniforms for a Security Company with Guards on Multiple Sites | GrowthCred",
+      "description": "Quoting uniforms for a security company with guards on multiple sites. Keep each site's kit and your prices in one place, and you still sign the quote.",
+      "index": true,
+      "modified": "2026-10-23",
+      "file": "quoting-uniforms-for-a-security-company.html",
+      "prerendered": true
+    },
+    {
+      "path": "/chatgpt-client-files-popia-south-africa",
+      "title": "Can My Staff Use ChatGPT with Client Files under POPIA South Africa | GrowthCred",
+      "description": "Can my staff use ChatGPT with client files under POPIA South Africa? There is no blanket yes or no. You stay responsible. Private AI does not make a workflow lawful by itself.",
+      "index": true,
+      "modified": "2026-10-23",
+      "file": "chatgpt-client-files-popia-south-africa.html",
+      "prerendered": true
+    },
+    {
+      "path": "/i-still-train-every-new-hire-myself",
+      "title": "I Still Train Every New Hire Myself. How Do I Stop? | GrowthCred",
+      "description": "I still train every new hire myself. How do I stop? A private assistant on your scripts and SOPs takes the first questions. You still check the answer. Nothing goes to a customer.",
+      "index": true,
+      "modified": "2026-10-23",
+      "file": "i-still-train-every-new-hire-myself.html",
+      "prerendered": true
+    },
+    {
+      "path": "/senior-dispatcher-on-leave",
+      "title": "What Happens to Our Operations When Our Senior Dispatcher Is on Leave | GrowthCred",
+      "description": "What happens to our operations when our senior dispatcher is on leave? The know-how sits in a few heads. Your own private AI can answer from the source document, by role.",
+      "index": true,
+      "modified": "2026-10-23",
+      "file": "senior-dispatcher-on-leave.html",
       "prerendered": true
     },
     {

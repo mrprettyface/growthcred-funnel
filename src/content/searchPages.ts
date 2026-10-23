@@ -1,8 +1,10 @@
+import { SITUATION_PAGES } from "./situationPages";
+
 export type SearchSection = { title: string; paragraphs: string[]; items?: string[]; mark?: "price" | "industry" | "diy" };
 export type StoryImage = { src: string; alt: string; width: number; height: number; caption?: string };
 export type SearchPage = {
   path: string; title: string; description: string; heading: string; intro: string;
-  kind: "service" | "guide" | "about" | "hub" | "tool" | "story";
+  kind: "service" | "guide" | "about" | "hub" | "tool" | "story" | "situation";
   sections: SearchSection[]; related: string[];
   /** Client stories: the words a client actually used, and who said them. */
   quote?: { text: string; by: string };
@@ -30,6 +32,7 @@ export const STORIES_PUBLISHED = "2026-09-24";
 /** The service, industry, market and bottom-of-funnel pages added for search. */
 export const SEO_PUBLISHED = "2026-09-24";
 export const SEARCH_PAGES: SearchPage[] = [
+  ...SITUATION_PAGES,
   {
     path: "/ai-training-south-africa", kind: "service",
     title: "Practical AI Training for Business Owners | GrowthCred",
