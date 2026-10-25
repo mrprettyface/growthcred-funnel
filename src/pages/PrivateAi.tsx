@@ -6,6 +6,7 @@ import { Footer, Header } from "../components/Layout";
 import { AuthorBox, Byline } from "../components/AuthorBox";
 import { PrivateAiScene } from "../components/PrivateAiScenes";
 import { track } from "../lib/analytics";
+import { linkPhrase } from "../components/PhraseLink";
 import { GUIDE_OFFER, requestGuide } from "../lib/guide";
 import {
   APPLY,
@@ -217,7 +218,9 @@ export default function PrivateAi() {
               <div key={p.t} className="bg-midnight-soft p-7 md:p-8">
                 <PrivateAiScene name={p.scene} className="mb-4 h-24 w-36 text-cream/75" />
                 <h3 className="text-2xl text-cream">{p.t}</h3>
-                <p className="mt-3 leading-relaxed text-cream/70">{p.b}</p>
+                <p className="mt-3 leading-relaxed text-cream/70">
+                  {p.phraseLink ? linkPhrase(p.b, p.phraseLink.phrase, p.phraseLink.href, "dark") : p.b}
+                </p>
               </div>
             ))}
           </Reveal>

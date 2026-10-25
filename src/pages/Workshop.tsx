@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Section, Eyebrow, H1, Faint, ButtonLink, VideoSlot, CheckList, Faq } from "../components/ui";
+import { linkPhrase } from "../components/PhraseLink";
 import { CostCalculator } from "../components/CostCalculator";
 import { SevenLevels } from "../components/SevenLevels";
 import { SocialSection } from "../components/SocialSection";
@@ -27,8 +28,11 @@ export default function WorkshopPage() {
           Same business. <span className="text-gold">10 hours a week back.</span>
         </H1>
         <p className="mx-auto mt-6 max-w-[48ch] text-lg text-ink md:text-xl">
-          Hand over the proposals, follow-ups and admin that eat your week.
-          Built with you in one day, online.
+          {linkPhrase(
+            "Hand over the proposals, follow-ups and admin that eat your week. Built with you in one day, online.",
+            "proposals",
+            "/ai-proposal-automation",
+          )}
         </p>
 
         <div className="mx-auto mt-8 flex max-w-[420px] flex-col gap-3 rounded-2xl border border-midnight/15 p-4">
@@ -181,7 +185,11 @@ export default function WorkshopPage() {
           items={[
             {
               icon: "brain",
-              text: "Your business brain, built and live, so you never re-explain yourself to a tool again",
+              text: linkPhrase(
+                "Your business brain, built and live, so you never re-explain yourself to a tool again",
+                "business brain",
+                "/guides/business-brain",
+              ),
             },
             {
               icon: "wired",

@@ -9,6 +9,7 @@ import { CostCalculator } from "../components/CostCalculator";
 import { PageScene } from "../components/PageScenes";
 import { FaqMark } from "../components/FaqMarks";
 import { GUIDE_OFFER, requestGuide } from "../lib/guide";
+import { linkPhrase } from "../components/PhraseLink";
 const labels:Record<string,string>={"/workshop":"Online AI workshop","/":"The Command Core","/call":"Discuss an implementation project","/brain":"Build your Business Brain","/contact":"Contact GrowthCred","/corporate-ai-training":"Corporate AI training for teams"};
 export function SearchPage({page}:{page:Page}) {
   return <>
@@ -18,7 +19,7 @@ export function SearchPage({page}:{page:Page}) {
       <div className="max-w-[860px]">
         <Eyebrow dark>{page.kind==='guide'?'The GrowthCred field guide':page.kind==='story'?'Client story':page.path==='/stories'?'Client stories':page.kind==='tool'?'Work out the time':'GrowthCred · South Africa'}</Eyebrow>
         <h1 className="mt-5 text-4xl leading-tight text-cream md:text-6xl">{page.heading}</h1>
-        <p className="mt-7 max-w-[68ch] text-lg leading-relaxed text-cream/75">{page.intro}</p>
+        <p className="mt-7 max-w-[68ch] text-lg leading-relaxed text-cream/75">{page.introLink ? linkPhrase(page.intro, page.introLink.phrase, page.introLink.href, "dark") : page.intro}</p>
         {page.kind!=='hub'&&page.kind!=='about'&&<Byline dark className="mt-6" date={page.published??REVIEWED} label={page.published?'Published':'Reviewed'}/>}
       </div>
       <div aria-hidden="true" className="mx-auto w-full max-w-[320px] rounded-3xl border border-cream/10 bg-midnight-soft/70 p-5 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.8)] md:mx-0"><PageScene path={page.path} className="h-40 w-full text-cream/80 md:h-48" /></div>
@@ -32,7 +33,7 @@ export function SearchPage({page}:{page:Page}) {
     <Section>
       <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,760px)_1fr]">
         <article className="min-w-0 space-y-10">
-          {page.sections.map((section,i)=><section id={`section-${i+1}`} key={section.title} className="scroll-mt-28"><h2 className="flex items-center gap-3 text-2xl md:text-3xl">{section.mark&&<span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold/10 text-gold"><FaqMark name={section.mark}/></span>}{section.title}</h2>{section.paragraphs.map(p=><p key={p} className="mt-4 max-w-[70ch] leading-relaxed text-ink">{p}</p>)}{section.items&&<ul className="mt-5 list-disc space-y-3 pl-6 text-ink">{section.items.map(item=><li key={item}>{item}</li>)}</ul>}{page.guide?.after===i&&<GuideCallout line={page.guide.line}/>}</section>)}
+          {page.sections.map((section,i)=><section id={`section-${i+1}`} key={section.title} className="scroll-mt-28"><h2 className="flex items-center gap-3 text-2xl md:text-3xl">{section.mark&&<span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold/10 text-gold"><FaqMark name={section.mark}/></span>}<span>{section.titleLink ? linkPhrase(section.title, section.titleLink.phrase, section.titleLink.href) : section.title}</span></h2>{section.paragraphs.map((p,j)=>{const link=section.links?.find(l=>l.index===j);return <p key={p} className="mt-4 max-w-[70ch] leading-relaxed text-ink">{link ? linkPhrase(p, link.phrase, link.href) : p}</p>})}{section.items&&<ul className="mt-5 list-disc space-y-3 pl-6 text-ink">{section.items.map(item=><li key={item}>{item}</li>)}</ul>}{page.guide?.after===i&&<GuideCallout line={page.guide.line}/>}</section>)}
           {page.close&&<section aria-label="Next step" className="rounded-3xl bg-midnight p-7 text-cream md:p-10"><p className="font-display text-2xl font-extrabold leading-snug tracking-[-0.03em] md:text-3xl">{page.close.line}</p><p className="mt-5 text-lg text-cream/75">{page.close.ask}</p><ButtonLink to={page.close.cta.to} className="mt-6">{page.close.cta.label}</ButtonLink></section>}
           {page.sources&&<section id="sources" className="scroll-mt-28"><h2 className="text-2xl md:text-3xl">Sources behind this page</h2><p className="mt-4 max-w-[70ch] leading-relaxed text-ink">Here's where the public figures on this page come from. They aren't our client results. They don't endorse us. And they're no substitute for your own professional advice.</p><ul className="mt-5 list-disc space-y-3 pl-6 text-ink">{page.sources.map(source=><li key={source.href}><a href={source.href} target="_blank" rel="noopener noreferrer">{source.label}</a></li>)}</ul></section>}
           {page.kind==='tool'&&<CostCalculator/>}

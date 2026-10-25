@@ -1,7 +1,20 @@
-export type SearchSection = { title: string; paragraphs: string[]; items?: string[]; mark?: "price" | "industry" | "diy" };
+/** One existing phrase inside a heading or paragraph, linked without rewriting the sentence. */
+export type PhraseAnchor = { phrase: string; href: string };
+export type SearchSection = {
+  title: string;
+  paragraphs: string[];
+  items?: string[];
+  mark?: "price" | "industry" | "diy";
+  /** Link `phrase` inside the heading. The heading words stay the same. */
+  titleLink?: PhraseAnchor;
+  /** Link `phrase` inside `paragraphs[index]`. */
+  links?: ({ index: number } & PhraseAnchor)[];
+};
 export type StoryImage = { src: string; alt: string; width: number; height: number; caption?: string };
 export type SearchPage = {
   path: string; title: string; description: string; heading: string; intro: string;
+  /** Link one existing phrase in the intro. The intro words stay the same. */
+  introLink?: PhraseAnchor;
   kind: "service" | "guide" | "about" | "hub" | "tool" | "story";
   sections: SearchSection[]; related: string[];
   /** Client stories: the words a client actually used, and who said them. */
@@ -232,7 +245,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     intro: "Buy the same tool as a company in San Francisco. Do you get the same operating system? No. Your business has South African data duties, South African customer channels, South African infrastructure and your own team. The fix isn't a bigger tool stack. It's adapting the work.",
     sections: [
       { title: "The contrarian view: local context is the implementation", paragraphs: ["Most AI strategies fail before the model does. You put the wrong information into the tool. You push customers into a channel they don't use. Nobody owns the exceptions. And you mistake a foreign template for a local process.", "So stop asking whether South Africa is ahead or behind. Ask whether one workflow fits your customers, your information, your people and your controls. A small system that survives a normal Tuesday beats an impressive demo that needs perfect inputs.", "Here's what local looks like. Sandile runs MNE Waste, a South African waste company working on municipal contracts and compliance. His Operator's Brain wasn't a foreign template. He built it from how his own operation runs, in one day, at my first Operator Intensive in Rosebank. He's now fully operational."] },
-      { title: "POPIA: paid is not the same as compliant", paragraphs: ["Free AI versus paid AI isn't the question. Before personal information goes into any service, you still need a lawful purpose. You need to keep it to the minimum, with safeguards. And you need to be clear on operators, contracts, retention and anything that leaves the country. A subscription badge answers none of that.", "So map the information before you pick the tool. Which fields do you need? Whose data is it? Why does the task need it? Where does it travel? Who can see it? How long does it stay? How does someone correct or delete it?", "Use made-up or properly redacted examples until your organisation approves the real workflow."] },
+      { title: "POPIA: paid is not the same as compliant", titleLink: { phrase: "POPIA", href: "/guides/private-ai-popia" }, paragraphs: ["Free AI versus paid AI isn't the question. Before personal information goes into any service, you still need a lawful purpose. You need to keep it to the minimum, with safeguards. And you need to be clear on operators, contracts, retention and anything that leaves the country. A subscription badge answers none of that.", "So map the information before you pick the tool. Which fields do you need? Whose data is it? Why does the task need it? Where does it travel? Who can see it? How long does it stay? How does someone correct or delete it?", "Use made-up or properly redacted examples until your organisation approves the real workflow."] },
       { title: "Mobile-first doesn't mean message everyone", paragraphs: ["Statistics South Africa reported that 85.6% of households had some form of internet access in 2025. That doesn't mean your customers want another portal. Or have fibre at home. So design your customer step around the channel they actually use. Then give them another way in.", "Using WhatsApp or any messaging channel? Use an approved business route. Get the permissions your use case needs. Keep sensitive detail out of messages. Give people a way to reach a human. And watch for failed deliveries. Automating an unwanted message just makes the irritation arrive faster."] },
       { title: "Resilience: stop designing around an outdated headline", paragraphs: ["By 4 September 2026, Eskom reported 476 consecutive days without loadshedding. So national loadshedding isn't the defining barrier to business AI right now. But you'll still hit local outages, patchy signal, provider downtime and broken integrations. Resilience is still your operating requirement. It's just not a slogan.", "So decide what your workflow does when a service goes down. Queue or pause the action. Show the failure to an owner. Stop duplicates. Keep a manual route. Reconcile when you're back up. And don't believe a cloud model works offline unless the provider's current docs say that function does."] },
       { title: "Skills: map the process before hiring the specialist", paragraphs: ["You don't need an AI engineer for every drafting or routing problem. You do need someone who knows the current work, can define a good output and owns the review. Start there. Then choose the level of delivery the workflow really needs.", "A workshop suits a bounded, browser-based task your team wants to run. A specialist build fits when data crosses systems, access matters, failures are costly or it needs ongoing monitoring. No-code means less coding. It doesn't mean no architecture, security or maintenance."] },
@@ -394,6 +407,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     description: "How waste management companies use AI built from their own knowledge for compliance paperwork, contracts and admin. See how MNE Waste built its system.",
     heading: "AI for waste management companies.",
     intro: "Waste management runs on trucks, drivers, compliance and municipal contracts. And most of that knowledge lives with you, the owner. MNE Waste's founder built his Operator's Brain in one day with us. If AI can handle that, it can handle whatever you do.",
+    introLink: { phrase: "Operator's Brain", href: "/guides/business-brain" },
     images: [
       { src: "/images/stories/mne-waste-website.jpg", alt: "MNE Waste website: simplifying medical waste disposal for every facility", width: 344, height: 256, caption: "MNE Waste, a GrowthCred client." },
     ],
@@ -401,7 +415,7 @@ export const SEARCH_PAGES: SearchPage[] = [
       { title: "Where the owner gets stuck", paragraphs: ["You carry a heavy load of paperwork and coordination. Compliance documents. Contracts and tenders. Client reports. Driver messages. Scheduling questions. Most of it follows rules you know by heart. But you've never written them down.", "That's exactly what an AI system needs. Without it, generic tools give you generic answers."] },
       { title: "Where AI helps first", paragraphs: ["Start with documents that repeat, follow clear rules and have a person who can check them.", "Client reports and service summaries, drafted from the job records you already keep. First drafts of tender and contract responses from your standard information. Answers to the procedure questions your drivers and staff keep asking, so they're not waiting on you. And follow-ups and quotes for new facilities, in your voice."] },
       { title: "Compliance stays with people", paragraphs: ["Compliance documents carry legal weight. So AI drafts and organises them from your approved information. A responsible person checks and signs off. We agree those review points before we build anything."] },
-      { title: "The MNE Waste story", paragraphs: ["Sandile runs MNE Waste. They collect and dispose of waste, including medical waste. He came to my first Operator Intensive. He built his Operator's Brain in one day. He's now fully operational. Read the full story."] },
+      { title: "The MNE Waste story", paragraphs: ["Sandile runs MNE Waste. They collect and dispose of waste, including medical waste. He came to my first Operator Intensive. He built his Operator's Brain in one day. He's now fully operational. Read the full story."], links: [{ index: 0, phrase: "Operator's Brain", href: "/guides/business-brain" }] },
     ],
     faq: [
       { q: "Can AI handle waste management compliance?", a: "AI can draft and organise your compliance paperwork from approved information. That saves you time. A responsible person still checks and signs off, because the documents carry legal weight." },
@@ -495,11 +509,11 @@ export const SEARCH_PAGES: SearchPage[] = [
     heading: "AI automation in Johannesburg, from Rosebank.",
     intro: "I run GrowthCred from Rosebank, Johannesburg. I've given seven AI talks at WeWork Johannesburg. And the first Operator Intensive sold out all five seats at WeWork Rosebank. This is home.",
     sections: [
-      { title: "Built here, with owners from here", paragraphs: ["Johannesburg runs on owner-led businesses. Firms where the founder still writes the proposals, answers the questions and approves every quote. Is that you? That's the bottleneck I exist to remove.", "The first Operator Intensive ran in person at WeWork Rosebank. Five owners whose businesses depended entirely on them. They left with working systems. One of them, Sandile of MNE Waste, built his Operator's Brain that day. He's now fully operational."] },
+      { title: "Built here, with owners from here", paragraphs: ["Johannesburg runs on owner-led businesses. Firms where the founder still writes the proposals, answers the questions and approves every quote. Is that you? That's the bottleneck I exist to remove.", "The first Operator Intensive ran in person at WeWork Rosebank. Five owners whose businesses depended entirely on them. They left with working systems. One of them, Sandile of MNE Waste, built his Operator's Brain that day. He's now fully operational."], links: [{ index: 1, phrase: "Operator's Brain", href: "/guides/business-brain" }] },
       { title: "In person or online", paragraphs: ["The one-day workshop and the free class run online. So you can join from anywhere in Gauteng.", "Want a Command Core engagement? Ask on the call whether working sessions can happen in person. We scope the audit, build and handover around your team."] },
       { title: "What working together looks like", paragraphs: ["Three steps. First, an audit that puts a rand value on the hours stuck with you. Second, we deploy systems that do that work the way you would. Third, we embed them and track the results monthly."] },
       { title: "Where Johannesburg owners start", paragraphs: ["There are three ways in. Pick the one that matches how ready you are.", "The Command Core is the full engagement, for owner-led firms from R5M to over R200M in revenue. We audit, deploy and embed across your departments.", "The one-day online workshop is for building your first systems yourself. Guided. Laptop open. Real work in hand.", "The free online class is a practical first hour on giving AI the context your business needs. All three run on the same idea. AI works when it starts from your knowledge, not a template."] },
-      { title: "The work that waits in a Johannesburg business", paragraphs: ["I see the same pattern all over this city. Proposals queue behind the founder. Follow-ups wait until the evening. Admin only one person knows how to do. Those are the first tasks I look at. Because they cost you the most."] },
+      { title: "The work that waits in a Johannesburg business", paragraphs: ["I see the same pattern all over this city. Proposals queue behind the founder. Follow-ups wait until the evening. Admin only one person knows how to do. Those are the first tasks I look at. Because they cost you the most."], links: [{ index: 0, phrase: "Proposals", href: "/ai-proposal-automation" }] },
     ],
     faq: [
       { q: "Where is GrowthCred based?", a: "Rosebank, Johannesburg. GrowthCred (Pty) Ltd is registered in South Africa, registration number 2026/229279/07." },
@@ -656,7 +670,7 @@ export const SEARCH_PAGES: SearchPage[] = [
         "Here's what I do instead. I start by writing down how your firm actually runs. Your intake questions. Your fee structures. Your engagement letter precedents. When invoices go out. How you chase. What a good client update sounds like. That's the foundation of the Command Core.",
         "Then AI does the preparation the way you would. It drafts the day's time entries from your calendar and your documents. You approve them in minutes. It drafts the invoice when a matter hits its billing stage. It sends the polite reminder on the due date. It collects the intake facts before the first call. It prepares the proposal from your approved precedents.",
         "What it connects to depends on the systems you already use. We check that before we promise anything. But the principle doesn't change. You stop doing the work. You start approving it.",
-      ] },
+      ], links: [{ index: 1, phrase: "prepares the proposal", href: "/ai-proposal-automation" }] },
       { title: "Faster: same day, not 75 days", paragraphs: [
         "So why does this beat every other option? Three reasons. Faster, cheaper, no risk.",
         "Faster first. Right now a proposal takes days. Intake takes hours per client. Your money takes 75 days to arrive. Those are the numbers I build against.",

@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FOUNDER } from "../lib/home";
+import { linkPhrase } from "./PhraseLink";
 
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
@@ -20,6 +21,7 @@ export function Byline({ date, label = "Published", dark = false, className = ""
 
 /** Experience and authorship, stated plainly, at the end of every article. */
 export function AuthorBox({ className = "" }: { className?: string }) {
+  const here = useLocation().pathname;
   return (
     <aside aria-label="About the author" className={`flex flex-col gap-5 rounded-3xl border border-midnight/10 bg-white p-6 shadow-[0_30px_80px_-40px_rgba(26,26,36,0.35)] sm:flex-row sm:items-center ${className}`}>
       <img src="/images/phila-event-640.webp" width="640" height="853" alt="Phila Ngwenya, founder of GrowthCred" loading="lazy" decoding="async" className="h-28 w-24 shrink-0 rounded-2xl object-cover object-top" />
@@ -29,7 +31,14 @@ export function AuthorBox({ className = "" }: { className?: string }) {
           <Link to="/about" className="no-underline hover:text-gold">{FOUNDER.name}</Link>
         </p>
         <p className="mt-1 text-sm text-muted">{FOUNDER.title}</p>
-        <p className="mt-3 text-sm leading-relaxed text-ink">{FOUNDER.credentials.join(" ")}</p>
+        <p className="mt-3 text-sm leading-relaxed text-ink">
+          {FOUNDER.credentials.map((line, i) => (
+            <span key={line}>
+              {i > 0 ? " " : null}
+              {here === "/private-ai" ? line : linkPhrase(line, "private AI", "/private-ai")}
+            </span>
+          ))}
+        </p>
       </div>
     </aside>
   );
