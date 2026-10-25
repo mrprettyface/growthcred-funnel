@@ -1,5 +1,18 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **25 October 2026 — long-tail situations and three offer pages.** Six indexed
+> pages, from the Neil Patel reel `De6qg45ET4d` (hyper-specific searches, not
+> broad keywords) and the 23 Oct long-tail plan. Situations:
+> `/guides/ppe-quotes-without-the-owner`,
+> `/guides/staff-chatgpt-client-files-popia`,
+> `/guides/stop-training-every-new-hire`. Offers, in the names the plan asked
+> for: `/quote-engine`, `/company-brain`, `/new-hire-trainer`. No supplier or
+> client is named. No before/after number. No price. The POPIA page is not
+> legal advice and points at the two existing guides plus a lawyer. These are
+> hypotheses, not Search Console queries. Homepage illustrative benchmarks were
+> left as they are. Phila deploys: cPanel Update from Remote, then Deploy HEAD.
+> Nothing here is a live deploy. Gates: [GATES-long-tail.md](GATES-long-tail.md).
+
 > **28 September 2026 — house voice site-wide + law-firm article.** Every page
 > is now written in the voice Phila adopted: short sentences, "you" and "I",
 > sourced numbers, few bullets, headings a person would say. The guide, the

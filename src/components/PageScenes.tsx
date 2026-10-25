@@ -397,6 +397,69 @@ export const PAGE_SCENES: Record<string, ReactElement> = {
     </>
   ),
 
+  /* PPE quotes — a quote sheet, one line already priced, waiting for your tick. */
+  "/guides/ppe-quotes-without-the-owner": (
+    <>
+      <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l22 -6" />
+      <rect x="96" y="36" width="68" height="84" rx="4" />
+      <path d="M108 52h44M108 66h44M108 80h28" />
+      <path d="M108 96h14l4 6 8-14" stroke={GOLD} />
+    </>
+  ),
+
+  /* Quote Engine — the same quote sheet, the draft already on the page. */
+  "/quote-engine": (
+    <>
+      <Figure x={38} y={62} arms="M0 10 l-12 12 M0 10 l16 -4" />
+      <rect x="92" y="40" width="72" height="78" rx="4" />
+      <path d="M104 56h48M104 70h48M104 84h32" />
+      <rect x="104" y="96" width="28" height="10" rx="2" fill={GOLD} stroke="none" />
+    </>
+  ),
+
+  /* Staff and ChatGPT — a file, and a chat window it should not enter yet. */
+  "/guides/staff-chatgpt-client-files-popia": (
+    <>
+      <Figure x={36} y={62} arms="M0 10 l-12 12 M0 10 l20 -2" />
+      <rect x="88" y="46" width="36" height="48" rx="3" />
+      <path d="M96 58h20M96 68h20M96 78h12" />
+      <rect x="136" y="58" width="40" height="28" rx="6" stroke={GOLD} />
+      <path d="M146 72h20" />
+    </>
+  ),
+
+  /* Company Brain — a person asking, the answer pointing back at the file. */
+  "/company-brain": (
+    <>
+      <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l18 -10" />
+      <circle cx="118" cy="58" r="22" />
+      <path d="M108 58h20M118 48v20" />
+      <rect x="148" y="70" width="28" height="36" rx="3" stroke={GOLD} />
+      <path d="M154 82h16M154 92h10" />
+    </>
+  ),
+
+  /* New-hire training — you, and a new person with the notes in front of them. */
+  "/guides/stop-training-every-new-hire": (
+    <>
+      <Figure x={36} y={62} arms="M0 10 l-12 12 M0 10 l16 -6" />
+      <Figure x={92} y={70} arms="M0 10 l-10 10 M0 10 l12 -4" />
+      <rect x="132" y="48" width="40" height="52" rx="3" />
+      <path d="M140 62h24M140 74h24" />
+      <path d="M140 86h16" stroke={GOLD} />
+    </>
+  ),
+
+  /* New Hire Trainer — the new person, the notes, you no longer in the chair. */
+  "/new-hire-trainer": (
+    <>
+      <Figure x={48} y={62} arms="M0 10 l-13 12 M0 10 l14 -8" />
+      <rect x="100" y="42" width="64" height="72" rx="4" />
+      <path d="M112 58h40M112 72h40M112 86h24" />
+      <circle cx="124" cy="100" r="4" fill={GOLD} stroke="none" />
+    </>
+  ),
+
   /* Data and security — the lock, and the key only you hold. */
   "/data-and-security": (
     <>

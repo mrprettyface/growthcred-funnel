@@ -55,6 +55,14 @@ const NAV = [
         ],
       },
       {
+        heading: "For one job",
+        links: [
+          { to: "/quote-engine", label: "Quote Engine", blurb: "Quotes drafted from your prices. You still approve." },
+          { to: "/company-brain", label: "Company Brain", blurb: "Your team asks your files when you are out." },
+          { to: "/new-hire-trainer", label: "New Hire Trainer", blurb: "One role, from your notes. You still sign off." },
+        ],
+      },
+      {
         heading: "By industry",
         links: [
           { to: "/ai-for-law-firms", label: "Law firms", blurb: "Faster drafts. Your lawyers still sign off." },
@@ -317,6 +325,9 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
       ["/ai-admin-automation", "Admin automation"],
       ["/ai-training-south-africa", "AI training"],
       ["/private-ai", "Private AI"],
+      ["/quote-engine", "Quote Engine"],
+      ["/company-brain", "Company Brain"],
+      ["/new-hire-trainer", "New Hire Trainer"],
       ["/corporate-ai-training", "Corporate AI training"],
       ["/workshop", "The one-day workshop"],
       ["/webinar", "Free online class"],
