@@ -89,6 +89,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     description: "Meet Phila Ngwenya, founder of GrowthCred. Practical AI workshops and business workflow support from Rosebank, Johannesburg.",
     heading: "Practical AI. A real person behind it.",
     intro: "I'm Phila Ngwenya. I run GrowthCred from Rosebank, Johannesburg. I help South African owners get what's in their heads written down. Then I put AI to work on the repetitive stuff.",
+    introLink: { phrase: "Johannesburg", href: "/ai-automation-johannesburg" },
     sections: [
       { title: "Meet Phila Ngwenya", paragraphs: ["I'm GrowthCred's founder and CEO. My job is simple to say. I move owners from briefing their tools over and over to running systems built around how their business works.", "I share demos and system ideas on my YouTube channel and on LinkedIn. Come and watch me build."] },
       { title: "Experience behind the work", paragraphs: ["I didn't read about this method. I built it.", "I've built five companies with AI. I co-developed an AI system presented at Parliament in Cape Town. I've given seven AI talks at WeWork Johannesburg. And I ran the first Operator Intensive at WeWork Rosebank. It sold out all five seats."] },
