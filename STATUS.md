@@ -9,6 +9,8 @@
 > their own meta descriptions. cPanel: Update from Remote, then Deploy HEAD.
 > The host does not build. `dist/` is already in the commit.
 
+> **25 October 2026 — content compass.** `/tools/content-compass` fills 34 customer-search question shapes in the browser. You type what you sell, plus an optional company and competitor. Empty slots stay as placeholders. Copy or download the list. No signup and no comment-to-DM flow. The shapes follow Neil Patel's public reel De7T-h6Dg8J. Claims in that reel are not repeated as facts. Phila deploys: source and `dist/` are in git, and cPanel Deploy HEAD is his step.
+
 > **23 October 2026 — new site icon.** Phila replaced the gold Arial "GC" on
 > white with the "G." mark: a cream G and a gold full stop on a midnight tile,
 > the ending of the "GrowthCred." wordmark, in Manrope 800. It was picked from
