@@ -18,6 +18,7 @@ import { TiltPhoto } from "../components/webinar/TiltPhoto";
 import { WORKSHOP_EVENT, PROOF, seatsLeft } from "../lib/workshopEvent";
 import { track } from "../lib/analytics";
 import { useReducedMotion, useIsMobile } from "../lib/motion";
+import { linkPhrase } from "../components/PhraseLink";
 
 /**
  * THE MONEY PAGE, as an experience — running at /workshop while the original
@@ -131,8 +132,12 @@ export default function WorkshopExperience() {
             Same business. <span className="text-gold">10 hours a week back.</span>
           </h1>
           <p className="mx-auto mt-6 max-w-[48ch] text-lg text-cream/85 md:text-xl">
-            Hand over the proposals, follow-ups and admin that eat your week.
-            Built with you in one day, online.
+            {linkPhrase(
+              "Hand over the proposals, follow-ups and admin that eat your week. Built with you in one day, online.",
+              "proposals",
+              "/ai-proposal-automation",
+              "dark",
+            )}
           </p>
         </div>
 
@@ -366,7 +371,11 @@ export default function WorkshopExperience() {
           items={[
             {
               icon: "brain",
-              text: "Your business brain, built and live, so you never re-explain yourself to a tool again",
+              text: linkPhrase(
+                "Your business brain, built and live, so you never re-explain yourself to a tool again",
+                "business brain",
+                "/guides/business-brain",
+              ),
             },
             {
               icon: "wired",
