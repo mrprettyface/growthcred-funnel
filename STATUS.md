@@ -9,6 +9,8 @@
 > their own meta descriptions. cPanel: Update from Remote, then Deploy HEAD.
 > The host does not build. `dist/` is already in the commit.
 
+> **25 October 2026 — content compass.** `/tools/content-compass` fills 34 customer-search question shapes in the browser. You type what you sell, plus an optional company and competitor. Empty slots stay as placeholders. Copy or download the list. No signup and no comment-to-DM flow. The shapes follow Neil Patel's public reel De7T-h6Dg8J. Claims in that reel are not repeated as facts. Phila deploys: source and `dist/` are in git, and cPanel Deploy HEAD is his step.
+
 > **25 October 2026 — long-tail situations and three offer pages.** Six indexed
 > pages, from the Neil Patel reel `De6qg45ET4d` (hyper-specific searches, not
 > broad keywords) and the 23 Oct long-tail plan. Situations:
