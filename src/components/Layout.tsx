@@ -49,6 +49,7 @@ const NAV = [
       {
         heading: "For teams and owners",
         links: [
+          { to: "/ai-consulting-south-africa", label: "AI consulting", blurb: "Working systems for your firm. Not a slide deck." },
           { to: "/corporate-ai-training", label: "Corporate AI training", blurb: "Every team producing its reports and documents faster." },
           { to: "/ai-automation-south-africa", label: "AI automation", blurb: "Your repetitive work, built into AI workflows." },
           { to: "/ai-training-south-africa", label: "AI training for owners", blurb: "AI on the work your business already does." },
@@ -311,6 +312,7 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
     title: "Services",
     links: [
       ["/", "The Command Core"],
+      ["/ai-consulting-south-africa", "AI consulting"],
       ["/ai-automation-south-africa", "AI automation"],
       ["/ai-proposal-automation", "Proposal automation"],
       ["/ai-follow-up-automation", "Follow-up automation"],
@@ -349,6 +351,7 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
       ["/stories", "Client stories"],
       ["/guides/how-we-work-first-30-days", "How we work"],
       ["/resources", "AI guides"],
+      ["/playbook", "Free resources"],
       ["/tools/admin-time-calculator", "Admin time calculator"],
       ["/brain", "Business Brain builder"],
       ["/data-and-security", "Data & security"],

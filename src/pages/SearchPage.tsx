@@ -10,7 +10,7 @@ import { PageScene } from "../components/PageScenes";
 import { FaqMark } from "../components/FaqMarks";
 import { GUIDE_OFFER, requestGuide } from "../lib/guide";
 import { linkPhrase } from "../components/PhraseLink";
-const labels:Record<string,string>={"/workshop":"Online AI workshop","/":"The Command Core","/call":"Discuss an implementation project","/brain":"Build your Business Brain","/contact":"Contact GrowthCred","/corporate-ai-training":"Corporate AI training for teams"};
+const labels:Record<string,string>={"/workshop":"Online AI workshop","/":"The Command Core","/call":"Discuss an implementation project","/brain":"Build your Business Brain","/contact":"Contact GrowthCred","/corporate-ai-training":"Corporate AI training for teams","/private-ai":"Private AI, explained","/playbook":"Start with a useful AI workflow."};
 export function SearchPage({page}:{page:Page}) {
   return <>
     <Section dark className="pt-10 md:pt-16">
@@ -21,6 +21,7 @@ export function SearchPage({page}:{page:Page}) {
         <h1 className="mt-5 text-4xl leading-tight text-cream md:text-6xl">{page.heading}</h1>
         <p className="mt-7 max-w-[68ch] text-lg leading-relaxed text-cream/75">{page.introLink ? linkPhrase(page.intro, page.introLink.phrase, page.introLink.href, "dark") : page.intro}</p>
         {page.kind!=='hub'&&page.kind!=='about'&&<Byline dark className="mt-6" date={page.published??REVIEWED} label={page.published?'Published':'Reviewed'}/>}
+        {page.heroCtas&&page.ctas&&<div className="mt-8 flex flex-wrap gap-4">{page.ctas.map((cta,i)=><ButtonLink key={cta.to} to={cta.to} variant={i===0?undefined:"outline"}>{cta.label}</ButtonLink>)}</div>}
       </div>
       <div aria-hidden="true" className="mx-auto w-full max-w-[320px] rounded-3xl border border-cream/10 bg-midnight-soft/70 p-5 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.8)] md:mx-0"><PageScene path={page.path} className="h-40 w-full text-cream/80 md:h-48" /></div>
       </div>

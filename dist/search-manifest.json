@@ -2,7 +2,7 @@
   "routes": [
     {
       "path": "/",
-      "title": "Private AI Implementation in Johannesburg & South Africa | GrowthCred",
+      "title": "Private AI Implementation in South Africa | GrowthCred",
       "description": "Let us help you own your intelligence. Your own AI on equipment we deploy, built around your business. No per-seat subscriptions. Apply today.",
       "index": true,
       "modified": "2026-09-20",
@@ -52,6 +52,15 @@
       "index": true,
       "modified": "2026-09-20",
       "file": "ai-automation-south-africa.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-consulting-south-africa",
+      "title": "AI Consulting in South Africa | GrowthCred",
+      "description": "AI consulting for South African owner-led firms. We find where your week goes, build your own private AI around it, and train your team. Rosebank, Joburg.",
+      "index": true,
+      "modified": "2026-10-26",
+      "file": "ai-consulting-south-africa.html",
       "prerendered": true
     },
     {
@@ -405,7 +414,7 @@
     {
       "path": "/checkout",
       "title": "Workshop Registration | GrowthCred",
-      "description": "Manage your GrowthCred registration and next steps.",
+      "description": "Register for the one-day online workshop. Add your details and pay. We confirm session details after you register.",
       "index": false,
       "file": "checkout.html",
       "prerendered": false
@@ -445,7 +454,7 @@
     {
       "path": "/terms",
       "title": "Terms | GrowthCred",
-      "description": "Read GrowthCred’s terms policy and contact us with questions.",
+      "description": "Terms for using growthcred.co.za and buying a GrowthCred workshop, digital product or service. Read them with the privacy and refund policies.",
       "index": false,
       "file": "terms.html",
       "prerendered": true
@@ -453,7 +462,7 @@
     {
       "path": "/privacy",
       "title": "Privacy | GrowthCred",
-      "description": "Read GrowthCred’s privacy policy and contact us with questions.",
+      "description": "How GrowthCred uses what you type into our forms, who can see it, and how to ask us about your information. We never see your card number.",
       "index": false,
       "file": "privacy.html",
       "prerendered": true
