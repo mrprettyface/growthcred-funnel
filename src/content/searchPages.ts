@@ -189,8 +189,8 @@ export const SEARCH_PAGES: SearchPage[] = [
     description: "Practical guides to AI training costs, business context, proposals, follow-ups and automation decisions for South African business owners.",
     heading: "Put AI to work, one useful task at a time.",
     intro: "Start with one question. One real task. And a way to check the result. These guides help you decide what to learn, what to build and where you still need a person checking the work.",
-    sections: [{title:"Choose your next step", paragraphs:["Not sure whether to learn it or buy it? Compare training and implementation first. Then write down your business context with the business brain guide. Then try one proposal or follow-up with information you're allowed to share.", "The calculator helps you put a value on your time. It won't promise you a saving. Only measuring does that."]}],
-    related: ["/guides/can-staff-paste-client-files-into-chatgpt", "/guides/private-ai-popia", "/guides/law-firm-billing-leakage", "/guides/ai-business-proposals-faster", "/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/guides/ai-training-cost-south-africa", "/guides/business-brain", "/guides/ai-proposals-and-follow-ups", "/guides/ai-training-vs-automation", "/guides/ai-automation-cost-south-africa", "/tools/admin-time-calculator", "/stories", "/playbook"],
+    sections: [{title:"Choose your next step", paragraphs:["Not sure whether to learn it or buy it? Compare training and implementation first. Then write down your business context with the business brain guide. Then try one proposal or follow-up with information you're allowed to share.", "The calculator helps you put a value on your time. It won't promise you a saving. Only measuring does that.", "The content compass lists questions a customer might type. You fill in what you sell. It will not rank your site."]}],
+    related: ["/guides/can-staff-paste-client-files-into-chatgpt", "/guides/private-ai-popia", "/guides/law-firm-billing-leakage", "/guides/ai-business-proposals-faster", "/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/guides/ai-training-cost-south-africa", "/guides/business-brain", "/guides/ai-proposals-and-follow-ups", "/guides/ai-training-vs-automation", "/guides/ai-automation-cost-south-africa", "/tools/admin-time-calculator", "/tools/content-compass", "/stories", "/playbook"],
   },
   {
     path: "/guides/ai-training-cost-south-africa", kind: "guide",
@@ -876,6 +876,20 @@ export const SEARCH_PAGES: SearchPage[] = [
       { title: "A worked example", paragraphs: ["Say you spend 12 hours a week on it, and your hour is worth R450 to you. That's 12 × 48 × R450 = R259,200 a year. It's 576 hours. Or 72 eight-hour working days. Those inputs are illustrative. Put your own in.", "The calculator also shows what ten hours back each week would be worth. At R450 an hour over 48 weeks, that's R216,000 in time. You'd still need to test which tasks can improve. And count the time you spend checking the output."] },
       { title: "Turn an estimate into a useful baseline", paragraphs: ["Track a few examples of one repetitive task. Record the prep, the doing, the fixing and the review. Compare like with like after you change the workflow. And redo the estimate when the volume changes.", "A saved hour only becomes cash if it cuts a real cost. It only becomes revenue if you fill it with paid work. So use the estimate to choose a task to investigate. Not as a promise of return."] },
     ], related: ["/workshop", "/guides/ai-automation-cost-south-africa", "/guides/ai-proposals-and-follow-ups"],
+  },
+  {
+    path: "/tools/content-compass", kind: "tool", published: "2026-10-25",
+    title: "34 Ways Customers Search for You | Content Compass",
+    description: "You type what you sell. You get 34 questions a customer might ask. Copy or download the list. It is free. It makes no ranking promise.",
+    heading: "What are customers asking before they find you?",
+    intro: "Your customer does not search with your slogan. They type a question. Put what you sell in the box. I will fill 34 question shapes with your words.",
+    sections: [
+      { title: "Fill in what you sell", paragraphs: ["Type a service or a product. Add your company if you want. Add a competitor if you want the comparison lines filled.", "Leave a box blank and I keep the placeholder. I will not invent a company. I will not invent a price."] },
+      { title: "Answer the question they typed", paragraphs: ["You answer that question on your own site. That is the aim. A search box or a chat box can then point at your page.", "This is the aim of the method. It is not proof that anyone will recommend you.", "Neil Patel set out these 34 shapes in a public reel. I have not checked the claims in that reel."] },
+      { title: "Take the list with you", paragraphs: ["Copy one question or copy all 34. Download a text file or a markdown file. Then write the answer in your own words.", "Check the facts before you publish. A list of questions is not the answer. Your customer still needs the true one."] },
+    ],
+    ctas: [{ to: "/contact", label: "Contact us" }, { to: "/workshop", label: "Practise it in the workshop" }],
+    related: ["/contact", "/tools/admin-time-calculator", "/guides/business-brain", "/workshop"],
   },
 ];
 export const searchPage = (path: string) => SEARCH_PAGES.find(page => page.path === path);

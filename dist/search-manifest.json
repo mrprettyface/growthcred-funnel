@@ -361,6 +361,15 @@
       "prerendered": true
     },
     {
+      "path": "/tools/content-compass",
+      "title": "34 Ways Customers Search for You | Content Compass",
+      "description": "You type what you sell. You get 34 questions a customer might ask. Copy or download the list. It is free. It makes no ranking promise.",
+      "index": true,
+      "modified": "2026-10-25",
+      "file": "tools/content-compass.html",
+      "prerendered": true
+    },
+    {
       "path": "/contact",
       "title": "Contact GrowthCred | AI Training & Automation, Johannesburg",
       "description": "Contact GrowthCred in Johannesburg about online AI workshops, team training requests or business automation. Email and WhatsApp contact options.",

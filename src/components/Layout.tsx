@@ -80,6 +80,7 @@ const NAV = [
       },
       {
         links: [
+          { to: "/tools/content-compass", label: "Content compass", blurb: "34 questions your customers type." },
           { to: "/tools/admin-time-calculator", label: "Admin time calculator", blurb: "Put a rand figure on the hours admin takes." },
           { to: "/about", label: "About GrowthCred", blurb: "Who we are, and why we build this way." },
         ],
@@ -352,6 +353,7 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
       ["/guides/how-we-work-first-30-days", "How we work"],
       ["/resources", "AI guides"],
       ["/playbook", "Free resources"],
+      ["/tools/content-compass", "Content compass"],
       ["/tools/admin-time-calculator", "Admin time calculator"],
       ["/brain", "Business Brain builder"],
       ["/data-and-security", "Data & security"],
