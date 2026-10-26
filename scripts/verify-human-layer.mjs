@@ -17,6 +17,7 @@ const EXEMPT = new Map([
   ["/resources", "hub: lists guides"],
   ["/stories", "hub: lists stories, each of which is checked"],
   ["/tools/admin-time-calculator", "tool: the visitor supplies the numbers"],
+  ["/tools/content-compass", "tool: the visitor supplies the words"],
   ["/contact", "form"],
   ["/webinar", "registration form"],
   ["/playbook", "opt-in form"],

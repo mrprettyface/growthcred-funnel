@@ -3,10 +3,8 @@
  * week. The footer and the resources hub use the same lines for the two pages
  * this branch publishes, so the wording cannot drift.
  *
- * PPE quotes, staff ChatGPT under POPIA, and training every new hire are the
- * guide slugs from the long-tail pages PR. Those cards render only when that
- * page is actually in the site. The two pages that PR does not have keep the
- * paths from the closed branch.
+ * Five cards. Three use the guide slugs already on main. Two are the pages
+ * this branch adds. A card renders only when that page is in the site.
  *
  * No client is named. Consent to use a real example is still open.
  */

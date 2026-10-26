@@ -60,7 +60,7 @@ function Label({ children, dark = false }: { children: ReactNode; dark?: boolean
 
 /** Every article and tool on the site, in the order the guide hub lists them. */
 const ARTICLES = SEARCH_PAGES.filter((page) => page.kind === "guide" || page.kind === "tool");
-/** Situation cards only where the page exists. Guide slugs from the other PR stay dark until those pages are in this build. */
+/** Situation cards only where the page exists: three guides plus the two pages added here. */
 const SITUATION_CARDS = situationLinksOn(SEARCH_PAGES.map((page) => page.path));
 
 /** One client story. The whole card is the link; a quote card inverts to dark. */
@@ -504,12 +504,12 @@ export default function Home() {
                   <PageScene path={article.path} className="h-24 w-full text-midnight" />
                 </div>
                 <span className="mt-5 font-mono text-[12px] uppercase tracking-[0.16em] text-muted">
-                  {article.kind === "tool" ? "Calculator" : "Guide"}
+                  {article.path === "/tools/content-compass" ? "Tool" : article.kind === "tool" ? "Calculator" : "Guide"}
                 </span>
                 <h3 className="mt-2 text-xl text-midnight">{article.heading}</h3>
                 <p className="mt-3 flex-1 text-sm leading-relaxed text-ink">{article.description}</p>
                 <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-midnight group-hover:text-gold">
-                  {article.kind === "tool" ? "Open the calculator" : "Read the guide"} <span aria-hidden="true">&rarr;</span>
+                  {article.path === "/tools/content-compass" ? "Open the tool" : article.kind === "tool" ? "Open the calculator" : "Read the guide"} <span aria-hidden="true">&rarr;</span>
                 </span>
               </Link>
             ))}

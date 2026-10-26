@@ -30,7 +30,7 @@ assert.doesNotMatch(home, /\[TO COME:/, "a [TO COME] placeholder leaked into the
 // Unproven outcome figures stay off the homepage. The published 20% guarantee is a term, not one of these claims.
 for (const claim of ["Illustrative benchmarks", "R3M", "20–40%", "20-40%", "R20,000", "48 hrs", "Owner hours per week"])
   assert.doesNotMatch(home, new RegExp(claim), `homepage still carries the unproven claim: ${claim}`);
-for (const path of ["/quoting-uniforms-for-a-security-company", "/senior-dispatcher-on-leave"])
+for (const path of ["/guides/ppe-quotes-without-the-owner", "/quoting-uniforms-for-a-security-company", "/guides/staff-chatgpt-client-files-popia", "/guides/stop-training-every-new-hire", "/senior-dispatcher-on-leave"])
   assert.match(home, new RegExp(`href="${path}"`), `homepage has no link to ${path}`);
 assert.doesNotMatch(home, /href="\/how-to-send-ppe-quotes-faster"|href="\/chatgpt-client-files-popia-south-africa"|href="\/i-still-train-every-new-hire-myself"/, "homepage links a situation slug this PR does not publish");
 // The homepage renders bare: the site nav with the workshop Register button is not on it.

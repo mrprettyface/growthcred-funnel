@@ -361,6 +361,60 @@
       "prerendered": true
     },
     {
+      "path": "/guides/ppe-quotes-without-the-owner",
+      "title": "Send PPE Quotes Faster Without the Owner | GrowthCred",
+      "description": "You still price every PPE and uniform quote. A Quote Engine drafts from your list and your rules. You approve the price, the promise and the send.",
+      "index": true,
+      "modified": "2026-10-25",
+      "file": "guides/ppe-quotes-without-the-owner.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/staff-chatgpt-client-files-popia",
+      "title": "Staff, ChatGPT and Client Files under POPIA | GrowthCred",
+      "description": "You suspect staff already paste client files into ChatGPT. POPIA gives no blanket yes. Read the checks, then have a lawyer review your own workflow.",
+      "index": true,
+      "modified": "2026-10-25",
+      "file": "guides/staff-chatgpt-client-files-popia.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/stop-training-every-new-hire",
+      "title": "Stop Training Every New Hire Yourself | GrowthCred",
+      "description": "You still train every new person yourself. A New Hire Trainer teaches one role from your own notes. You still check the work. No time promise.",
+      "index": true,
+      "modified": "2026-10-25",
+      "file": "guides/stop-training-every-new-hire.html",
+      "prerendered": true
+    },
+    {
+      "path": "/quote-engine",
+      "title": "Quote Engine for PPE and Uniform Quotes | GrowthCred",
+      "description": "A Quote Engine drafts PPE and uniform quotes from your price list and your rules. You approve every price and every send. Ask for an audit.",
+      "index": true,
+      "modified": "2026-10-25",
+      "file": "quote-engine.html",
+      "prerendered": true
+    },
+    {
+      "path": "/company-brain",
+      "title": "Company Brain: Answers From Your Files | GrowthCred",
+      "description": "A Company Brain answers your team from your own files, on equipment you control. It shows the source. You decide who can ask. Ask for an audit.",
+      "index": true,
+      "modified": "2026-10-25",
+      "file": "company-brain.html",
+      "prerendered": true
+    },
+    {
+      "path": "/new-hire-trainer",
+      "title": "New Hire Trainer So You Stop Training | GrowthCred",
+      "description": "A New Hire Trainer teaches one role from your scripts and calls. It stays inside the business. You still sign off. Ask us for a quote.",
+      "index": true,
+      "modified": "2026-10-25",
+      "file": "new-hire-trainer.html",
+      "prerendered": true
+    },
+    {
       "path": "/data-and-security",
       "title": "Data Protection and Security at GrowthCred | POPIA",
       "description": "How GrowthCred handles your information: POPIA, encryption, write-only website forms, cross-border transfers, and human review in every AI system we build.",
@@ -376,6 +430,15 @@
       "index": true,
       "modified": "2026-09-20",
       "file": "tools/admin-time-calculator.html",
+      "prerendered": true
+    },
+    {
+      "path": "/tools/content-compass",
+      "title": "34 Ways Customers Search for You | Content Compass",
+      "description": "You type what you sell. You get 34 questions a customer might ask. Copy or download the list. It is free. It makes no ranking promise.",
+      "index": true,
+      "modified": "2026-10-25",
+      "file": "tools/content-compass.html",
       "prerendered": true
     },
     {

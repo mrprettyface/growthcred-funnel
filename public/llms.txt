@@ -25,6 +25,9 @@ Contact: info@growthcred.co.za · WhatsApp +27 66 283 0289.
 
 ## Services
 
+- [Quote Engine](https://growthcred.co.za/quote-engine): PPE and uniform quotes drafted from your price list. You still approve the price and the send.
+- [Company Brain](https://growthcred.co.za/company-brain): your team asks your own files. The answer shows the source.
+- [New Hire Trainer](https://growthcred.co.za/new-hire-trainer): one role taught from your notes. It stays inside the business.
 - [AI proposal automation](https://growthcred.co.za/ai-proposal-automation).
 - [AI follow-up automation](https://growthcred.co.za/ai-follow-up-automation).
 - [AI admin automation](https://growthcred.co.za/ai-admin-automation).
@@ -43,6 +46,9 @@ Contact: info@growthcred.co.za · WhatsApp +27 66 283 0289.
 
 - [Quoting uniforms for a security company](https://growthcred.co.za/quoting-uniforms-for-a-security-company): each site's kit stays in one list. You still sign the quote. No supplier is named.
 - [When a senior dispatcher is on leave](https://growthcred.co.za/senior-dispatcher-on-leave): the desk answers from the source document. No measured drop in repeat questions.
+- [How do you send PPE quotes faster without the owner doing every quote?](https://growthcred.co.za/guides/ppe-quotes-without-the-owner): a Quote Engine drafts from your list. You still approve. No supplier is named.
+- [Can my staff use ChatGPT with client files under POPIA?](https://growthcred.co.za/guides/staff-chatgpt-client-files-popia): no blanket yes. Not legal advice. Have a lawyer review the workflow.
+- [I still train every new hire myself. How do I stop?](https://growthcred.co.za/guides/stop-training-every-new-hire): a New Hire Trainer for one role. No time-to-productivity number.
 - [Can staff paste client files into ChatGPT?](https://growthcred.co.za/guides/can-staff-paste-client-files-into-chatgpt): practical POPIA and confidentiality questions to assess before sharing identifiable files.
 - [How can private AI help with POPIA?](https://growthcred.co.za/guides/private-ai-popia): what private processing can change and what it cannot establish by itself.
 - [AI implementation challenges in South Africa](https://growthcred.co.za/guides/ai-challenges-south-africa).
