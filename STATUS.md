@@ -1,5 +1,16 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **23 October 2026 — new site icon.** Phila replaced the gold Arial "GC" on
+> white with the "G." mark: a cream G and a gold full stop on a midnight tile,
+> the ending of the "GrowthCred." wordmark, in Manrope 800. It was picked from
+> three directions on the canvas https://claude.ai/artifact/DiCfzKEKQTG4rJUCY4L8AD.
+> `scripts/make-icons.py` now draws it from the Manrope copy in node_modules
+> (needs pillow, fonttools, brotli and uharfbuzz) and writes the same seven files
+> as before; `verify:seo` passes. Logo files for outside use (the mark plus the
+> wordmark for light and dark grounds) are in `resources/logo/`. Google
+> refreshes favicons on its own schedule, so request indexing of `/` after the
+> deploy.
+
 > **28 September 2026 — house voice site-wide + law-firm article.** Every page
 > is now written in the voice Phila adopted: short sentences, "you" and "I",
 > sourced numbers, few bullets, headings a person would say. The guide, the
