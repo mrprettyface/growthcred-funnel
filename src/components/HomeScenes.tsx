@@ -95,6 +95,80 @@ const OUT_OF_THE_ROOM: ReactElement = (
   </>
 );
 
+/** The bill: another seat, and the total climbs. */
+const SEATS: ReactElement = (
+  <>
+    <Figure x={46} y={62} arms="M0 10 l-12 14 M0 10 l24 2" />
+    <rect x="108" y="32" width="60" height="86" rx="3" />
+    <path d="M120 48h36M120 60h28M120 72h32" />
+    <path d="M120 88h36" />
+    <path d="M138 114V96M130 104l8-12 8 12" stroke={GOLD} strokeWidth={3} />
+  </>
+);
+
+/** The file: already out of their hands. */
+const LEAVING: ReactElement = (
+  <>
+    <Figure x={42} y={64} arms="M0 10 l-12 14 M0 10 l20 -6" />
+    <path d="M78 64h16M84 78h14M90 92h12" />
+    <rect x="124" y="42" width="46" height="58" rx="3" stroke={GOLD} transform="rotate(-14 147 71)" />
+    <path d="M136 58h24M136 70h24M136 82h16" transform="rotate(-14 147 71)" />
+  </>
+);
+
+/** The rented tool: every task starts with a question. */
+const STRANGER: ReactElement = (
+  <>
+    <Figure x={40} y={64} arms="M0 10 l-12 14 M0 10 l22 2" />
+    <rect x="108" y="36" width="64" height="46" rx="3" />
+    <path d="M100 82h80l-10 12H110z" />
+    <path d="M128 48C128 38 148 38 148 50C148 58 138 58 138 68M138 74a2 2 0 1 0 0.1 0" stroke={GOLD} strokeWidth={3} />
+  </>
+);
+
+/** Equipment: a box sized to the person beside it. */
+const FITTED: ReactElement = (
+  <>
+    <Figure x={48} y={58} arms="M0 10 l-12 12 M0 10 l20 4" />
+    <rect x="112" y="38" width="56" height="76" rx="4" stroke={GOLD} />
+    <path d="M112 60h56" />
+    <path d="M126 74h28M126 88h20" />
+    <circle cx="154" cy="102" r="3" />
+  </>
+);
+
+/** The document it already knows. */
+const KNOWS: ReactElement = (
+  <>
+    <Figure x={44} y={58} arms="M0 10 l-12 12 M0 10 l26 6" />
+    <rect x="108" y="34" width="58" height="78" rx="3" />
+    <path d="M120 50h34M120 62h34M120 74h22" />
+    <path d="M124 96l10 12 22-24" stroke={GOLD} strokeWidth={3} />
+  </>
+);
+
+/** An agent, built for the job. */
+const AGENTS: ReactElement = (
+  <>
+    <Figure x={42} y={58} arms="M0 10 l-12 12 M0 10 l28 4" />
+    <rect x="118" y="64" width="48" height="46" rx="8" fill={GOLD} stroke="none" />
+    <path d="M142 64V46" />
+    <circle cx="142" cy="40" r="5" />
+    <path d="M130 84h8M150 84h8" />
+  </>
+);
+
+/** The lesson: a tick on the board, and a hand up. */
+const TRAINED: ReactElement = (
+  <>
+    <Figure x={40} y={66} arms="M0 10 l-12 14 M0 10 l16 -22" />
+    <rect x="102" y="30" width="72" height="52" rx="3" />
+    <path d="M114 46h26M114 58h18" />
+    <path d="M140 46l8 10 14-16" stroke={GOLD} strokeWidth={3} />
+    <path d="M118 82v28M158 82v28" />
+  </>
+);
+
 export const HOME_SCENES = {
   drain: DRAIN,
   velocity: VELOCITY,
@@ -104,6 +178,13 @@ export const HOME_SCENES = {
   deploy: DEPLOY,
   embed: EMBED,
   outOfTheRoom: OUT_OF_THE_ROOM,
+  seats: SEATS,
+  leaving: LEAVING,
+  stranger: STRANGER,
+  fitted: FITTED,
+  knows: KNOWS,
+  agents: AGENTS,
+  trained: TRAINED,
 } as const;
 
 export type HomeSceneName = keyof typeof HOME_SCENES;
@@ -112,6 +193,8 @@ export function HomeScene({ name, className }: { name: HomeSceneName; className?
   return <Scene className={className}>{HOME_SCENES[name]}</Scene>;
 }
 
-/** The tiers and the method steps, in the order the page lists them. */
+/** The tiers, the method, and the rent-or-own cards, in the order the page lists them. */
 export const STAGE_SCENES: HomeSceneName[] = ["velocity", "integration", "transformation"];
 export const METHOD_SCENES: HomeSceneName[] = ["audit", "deploy", "embed"];
+export const RENTING_SCENES: HomeSceneName[] = ["seats", "leaving", "stranger"];
+export const OWN_SCENES: HomeSceneName[] = ["fitted", "knows", "agents", "trained"];
