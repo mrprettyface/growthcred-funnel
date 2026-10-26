@@ -259,16 +259,14 @@ switch (gate) {
       fail("the proof section is not gated on real entries existing");
     if (!/\{WORKSHOP_EVENT && \(/.test(page))
       fail("the date section is not gated on the event being set");
-    // The homepage publishes proof Phila supplied. Its before/after figures
-    // are benchmarks, not a measured client result, so the disclaimer must
-    // exist in the copy and render in the same section as the figures.
+    // 26 Oct 2026: the illustrative homepage benchmarks were removed. They must
+    // not return, and neither may the unsourced R3M / 20–40% claims.
     const homeData = code("src/lib/home.ts");
-    if (!/disclaimer: "Illustrative benchmarks\. Results vary by engagement\."/.test(homeData))
-      fail("home.ts: the before/after benchmarks have lost their 'Illustrative benchmarks' disclaimer");
+    if (/Illustrative benchmarks|R3M–R10M|20–40%/.test(homeData))
+      fail("home.ts: an unproven results claim has returned");
     const homePage = code("src/pages/Home.tsx");
-    const results = homePage.slice(homePage.indexOf('id="results"'), homePage.indexOf('id="stories"'));
-    if (!/BEFORE_AFTER\.rows\.map/.test(results) || !/BEFORE_AFTER\.disclaimer/.test(results))
-      fail("Home: the benchmark figures render without their disclaimer beside them");
+    if (/BEFORE_AFTER|id="results"/.test(homePage))
+      fail("Home: the illustrative results block is back");
     finish("G20");
     break;
   }

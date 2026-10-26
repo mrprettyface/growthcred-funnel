@@ -4,6 +4,7 @@ import { Reveal } from "../components/Reveal";
 import { DarkBackdrop, Faq } from "../components/ui";
 import { PageScene } from "../components/PageScenes";
 import { SEARCH_PAGES } from "../content/searchPages";
+import { situationLinksOn } from "../content/situationLinks";
 import { HomeScene, STAGE_SCENES, METHOD_SCENES } from "../components/HomeScenes";
 import { HeroGraph } from "../components/home/HeroGraph";
 import { ClientLogos } from "../components/ClientLogos";
@@ -17,7 +18,6 @@ import {
   CAPACITY,
   RENTING,
   OWN,
-  BEFORE_AFTER,
   STAGES,
   METHOD,
   FOUNDER,
@@ -27,6 +27,7 @@ import {
   WAYS,
   GUIDES,
   FAQ,
+  SITUATIONS,
   type HomeStory,
 } from "../lib/home";
 
@@ -57,13 +58,10 @@ function Label({ children, dark = false }: { children: ReactNode; dark?: boolean
   );
 }
 
-const pct = (from: number, to: number) => Math.min(99, Math.round((1 - to / from) * 100));
-const afterWidth = (from: number, to: number) => `${Math.max(2, (to / from) * 100)}%`;
-/** Deterministic thousands separator, so the server and browser render the same string. */
-const rand = (n: number) => "R" + String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
 /** Every article and tool on the site, in the order the guide hub lists them. */
 const ARTICLES = SEARCH_PAGES.filter((page) => page.kind === "guide" || page.kind === "tool");
+/** Situation cards only where the page exists: three guides plus the two pages added here. */
+const SITUATION_CARDS = situationLinksOn(SEARCH_PAGES.map((page) => page.path));
 
 /** One client story. The whole card is the link; a quote card inverts to dark. */
 function StoryCard({ story }: { story: HomeStory }) {
@@ -137,8 +135,8 @@ export default function Home() {
         <div className="relative isolate">
         <HeroGraph />
         <div className={`${WRAP} pb-16 pt-16 md:pb-24 md:pt-28`}>
-          <h1 className="max-w-[12ch] text-[length:clamp(2.75rem,8vw,6.5rem)] leading-[0.98] tracking-[-0.055em] text-midnight">
-            {HERO.headlineLead} <span className="cc-marker">{HERO.headlineMark}</span>
+          <h1 className="max-w-[20ch] text-[length:clamp(2.15rem,4.8vw,4.35rem)] leading-[1.02] tracking-[-0.045em] text-midnight">
+            {HERO.headlineLead} <span className="cc-marker">{HERO.headlineMark}</span> {HERO.headlineTail}
           </h1>
           <p className="mt-8 max-w-[46ch] text-lg leading-relaxed text-ink md:text-xl">{HERO.sub}</p>
           <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-8">
@@ -170,48 +168,20 @@ export default function Home() {
           <div>
             <h2 className="max-w-[20ch] text-[length:clamp(2rem,4.5vw,3.5rem)] text-midnight">{CAPACITY.heading}</h2>
             <p className="mt-6 max-w-[44ch] text-lg leading-relaxed text-ink md:text-xl">{CAPACITY.gap}</p>
-            <p className="mt-10 text-midnight">
-              <span className="block max-w-[26ch] font-body text-lg font-medium tracking-normal text-ink md:text-xl">
-                {CAPACITY.lead}
-              </span>
-              <span className="mt-3 block font-display text-[length:clamp(3.5rem,11vw,8.5rem)] font-extrabold leading-[0.9] tracking-[-0.06em]">
-                {CAPACITY.figure}
-              </span>
-              <span className="mt-4 block max-w-[24ch] font-body text-lg font-medium tracking-normal text-ink md:text-xl">
-                {CAPACITY.tail}
-              </span>
-            </p>
+            <p className="mt-8 max-w-[36ch] text-lg leading-relaxed text-midnight md:text-xl">{CAPACITY.lead}</p>
           </div>
 
           <div className="rounded-3xl border border-midnight/10 bg-white p-7 shadow-[0_30px_80px_-40px_rgba(26,26,36,0.35)] md:p-9">
             <HomeScene name="drain" className="mb-5 h-24 w-32 text-midnight" />
 
-            <div className="space-y-5" aria-hidden="true">
-              <div>
-                <div className="flex items-baseline justify-between font-mono text-[12px] uppercase tracking-[0.14em] text-muted">
-                  <span>Work done at</span>
-                  <span className="text-midnight">{rand(CAPACITY.lowRate)}/hr</span>
-                </div>
-                <div className="mt-2 h-3 overflow-hidden rounded-full bg-midnight/[0.06]">
-                  <div
-                    className="cc-bar h-full rounded-full bg-midnight/40"
-                    style={{ width: `${Math.max(1.5, (CAPACITY.lowRate / CAPACITY.highRate) * 100)}%` }}
-                  />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-baseline justify-between font-mono text-[12px] uppercase tracking-[0.14em] text-muted">
-                  <span>Decisions worth</span>
-                  <span className="text-midnight">{rand(CAPACITY.highRate)}/hr</span>
-                </div>
-                <div className="mt-2 h-3 overflow-hidden rounded-full bg-midnight/[0.06]">
-                  <div className="cc-bar h-full w-full rounded-full bg-gradient-to-r from-gold to-gold-soft" />
-                </div>
-              </div>
-              <p className="font-display text-5xl font-extrabold tracking-[-0.05em] text-midnight">
-                {Math.round(CAPACITY.highRate / CAPACITY.lowRate)}&times;
-              </p>
-            </div>
+            <ul className="divide-y divide-midnight/10 border-y border-midnight/10">
+              {CAPACITY.waits.map((row) => (
+                <li key={row.t} className="flex items-baseline justify-between gap-4 py-4">
+                  <span className="font-display text-2xl font-extrabold tracking-[-0.03em] text-midnight">{row.t}</span>
+                  <span className="text-right text-ink">{row.b}</span>
+                </li>
+              ))}
+            </ul>
 
             <p className="mt-8 text-muted">{CAPACITY.tried}</p>
             <p className="mt-6 border-t border-midnight/10 pt-6 text-lg text-midnight">
@@ -278,56 +248,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ---------- 3. Before / after console ---------- */}
-      <section id="results" data-tone="dark" className="relative isolate overflow-hidden bg-midnight py-20 text-cream md:py-32">
-        <DarkBackdrop glow="bottom" />
+      {/* ---------- 3. The situations that still wait on the owner ---------- */}
+      <section id="situations" className="border-t border-midnight/10 bg-paper py-20 md:py-32">
         <div className={WRAP}>
-          <div className="mx-auto max-w-[40ch] text-center">
-            <Label dark>{BEFORE_AFTER.eyebrow}</Label>
-            <h2 className="mt-5 text-[length:clamp(2.5rem,6vw,4.5rem)] text-cream">{BEFORE_AFTER.heading}</h2>
-          </div>
-
-          <div className="mx-auto mt-14 max-w-[980px] overflow-hidden rounded-3xl border border-cream/10 bg-midnight-soft/80 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.8)]">
-            <div className="flex items-center gap-2 border-b border-cream/10 px-5 py-4" aria-hidden="true">
-              <span className="h-3 w-3 rounded-full bg-cream/15" />
-              <span className="h-3 w-3 rounded-full bg-cream/15" />
-              <span className="h-3 w-3 rounded-full bg-gold/70" />
-              <span className="ml-3 font-mono text-[12px] tracking-[0.1em] text-cream/40">command-core / before-after</span>
-            </div>
-            <dl className="grid gap-px bg-cream/10 md:grid-cols-2">
-              {BEFORE_AFTER.rows.map((row) => (
-                <div key={row.metric} className="bg-midnight-soft p-6 md:p-8">
-                  <div className="flex items-start justify-between gap-4">
-                    <dt className="font-mono text-[12px] uppercase tracking-[0.16em] text-cream/55">{row.metric}</dt>
-                    <span className="shrink-0 rounded-full border border-gold/30 bg-gold/10 px-2.5 py-1 font-mono text-[12px] text-gold">
-                      &minus;{pct(row.from, row.to)}%
-                    </span>
-                  </div>
-                  <dd className="mt-5">
-                    <p className="flex items-baseline gap-4 font-display tracking-[-0.04em]">
-                      <span className="text-2xl font-extrabold text-cream/35 line-through decoration-gold/50 decoration-2">
-                        {row.before}
-                      </span>
-                      <span aria-hidden="true" className="text-xl text-gold">&rarr;</span>
-                      <span className="cc-gold-text text-5xl font-extrabold md:text-6xl">{row.after}</span>
-                    </p>
-                    <div className="mt-6 space-y-2" aria-hidden="true">
-                      <div className="h-1.5 rounded-full bg-cream/15" />
-                      <div className="h-1.5 overflow-hidden rounded-full">
-                        <div
-                          className="cc-bar h-full rounded-full bg-gradient-to-r from-gold to-gold-soft"
-                          style={{ width: afterWidth(row.from, row.to) }}
-                        />
-                      </div>
-                    </div>
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-          <p className="mt-6 text-center font-mono text-[12px] uppercase tracking-[0.14em] text-cream/45">
-            {BEFORE_AFTER.disclaimer}
-          </p>
+          <Label>{SITUATIONS.eyebrow}</Label>
+          <h2 className="mt-5 max-w-[16ch] text-[length:clamp(2.5rem,6vw,4.5rem)]">{SITUATIONS.heading}</h2>
+          <p className="mt-5 max-w-[46ch] text-lg leading-relaxed text-ink">{SITUATIONS.sub}</p>
+          <ul className="mt-12 divide-y divide-midnight/10 border-y border-midnight/10">
+            {SITUATION_CARDS.map((item) => (
+              <li key={item.path}>
+                <Link
+                  to={item.path}
+                  className="group flex flex-col gap-3 py-6 no-underline md:flex-row md:items-baseline md:gap-10"
+                >
+                  <span className="shrink-0 font-mono text-[12px] uppercase tracking-[0.16em] text-gold md:w-52">
+                    {item.label}
+                  </span>
+                  <span className="flex-1 text-xl leading-snug text-midnight group-hover:text-gold md:text-2xl">
+                    {item.line}
+                  </span>
+                  <span className="font-semibold text-midnight group-hover:text-gold" aria-hidden="true">
+                    &rarr;
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
@@ -360,7 +306,8 @@ export default function Home() {
         <DarkBackdrop />
         <div className={WRAP}>
           <Label dark>{METHOD.eyebrow}</Label>
-          <h2 className="mt-5 text-[length:clamp(2.5rem,6vw,4.5rem)] text-cream">{METHOD.heading}</h2>
+          <h2 className="mt-5 max-w-[16ch] text-[length:clamp(2.5rem,6vw,4.5rem)] text-cream">{METHOD.heading}</h2>
+          <p className="mt-5 max-w-[36ch] text-lg text-cream/70">{METHOD.note}</p>
           <Reveal>
             <ol className="relative mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
               {/* The thread joining the steps: across on desktop, down the gutter on phones. */}

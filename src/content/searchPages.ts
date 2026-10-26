@@ -1,3 +1,5 @@
+import { SITUATION_PAGES } from "./situationPages";
+
 /** One existing phrase inside a heading or paragraph, linked without rewriting the sentence. */
 export type PhraseAnchor = { phrase: string; href: string };
 export type SearchSection = {
@@ -15,7 +17,7 @@ export type SearchPage = {
   path: string; title: string; description: string; heading: string; intro: string;
   /** Link one existing phrase in the intro. The intro words stay the same. */
   introLink?: PhraseAnchor;
-  kind: "service" | "guide" | "about" | "hub" | "tool" | "story";
+  kind: "service" | "guide" | "about" | "hub" | "tool" | "story" | "situation";
   sections: SearchSection[]; related: string[];
   /** Client stories: the words a client actually used, and who said them. */
   quote?: { text: string; by: string };
@@ -45,6 +47,7 @@ export const STORIES_PUBLISHED = "2026-09-24";
 /** The service, industry, market and bottom-of-funnel pages added for search. */
 export const SEO_PUBLISHED = "2026-09-24";
 export const SEARCH_PAGES: SearchPage[] = [
+  ...SITUATION_PAGES,
   {
     path: "/ai-training-south-africa", kind: "service",
     title: "Practical AI Training for Business Owners | GrowthCred",
@@ -190,7 +193,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     heading: "Put AI to work, one useful task at a time.",
     intro: "Start with one question. One real task. And a way to check the result. These guides help you decide what to learn, what to build and where you still need a person checking the work.",
     sections: [{title:"Choose your next step", paragraphs:["Not sure whether to learn it or buy it? Compare training and implementation first. Then write down your business context with the business brain guide. Then try one proposal or follow-up with information you're allowed to share.", "The calculator helps you put a value on your time. It won't promise you a saving. Only measuring does that.", "The content compass lists questions a customer might type. You fill in what you sell. It will not rank your site."]}],
-    related: ["/guides/ppe-quotes-without-the-owner", "/guides/staff-chatgpt-client-files-popia", "/guides/stop-training-every-new-hire", "/guides/can-staff-paste-client-files-into-chatgpt", "/guides/private-ai-popia", "/guides/law-firm-billing-leakage", "/guides/ai-business-proposals-faster", "/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/guides/ai-training-cost-south-africa", "/guides/business-brain", "/guides/ai-proposals-and-follow-ups", "/guides/ai-training-vs-automation", "/guides/ai-automation-cost-south-africa", "/tools/admin-time-calculator", "/tools/content-compass", "/stories", "/playbook"],
+    related: ["/quoting-uniforms-for-a-security-company", "/senior-dispatcher-on-leave", "/guides/ppe-quotes-without-the-owner", "/guides/staff-chatgpt-client-files-popia", "/guides/stop-training-every-new-hire", "/guides/can-staff-paste-client-files-into-chatgpt", "/guides/private-ai-popia", "/guides/law-firm-billing-leakage", "/guides/ai-business-proposals-faster", "/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/guides/ai-training-cost-south-africa", "/guides/business-brain", "/guides/ai-proposals-and-follow-ups", "/guides/ai-training-vs-automation", "/guides/ai-automation-cost-south-africa", "/tools/admin-time-calculator", "/tools/content-compass", "/stories", "/playbook"],
   },
   {
     path: "/guides/ai-training-cost-south-africa", kind: "guide",
