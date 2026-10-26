@@ -27,6 +27,8 @@ export type SearchPage = {
   faq?: { q: string; a: string }[];
   /** Primary and secondary next steps for pages that serve more than one offer. */
   ctas?: { to: string; label: string }[];
+  /** Also show those next steps under the hero, not only in the sidebar. */
+  heroCtas?: boolean;
   /** Public evidence used for market claims on the page. */
   sources?: { label: string; href: string }[];
   /** Kept out of search and the sitemap until the owner confirms it. */
@@ -81,7 +83,90 @@ export const SEARCH_PAGES: SearchPage[] = [
       { q: "Which workflows should we automate first?", a: "Start with proposal drafts, quote prep, follow-up drafts or recurring research. We look at the real workflow before we promise any integration." },
       { q: "Will it connect to the tools we already use?", a: "That depends on each tool's APIs, your account permissions and the workflow. Naming a tool isn't a promise of a connector, so we check before we scope." },
     ],
-    related: ["/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/ai-proposal-automation", "/ai-follow-up-automation", "/ai-admin-automation", "/guides/how-we-work-first-30-days", "/call", "/data-and-security"],
+    related: ["/ai-consulting-south-africa", "/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/ai-proposal-automation", "/ai-follow-up-automation", "/ai-admin-automation", "/guides/how-we-work-first-30-days", "/call", "/data-and-security"],
+  },
+  {
+    path: "/ai-consulting-south-africa", kind: "service", published: "2026-10-26",
+    title: "AI Consulting in South Africa | GrowthCred",
+    description: "AI consulting for South African owner-led firms. We find where your week goes, build your own private AI around it, and train your team. Rosebank, Joburg.",
+    heading: "AI consulting that ends in working systems, not a slide deck.",
+    intro: "You didn't hire a consultant for a slide deck. You want the work done. I find where your week goes. We build your own private AI around it. Then we train your team to run it. I work from Rosebank, Johannesburg.",
+    heroCtas: true,
+    sections: [
+      { title: "Who this is for", paragraphs: [
+        "You still run the firm. Proposals wait on you. Follow-ups wait on you. So does the admin.",
+        "This is for an owner-led firm. From about R5M to over R200M. You're the bottleneck. That's the firm I sit down with.",
+        "Velocity fits firms from R5M to R50M. It's one day. Your biggest admin drains get fixed before you leave the room.",
+        "Integration fits firms from R50M to R200M. It runs for 90 days. The same fix goes into sales, delivery and admin.",
+        "Above R200M, Transformation is scoped with you. We rebuild the operating model department by department.",
+        "Want a deck and a goodbye? This is the wrong page. Want a system your team uses next week? You're in the right place.",
+      ]},
+      { title: "What we actually build", paragraphs: [
+        "It starts with an audit. We find where your week goes. Then we put a rand value on the hours stuck on your desk. That list is the brief. We don't build before it exists.",
+        "Next we deploy your own private AI. It runs on equipment we choose and look after. We set it up around how you already work. You own it. You don't rent another login.",
+        "Then the repeating work gets handled. Proposal drafts use facts you've already approved. A person still checks the price and the promise.",
+        "Follow-ups go out while the deal is still warm. You stop being the only one who remembers to chase.",
+        "Admin that repeats stops landing back on your desk. Your team asks the system. You get the exceptions.",
+        "Your team learns the system we built for you. That's not a generic course. Corporate AI training is the same idea when the whole team needs it.",
+        "Then we keep it sharp. Better models go in as they come out. We track the hours you get back every month.",
+      ], links: [
+        { index: 0, phrase: "audit", href: "/guides/how-we-work-first-30-days" },
+        { index: 1, phrase: "private AI", href: "/private-ai" },
+        { index: 2, phrase: "Proposal drafts", href: "/ai-proposal-automation" },
+        { index: 3, phrase: "Follow-ups", href: "/ai-follow-up-automation" },
+        { index: 4, phrase: "Admin that repeats", href: "/ai-admin-automation" },
+        { index: 5, phrase: "Corporate AI training", href: "/corporate-ai-training" },
+        { index: 6, phrase: "keep it sharp", href: "/guides/how-we-work-first-30-days" },
+      ]},
+      { title: "Why owners stay with us", paragraphs: [
+        "A lot of consulting ends when the deck lands. We build the system. Then we leave it running inside your business.",
+        "We build for South African firms. POPIA is the law we work under when personal information is in play.",
+        "Read how we handle data before you send us a client file. Installing a tool doesn't make you compliant. Nobody can sell you that.",
+        "You own the system. You don't rent a seat. The long version of that choice sits on the private AI page.",
+        "Here's the guarantee, in the same words as the homepage. If the Command Core doesn't give you back at least 20% of your week, the engagement is on us.",
+      ], links: [
+        { index: 1, phrase: "POPIA", href: "/guides/private-ai-popia" },
+        { index: 2, phrase: "how we handle data", href: "/data-and-security" },
+        { index: 3, phrase: "private AI page", href: "/private-ai" },
+      ]},
+      { title: "What clients have reported", paragraphs: [
+        "I only publish a result a named client reported, with permission. These two are from training and builds. The only private AI deployment so far is ours.",
+        "TaiAscend reported that a document process that took three days now takes two hours.",
+        "Sandile runs MNE Waste. Trucks, drivers, compliance, municipal contracts. He built his Operator's Brain in one day and is now fully operational. If AI can handle that, it can handle what you do.",
+      ], links: [
+        { index: 1, phrase: "TaiAscend", href: "/stories" },
+        { index: 2, phrase: "MNE Waste", href: "/stories/mne-waste" },
+      ]},
+      { title: "How you start", paragraphs: [
+        "You apply. The form asks how your business runs and where you're stuck. Then we talk. The call is the work. It's not a pitch.",
+        "On the call we sort fit, scope and cost. Engagements are limited. Not every application gets a yes.",
+        "If we go ahead, the audit comes first. Deploy comes next. Your first result is due within 14 days. We agree the stage before anyone starts.",
+        "Velocity is one day. Integration is 90 days. You pick the one that fits the firm you actually run.",
+        "Not ready for the full engagement? The one-day workshop is the smaller start. You build the first workflow yourself.",
+        "Want the week-by-week version? Read how the first 30 days go.",
+      ], links: [
+        { index: 4, phrase: "one-day workshop", href: "/workshop" },
+        { index: 5, phrase: "first 30 days", href: "/guides/how-we-work-first-30-days" },
+      ]},
+    ],
+    faq: [
+      { q: "What does AI consulting cost?", a: "There's no single price. It depends on the work, your data and the stage. We quote after the call. The R990 workshop is training. It's not the price of a custom build." },
+      { q: "Who is this for?", a: "Owner-led firms from about R5M to over R200M. You're still the bottleneck. If you want a slide deck and a goodbye, this is the wrong fit." },
+      { q: "Do you advise, or do you build?", a: "We build. The audit finds the work. Then we deploy your own private AI, train your team and keep the system sharp." },
+      { q: "What if I don't get the time back?", a: "If the Command Core doesn't give you back at least 20% of your week, the engagement is on us." },
+      { q: "How do I start?", a: "Apply. The call decides fit, scope and cost. You'll know if it's a fit before any work starts." },
+    ],
+    guide: { after: 0, line: "If this sounds like your week, get the AI Implementation Guide." },
+    close: {
+      line: "Next week, the same work is waiting on you.",
+      ask: "Want us to do this for you? Apply.",
+      cta: { to: "/call", label: "Apply" },
+    },
+    ctas: [
+      { to: "/call", label: "Apply" },
+      { to: "/workshop", label: "Build it in the workshop" },
+    ],
+    related: ["/private-ai", "/corporate-ai-training", "/ai-automation-south-africa", "/guides/how-we-work-first-30-days", "/stories/mne-waste", "/call"],
   },
   {
     path: "/about", kind: "about",
@@ -105,7 +190,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     heading: "Put AI to work, one useful task at a time.",
     intro: "Start with one question. One real task. And a way to check the result. These guides help you decide what to learn, what to build and where you still need a person checking the work.",
     sections: [{title:"Choose your next step", paragraphs:["Not sure whether to learn it or buy it? Compare training and implementation first. Then write down your business context with the business brain guide. Then try one proposal or follow-up with information you're allowed to share.", "The calculator helps you put a value on your time. It won't promise you a saving. Only measuring does that."]}],
-    related: ["/guides/can-staff-paste-client-files-into-chatgpt", "/guides/private-ai-popia", "/guides/law-firm-billing-leakage", "/guides/ai-business-proposals-faster", "/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/guides/ai-training-cost-south-africa", "/guides/business-brain", "/guides/ai-proposals-and-follow-ups", "/guides/ai-training-vs-automation", "/guides/ai-automation-cost-south-africa", "/tools/admin-time-calculator", "/stories"],
+    related: ["/guides/can-staff-paste-client-files-into-chatgpt", "/guides/private-ai-popia", "/guides/law-firm-billing-leakage", "/guides/ai-business-proposals-faster", "/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/guides/ai-training-cost-south-africa", "/guides/business-brain", "/guides/ai-proposals-and-follow-ups", "/guides/ai-training-vs-automation", "/guides/ai-automation-cost-south-africa", "/tools/admin-time-calculator", "/stories", "/playbook"],
   },
   {
     path: "/guides/ai-training-cost-south-africa", kind: "guide",

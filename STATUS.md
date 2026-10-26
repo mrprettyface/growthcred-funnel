@@ -1,5 +1,14 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **26 October 2026 — AI consulting page.** Phila approved Hark's draft.
+> `/ai-consulting-south-africa` is a service page in `src/content/searchPages.ts`,
+> linked from Solutions and the footer. It repeats the published Command Core
+> guarantee (20% of your week) and only the TaiAscend and MNE Waste results
+> already on the site. Homepage title is now within 60 characters. `/playbook`
+> is linked from Resources and the footer. Terms, privacy and checkout have
+> their own meta descriptions. cPanel: Update from Remote, then Deploy HEAD.
+> The host does not build. `dist/` is already in the commit.
+
 > **23 October 2026 — new site icon.** Phila replaced the gold Arial "GC" on
 > white with the "G." mark: a cream G and a gold full stop on a midnight tile,
 > the ending of the "GrowthCred." wordmark, in Manrope 800. It was picked from
