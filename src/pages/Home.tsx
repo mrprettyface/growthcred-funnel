@@ -5,7 +5,7 @@ import { DarkBackdrop, Faq } from "../components/ui";
 import { PageScene } from "../components/PageScenes";
 import { SEARCH_PAGES } from "../content/searchPages";
 import { situationLinksOn } from "../content/situationLinks";
-import { HomeScene, STAGE_SCENES, METHOD_SCENES } from "../components/HomeScenes";
+import { HomeScene, STAGE_SCENES, METHOD_SCENES, RENTING_SCENES, OWN_SCENES } from "../components/HomeScenes";
 import { HeroGraph } from "../components/home/HeroGraph";
 import { ClientLogos } from "../components/ClientLogos";
 import { ApplyButton, HomeFooter, HomeHeader } from "../components/home/HomeChrome";
@@ -205,6 +205,7 @@ export default function Home() {
             {RENTING.items.map((item, i) => (
               <article key={item.t} className="cc-card flex flex-col rounded-3xl border border-cream/10 bg-midnight-soft/70 p-7">
                 <span className="font-mono text-sm text-gold">{String(i + 1).padStart(2, "0")}</span>
+                <HomeScene name={RENTING_SCENES[i]} className="mt-5 h-24 w-32 text-cream/65" />
                 <h3 className="mt-4 text-2xl text-cream">{item.t}</h3>
                 <p className="mt-3 leading-relaxed text-cream/70">{item.b}</p>
               </article>
@@ -228,6 +229,7 @@ export default function Home() {
             {OWN.items.map((item, i) => (
               <div key={item.t} className="bg-paper p-7 md:p-9">
                 <span className="font-mono text-sm text-gold">{String(i + 1).padStart(2, "0")}</span>
+                <HomeScene name={OWN_SCENES[i]} className="mt-5 h-24 w-32 text-midnight/80" />
                 <h3 className="mt-4 text-2xl text-midnight md:text-3xl">{item.t}</h3>
                 <p className="mt-3 max-w-[40ch] leading-relaxed text-ink">{item.b}</p>
               </div>
