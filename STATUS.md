@@ -1,5 +1,14 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **26 October 2026 — AI consulting page.** Phila approved Hark's draft.
+> `/ai-consulting-south-africa` is a service page in `src/content/searchPages.ts`,
+> linked from Solutions and the footer. It repeats the published Command Core
+> guarantee (20% of your week) and only the TaiAscend and MNE Waste results
+> already on the site. Homepage title is now within 60 characters. `/playbook`
+> is linked from Resources and the footer. Terms, privacy and checkout have
+> their own meta descriptions. cPanel: Update from Remote, then Deploy HEAD.
+> The host does not build. `dist/` is already in the commit.
+
 > **25 October 2026 — long-tail situations and three offer pages.** Six indexed
 > pages, from the Neil Patel reel `De6qg45ET4d` (hyper-specific searches, not
 > broad keywords) and the 23 Oct long-tail plan. Situations:
@@ -12,6 +21,17 @@
 > hypotheses, not Search Console queries. Homepage illustrative benchmarks were
 > left as they are. Phila deploys: cPanel Update from Remote, then Deploy HEAD.
 > Nothing here is a live deploy. Gates: [GATES-long-tail.md](GATES-long-tail.md).
+
+> **23 October 2026 — new site icon.** Phila replaced the gold Arial "GC" on
+> white with the "G." mark: a cream G and a gold full stop on a midnight tile,
+> the ending of the "GrowthCred." wordmark, in Manrope 800. It was picked from
+> three directions on the canvas https://claude.ai/artifact/DiCfzKEKQTG4rJUCY4L8AD.
+> `scripts/make-icons.py` now draws it from the Manrope copy in node_modules
+> (needs pillow, fonttools, brotli and uharfbuzz) and writes the same seven files
+> as before; `verify:seo` passes. Logo files for outside use (the mark plus the
+> wordmark for light and dark grounds) are in `resources/logo/`. Google
+> refreshes favicons on its own schedule, so request indexing of `/` after the
+> deploy.
 
 > **28 September 2026 — house voice site-wide + law-firm article.** Every page
 > is now written in the voice Phila adopted: short sentences, "you" and "I",

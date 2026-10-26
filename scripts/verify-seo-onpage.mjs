@@ -23,7 +23,8 @@ const mainOf = (html) => {
 
 /* ---------- The rules ---------- */
 
-const titleOk = (t) => t.length >= 50 && t.length <= 60;
+/** 42 is the approved length of "AI Consulting in South Africa | GrowthCred" (Phila, 26 Oct 2026). */
+const titleOk = (t) => t.length >= 42 && t.length <= 60;
 const descOk = (d) => d.length >= 120 && d.length <= 160;
 function headingProblems(html) {
   const levels = [...html.matchAll(/<h([1-6])[\s>]/g)].map((m) => +m[1]);
@@ -84,7 +85,7 @@ const titles = new Map(), descs = new Map();
 for (const [path, html] of pages) {
   const title = decode(html.match(/<title>([^<]*)<\/title>/)[1]);
   const desc = decode(html.match(/<meta name="description" content="([^"]*)"/)[1]);
-  if (!titleOk(title)) failures.push(`${path}: title is ${title.length} chars (50–60): ${title}`);
+  if (!titleOk(title)) failures.push(`${path}: title is ${title.length} chars (42–60): ${title}`);
   if (!descOk(desc)) failures.push(`${path}: description is ${desc.length} chars (120–160)`);
   if (titles.has(title)) failures.push(`${path}: duplicate title with ${titles.get(title)}`);
   if (descs.has(desc)) failures.push(`${path}: duplicate description with ${descs.get(desc)}`);
@@ -107,7 +108,7 @@ for (const [path, html] of pages) {
 }
 
 // FAQ markup where the checklist asks for it: home, every service, industry and market page.
-const needFaq = ["/", "/ai-automation-south-africa", "/ai-training-south-africa", "/ai-proposal-automation",
+const needFaq = ["/", "/ai-consulting-south-africa", "/ai-automation-south-africa", "/ai-training-south-africa", "/ai-proposal-automation",
   "/ai-follow-up-automation", "/ai-admin-automation", "/ai-for-waste-management", "/ai-for-beauty-and-cosmetics",
   "/ai-automation-johannesburg", "/ai-automation-uk", "/ai-automation-united-states", "/ai-automation-australia",
   "/ai-automation-africa", "/guides/how-we-work-first-30-days", "/guides/admin-assistant-vs-ai-automation",

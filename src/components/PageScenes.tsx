@@ -38,6 +38,17 @@ export const PAGE_SCENES: Record<string, ReactElement> = {
     </>
   ),
 
+  /* AI consulting — the work is running, and the deck stays shut. */
+  "/ai-consulting-south-africa": (
+    <>
+      <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l22 -4" />
+      <rect x="96" y="36" width="70" height="52" rx="5" />
+      <path d="M86 96h90" />
+      <path d="M118 56l8 8 16-18" stroke={GOLD} strokeWidth={3} />
+      <path d="M106 78h46" />
+    </>
+  ),
+
   /* AI automation — the work moves along a belt without anyone carrying it. */
   "/ai-automation-south-africa": (
     <>

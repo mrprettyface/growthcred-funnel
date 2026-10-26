@@ -8,7 +8,7 @@ import { WORKSHOP } from "../lib/offers";
 export const SITE = "https://growthcred.co.za";
 export type RouteMeta = {path:string; title:string; description:string; index:boolean; canonical?:string; modified?:string};
 export const ROUTES: RouteMeta[] = [
-  {path:"/",title:"Private AI Implementation in Johannesburg & South Africa | GrowthCred",description:"Let us help you own your intelligence. Your own AI on equipment we deploy, built around your business. No per-seat subscriptions. Apply today.",index:true,modified:REVIEWED},
+  {path:"/",title:"Private AI Implementation in South Africa | GrowthCred",description:"Let us help you own your intelligence. Your own AI on equipment we deploy, built around your business. No per-seat subscriptions. Apply today.",index:true,modified:REVIEWED},
   {path:PRIVATE_AI_PATH,title:"Private AI South Africa: Own Your Intelligence | GrowthCred",description:"Your own AI, on your own equipment, set up around your business. Why firms are moving AI in-house, what owning costs, and when it's the wrong call.",index:true,modified:"2026-09-29"},
   {path:CORPORATE_PATH,title:"Corporate AI Training for Teams in South Africa | GrowthCred",description:"Corporate AI training that gets every employee producing documents and reports 3× faster. Live workshops, role playbooks, measured ROI, priced per head.",index:true,modified:"2026-09-25"},
   {path:"/workshop",title:"Online AI Workshop for Business Owners | GrowthCred SA",description:"Build practical AI workflows in GrowthCred’s one-day online workshop for South African business owners. R990. Session details confirmed on registration.",index:true,modified:REVIEWED},
@@ -20,8 +20,11 @@ export const ROUTES: RouteMeta[] = [
   {path:"/ai-implementation-guide",title:"The AI Implementation Guide | GrowthCred",description:"Seven steps to put AI to work in your business without changing the way you work or the platforms you work in.",index:false},
   {path:"/brain",title:"Free AI Business Brain Builder | GrowthCred",description:"Build a reusable business context document for AI. Answer practical questions, then copy or download your document.",index:false},
   {path:"/call",title:"Discuss Your AI Automation Project | GrowthCred",description:"Tell GrowthCred about your business workflow and discuss a scoped implementation engagement.",index:false},
-  ...["checkout","upsell","downsell","build","thank-you"].map(p=>({path:`/${p}`,title:`${({checkout:"Workshop Registration",upsell:"Your Next Step",downsell:"Your Options",build:"Implementation Request","thank-you":"Order Confirmation"} as Record<string,string>)[p]} | GrowthCred`,description:"Manage your GrowthCred registration and next steps.",index:false})),
-  ...["terms","privacy","refunds"].map(p=>({path:`/${p}`,title:`${p[0].toUpperCase()+p.slice(1)} | GrowthCred`,description:`Read GrowthCred’s ${p} policy and contact us with questions.`,index:false})),
+  {path:"/checkout",title:"Workshop Registration | GrowthCred",description:"Register for the one-day online workshop. Add your details and pay. We confirm session details after you register.",index:false},
+  ...["upsell","downsell","build","thank-you"].map(p=>({path:`/${p}`,title:`${({upsell:"Your Next Step",downsell:"Your Options",build:"Implementation Request","thank-you":"Order Confirmation"} as Record<string,string>)[p]} | GrowthCred`,description:"Manage your GrowthCred registration and next steps.",index:false})),
+  {path:"/terms",title:"Terms | GrowthCred",description:"Terms for using growthcred.co.za and buying a GrowthCred workshop, digital product or service. Read them with the privacy and refund policies.",index:false},
+  {path:"/privacy",title:"Privacy | GrowthCred",description:"How GrowthCred uses what you type into our forms, who can see it, and how to ask us about your information. We never see your card number.",index:false},
+  {path:"/refunds",title:"Refunds | GrowthCred",description:"Read GrowthCred’s refunds policy and contact us with questions.",index:false},
 ];
 export const ALIASES: Record<string,string> = {"/agency":"/ai-automation-south-africa", "/webinar-plain":"/webinar", "/class":"/webinar"};
 export const normalizePath = (p:string) => p.replace(/\/+$/, "") || "/";
