@@ -11,6 +11,19 @@
 
 > **25 October 2026 — content compass.** `/tools/content-compass` fills 34 customer-search question shapes in the browser. You type what you sell, plus an optional company and competitor. Empty slots stay as placeholders. Copy or download the list. No signup and no comment-to-DM flow. The shapes follow Neil Patel's public reel De7T-h6Dg8J. Claims in that reel are not repeated as facts. Phila deploys: source and `dist/` are in git, and cPanel Deploy HEAD is his step.
 
+> **25 October 2026 — long-tail situations and three offer pages.** Six indexed
+> pages, from the Neil Patel reel `De6qg45ET4d` (hyper-specific searches, not
+> broad keywords) and the 23 Oct long-tail plan. Situations:
+> `/guides/ppe-quotes-without-the-owner`,
+> `/guides/staff-chatgpt-client-files-popia`,
+> `/guides/stop-training-every-new-hire`. Offers, in the names the plan asked
+> for: `/quote-engine`, `/company-brain`, `/new-hire-trainer`. No supplier or
+> client is named. No before/after number. No price. The POPIA page is not
+> legal advice and points at the two existing guides plus a lawyer. These are
+> hypotheses, not Search Console queries. Homepage illustrative benchmarks were
+> left as they are. Phila deploys: cPanel Update from Remote, then Deploy HEAD.
+> Nothing here is a live deploy. Gates: [GATES-long-tail.md](GATES-long-tail.md).
+
 > **23 October 2026 — new site icon.** Phila replaced the gold Arial "GC" on
 > white with the "G." mark: a cream G and a gold full stop on a midnight tile,
 > the ending of the "GrowthCred." wordmark, in Manrope 800. It was picked from

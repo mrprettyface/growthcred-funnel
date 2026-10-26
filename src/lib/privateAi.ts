@@ -105,6 +105,7 @@ export const PAIN = {
     "Look at your team's week. Someone pastes a client contract into a chat window to summarise it. Someone else drafts a proposal on a personal account. It's quicker. So they do it.",
     "Where did that contract go? To a server you've never seen. In a country you didn't choose. Under terms nobody read.",
   ],
+  link: { phrase: "pastes a client contract", href: "/guides/staff-chatgpt-client-files-popia" },
   stat: {
     figure: "78%",
     line: "of people using AI at work were bringing their own tools. That was 2024. Is your team different?",
@@ -146,7 +147,7 @@ export const OWN = {
   proofs: [
     { scene: "stays", t: "Your data stays in the building.", b: "Contracts, client files and numbers never go to an outside AI company. POPIA gets simpler, not scarier.", phraseLink: { phrase: "POPIA gets simpler, not scarier", href: "/guides/private-ai-popia" } },
     { scene: "flat", t: "The cost stops climbing.", b: "You pay to set it up and to run it. Not per person. Your next hire uses it without a new seat." },
-    { scene: "knows", t: "It knows your business.", b: "It's set up on your templates, your past work and the way you write. So it starts every task already knowing you." },
+    { scene: "knows", t: "It knows your business.", b: "It's set up on your templates, your past work and the way you write. So it starts every task already knowing you.", phraseLink: { phrase: "your templates, your past work", href: "/company-brain" } },
   ] as Item[],
   guide: "If this sounds like you, get the AI Implementation Guide. It's the method we start every client on, free.",
 };
