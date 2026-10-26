@@ -41,15 +41,15 @@ function homeProblems(html) {
   const body = text(main);
   const h1s = [...html.matchAll(/<h1[\s>][\s\S]*?<\/h1>/g)].map((m) => text(m[0]));
   if (h1s.length !== 1) out.push(`${h1s.length} h1`);
-  else if (h1s[0] !== "Let us help you own your intelligence.") out.push(`h1 is "${h1s[0]}"`);
-  if (!/Your data never leaves the building\./.test(body)) out.push("hero sub does not say the data never leaves the building");
-  for (const id of ["hero", "capacity", "renting", "own", "results", "stories", "method", "stages", "founder", "guarantee", "ways", "faq", "close"])
+  else if (!/For South African owners who are still the person every quote, hire and question runs through\./.test(h1s[0])) out.push(`h1 is "${h1s[0]}"`);
+  if (!/Let us help you own your intelligence\./.test(body)) out.push("the own-your-intelligence pitch is gone");
+  if (!/Your data never leaves the building\./.test(body)) out.push("the page no longer says the data never leaves the building");
+  for (const id of ["hero", "capacity", "renting", "own", "situations", "stories", "method", "stages", "founder", "guarantee", "ways", "faq", "close"])
     if (!new RegExp(`<section[^>]*\\bid="${id}"`).test(main)) out.push(`missing section #${id}`);
   if (!/Organisations we've worked with/.test(body)) out.push("the logo strip is not labelled");
-  if (!/R3M–R10M/.test(body) || !/R20,000/.test(body)) out.push("the R200 vs R20,000 pain section is gone");
+  if (/R3M|20–40%|20-40%|Illustrative benchmarks|R20,000/.test(body)) out.push("an unproven numeric claim is back on the homepage");
   if (!/Runs GrowthCred on its own private AI\./.test(body)) out.push("the founder's own-deployment line is missing");
   if (!body.includes(GUARANTEE)) out.push("the guarantee is not verbatim");
-  if (!/Illustrative benchmarks\. Results vary by engagement\./.test(body)) out.push("the before/after lost its disclaimer");
   if (!/owners who worked with us through our training and builds/i.test(body)) out.push("the stories are not labelled honestly");
   if (!/href="\/corporate-ai-training"/.test(main)) out.push("the ways in do not include corporate training");
   for (const q of ["Where does our data go?", "What equipment do we need?", "What happens when a better AI model comes out?", "What is the Command Core?", "How is this different from ChatGPT?"])
@@ -57,7 +57,7 @@ function homeProblems(html) {
   const piece = body.match(PIECES);
   if (piece) out.push(`names a hardware or model piece: ${piece[0]}`);
   const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1] ?? "";
-  if (!/Own Your Intelligence/.test(decode(title))) out.push(`title is "${title}"`);
+  if (!/Private AI Implementation/.test(decode(title))) out.push(`title is "${title}"`);
   const desc = decode((html.match(/<meta name="description" content="([^"]*)"/) || [])[1] ?? "");
   if (desc.length < 120 || desc.length > 160) out.push(`description is ${desc.length} chars`);
   if (!/own your intelligence/i.test(desc)) out.push("description does not carry the pitch");

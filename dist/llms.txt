@@ -41,6 +41,8 @@ Contact: info@growthcred.co.za · WhatsApp +27 66 283 0289.
 
 ## Guides
 
+- [Quoting uniforms for a security company](https://growthcred.co.za/quoting-uniforms-for-a-security-company): each site's kit stays in one list. You still sign the quote. No supplier is named.
+- [When a senior dispatcher is on leave](https://growthcred.co.za/senior-dispatcher-on-leave): the desk answers from the source document. No measured drop in repeat questions.
 - [Can staff paste client files into ChatGPT?](https://growthcred.co.za/guides/can-staff-paste-client-files-into-chatgpt): practical POPIA and confidentiality questions to assess before sharing identifiable files.
 - [How can private AI help with POPIA?](https://growthcred.co.za/guides/private-ai-popia): what private processing can change and what it cannot establish by itself.
 - [AI implementation challenges in South Africa](https://growthcred.co.za/guides/ai-challenges-south-africa).

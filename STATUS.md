@@ -1,5 +1,20 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **26 October 2026 — homepage names the owner, two situation pages.** Salvaged
+> from the closed long-tail branch. The homepage h1 is "For South African
+> owners who are still the person every quote, hire and question runs through."
+> The own-your-intelligence pitch stays under it. Removed from `/`: the
+> illustrative benchmarks (65→35, 3 days→3 hrs, 48 hrs→4 min, 20%→2%),
+> "R3M–R10M a year", the R20,000 / R200 hourly comparison, and every "20–40%
+> of your week". The published guarantee ("at least 20% of your week") is
+> unchanged. Situation cards link only to pages that exist in this build.
+> PPE quotes, staff ChatGPT under POPIA and training every new hire stay on
+> their guide slugs for the long-tail PR. This PR adds
+> `/quoting-uniforms-for-a-security-company` and `/senior-dispatcher-on-leave`.
+> Both are in the sitemap, the resources hub, the Resources menu and the
+> footer. No named customer. Proof is queued in
+> [docs/search/HUMAN-LAYER.md](docs/search/HUMAN-LAYER.md).
+
 > **26 October 2026 — AI consulting page.** Phila approved Hark's draft.
 > `/ai-consulting-south-africa` is a service page in `src/content/searchPages.ts`,
 > linked from Solutions and the footer. It repeats the published Command Core

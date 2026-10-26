@@ -5,9 +5,12 @@
  * so the two can never drift. Edit copy here, not in the components.
  *
  * The proof on this page (the company names, the talks, the Parliament
- * presentation, the capacity range and the benchmarks) was supplied by Phila
- * on 24 September 2026 for publication. The before/after figures are shown as
- * illustrative benchmarks and must keep that label next to them.
+ * presentation) was supplied by Phila on 24 September 2026 for publication.
+ *
+ * 23 October 2026: the headline names the owner the work still runs through.
+ * The old before/after block and the unsourced revenue and weekly-share
+ * claims are gone. The published guarantee stays word for word. No client
+ * is named on the situation pages.
  *
  * 29 September 2026: the Command Core is private AI. Open-weight models run
  * on equipment we choose, deploy and look after, set up around the client's
@@ -19,18 +22,21 @@
  * are labelled that way.
  */
 
+import { SITUATION_LINKS } from "../content/situationLinks";
+
 /** Where every "Apply" goes. The call is earned through an application. */
 export const APPLY_HREF = "/call";
 
 export const HERO = {
-  /** One static, prerendered <h1>: "Let us help you own your intelligence.",
-   *  Phila's exact pitch (29 Sep 2026), with the ownership marked like a
-   *  marker pen. The admin problem it solves moves into the sub. */
-  headlineLead: "Let us help you",
-  headlineMark: "own your intelligence.",
+  /** Option A, 23 Oct 2026. One prerendered <h1>. The marker sits on the
+   *  work that still runs through the owner. The own-your-intelligence pitch
+   *  stays in the sections below. */
+  headlineLead: "For South African owners who are still the person",
+  headlineMark: "every quote, hire and question",
+  headlineTail: "runs through.",
   /** The quieter second way in, beside the Apply button. */
   secondary: { label: "Read client stories", to: "/stories" },
-  sub: "Your own AI. On equipment we choose and set up for you. Built around how your business works. It takes the admin that eats 20–\u206040% of your week. No per-seat subscriptions. Your data never leaves the building.",
+  sub: "We build your own private AI on your documents and your rules, on equipment we set up for you. Your data stays in the building. You get back to leading.",
   cta: "Apply to Work With Us",
   scarcity: "Engagements are limited. Not every application is accepted.",
 } as const;
@@ -44,18 +50,17 @@ export const PROOF_LINE =
   "7 AI talks at WeWork Johannesburg. AI system presented at Parliament, Cape Town.";
 
 export const CAPACITY = {
-  heading: "That 20–40% isn't just admin. It's your most expensive hours.",
-  gap: "Your decisions are worth R20,000 an hour. Admin is R200-an-hour work. When you do both, the business pays the gap.",
-  lead: "For a R20M–R100M firm, that gap costs",
-  figure: "R3M–R10M",
-  tail: "a year.",
-  /** Sits under the R200 vs R20,000 comparison. */
+  heading: "The hours that wait on you are the expensive ones.",
+  gap: "You price the quote. You train the new hire. You answer the question only you know. The decision that moves the business waits behind all of that.",
+  lead: "Write down what one of those hours is worth to you. That number is yours. We will not invent it.",
+  waits: [
+    { t: "Quotes", b: "Still priced by you." },
+    { t: "New hires", b: "Still trained by you." },
+    { t: "Questions", b: "Still answered by you." },
+  ],
   tried: "Hiring didn't fix it. New tools didn't either. Both still need you to check the work.",
   closeA: "The fix is not more people.",
   closeB: "It's building your judgment into the business.",
-  /** The two hourly figures the comparison bar is drawn from. */
-  lowRate: 200,
-  highRate: 20000,
 };
 
 /* ---------------- Renting AI, and owning it ---------------- */
@@ -84,7 +89,7 @@ export const RENTING = {
 export const OWN = {
   eyebrow: "The Command Core",
   heading: "Your own intelligence. Owned, not rented.",
-  lead: "We handle the equipment. You never have to think about it. We choose what fits your business, set it up and look after it.",
+  lead: "Let us help you own your intelligence. We handle the equipment. You never have to think about it. We choose what fits your business, set it up and look after it.",
   items: [
     {
       t: "Equipment that fits you",
@@ -104,30 +109,8 @@ export const OWN = {
     },
   ],
   honest: "Is it magic? No. It's excellent at documents, questions and the admin in between. Before you sign, we tell you straight what it will and won't do for you.",
-  owned: "No per-seat subscriptions. Your data stays in the building. And it's yours.",
+  owned: "No per-seat subscriptions. Your data never leaves the building. And it's yours.",
   more: { to: "/private-ai", label: "Why own it? The full case" },
-};
-
-/** Before/after. `from`/`to` are the same quantity in one unit, for the bars. */
-export type Benchmark = {
-  metric: string;
-  before: string;
-  after: string;
-  from: number;
-  to: number;
-};
-
-export const BEFORE_AFTER = {
-  eyebrow: "Before / After",
-  heading: "What changes when the work stops waiting for you.",
-  rows: [
-    { metric: "Owner hours per week", before: "65", after: "35", from: 65, to: 35 },
-    { metric: "Proposal turnaround", before: "3 days", after: "3 hrs", from: 72, to: 3 },
-    { metric: "Lead follow-up", before: "48 hrs", after: "4 min", from: 48 * 60, to: 4 },
-    { metric: "Deals lost to slow response", before: "20%", after: "2%", from: 20, to: 2 },
-  ] satisfies Benchmark[],
-  /** Must stay beside the figures wherever they render. */
-  disclaimer: "Illustrative benchmarks. Results vary by engagement.",
 };
 
 export type Stage = { band: string; family: string; name: string; line: string };
@@ -162,7 +145,8 @@ export const STAGES = {
 
 export const METHOD = {
   eyebrow: "The Method",
-  heading: "How you get the 20–40% back.",
+  heading: "How the work stops waiting for you.",
+  note: "Start with one team. Measure the return. Then decide.",
   steps: [
     {
       t: "Audit",
@@ -199,9 +183,16 @@ export const GUARANTEE = {
 };
 
 export const CLOSE = {
-  heading: "Next week, that 20–40% goes again.",
-  sub: "Unless something changes. Apply and we'll tell you if it's a fit.",
+  heading: "Next week, it lands on you again.",
+  sub: "Start with one team. Measure the return. Then decide. Apply and we'll tell you if it's a fit.",
   cta: "Apply",
+};
+
+export const SITUATIONS = {
+  eyebrow: "If this is you",
+  heading: "Name the job that still waits for you.",
+  sub: "Pick the week that sounds like yours. The page says what we do. Then you book a call.",
+  items: SITUATION_LINKS,
 };
 
 /* ---------------- Stories: the proof behind the claims ---------------- */
@@ -317,7 +308,7 @@ export const GUIDES = {
 export const FAQ: { q: string; a: string }[] = [
   {
     q: "What is the Command Core?",
-    a: "Your own AI, on equipment we choose, deploy and look after for you. It's set up around how your business works, with agents built for your admin. So the work eating 20–40% of your week stops landing on your desk. You own it. You don't rent it.",
+    a: "Your own AI, on equipment we choose, deploy and look after for you. It's set up around how your business works. Quotes, training and the questions your team asks stop landing only on your desk. You own it. You don't rent it.",
   },
   {
     q: "Where does our data go?",

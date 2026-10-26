@@ -12,6 +12,7 @@ import { GUIDE_OFFER, requestGuide } from "../lib/guide";
 import { linkPhrase } from "../components/PhraseLink";
 const labels:Record<string,string>={"/workshop":"Online AI workshop","/":"The Command Core","/call":"Discuss an implementation project","/brain":"Build your Business Brain","/contact":"Contact GrowthCred","/corporate-ai-training":"Corporate AI training for teams","/private-ai":"Private AI, explained","/playbook":"Start with a useful AI workflow."};
 export function SearchPage({page}:{page:Page}) {
+  if (page.kind === "situation") return <SituationPage page={page} />;
   return <>
     <Section dark className="pt-10 md:pt-16">
       <nav aria-label="Breadcrumb" className="mb-8 font-mono text-[12px] uppercase tracking-[0.14em] text-cream/55 [&_a]:text-cream/75 [&_a]:no-underline [&_a:hover]:text-gold"><Link to="/">Home</Link> / {page.kind==='guide'&&<><Link to="/resources">Resources</Link> / </>}{page.kind==='story'&&<><Link to="/stories">Stories</Link> / </>}<span aria-current="page">{page.kind==='guide'?'Guide':page.kind==='story'?'Client story':page.kind==='tool'?'Calculator':page.kind==='about'?'About':page.path==='/stories'?'Stories':page.kind==='hub'?'Resources':'Services'}</span></nav>
@@ -48,6 +49,67 @@ export function SearchPage({page}:{page:Page}) {
     {page.kind!=='hub'&&<Section dark><Eyebrow dark>Keep going</Eyebrow><h2 className="mt-4 text-3xl text-cream">Your next useful step.</h2><div className="mt-7 grid gap-4 md:grid-cols-2">{page.related.map(path=><Link key={path} to={path} className="cc-card rounded-2xl border border-cream/20 bg-midnight-soft/60 p-5 text-cream no-underline hover:border-gold">{SEARCH_PAGES.find(p=>p.path===path)?.heading??labels[path]??path}<span aria-hidden="true"> ↗</span></Link>)}</div></Section>}
   </>;
 }
+/**
+ * One buyer's situation. The first line is their week, then the answer, then
+ * how we do it, then one call. No proof block: a named example waits on consent.
+ */
+function SituationPage({ page }: { page: Page }) {
+  return (
+    <>
+      <Section className="pb-6 pt-12 md:pb-8 md:pt-20">
+        <h1 className="max-w-[22ch] text-[length:clamp(2rem,4.2vw,3.6rem)] leading-[1.08] text-midnight">{page.heading}</h1>
+        <p className="mt-8 max-w-[62ch] text-lg leading-relaxed text-ink md:text-xl">{page.intro}</p>
+      </Section>
+      <Section className="pt-0 md:pt-0">
+        <article className="mx-auto max-w-[760px] space-y-10">
+          {page.sections.map((section, i) => (
+            <section id={`section-${i + 1}`} key={section.title} className="scroll-mt-28">
+              <h2 className="text-2xl md:text-3xl">{section.title}</h2>
+              {section.paragraphs.map((p) => (
+                <p key={p} className="mt-4 max-w-[70ch] leading-relaxed text-ink">{p}</p>
+              ))}
+              {section.items && (
+                <ul className="mt-5 list-disc space-y-3 pl-6 text-ink">
+                  {section.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              )}
+            </section>
+          ))}
+          {page.close && (
+            <section aria-label="Book a call" className="rounded-3xl bg-midnight p-7 text-cream md:p-10">
+              <p className="font-display text-2xl font-extrabold leading-snug tracking-[-0.03em] md:text-3xl">{page.close.line}</p>
+              <p className="mt-5 text-lg text-cream/75">{page.close.ask}</p>
+              <ButtonLink to={page.close.cta.to} className="mt-6">{page.close.cta.label}</ButtonLink>
+            </section>
+          )}
+          {page.faq && (
+            <section id="faq" className="scroll-mt-28">
+              <h2 className="text-2xl md:text-3xl">Questions you will ask on the call</h2>
+              <div className="mt-6"><Faq items={page.faq} /></div>
+            </section>
+          )}
+          <Byline date={page.published ?? REVIEWED} />
+          <AuthorBox />
+        </article>
+      </Section>
+      <Section dark>
+        <Eyebrow dark>Keep going</Eyebrow>
+        <h2 className="mt-4 text-3xl text-cream">If that is not your week.</h2>
+        <div className="mt-7 grid gap-4 md:grid-cols-2">
+          {page.related.map((path) => (
+            <Link key={path} to={path} className="cc-card rounded-2xl border border-cream/20 bg-midnight-soft/60 p-5 text-cream no-underline hover:border-gold">
+              {SEARCH_PAGES.find((p) => p.path === path)?.heading ?? labels[path] ?? path}
+              <span aria-hidden="true"> ↗</span>
+            </Link>
+          ))}
+        </div>
+      </Section>
+    </>
+  );
+}
+
 /** The mid-article guide offer. A button, not a link: the guide is swapped for an email. */
 function GuideCallout({line}:{line:string}){return <aside aria-label={GUIDE_OFFER.title} className="mt-8 rounded-3xl border border-gold/40 bg-gold/[0.06] p-6"><p className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted">{GUIDE_OFFER.eyebrow}</p><p className="mt-2 max-w-[60ch] leading-relaxed text-ink">{line}</p><Button type="button" onClick={requestGuide} className="mt-5">{GUIDE_OFFER.cta}</Button></aside>}
 export function NotFound(){return <Section className="min-h-[65vh] pt-16"><Eyebrow>404 · Page not found</Eyebrow><h1 className="mt-5 text-4xl md:text-6xl">Let’s get you to the right place.</h1><p className="mt-6 max-w-xl text-lg">This address doesn’t match a page on our site. Explore the workshop, find a practical guide, or contact us.</p><div className="mt-8 flex flex-wrap gap-4"><ButtonLink to="/workshop">The workshop</ButtonLink><ButtonLink to="/resources" variant="outline">Practical guides</ButtonLink><ButtonLink to="/contact" variant="outline">Contact</ButtonLink></div></Section>}

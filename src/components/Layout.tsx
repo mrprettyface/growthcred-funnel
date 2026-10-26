@@ -81,6 +81,8 @@ const NAV = [
       {
         links: [
           { to: "/tools/admin-time-calculator", label: "Admin time calculator", blurb: "Put a rand figure on the hours admin takes." },
+          { to: "/quoting-uniforms-for-a-security-company", label: "Security uniform quotes", blurb: "Each site's kit, priced from the last list you approved." },
+          { to: "/senior-dispatcher-on-leave", label: "Senior person on leave", blurb: "The desk still moves when that one person is out." },
           { to: "/about", label: "About GrowthCred", blurb: "Who we are, and why we build this way." },
         ],
       },
@@ -351,6 +353,8 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
       ["/stories", "Client stories"],
       ["/guides/how-we-work-first-30-days", "How we work"],
       ["/resources", "AI guides"],
+      ["/quoting-uniforms-for-a-security-company", "Security uniform quotes"],
+      ["/senior-dispatcher-on-leave", "Senior person on leave"],
       ["/playbook", "Free resources"],
       ["/tools/admin-time-calculator", "Admin time calculator"],
       ["/brain", "Business Brain builder"],

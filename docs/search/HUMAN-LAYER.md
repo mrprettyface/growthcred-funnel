@@ -19,6 +19,11 @@ a useful answer too: it changes what the page should promise.
 
 Highest value first.
 
+### `/quoting-uniforms-for-a-security-company`, `/senior-dispatcher-on-leave`
+Published with the buyer's situation and no named customer. Consent to name anyone is still open, and there is no measured result we can show.
+1. Written consent from a real customer in that situation, if you want them named.
+2. One measured before-and-after you are willing to publish (quote time, or repeat questions to a senior).
+
 ### `/workshop`
 The money page for the R990 funnel shows no attendee result.
 1. One workshop attendee: the task they brought, how long it took before, how long after.

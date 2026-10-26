@@ -1,5 +1,8 @@
+import { Link } from "react-router-dom";
 import { ApplyButton, HomeFooter, HomeHeader } from "../components/home/HomeChrome";
-import { HERO, CAPACITY, STAGES, GUARANTEE, CLOSE } from "../lib/home";
+import { SITUATION_PAGES } from "../content/situationPages";
+import { situationLinksOn } from "../content/situationLinks";
+import { HERO, CAPACITY, STAGES, GUARANTEE, CLOSE, SITUATIONS } from "../lib/home";
 
 /**
  * Crash fallback for `/`. If Home ever throws, the visitor still lands on a
@@ -18,8 +21,8 @@ export default function HomeFallback() {
 
       <section className="bg-paper py-16 text-midnight md:py-24">
         <div className={WRAP}>
-          <h1 className="max-w-[12ch] text-5xl text-midnight md:text-7xl">
-            {HERO.headlineLead} <span className="cc-marker">{HERO.headlineMark}</span>
+          <h1 className="max-w-[20ch] text-4xl text-midnight md:text-6xl">
+            {HERO.headlineLead} <span className="cc-marker">{HERO.headlineMark}</span> {HERO.headlineTail}
           </h1>
           <p className="mt-6 max-w-[46ch] text-lg text-ink">{HERO.sub}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -33,13 +36,34 @@ export default function HomeFallback() {
         <div className={`${WRAP} max-w-[760px]`}>
           <h2 className="text-3xl md:text-5xl">{CAPACITY.heading}</h2>
           <p className="mt-6 text-lg">{CAPACITY.gap}</p>
-          <p className="mt-6 text-2xl font-semibold md:text-3xl">
-            {CAPACITY.lead} <span className="text-gold">{CAPACITY.figure}</span> {CAPACITY.tail}
-          </p>
+          <p className="mt-6 text-lg">{CAPACITY.lead}</p>
+          <ul className="mt-6 space-y-2">
+            {CAPACITY.waits.map((row) => (
+              <li key={row.t}>
+                <strong>{row.t}.</strong> {row.b}
+              </li>
+            ))}
+          </ul>
           <p className="mt-6 text-lg">{CAPACITY.tried}</p>
           <p className="mt-6 text-lg">
             {CAPACITY.closeA} <strong>{CAPACITY.closeB}</strong>
           </p>
+        </div>
+      </section>
+
+      <section className="bg-paper pb-16 md:pb-24">
+        <div className={WRAP}>
+          <h2 className="text-3xl md:text-5xl">{SITUATIONS.heading}</h2>
+          <p className="mt-4 max-w-[46ch] text-lg">{SITUATIONS.sub}</p>
+          <ul className="mt-8 space-y-4">
+            {situationLinksOn(SITUATION_PAGES.map((page) => page.path)).map((item) => (
+              <li key={item.path}>
+                <Link to={item.path} className="text-lg text-midnight no-underline hover:text-gold">
+                  {item.line}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 

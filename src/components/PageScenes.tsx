@@ -408,6 +408,27 @@ export const PAGE_SCENES: Record<string, ReactElement> = {
     </>
   ),
 
+  /* Security uniform quotes — the kit list, one line already priced. */
+  "/quoting-uniforms-for-a-security-company": (
+    <>
+      <Figure x={40} y={64} arms="M0 10 l-13 12 M0 10 l22 -4" />
+      <rect x="100" y="36" width="64" height="22" rx="3" />
+      <rect x="108" y="58" width="64" height="22" rx="3" />
+      <rect x="116" y="80" width="64" height="22" rx="3" fill={GOLD} stroke="none" />
+      <path d="M124 91h28" stroke={INK} />
+    </>
+  ),
+
+  /* Senior person on leave — the desk, and the question that still has a source. */
+  "/senior-dispatcher-on-leave": (
+    <>
+      <Figure x={42} y={62} arms="M0 10 l-13 12 M0 10 l20 -6" />
+      <rect x="96" y="48" width="78" height="48" rx="6" />
+      <path d="M108 64h36M108 76h24" />
+      <circle cx="156" cy="70" r="8" fill={GOLD} stroke="none" />
+    </>
+  ),
+
   /* Data and security — the lock, and the key only you hold. */
   "/data-and-security": (
     <>
