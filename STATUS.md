@@ -1,5 +1,17 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **27 October 2026 — homepage sells trust before the call.** Copy only, plus
+> one new section. Three beats, from Phila's 27 Oct sales one-pager: what we
+> believe (hero sub, `#own` lead and team pillar, new `#beliefs`), one
+> anonymised judgment story ("When we said 'not yet'", in `#beliefs`), and what
+> working with us feels like (Audit, Deploy, Embed in `#method`, now labelled
+> "Working with us"). Every section, offer, stage, story, guarantee and FAQ
+> question stays. No price, figure or client name was added. **Before deploy:**
+> Phila confirms the quoting story matches a real conversation, and that
+> "the rest of Africa" (home FAQ) is a claim he wants. `wc-home` was already
+> over its 2,400 cap on main (2,650: the article cards and header menu); this
+> adds about 370 words.
+
 > **26 October 2026 — homepage names the owner, two situation pages.** Salvaged
 > from the closed long-tail branch. The homepage h1 is "For South African
 > owners who are still the person every quote, hire and question runs through."

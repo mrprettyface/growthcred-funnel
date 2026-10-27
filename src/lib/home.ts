@@ -7,6 +7,15 @@
  * The proof on this page (the company names, the talks, the Parliament
  * presentation) was supplied by Phila on 24 September 2026 for publication.
  *
+ * 27 October 2026: trust before the call. Three beats run through the page:
+ * what we believe (BELIEFS, folded into the hero and #own too), one
+ * judgment story (BELIEFS.story), and what working with us feels like
+ * (METHOD). The story comes from Phila's 27 Oct sales one-pager draft and is
+ * anonymised on purpose: no client is named, and it must stay a real
+ * conversation. If it ever stops matching one, rewrite it or take it out.
+ * "Working across Africa" is from the same one-pager. No price, figure or
+ * client name was added.
+ *
  * 23 October 2026: the headline names the owner the work still runs through.
  * The old before/after block and the unsourced revenue and weekly-share
  * claims are gone. The published guarantee stays word for word. No client
@@ -36,7 +45,7 @@ export const HERO = {
   headlineTail: "runs through.",
   /** The quieter second way in, beside the Apply button. */
   secondary: { label: "Read client stories", to: "/stories" },
-  sub: "We build your own private AI on your documents and your rules, on equipment we set up for you. Your data stays in the building. You get back to leading.",
+  sub: "You built this business by wearing every hat. Now you want to lead it. We build your own private AI on your documents and your rules, on equipment we set up for you. Your team gets your answers without waiting for you. Your data stays in the building.",
   cta: "Apply to Work With Us",
   scarcity: "Engagements are limited. Not every application is accepted.",
 } as const;
@@ -89,7 +98,7 @@ export const RENTING = {
 export const OWN = {
   eyebrow: "The Command Core",
   heading: "Your own intelligence. Owned, not rented.",
-  lead: "Let us help you own your intelligence. We handle the equipment. You never have to think about it. We choose what fits your business, set it up and look after it.",
+  lead: "What you know is the most valuable thing your business owns. Let us help you own your intelligence. We handle the equipment. You never have to think about it. We choose what fits your business, set it up and look after it.",
   items: [
     {
       t: "Equipment that fits you",
@@ -105,7 +114,7 @@ export const OWN = {
     },
     {
       t: "Your team, trained",
-      b: "We train your people on it, on their own work. So it gets used on Monday. Not admired on Friday.",
+      b: "We train your people on it, on their own work. It gives them your answers. It doesn't take their jobs. So it gets used on Monday. Not admired on Friday.",
     },
   ],
   honest: "Is it magic? No. It's excellent at documents, questions and the admin in between. Before you sign, we tell you straight what it will and won't do for you.",
@@ -113,12 +122,42 @@ export const OWN = {
   more: { to: "/private-ai", label: "Why own it? The full case" },
 };
 
+/* ---------------- What we believe, and one time we said "not yet" ---------------- */
+
+export const BELIEFS = {
+  eyebrow: "What we believe",
+  heading: "Three things we won't bend on.",
+  items: [
+    {
+      t: "Your intelligence belongs to you.",
+      b: "What you know shouldn't live in someone else's AI. Yours is set up on your SOPs, price lists and templates. If a big AI company changes its rules, you keep working.",
+    },
+    {
+      t: "AI backs your people. It doesn't replace them.",
+      b: "Your clients trust your team. Not a chatbot. The AI hands your people the answers that used to wait for you.",
+    },
+    {
+      t: "Don't buy a big build before you know it pays.",
+      b: "That's why every engagement starts with an audit. We don't build before the list exists.",
+    },
+  ],
+  story: {
+    eyebrow: "When we said “not yet”",
+    paragraphs: [
+      "An owner asked us for the full quoting setup. An agent for sales. One for customers. One for after-hours calls. The biggest option on the table.",
+      "The audit found a different problem. Quotes were slow because the price rules lived in one place: the owner's head. A customer-facing agent would only send wrong quotes faster.",
+      "So we said start with the internal one. Get the rules out of your head and into a system your team uses daily. Add the customer side once the rules work.",
+    ],
+    moral: "Sometimes the right advice is to spend less. We'll tell you.",
+  },
+};
+
 export type Stage = { band: string; family: string; name: string; line: string };
 
 export const STAGES = {
   eyebrow: "Engagements",
   heading: "Pick your stage.",
-  sub: "Same method. The scope grows with the business.",
+  sub: "Same method. Same straight advice on what not to build. The scope grows with the business.",
   /** Every stage is the Command Core, so every stage is the client's own AI. */
   equipment: "Every stage runs on your own AI, on equipment we choose and deploy to fit you.",
   items: [
@@ -132,33 +171,33 @@ export const STAGES = {
       band: "R50M–R200M",
       family: "Command Core",
       name: "Integration",
-      line: "90 days. The same fix built into sales, delivery and admin.",
+      line: "90 days. The same fix built into sales, delivery and admin. Your team stops queueing at your door.",
     },
     {
       band: "R200M+",
       family: "Command Core",
       name: "Transformation",
-      line: "Your whole operating model rebuilt, department by department. Custom scope.",
+      line: "Your whole operating model rebuilt, department by department. You run the company, not the inbox. Custom scope.",
     },
   ] satisfies Stage[],
 };
 
 export const METHOD = {
-  eyebrow: "The Method",
+  eyebrow: "Working with us",
   heading: "How the work stops waiting for you.",
-  note: "Start with one team. Measure the return. Then decide.",
+  note: "Here's what it feels like from your side of the desk. Start with one team. Measure the return. Then decide.",
   steps: [
     {
       t: "Audit",
-      b: "Find where your week goes. Put a rand value on every hour stuck on your desk.",
+      b: "We do the heavy lifting. You and your team talk. We read the documents. We put a rand value on every hour stuck on your desk. You get a plain-English plan: what to build first, and what to leave alone.",
     },
     {
       t: "Deploy",
-      b: "Set up your own AI on equipment that fits you. Build it around the way you work. First result in 14 days.",
+      b: "We set up your own AI on equipment that fits you, built around how you work. You see working parts early, not one big reveal. Your staff test it on real jobs. Nothing goes live until you say so. First result in 14 days.",
     },
     {
       t: "Embed",
-      b: "Keep it sharp. Better models go in as they come out. Hours back tracked every month.",
+      b: "We stay. When your prices, people or products change, we update it. Better models go in as they come out. Hours back tracked every month. You lead. It does the routine.",
     },
   ],
 };
@@ -184,7 +223,7 @@ export const GUARANTEE = {
 
 export const CLOSE = {
   heading: "Next week, it lands on you again.",
-  sub: "Start with one team. Measure the return. Then decide. Apply and we'll tell you if it's a fit.",
+  sub: "Start with one team. Measure the return. Then decide. Apply and we'll tell you if it's a fit. If it isn't yet, we'll tell you that too.",
   cta: "Apply",
 };
 
@@ -328,7 +367,7 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "How is this different from ChatGPT?",
-    a: "ChatGPT is rented, general and outside your building. It knows nothing about your business, so its answers could be for anyone. Your Command Core runs on your own equipment. It starts every task already knowing how you work. Will it beat the newest ChatGPT at everything? No. At your documents, your enquiries and your SOPs, that's what it's built for.",
+    a: "ChatGPT is rented, general and outside your building. It knows nothing about your business, so its answers could be for anyone. Your Command Core runs on your own equipment and starts every task already knowing how you work. Will it beat the newest ChatGPT at everything? No. Your documents, your enquiries and your SOPs are what it's built for.",
   },
   {
     q: "Does it work in my industry?",
@@ -340,10 +379,10 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "What does it cost?",
-    a: "It depends on your stage and your scope. Transformation engagements are scoped to you. Engagements are limited, so apply and we'll tell you if it's a fit.",
+    a: "It depends on your stage and your scope. Transformation engagements are scoped to you. If a smaller start is the right call, we'll say so. Engagements are limited, so apply and we'll tell you if it's a fit.",
   },
   {
     q: "Where is GrowthCred based?",
-    a: "Rosebank, Johannesburg, South Africa. I run GrowthCred from here myself.",
+    a: "Rosebank, Johannesburg, South Africa. I run GrowthCred from here myself. We work with owners across South Africa and the rest of Africa.",
   },
 ];
