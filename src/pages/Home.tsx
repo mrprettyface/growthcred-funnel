@@ -18,6 +18,7 @@ import {
   CAPACITY,
   RENTING,
   OWN,
+  BELIEFS,
   STAGES,
   METHOD,
   FOUNDER,
@@ -248,6 +249,38 @@ export default function Home() {
             {OWN.more.label} <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
+      </section>
+
+      {/* ---------- 2d. What we believe, and one time we said "not yet" ---------- */}
+      <section id="beliefs" className="border-t border-midnight/10 bg-paper py-20 md:py-32">
+        <Reveal className={`${WRAP} grid gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-16`}>
+          <div>
+            <Label>{BELIEFS.eyebrow}</Label>
+            <h2 className="mt-5 max-w-[16ch] text-[length:clamp(2.25rem,5vw,3.75rem)]">{BELIEFS.heading}</h2>
+            <ol className="mt-10 divide-y divide-midnight/10 border-y border-midnight/10">
+              {BELIEFS.items.map((item, i) => (
+                <li key={item.t} className="grid grid-cols-[2.5rem_1fr] gap-x-4 py-6">
+                  <span className="font-mono text-sm text-gold">{String(i + 1).padStart(2, "0")}</span>
+                  <div>
+                    <h3 className="text-xl text-midnight md:text-2xl">{item.t}</h3>
+                    <p className="mt-2 max-w-[52ch] leading-relaxed text-ink">{item.b}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <article className="self-start rounded-3xl border border-gold/30 bg-midnight p-7 text-cream shadow-[0_40px_90px_-40px_rgba(26,26,36,0.7)] md:p-9">
+            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-gold">{BELIEFS.story.eyebrow}</p>
+            {BELIEFS.story.paragraphs.map((p) => (
+              <p key={p} className="mt-5 leading-relaxed text-cream/75">
+                {p}
+              </p>
+            ))}
+            <p className="mt-6 border-t border-cream/15 pt-6 font-display text-2xl font-extrabold leading-snug tracking-[-0.03em] text-gold">
+              {BELIEFS.story.moral}
+            </p>
+          </article>
+        </Reveal>
       </section>
 
       {/* ---------- 3. The situations that still wait on the owner ---------- */}
