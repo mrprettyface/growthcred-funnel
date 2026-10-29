@@ -362,11 +362,11 @@ export const FAQ: { q: string; a: string }[] = [
     a: "We test it on your work. If it does the job better, we put it in. Your setup, your documents and your agents stay. You don't start again.",
   },
   {
-    q: "Who is it for?",
-    a: "Owner-led businesses where you, the founder, are the bottleneck. From R5M to over R200M in revenue. Pick your stage above. The engagement grows with your business.",
+    q: "Do I need AI in my business?",
+    a: "Not for its own sake. You need it if you, the founder, are the bottleneck: quotes wait for you, new hires wait for you, every question lands on your desk. It's for owner-led businesses From R5M to over R200M in revenue. Pick your stage above. The engagement grows with your business.",
   },
   {
-    q: "How is this different from ChatGPT?",
+    q: "Private AI or ChatGPT: which is better for a business?",
     a: "ChatGPT is rented, general and outside your building. It knows nothing about your business, so its answers could be for anyone. Your Command Core runs on your own equipment and starts every task already knowing how you work. Will it beat the newest ChatGPT at everything? No. Your documents, your enquiries and your SOPs are what it's built for.",
   },
   {
@@ -378,11 +378,31 @@ export const FAQ: { q: string; a: string }[] = [
     a: "The workshop is one day, online. You build your first systems yourself, on tools you rent. The Command Core is an engagement. We deploy your own AI on your own equipment and build it into your departments.",
   },
   {
-    q: "What does it cost?",
+    q: "How much does private AI cost for a business in South Africa?",
     a: "It depends on your stage and your scope. Transformation engagements are scoped to you. If a smaller start is the right call, we'll say so. Engagements are limited, so apply and we'll tell you if it's a fit.",
   },
   {
-    q: "Where is GrowthCred based?",
+    q: "Where is GrowthCred based? Is there AI automation near me?",
     a: "Rosebank, Johannesburg, South Africa. I run GrowthCred from here myself. We work with owners across South Africa and the rest of Africa.",
+  },
+  {
+    q: "Is it safe to put company data into ChatGPT?",
+    a: "Public AI tools process what you paste on someone else's equipment, under their terms. For client files that's a real POPIA question. With private AI, your documents stay on your own equipment, and we agree in writing who can reach the system before anything goes in.",
+  },
+  {
+    q: "When should a business get AI agents?",
+    a: "When you're doing everything twice: briefing each person separately, relaying client messages, answering the same questions. If you're still the person everything runs through, it's time. Start with one team, see what changes, then decide.",
+  },
+  {
+    q: "Can I set up private AI myself?",
+    a: "You can, if you have time to pick the models and equipment, secure them and keep them running. Most owners don't, and you want the result, not another job. If you'd rather build your first systems yourself, start with the one-day workshop.",
+  },
+  {
+    q: "Is GrowthCred legit? Where can I read reviews?",
+    a: "Read our client stories. They use the words clients actually said. Then apply, and judge us on the first call.",
+  },
+  {
+    q: "Should I buy another AI or marketing tool first?",
+    a: "Check the free ones first. Our free tools guide lists the ones we open before we recommend you pay for anything. A tool shows you the numbers. It doesn't take the work off your desk. That part we build.",
   },
 ];

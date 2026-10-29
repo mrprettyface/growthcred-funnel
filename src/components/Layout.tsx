@@ -88,7 +88,7 @@ const NAV = [
       },
       {
         links: [
-          { to: "/tools/content-compass", label: "Content compass", blurb: "34 questions your customers type." },
+          { to: "/guides/free-marketing-tools-before-you-buy", label: "Free tools before you buy", blurb: "Check these before you pay for another tool." },
           { to: "/tools/admin-time-calculator", label: "Admin time calculator", blurb: "Put a rand figure on the hours admin takes." },
           { to: "/quoting-uniforms-for-a-security-company", label: "Security uniform quotes", blurb: "Each site's kit, priced from the last list you approved." },
           { to: "/senior-dispatcher-on-leave", label: "Senior person on leave", blurb: "The desk still moves when that one person is out." },
@@ -368,7 +368,7 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
       ["/quoting-uniforms-for-a-security-company", "Security uniform quotes"],
       ["/senior-dispatcher-on-leave", "Senior person on leave"],
       ["/playbook", "Free resources"],
-      ["/tools/content-compass", "Content compass"],
+      ["/guides/free-marketing-tools-before-you-buy", "Free marketing tools"],
       ["/tools/admin-time-calculator", "Admin time calculator"],
       ["/brain", "Business Brain builder"],
       ["/data-and-security", "Data & security"],

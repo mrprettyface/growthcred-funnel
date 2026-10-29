@@ -8,7 +8,7 @@ import { WORKSHOP } from "../lib/offers";
 export const SITE = "https://growthcred.co.za";
 export type RouteMeta = {path:string; title:string; description:string; index:boolean; canonical?:string; modified?:string};
 export const ROUTES: RouteMeta[] = [
-  {path:"/",title:"Private AI Implementation in South Africa | GrowthCred",description:"Let us help you own your intelligence. Your own AI on equipment we deploy, built around your business. No per-seat subscriptions. Apply today.",index:true,modified:REVIEWED},
+  {path:"/",title:"Private AI Implementation in South Africa | GrowthCred",description:"Private AI implementation and AI automation in South Africa. Your own AI on equipment we deploy, built around your business. No per-seat subscriptions.",index:true,modified:REVIEWED},
   {path:PRIVATE_AI_PATH,title:"Private AI South Africa: Own Your Intelligence | GrowthCred",description:"Your own AI, on your own equipment, set up around your business. Why firms are moving AI in-house, what owning costs, and when it's the wrong call.",index:true,modified:"2026-09-29"},
   {path:CORPORATE_PATH,title:"Corporate AI Training for Teams in South Africa | GrowthCred",description:"Corporate AI training that gets every employee producing documents and reports 3× faster. Live workshops, role playbooks, measured ROI, priced per head.",index:true,modified:"2026-09-25"},
   {path:"/workshop",title:"Online AI Workshop for Business Owners | GrowthCred SA",description:"Build practical AI workflows in GrowthCred’s one-day online workshop for South African business owners. R990. Session details confirmed on registration.",index:true,modified:REVIEWED},

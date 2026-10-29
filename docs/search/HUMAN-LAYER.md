@@ -69,3 +69,6 @@ The money page for the R990 funnel shows no attendee result.
 Freshness is one of the strongest signals for being cited. Once a quarter,
 re-read each page, update anything that changed (prices, dates, tools), and only
 then move its reviewed date forward. Never bump a date without reviewing.
+
+### `/guides/free-marketing-tools-before-you-buy`
+1. Which of these free tools Phila actually opened on a real GrowthCred engagement (with consent), and what it showed.
