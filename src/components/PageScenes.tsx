@@ -140,17 +140,6 @@ export const PAGE_SCENES: Record<string, ReactElement> = {
     </>
   ),
 
-  /* Content compass — the question list, first line marked. */
-  "/tools/content-compass": (
-    <>
-      <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l22 4" />
-      <rect x="96" y="28" width="62" height="86" rx="6" />
-      <path d="M108 46h36" stroke={GOLD} strokeWidth={3.5} />
-      <path d="M108 62h36M108 76h28M108 90h22" />
-    </>
-  ),
-
-  /* The time calculator — a figure with a calculator and the answer lit. */
   "/tools/admin-time-calculator": (
     <>
       <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l22 6" />

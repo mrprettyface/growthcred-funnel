@@ -1,5 +1,7 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **29 October 2026 — Content Compass is not a product.** `/tools/content-compass` 301s to `/resources` on Apache and on Pages. The homepage FAQ and meta now use the customer-search questions that fit this business (need, cost in South Africa, near me, ChatGPT comparison, safety, when, doing it yourself, reviews, free tools first). Shapes that would invent a price or a claim are not on the page. `/guides/free-marketing-tools-before-you-buy` names 30 free marketing tools under five questions and closes on the work we build. No new price. No new client name. Phila deploys: cPanel Update from Remote, then Deploy HEAD. This change does not deploy.
+
 > **27 October 2026 — homepage sells trust before the call.** Copy only, plus
 > one new section. Three beats, from Phila's 27 Oct sales one-pager: what we
 > believe (hero sub, `#own` lead and team pillar, new `#beliefs`), one

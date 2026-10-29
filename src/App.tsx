@@ -228,6 +228,7 @@ export default function App() {
           {/* Backend offer */}
           <Route path="/call" element={<Layout><CallPage /></Layout>} />
           <Route path="/agency" element={<Navigate to="/ai-automation-south-africa" replace />} />
+          <Route path="/tools/content-compass" element={<Navigate to="/resources" replace />} />
 
           {/* Front door for anything that is not a funnel step. Deliberately
               out of the header nav: the header sells, the footer serves. */}
