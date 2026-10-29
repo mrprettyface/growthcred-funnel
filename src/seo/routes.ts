@@ -26,7 +26,7 @@ export const ROUTES: RouteMeta[] = [
   {path:"/privacy",title:"Privacy | GrowthCred",description:"How GrowthCred uses what you type into our forms, who can see it, and how to ask us about your information. We never see your card number.",index:false},
   {path:"/refunds",title:"Refunds | GrowthCred",description:"Read GrowthCred’s refunds policy and contact us with questions.",index:false},
 ];
-export const ALIASES: Record<string,string> = {"/agency":"/ai-automation-south-africa", "/webinar-plain":"/webinar", "/class":"/webinar"};
+export const ALIASES: Record<string,string> = {"/agency":"/ai-automation-south-africa", "/webinar-plain":"/webinar", "/class":"/webinar", "/tools/content-compass":"/resources"};
 export const normalizePath = (p:string) => p.replace(/\/+$/, "") || "/";
 export function routeMeta(path:string): RouteMeta {
   const clean=normalizePath(path);

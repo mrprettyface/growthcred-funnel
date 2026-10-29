@@ -14,6 +14,7 @@ ErrorDocument 404 /404.html
 
   RewriteRule ^agency/?$ /ai-automation-south-africa [R=301,L]
   RewriteRule ^(class|webinar-plain)/?$ /webinar [R=301,L]
+  RewriteRule ^tools/content-compass/?$ /resources [R=301,L]
 
   # Canonicalize only browser requests, not internal .html rewrites.
   RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]

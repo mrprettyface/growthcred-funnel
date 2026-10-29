@@ -568,6 +568,7 @@
   "aliases": {
     "/agency": "/ai-automation-south-africa",
     "/webinar-plain": "/webinar",
-    "/class": "/webinar"
+    "/class": "/webinar",
+    "/tools/content-compass": "/resources"
   }
 }

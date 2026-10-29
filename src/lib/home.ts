@@ -363,7 +363,7 @@ export const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Do I need AI in my business?",
-    a: "Not for its own sake. You need it if you, the founder, are the bottleneck: quotes wait for you, new hires wait for you, every question lands on your desk. It's for owner-led businesses From R5M to over R200M in revenue. Pick your stage above. The engagement grows with your business.",
+    a: "Not for its own sake. You need it if you, the founder, are the bottleneck: quotes wait for you, new hires wait for you, every question lands on your desk. It's for owner-led businesses from R5M to over R200M in revenue. Pick your stage above. The engagement grows with your business.",
   },
   {
     q: "Private AI or ChatGPT: which is better for a business?",
