@@ -21,7 +21,11 @@ prices, what is done, what is open, and the rules each page has to keep.
   `prefers-reduced-motion`, and no content is ever gated behind an animation
   finishing. See the mobile performance rules in STATUS.md before touching the
   webinar experience — especially "no `filter: blur()` on anything driven by
-  scroll".
+  scroll". One owner-approved exception (3 Nov 2026, branch
+  `feat/swarm-build`): the homepage Swarm Rebuild (`src/swarm/`) hides
+  `data-build` sections until its cursors build them. It may only hide what it
+  has attached to itself, never the hero, never under reduced motion, and a
+  failed load leaves the page finished. Nothing else gets this exception.
 - Deploy is: push to GitHub → cPanel Git → Update from Remote → Deploy HEAD.
   A free Cloudflare Pages path exists alongside it — see **[DEPLOY.md](DEPLOY.md)**.
   Both hosts must keep working: `.htaccess` serves Apache, `public/_redirects`

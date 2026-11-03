@@ -124,6 +124,28 @@ function StoryCard({ story }: { story: HomeStory }) {
 
 export default function Home() {
   useEffect(() => track("home_view", { variant: "command-core" }), []);
+  // Swarm Rebuild (src/swarm/swarm-build.ts): loaded as its own chunk once the
+  // browser is idle, never under reduced motion. Everything stays visible
+  // until it has loaded and attached, so a failure leaves the page finished.
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let handle: { destroy: () => void } | undefined;
+    let cancelled = false;
+    const start = () =>
+      import("../swarm/swarm-build")
+        .then((m) => {
+          if (!cancelled) handle = m.startSwarm();
+        })
+        .catch(() => {});
+    const ric = typeof window.requestIdleCallback === "function";
+    const idle: number = ric ? window.requestIdleCallback(start, { timeout: 2000 }) : window.setTimeout(start, 600);
+    return () => {
+      cancelled = true;
+      if (ric) window.cancelIdleCallback(idle);
+      else window.clearTimeout(idle);
+      handle?.destroy();
+    };
+  }, []);
 
   return (
     <>
@@ -164,7 +186,7 @@ export default function Home() {
       </section>
 
       {/* ---------- 2. The number ---------- */}
-      <section id="capacity" className="bg-paper py-20 md:py-32">
+      <section id="capacity" data-build className="bg-paper py-20 md:py-32">
         <Reveal className={`${WRAP} grid gap-14 md:grid-cols-[1.15fr_1fr] md:items-center md:gap-20`}>
           <div>
             <h2 className="max-w-[20ch] text-[length:clamp(2rem,4.5vw,3.5rem)] text-midnight">{CAPACITY.heading}</h2>
@@ -194,7 +216,7 @@ export default function Home() {
       </section>
 
       {/* ---------- 2b. Renting AI doesn't fix it ---------- */}
-      <section id="renting" data-tone="dark" className="relative isolate overflow-hidden bg-midnight py-20 text-cream md:py-32">
+      <section id="renting" data-build data-tone="dark" className="relative isolate overflow-hidden bg-midnight py-20 text-cream md:py-32">
         <DarkBackdrop />
         <div className={WRAP}>
           <div className="max-w-[44ch]">
@@ -219,7 +241,7 @@ export default function Home() {
       </section>
 
       {/* ---------- 2c. Owning it: the Command Core ---------- */}
-      <section id="own" className="bg-white py-20 md:py-32">
+      <section id="own" data-build className="bg-white py-20 md:py-32">
         <div className={WRAP}>
           <div className="max-w-[44ch]">
             <Label>{OWN.eyebrow}</Label>
@@ -252,7 +274,7 @@ export default function Home() {
       </section>
 
       {/* ---------- 2d. What we believe, and one time we said "not yet" ---------- */}
-      <section id="beliefs" className="border-t border-midnight/10 bg-paper py-20 md:py-32">
+      <section id="beliefs" data-build className="border-t border-midnight/10 bg-paper py-20 md:py-32">
         <Reveal className={`${WRAP} grid gap-12 md:grid-cols-[1.1fr_0.9fr] md:gap-16`}>
           <div>
             <Label>{BELIEFS.eyebrow}</Label>
@@ -284,7 +306,7 @@ export default function Home() {
       </section>
 
       {/* ---------- 3. The situations that still wait on the owner ---------- */}
-      <section id="situations" className="border-t border-midnight/10 bg-paper py-20 md:py-32">
+      <section id="situations" data-build className="border-t border-midnight/10 bg-paper py-20 md:py-32">
         <div className={WRAP}>
           <Label>{SITUATIONS.eyebrow}</Label>
           <h2 className="mt-5 max-w-[16ch] text-[length:clamp(2.5rem,6vw,4.5rem)]">{SITUATIONS.heading}</h2>
@@ -313,7 +335,7 @@ export default function Home() {
       </section>
 
       {/* ---------- 4. Client stories: the proof behind the claims ---------- */}
-      <section id="stories" className="bg-paper py-20 md:py-32">
+      <section id="stories" data-build className="bg-paper py-20 md:py-32">
         <div className={WRAP}>
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-[40ch]">
@@ -337,7 +359,7 @@ export default function Home() {
       </section>
 
       {/* ---------- 5. The method ---------- */}
-      <section id="method" data-tone="dark" className="relative isolate overflow-hidden bg-midnight py-20 text-cream md:py-32">
+      <section id="method" data-build data-tone="dark" className="relative isolate overflow-hidden bg-midnight py-20 text-cream md:py-32">
         <DarkBackdrop />
         <div className={WRAP}>
           <Label dark>{METHOD.eyebrow}</Label>
@@ -372,7 +394,7 @@ export default function Home() {
       </section>
 
       {/* ---------- 6. Pick your stage ---------- */}
-      <section id="stages" className="bg-paper py-20 md:py-32">
+      <section id="stages" data-build className="bg-paper py-20 md:py-32">
         <div className={WRAP}>
           <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
@@ -428,7 +450,7 @@ export default function Home() {
       </section>
 
       {/* ---------- 7. The founder ---------- */}
-      <section id="founder" className="bg-white py-20 md:py-32">
+      <section id="founder" data-build className="bg-white py-20 md:py-32">
         <Reveal className={`${WRAP} grid items-center gap-14 md:grid-cols-[0.85fr_1.15fr] md:gap-20`}>
           <div className="relative mx-auto w-full max-w-[400px]">
             <div aria-hidden="true" className="absolute inset-0 translate-x-4 translate-y-4 rounded-3xl border border-gold/60" />
@@ -466,7 +488,7 @@ export default function Home() {
       </section>
 
       {/* ---------- 8. The guarantee ---------- */}
-      <section id="guarantee" className="bg-paper pb-20 md:pb-32">
+      <section id="guarantee" data-build className="bg-paper pb-20 md:pb-32">
         <Reveal className={WRAP}>
           <div className="relative isolate overflow-hidden rounded-[2rem] bg-midnight px-7 py-12 text-cream md:px-16 md:py-16">
             <div aria-hidden="true" className="cc-glow pointer-events-none absolute -left-40 -top-40 -z-10 h-[34rem] w-[34rem]" />
@@ -484,7 +506,7 @@ export default function Home() {
       </section>
 
       {/* ---------- 9. Other ways in: the rest of the site ---------- */}
-      <section id="ways" data-tone="dark" className="relative isolate overflow-hidden bg-midnight py-20 text-cream md:py-32">
+      <section id="ways" data-build data-tone="dark" className="relative isolate overflow-hidden bg-midnight py-20 text-cream md:py-32">
         <DarkBackdrop />
         <div className={WRAP}>
           <div className="max-w-[44ch]">
@@ -514,7 +536,7 @@ export default function Home() {
       </section>
 
       {/* ---------- 10. The field guide: every article ---------- */}
-      <section id="guides" className="bg-paper py-20 md:py-32">
+      <section id="guides" data-build className="bg-paper py-20 md:py-32">
         <div className={WRAP}>
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div className="max-w-[40ch]">
@@ -553,7 +575,7 @@ export default function Home() {
       </section>
 
       {/* ---------- 11. FAQ ---------- */}
-      <section id="faq" className="border-t border-midnight/10 bg-paper py-20 md:py-32">
+      <section id="faq" data-build className="border-t border-midnight/10 bg-paper py-20 md:py-32">
         <div className={WRAP}>
           <div className="mx-auto mb-12 max-w-[40ch] text-center">
             <Label>Questions</Label>
@@ -564,7 +586,7 @@ export default function Home() {
       </section>
 
       {/* ---------- 12. Close ---------- */}
-      <section id="close" data-tone="dark" className="relative isolate overflow-hidden bg-midnight py-24 text-center text-cream md:py-36">
+      <section id="close" data-build data-tone="dark" className="relative isolate overflow-hidden bg-midnight py-24 text-center text-cream md:py-36">
         <DarkBackdrop glow="bottom" />
         <div className={WRAP}>
           <HomeScene name="outOfTheRoom" className="mx-auto mb-8 h-28 w-40 text-cream/70" />

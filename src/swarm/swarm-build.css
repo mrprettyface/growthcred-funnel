@@ -1,0 +1,66 @@
+/* ============================================================
+   Swarm Rebuild (homepage only). See src/swarm/swarm-build.ts.
+
+   Nothing here hides anything on its own. A block is hidden only while it
+   carries data-sb="pending", and only swarm-build.ts sets that, after it has
+   loaded and attached. If the script never runs, the page is simply finished.
+   Under reduced motion every rule below is switched off.
+   ============================================================ */
+
+/* Waiting for the swarm. !important so it also beats the page's own
+   scroll-driven reveal animations, which would otherwise set opacity. */
+[data-sb="pending"] {
+  opacity: 0 !important;
+}
+
+/* Arriving. `backwards` fill, and the script removes the attribute on
+   animationend, so the element's own transforms and animations take over
+   again the moment this is done. */
+[data-sb="in"] {
+  animation: sbIn 0.4s cubic-bezier(0.23, 1, 0.32, 1) backwards !important;
+}
+[data-sb="fade"] {
+  animation: sbFade 0.28s cubic-bezier(0.23, 1, 0.32, 1) backwards !important;
+}
+[data-sb="pop"] {
+  animation: sbPop 0.45s cubic-bezier(0.23, 1, 0.32, 1) backwards !important;
+}
+
+@keyframes sbIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+@keyframes sbFade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes sbPop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+/* One full-screen overlay. Above the page and the phone Apply bar (z-40),
+   below the site header (z-50), so the wordmark is never drawn over. */
+.sb-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 45;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-sb] {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+  .sb-canvas {
+    display: none;
+  }
+}
