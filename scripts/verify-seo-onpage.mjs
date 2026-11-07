@@ -35,11 +35,15 @@ function headingProblems(html) {
   return out;
 }
 const imgsWithoutAlt = (html) => [...html.matchAll(/<img\b[^>]*>/g)].map((m) => m[0]).filter((t) => !/\balt="[^"]+"/.test(t));
+/** Visible words, with inline links removed so they don't split a sentence. */
+function faqVisible(html) {
+  return text(html.replace(/<\/?(?:a|span|em|strong|b|i|mark)\b[^>]*>/gi, ""));
+}
 function faqMismatches(html) {
   const m = html.match(/<script id="site-schema" type="application\/ld\+json">([\s\S]*?)<\/script>/);
   const faq = JSON.parse(m[1])["@graph"].find((n) => n["@type"] === "FAQPage");
   if (!faq) return null;
-  const visible = text(mainOf(html));
+  const visible = faqVisible(mainOf(html));
   return faq.mainEntity.filter((q) => !visible.includes(q.name) || !visible.includes(q.acceptedAnswer.text)).map((q) => q.name);
 }
 /** Word 5-shingle Jaccard similarity: 1 = identical text, 0 = nothing shared. */
@@ -66,6 +70,8 @@ assert.ok(imgsWithoutAlt('<img src="/x.jpg" alt="">').length, "alt rule cannot f
 {
   const fake = `<main id="main-content"><p>Question one?</p></main><script id="site-schema" type="application/ld+json">${JSON.stringify({ "@graph": [{ "@type": "FAQPage", mainEntity: [{ name: "Question one?", acceptedAnswer: { text: "An answer nobody can see." } }] }] })}</script>`;
   assert.equal(faqMismatches(fake).length, 1, "FAQ-matches-visible rule cannot fail");
+  const linked = `<main id="main-content"><p>What about confidential information and <a href="/guides/private-ai-popia">POPIA</a>?</p><div>Repeated, rules-based work with clear inputs. <a href="/ai-proposal-automation">Proposal drafts</a>, follow-ups.</div></main><script id="site-schema" type="application/ld+json">${JSON.stringify({ "@graph": [{ "@type": "FAQPage", mainEntity: [{ name: "What about confidential information and POPIA?", acceptedAnswer: { text: "Repeated, rules-based work with clear inputs. Proposal drafts, follow-ups." } }] }] })}</script>`;
+  assert.equal(faqMismatches(linked).length, 0, "an inline link must not hide FAQ text");
 }
 {
   const t = "the same forty words about a market repeated across two pages with only the city name swapped out ".repeat(4);

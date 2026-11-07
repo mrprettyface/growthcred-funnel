@@ -25,6 +25,7 @@ export const SITUATION_PAGES: SearchPage[] = [
       "You supply a security company with guards on several sites, and every new contract means re-quoting kits by hand.",
     intro:
       "Each site wants its own kit. Each role wears something else. Sizes change. The last order does not match the new one. So you build the quote again, by hand.",
+    introLink: { phrase: "build the quote again", href: "/quote-engine" },
     sections: [
       {
         title: "Where the quote breaks",
@@ -88,6 +89,7 @@ export const SITUATION_PAGES: SearchPage[] = [
           "Access is by role. A junior sees their job. They do not see the whole business. You decide who may ask what.",
           "It will not invent a rule you never wrote down. If the document is silent, the question still comes to a person. That is the point.",
         ],
+        links: [{ index: 0, phrase: "It answers with the source document", href: "/company-brain" }],
       },
       {
         title: "Start with one team",

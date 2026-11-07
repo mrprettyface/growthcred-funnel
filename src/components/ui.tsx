@@ -245,7 +245,7 @@ export function CheckList({
  * question. A column of identical accordion rows reads as a wall to get past;
  * a figure per row makes each question look like it was actually considered.
  */
-export function Faq({ items }: { items: { q: string; a: ReactNode; mark?: FaqMarkName }[] }) {
+export function Faq({ items }: { items: { q: ReactNode; a: ReactNode; mark?: FaqMarkName }[] }) {
   return (
     <div className="mx-auto max-w-[760px] divide-y divide-midnight/10 border-y border-midnight/10">
       {items.map((item, i) => (
