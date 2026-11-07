@@ -9,7 +9,7 @@ import { CostCalculator } from "../components/CostCalculator";
 import { PageScene } from "../components/PageScenes";
 import { FaqMark } from "../components/FaqMarks";
 import { GUIDE_OFFER, requestGuide } from "../lib/guide";
-import { linkPhrase } from "../components/PhraseLink";
+import { linkPhrase, linkPhrases } from "../components/PhraseLink";
 const labels:Record<string,string>={"/workshop":"Online AI workshop","/":"The Command Core","/call":"Discuss an implementation project","/brain":"Build your Business Brain","/contact":"Contact GrowthCred","/corporate-ai-training":"Corporate AI training for teams","/private-ai":"Private AI, explained","/playbook":"Start with a useful AI workflow."};
 export function SearchPage({page}:{page:Page}) {
   if (page.kind === "situation") return <SituationPage page={page} />;
@@ -35,11 +35,11 @@ export function SearchPage({page}:{page:Page}) {
     <Section>
       <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,760px)_1fr]">
         <article className="min-w-0 space-y-10">
-          {page.sections.map((section,i)=><section id={`section-${i+1}`} key={section.title} className="scroll-mt-28"><h2 className="flex items-center gap-3 text-2xl md:text-3xl">{section.mark&&<span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold/10 text-gold"><FaqMark name={section.mark}/></span>}<span>{section.titleLink ? linkPhrase(section.title, section.titleLink.phrase, section.titleLink.href) : section.title}</span></h2>{section.paragraphs.map((p,j)=>{const link=section.links?.find(l=>l.index===j);return <p key={p} className="mt-4 max-w-[70ch] leading-relaxed text-ink">{link ? linkPhrase(p, link.phrase, link.href) : p}</p>})}{section.items&&<ul className="mt-5 list-disc space-y-3 pl-6 text-ink">{section.items.map(item=><li key={item}>{item}</li>)}</ul>}{page.guide?.after===i&&<GuideCallout line={page.guide.line}/>}</section>)}
+          {page.sections.map((section,i)=><section id={`section-${i+1}`} key={section.title} className="scroll-mt-28"><h2 className="flex items-center gap-3 text-2xl md:text-3xl">{section.mark&&<span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold/10 text-gold"><FaqMark name={section.mark}/></span>}<span>{section.titleLink ? linkPhrase(section.title, section.titleLink.phrase, section.titleLink.href) : section.title}</span></h2>{section.paragraphs.map((p,j)=>{const links=section.links?.filter(l=>l.index===j);return <p key={p} className="mt-4 max-w-[70ch] leading-relaxed text-ink">{links?.length ? linkPhrases(p, links) : p}</p>})}{section.items&&<ul className="mt-5 list-disc space-y-3 pl-6 text-ink">{section.items.map((item,k)=>{const links=section.itemLinks?.filter(l=>l.index===k);return <li key={item}>{links?.length ? linkPhrases(item, links) : item}</li>})}</ul>}{page.guide?.after===i&&<GuideCallout line={page.guide.line}/>}</section>)}
           {page.close&&<section aria-label="Next step" className="rounded-3xl bg-midnight p-7 text-cream md:p-10"><p className="font-display text-2xl font-extrabold leading-snug tracking-[-0.03em] md:text-3xl">{page.close.line}</p><p className="mt-5 text-lg text-cream/75">{page.close.ask}</p><ButtonLink to={page.close.cta.to} className="mt-6">{page.close.cta.label}</ButtonLink></section>}
           {page.sources&&<section id="sources" className="scroll-mt-28"><h2 className="text-2xl md:text-3xl">Sources behind this page</h2><p className="mt-4 max-w-[70ch] leading-relaxed text-ink">Here's where the public figures on this page come from. They aren't our client results. They don't endorse us. And they're no substitute for your own professional advice.</p><ul className="mt-5 list-disc space-y-3 pl-6 text-ink">{page.sources.map(source=><li key={source.href}><a href={source.href} target="_blank" rel="noopener noreferrer">{source.label}</a></li>)}</ul></section>}
-          {page.path==='/tools/admin-time-calculator'&&<CostCalculator/>}
-          {page.faq&&<section id="faq" className="scroll-mt-28"><h2 className="text-2xl md:text-3xl">Frequently asked questions</h2><div className="mt-6"><Faq items={page.faq}/></div></section>}
+          {page.path==='/tools/admin-time-calculator'&&<CostCalculator linkQuotes/>}
+          {page.faq&&<section id="faq" className="scroll-mt-28"><h2 className="text-2xl md:text-3xl">Frequently asked questions</h2><div className="mt-6"><Faq items={page.faq.map(item=>({...item,q:item.qLink?linkPhrase(item.q,item.qLink.phrase,item.qLink.href):item.q,a:item.aLink?linkPhrase(item.a,item.aLink.phrase,item.aLink.href):item.a}))}/></div></section>}
           {page.kind!=='hub'&&page.kind!=='about'&&<AuthorBox/>}
           {page.kind==='hub'&&<ul className="grid gap-4 sm:grid-cols-2">{page.related.map(path=>{const target=SEARCH_PAGES.find(p=>p.path===path);return <li key={path}><Link to={path} className="cc-card group flex h-full flex-col rounded-3xl border border-midnight/10 bg-white p-5 no-underline hover:border-gold"><div aria-hidden="true" className="grid place-items-center rounded-xl bg-midnight/[0.03] py-3"><PageScene path={path} className="h-28 w-full text-midnight"/></div><span className="mt-4 font-mono text-[12px] uppercase tracking-[0.16em] text-muted">{kindLabel(target)}</span><span className="mt-2 font-display text-lg font-bold tracking-[-0.02em] text-midnight">{target?.heading??path}</span><span className="mt-3 text-sm text-gold">Read on<span aria-hidden="true"> ↗</span></span></Link></li>})}</ul>}
         </article>
@@ -58,16 +58,19 @@ function SituationPage({ page }: { page: Page }) {
     <>
       <Section className="pb-6 pt-12 md:pb-8 md:pt-20">
         <h1 className="max-w-[22ch] text-[length:clamp(2rem,4.2vw,3.6rem)] leading-[1.08] text-midnight">{page.heading}</h1>
-        <p className="mt-8 max-w-[62ch] text-lg leading-relaxed text-ink md:text-xl">{page.intro}</p>
+        <p className="mt-8 max-w-[62ch] text-lg leading-relaxed text-ink md:text-xl">{page.introLink ? linkPhrase(page.intro, page.introLink.phrase, page.introLink.href) : page.intro}</p>
       </Section>
       <Section className="pt-0 md:pt-0">
         <article className="mx-auto max-w-[760px] space-y-10">
           {page.sections.map((section, i) => (
             <section id={`section-${i + 1}`} key={section.title} className="scroll-mt-28">
               <h2 className="text-2xl md:text-3xl">{section.title}</h2>
-              {section.paragraphs.map((p) => (
-                <p key={p} className="mt-4 max-w-[70ch] leading-relaxed text-ink">{p}</p>
-              ))}
+              {section.paragraphs.map((p, j) => {
+                const links = section.links?.filter((l) => l.index === j);
+                return (
+                  <p key={p} className="mt-4 max-w-[70ch] leading-relaxed text-ink">{links?.length ? linkPhrases(p, links) : p}</p>
+                );
+              })}
               {section.items && (
                 <ul className="mt-5 list-disc space-y-3 pl-6 text-ink">
                   {section.items.map((item) => (

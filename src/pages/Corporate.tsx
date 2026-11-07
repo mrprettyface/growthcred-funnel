@@ -12,6 +12,7 @@ import { IMESSAGE_DISPLAY, IMESSAGE_NUMBER, LINKEDIN_URL, WHATSAPP_DISPLAY, what
 import { BrandIcon } from "../components/BrandIcons";
 import { FOUNDER } from "../lib/home";
 import { AuthorBox, Byline } from "../components/AuthorBox";
+import { linkPhrase } from "../components/PhraseLink";
 import {
   PUBLISHED,
   ENQUIRE_ANCHOR,
@@ -592,7 +593,12 @@ export default function Corporate() {
             <Label>Questions</Label>
             <h2 className="mt-5 text-[length:clamp(2.25rem,5vw,3.75rem)]">Questions sponsors ask first.</h2>
           </div>
-          <Faq items={FAQ} />
+          <Faq
+            items={FAQ.map((item) => ({
+              ...item,
+              q: linkPhrase(item.q, "POPIA", "/guides/private-ai-popia"),
+            }))}
+          />
           <div className="mt-12 text-center">
             <PillLink to={ENQUIRE_ANCHOR}>{HERO.cta}</PillLink>
           </div>
