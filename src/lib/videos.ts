@@ -64,9 +64,11 @@ export const VIDEOS: Record<string, VideoSource> = {
   upsell: youtube("https://youtu.be/3Qg1U1gyGOQ"), // "Operators Intensive" video, "/upsell"
   customSystem: youtube("https://youtu.be/XRliPVrPfMI"), // "Custom System" video, "/build"
   freeClass: null, // Free class, "/class" (no video yet)
-  /* The 60-90 second "Chat Trap" clip above the headline on /webinar. Phila to
-     camera. While this is null the hero simply has no video block, rather than
-     a placeholder telling a registrant something is unavailable. */
+  /* The 60-90 second "Chat Trap" clip in the hero on /webinar, Phila to camera.
+     While this is null the hero's 16:9 frame holds a still of Phila instead,
+     with no play button and no "watch first" label, so the page's shape is
+     final and nothing pretends to be a video. Paste the link here and the
+     label and the real player replace the still on their own. */
   jcciChatTrap: null,
   thankYou: null, // Order confirmation, "/thank-you" (no video, by design)
 };

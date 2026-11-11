@@ -5,7 +5,7 @@
 > 18:00 SAST** on Microsoft Teams is built. `/webinar` was an undated
 > placeholder class; the dated session supersedes it, and `src/pages/NextClass.tsx`
 > is gone. The page is a full registration page in the house voice: a countdown
-> bar, a two-step form (details, then free seat or a R497 VIP seat), the Chat
+> bar, a two-step form (details, then free seat or a R495 VIP seat), the Chat
 > Trap argument, the four engines, a Chat Trap calculator, the takeaways, the
 > seats, the FAQ and a close. A free seat lands on `/webinar/thanks` (Brain
 > Builder, WhatsApp reminder group, calendar links, referral block); a VIP seat
@@ -17,9 +17,10 @@
 > **Four things are waiting on a person before this is launch-ready**, all in
 > [docs/operations/jcci-webinar-reminders.md](docs/operations/jcci-webinar-reminders.md):
 > JCCI's confirmation (members-only? Teams at 18:00? can this page run alongside
-> theirs?); the **Whop plan for the R497 VIP seat**, which does not exist, so
-> `/webinar/vip` shows a visible placeholder and takes the seat on WhatsApp by
-> hand until `WHOP_PLANS.vipSeat` is set; **running `supabase/schema.sql`**, which
+> theirs?); ~~the Whop plan for the VIP seat~~ — **done 11 Nov**: `plan_p4azvJzT5gWRg`
+> at R495 (the brief said R497; the site moved to match Whop, Phila's call),
+> live on `/webinar/vip` with `WHOP_SEEN` in `src/lib/whop.ts` as the receipt
+> the gate checks `VIP_SEAT` against; **running `supabase/schema.sql`**, which
 > now adds `business`, `consent` and `seat` to `webinar_registrations` (a
 > registration survives a forgotten migration — the insert retries without those
 > three — but the POPIA consent flag is lost); and the hero video slot

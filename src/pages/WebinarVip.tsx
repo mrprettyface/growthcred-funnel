@@ -40,6 +40,18 @@ export default function WebinarVip() {
   const planId = WHOP_PLANS.vipSeat;
   const [paid, setPaid] = useState(false);
 
+  /*
+   * The Whop checkout runs only in the browser. This page is prerendered on the
+   * server (scripts/prerender.mjs renders every route not in its `interactive`
+   * set), and the Whop SDK expects a window, so rendering it there would break
+   * the build or ship a half-mounted frame. The site's own checkout pages dodge
+   * this by not prerendering at all; this page keeps its prerendered text and
+   * mounts the checkout once it is in the browser instead. Server and first
+   * client render both show the loading line, so they agree.
+   */
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   useEffect(() => track("webinar_vip_view", { webinar: WEBINAR.slug }), []);
 
   /* Coming back from Whop's hosted step. This only decides what we SAY: the
@@ -99,7 +111,7 @@ export default function WebinarVip() {
               If the hour wasn’t worth it, email us within 7 days and we refund you in full.
             </p>
 
-            {planId ? (
+            {planId && mounted ? (
               <div className="mt-7">
                 <Suspense
                   fallback={
@@ -119,6 +131,10 @@ export default function WebinarVip() {
                   />
                 </Suspense>
               </div>
+            ) : planId ? (
+              <p className="mt-7 font-mono text-[12px] uppercase tracking-[0.16em] text-muted">
+                Loading secure checkout&hellip;
+              </p>
             ) : (
               <div className="mt-7">
                 <ToComeBlock

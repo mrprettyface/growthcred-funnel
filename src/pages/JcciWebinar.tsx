@@ -54,6 +54,51 @@ function useSegment() {
 }
 
 /**
+ * The video frame under the promise.
+ *
+ * Phila is filming the 60-90 second Chat Trap clip now. Until its link is in
+ * src/lib/videos.ts (`jcciChatTrap`), the frame holds a still of him instead:
+ * the same 16:9 box in the same place, so the page's shape is final today and
+ * nothing jumps when the video lands. There is deliberately no play button and
+ * no "watch first" label on the still. A photo dressed up as a video is a
+ * button that does nothing, which is worse than an honest photo. Paste the link
+ * and the label and the real player appear on their own.
+ */
+function HeroVideo() {
+  const frame =
+    "overflow-hidden rounded-3xl bg-midnight shadow-[0_30px_80px_rgba(25,25,35,0.18)]";
+
+  if (VIDEOS.jcciChatTrap) {
+    return (
+      <div className="mx-auto mt-10 max-w-[1000px]">
+        <p className="mb-4 font-mono text-[12px] font-medium uppercase tracking-[0.18em] text-midnight">
+          <span aria-hidden="true">&#9660;</span> Click below to watch first{" "}
+          <span aria-hidden="true">&#9660;</span>
+        </p>
+        <div className={frame}>
+          <VideoSlot slot="jcciChatTrap" label="the Chat Trap in 60 seconds" />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mx-auto mt-10 max-w-[1000px]">
+      <div className={cn(frame, "aspect-video")}>
+        <ResponsiveImage
+          src="/images/phila-portrait.jpg"
+          alt="Phila Ngwenya, who runs the webinar"
+          sizes="(max-width: 1023px) 100vw, 1000px"
+          loading="eager"
+          fetchPriority="high"
+          className="h-full w-full object-cover object-[50%_22%]"
+        />
+      </div>
+    </div>
+  );
+}
+
+/**
  * A section heading in the voice: something a person would actually say.
  *
  * `dark` is NOT optional decoration. src/index.css sets
@@ -118,59 +163,55 @@ export default function JcciWebinar() {
     <>
       <WebinarTopBar />
 
-      {/* ---------------- HERO + the form ---------------- */}
-      <Section dark className="pt-10 md:pt-16">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-16">
-          <div>
-            <Eyebrow dark>
-              {segment?.eyebrow ?? "For South African owners tired of doing everything themselves"}
-            </Eyebrow>
-            <h1 className="mt-6 max-w-[24ch] text-4xl leading-[1.04] text-cream md:text-6xl">
-              The day I stopped typing prompts is the day I got my week back.
-            </h1>
+      {/* ---------------- HERO ----------------
+          One centred column, in the order a cold visitor reads it: who it is
+          for, the promise, the proof in one line, the video, then the ask.
+          Light on purpose, so the video frame is the heaviest thing on the
+          screen and the eye lands there. The form has its own band directly
+          below, which is where every "save my seat" button scrolls to. */}
+      <Section className="pt-10 text-center md:pt-14">
+        <p className="mx-auto max-w-[52ch] text-sm leading-relaxed text-muted md:text-base">
+          {segment?.eyebrow ?? "For South African owners tired of doing everything themselves"}
+        </p>
+        <h1 className="mx-auto mt-5 max-w-[22ch] text-4xl leading-[1.04] text-midnight md:text-6xl lg:text-7xl">
+          The Day I <span className="text-gold">Stopped Typing Prompts</span> Is the Day I Got My
+          Week Back
+        </h1>
 
-            <div className="mt-7 max-w-[56ch] space-y-4 text-lg text-cream/85">
-              {segment ? (
-                <p className="border-l-2 border-gold pl-4 text-cream">{segment.opener}</p>
-              ) : null}
-              <p>
-                Most people use AI like a fancy Google. You open it. You explain your business.
-                You start from zero. Every single time.
-              </p>
-              <p>
-                I have given 7 AI talks with WeWork. I have sat with owners while they built AI
-                that does their repeat work for them. On {WEBINAR.shortWhen}, live with{" "}
-                {JCCI.partner}, I will show you how to set up AI that already knows your business.
-                That is where the 10 hours a week come from.
-              </p>
-            </div>
-
-            {VIDEOS.jcciChatTrap ? (
-              <div className="mt-8 max-w-[560px]">
-                <p className="mb-3 font-mono text-[12px] uppercase tracking-[0.16em] text-gold">
-                  <span aria-hidden="true">&#9660;</span> Watch this first{" "}
-                  <span aria-hidden="true">&#9660;</span>
-                </p>
-                <VideoSlot slot="jcciChatTrap" label="the Chat Trap in 60 seconds" />
-              </div>
-            ) : null}
-
-            <div className="mt-8">
-              <CtaButton />
-              <p className="mt-4 max-w-[46ch] font-mono text-[12px] leading-relaxed text-cream/60">
-                Free for the {JCCI.partner} community &middot; {WEBINAR.where} &middot; Free gifts
-                for everyone who attends live
-              </p>
-            </div>
-          </div>
-
-          <div className="lg:pt-8">
-            <SeatForm id="register" />
-          </div>
+        <div className="mx-auto mt-8 max-w-[60ch] space-y-4 text-lg leading-relaxed text-ink md:text-xl">
+          {segment ? <p className="font-semibold text-midnight">{segment.opener}</p> : null}
+          <p>
+            I&rsquo;ve given{" "}
+            <strong className="font-semibold text-midnight">7 AI talks with WeWork</strong>. Most
+            people use AI like a fancy Google. They open it, explain their business and start from
+            zero. Every time. On {WEBINAR.shortWhen}, live with {JCCI.partner}, I&rsquo;ll show you
+            how to set up AI that already knows your business. That&rsquo;s where the 10 hours a
+            week come from.
+          </p>
         </div>
 
-        {/* Proof row: the room, and the organisations we have worked with. */}
-        <div className="mt-16 grid gap-4 sm:grid-cols-2">
+        <HeroVideo />
+
+        <div className="mt-10">
+          <CtaButton />
+          <p className="mx-auto mt-4 max-w-[52ch] font-mono text-[12px] leading-relaxed text-muted">
+            Free for the {JCCI.partner} community &middot; {WEBINAR.where} &middot; Free gifts for
+            everyone who attends live
+          </p>
+        </div>
+      </Section>
+
+      {/* ---------------- THE FORM ----------------
+          Its own dark band, so the cream form card stands off the page the way
+          it did beside the old hero. Every call to action on the page points
+          at #register, which lives here. */}
+      <Section dark className="py-14 md:py-20">
+        <div className="mx-auto max-w-[560px]">
+          <SeatForm id="register" />
+        </div>
+
+        {/* Proof row: the room, and the work. */}
+        <div className="mt-14 grid gap-4 sm:grid-cols-2">
           <figure className="overflow-hidden rounded-2xl bg-midnight-soft">
             <ResponsiveImage
               src="/images/phila-event.jpg"

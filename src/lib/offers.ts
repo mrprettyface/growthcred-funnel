@@ -54,18 +54,18 @@ export const DOWNSELL: Offer = {
  * A VIP seat at the JCCI webinar: a private hour with Phila before the session,
  * his review of your Brain Builder, and the recording.
  *
- * Priced by Phila in the 11 November 2026 brief. There is NO Whop plan for it
- * yet (see WHOP_PLANS.vipSeat in src/lib/whop.ts), so /webinar/vip takes the
- * registration and then hands the seat over by hand instead of pretending to
- * charge for it. Create the plan in Whop at this exact amount, set the plan id,
- * and the checkout appears on its own.
+ * The brief said R497. Phila created the Whop plan at R495 and chose R495 for
+ * the site on 11 November 2026, so the two agree. Sold through Whop plan
+ * WHOP_PLANS.vipSeat in src/lib/whop.ts; WHOP_SEEN there records what that
+ * plan was seen to charge, and scripts/verify-jcci-webinar.mjs fails the build
+ * if this amount and that one ever disagree.
  */
 export const VIP_SEAT: Offer = {
   id: "vip-seat",
   name: "VIP Seat: the Private Hour",
   blurb:
     "A private hour with me before the webinar, your Brain Builder reviewed live, and the recording.",
-  amountCents: 49700, // R497 (Phila, 11 Nov 2026) — must match the Whop plan once it exists
+  amountCents: 49500, // R495 (Phila, 11 Nov 2026), matching Whop plan_p4azvJzT5gWRg exactly
 };
 
 export const OFFERS: Record<string, Offer> = {

@@ -5,7 +5,7 @@ import json
 root=Path(__file__).resolve().parent.parent
 folder=root/'public/images'
 manifest={}
-for name in ['the-drain','the-outcome','phila-event','phila-team','phila-karen','webinar-poster']:
+for name in ['the-drain','the-outcome','phila-event','phila-team','phila-karen','phila-portrait','webinar-poster']:
     source=ImageOps.exif_transpose(Image.open(folder/f'{name}.jpg')).convert('RGB')
     versions=[]
     for width in [640,1280]:

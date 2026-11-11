@@ -82,5 +82,19 @@
       "height": 1536,
       "bytes": 112328
     }
+  ],
+  "phila-portrait": [
+    {
+      "src": "/images/phila-portrait-640.webp",
+      "width": 640,
+      "height": 853,
+      "bytes": 23134
+    },
+    {
+      "src": "/images/phila-portrait-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "bytes": 55704
+    }
   ]
 }

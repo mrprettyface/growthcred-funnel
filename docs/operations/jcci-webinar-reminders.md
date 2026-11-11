@@ -19,12 +19,14 @@ settle.
    to be members? Is the session on Teams at 18:00? The page deliberately leaves
    the members-only question as a visible `[TO COME]` rather than guessing, and
    the answer that turns people away at the door is the one worth having early.
-2. **The VIP checkout.** There is no Whop plan for the R497 VIP seat, so nothing
-   on the site can charge for it. Create the plan in Whop at exactly R497, then
-   paste its id into `WHOP_PLANS.vipSeat` in `src/lib/whop.ts`; the checkout
-   appears on `/webinar/vip` on its own. Until then that page shows a visible
-   placeholder and takes the seat over WhatsApp, by hand. The price itself lives
-   in `src/lib/offers.ts` as `VIP_SEAT`, and the site reads it from there.
+2. **The VIP checkout. DONE, 11 November.** Phila created Whop plan
+   `plan_p4azvJzT5gWRg` ("VIP Seat - GrowthCred", one-time). Its checkout page
+   read **ZAR 495.00** while the brief and the site said R497, so the site
+   moved to **R495** to match (Phila's call). The real checkout now loads on
+   `/webinar/vip`, and the thank-you page's VIP button goes straight to it.
+   `WHOP_SEEN` in `src/lib/whop.ts` records the R495 seen on Whop that day, and
+   the gate fails the build if `VIP_SEAT` in `src/lib/offers.ts` ever disagrees
+   with it. **If you change the plan's price in Whop, update both.**
 3. **The database migration.** `supabase/schema.sql` now adds `business`,
    `consent` and `seat` to `webinar_registrations`. Run it before the page goes
    live, or those three are lost — a registration still saves either way,

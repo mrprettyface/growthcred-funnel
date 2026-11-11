@@ -48,7 +48,7 @@ Nothing on this page is a guess; every figure comes from `src/lib/offers.ts`.
 | | |
 | --- | --- |
 | Free seat | R0 |
-| VIP seat | **R497**, 20 of them = R9,940 if they all go |
+| VIP seat | **R495**, 20 of them = R9,900 if they all go |
 | The conversation after the webinar | Operators Intensive, **R25,000** |
 
 Note: the brief called the Intensive R30,000. `offers.ts` and the Whop plan both
@@ -59,8 +59,8 @@ Work your limit backwards from what you are willing to pay, not from a
 benchmark:
 
 ```
-If 1 in 25 registrations takes a VIP seat (R497)
-  → R19.88 of VIP revenue per registration
+If 1 in 25 registrations takes a VIP seat (R495)
+  → R19.80 of VIP revenue per registration
 
 If 1 in 100 registrations ends in an Intensive (R25,000)
   → R250 per registration
@@ -286,7 +286,7 @@ rule on invented proof applies to an ad exactly as it applies to the page.
 ## Before the first rand is spent
 
 1. JCCI's answer, or 4.1 doesn't run.
-2. The R497 Whop plan exists, or paid VIP traffic has nowhere to pay.
+2. ~~The VIP Whop plan exists.~~ Done 11 Nov: `plan_p4azvJzT5gWRg`, R495, live on `/webinar/vip`.
 3. `supabase/schema.sql` has been run, or `utm_content` is not stored and the
    whole weekly loop has no numbers to read.
 4. Settle R25,000 vs R30,000 for the Intensive.

@@ -23,15 +23,34 @@ export const WHOP_PLANS = {
   /** D - the home-study course, offered when the Intensive is declined */
   homeCourse: "plan_Pbw4zu8ngelfI",
   /**
-   * E - the JCCI webinar's VIP seat (R497, src/lib/offers.ts VIP_SEAT).
+   * E - the JCCI webinar's VIP seat ("VIP Seat - GrowthCred" in Whop), one-time.
    *
-   * NULL because the plan does not exist in Whop yet. While it is null,
-   * /webinar/vip shows a visible placeholder and takes the seat by hand over
-   * WhatsApp rather than rendering a checkout that cannot charge. Create the
-   * plan at R497, paste its id here, and the checkout appears on its own.
+   * Created by Phila on 11 Nov 2026. Its price MUST equal VIP_SEAT.amountCents
+   * in src/lib/offers.ts, which is what every button on the site prints. If this
+   * is ever set back to null, /webinar/vip falls back to taking the seat by hand
+   * over WhatsApp rather than rendering a checkout that cannot charge.
    */
-  vipSeat: null as string | null,
+  vipSeat: "plan_p4azvJzT5gWRg" as string | null,
 } as const;
+
+/**
+ * What a plan was SEEN to charge on Whop's own checkout page, and when.
+ *
+ * Not a price source -- src/lib/offers.ts is, and it is what every button on
+ * the site prints. This is the receipt the site is checked against, because the
+ * site and Whop drifting apart has bitten this project twice.
+ * scripts/verify-jcci-webinar.mjs fails the build when the two disagree.
+ *
+ * Whenever a plan's price changes in Whop, open its checkout page
+ * (https://whop.com/checkout/<plan id>), read the amount, and update the entry
+ * and its date here. A stale entry fails loudly, which is the point: it forces
+ * the re-check rather than trusting a number nobody has looked at.
+ */
+export const WHOP_SEEN: Partial<Record<keyof typeof WHOP_PLANS, { cents: number; seen: string }>> = {
+  /* "VIP Seat - GrowthCred", read off whop.com/checkout/plan_p4azvJzT5gWRg:
+     "ZAR 495.00, One-time payment." */
+  vipSeat: { cents: 49500, seen: "2026-11-11" },
+};
 
 /** Picks the workshop plan that matches whether the order bump was ticked. */
 export function workshopPlanId(bump: boolean): string {

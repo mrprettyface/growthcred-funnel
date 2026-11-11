@@ -10,6 +10,7 @@ import { JCCI, VIP_SEATS } from "../lib/jcciWebinar";
 import { loadSeat, seatFromRouter } from "../lib/seat";
 import { refCode } from "../lib/referral";
 import { whatsappUrl } from "../lib/contact";
+import { WHOP_PLANS } from "../lib/whop";
 import { track } from "../lib/analytics";
 
 /**
@@ -175,17 +176,29 @@ export default function WebinarThanks() {
             <p className="mt-4 text-cream/70">
               If the hour wasn’t worth it, email us within 7 days and we refund you in full.
             </p>
-            <a
-              href={whatsappUrl(
-                `Hi Phila, I am registered for the ${JCCI.partner} webinar on ${WEBINAR.shortWhen} and I want a VIP seat (${JCCI.vipPrice}).`,
-              )}
-              target="_blank"
-              rel="noopener"
-              onClick={() => track("webinar_vip_manual", { from: "thanks" })}
-              className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold text-midnight no-underline transition hover:bg-gold-soft"
-            >
-              <BrandIcon name="whatsapp" /> Ask me for a VIP seat
-            </a>
+            {/* With a Whop plan, the upgrade is the real checkout on /webinar/vip,
+                which reads this visit's registration and pre-fills the email.
+                Without one, it falls back to asking on WhatsApp, by hand. */}
+            {WHOP_PLANS.vipSeat ? (
+              <Link
+                to="/webinar/vip"
+                className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold text-midnight no-underline transition hover:bg-gold-soft"
+              >
+                Get my VIP seat for {JCCI.vipPrice} <span aria-hidden="true">&rarr;</span>
+              </Link>
+            ) : (
+              <a
+                href={whatsappUrl(
+                  `Hi Phila, I am registered for the ${JCCI.partner} webinar on ${WEBINAR.shortWhen} and I want a VIP seat (${JCCI.vipPrice}).`,
+                )}
+                target="_blank"
+                rel="noopener"
+                onClick={() => track("webinar_vip_manual", { from: "thanks" })}
+                className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold text-midnight no-underline transition hover:bg-gold-soft"
+              >
+                <BrandIcon name="whatsapp" /> Ask me for a VIP seat
+              </a>
+            )}
           </div>
         </Section>
       )}

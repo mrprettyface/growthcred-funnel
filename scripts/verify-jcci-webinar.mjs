@@ -60,6 +60,20 @@ function visibleText(html) {
     .replace(/\s+/g, " ");
 }
 
+/**
+ * The VIP seat's price, read out of src/lib/offers.ts.
+ *
+ * Every gate that checks a price reads it from here rather than carrying its
+ * own copy. A gate with "R497" typed into it only proves the gate and the page
+ * agree with each other; when the price changed to R495 both would have had to
+ * be edited together, and a wrong price could pass as long as they matched.
+ */
+function vipPrice() {
+  const cents = Number(read("src/lib/offers.ts").match(/export const VIP_SEAT[\s\S]*?amountCents: (\d+)/)?.[1]);
+  assert.ok(Number.isFinite(cents) && cents > 0, "VIP_SEAT has no price in src/lib/offers.ts");
+  return { cents, rand: `R${cents / 100}` };
+}
+
 const cmd = process.argv[2];
 
 switch (cmd) {
@@ -78,8 +92,7 @@ switch (cmd) {
       /Chat Trap/,
       /Operator’s Brain/,
       /Here is what you get for R0/,
-      /Take a VIP seat for R497/,
-      /R497/,
+      new RegExp(`Take a VIP seat for ${vipPrice().rand}`),
       /POPIA/,
       /Results vary/,
       /Reg\. 2026\/229279\/07/, // the footer this bare page renders itself
@@ -125,7 +138,7 @@ switch (cmd) {
     /* The brief's prices must come from offers.ts, so the site can never
        disagree with Whop. Control first: prove the detector sees a typed price
        in page copy at all, then prove the real pages carry none. */
-    const control = `<p>It costs R497 for the hour.</p>`;
+    const control = `<p>It costs R123 for the hour.</p>`;
     const typed = (src) =>
       [...src.matchAll(/R\s?\d[\d  ]*/g)]
         .map((m) => m[0].trim())
@@ -136,7 +149,8 @@ switch (cmd) {
     assert.equal(typed(control).length, 1, "control: a typed price was not detected");
 
     const offers = read("src/lib/offers.ts");
-    requireAll("price-source", offers, [/export const VIP_SEAT/, /amountCents: 49700/]);
+    requireAll("price-source", offers, [/export const VIP_SEAT/]);
+    const vip = vipPrice();
 
     const bad = [];
     for (const f of [
@@ -153,11 +167,11 @@ switch (cmd) {
 
     /* And the figure that reaches the page really is the one in offers.ts. */
     const text = visibleText(builtPage("/webinar"));
-    const amount = Number(offers.match(/amountCents: (\d+)/g).find((m) => m.includes("49700")).match(/\d+/)[0]);
-    assert.ok(
-      text.includes(`R${amount / 100}`),
-      `the page does not show R${amount / 100}, the VIP price in offers.ts`,
-    );
+    assert.ok(text.includes(vip.rand), `the page does not show ${vip.rand}, the VIP price in offers.ts`);
+    /* And no OTHER VIP figure has crept onto the page beside it: the one price
+       that reaches a visitor is the one Whop charges. */
+    const others = [...new Set(text.match(/R4\d\d\b/g) ?? [])].filter((r) => r !== vip.rand);
+    assert.equal(others.length, 0, `the page shows another VIP-like price beside ${vip.rand}: ${others.join(", ")}`);
     pass("price");
     break;
   }
@@ -223,36 +237,64 @@ switch (cmd) {
   /* ------------------------------------------------------------------- vip */
   case "vip": {
     const whop = read("src/lib/whop.ts");
+    const offers = read("src/lib/offers.ts");
     const vipPage = read("src/pages/WebinarVip.tsx");
+    const html = builtPage("/webinar/vip");
+    const text = visibleText(html);
 
-    /* While there is no plan, there must be no checkout and there must be a
-       visible placeholder plus a real way for a person to get the seat. */
-    const planSet = /vipSeat:\s*"plan_/.test(whop);
-    if (!planSet) {
-      requireAll("vip-fallback", vipPage, [
-        /ToComeBlock/,
-        /Claim my VIP seat on WhatsApp/,
-        /Your webinar seat is saved either way/,
-      ]);
-      const html = builtPage("/webinar/vip");
-      const text = visibleText(html);
-      assert.ok(
-        /\[TO COME: the VIP Seat: the Private Hour checkout\s*\]/.test(text),
-        "the VIP page does not show a visible placeholder for the missing checkout",
-      );
-      /* Nothing may tell a visitor they have paid. */
-      assert.ok(
-        !/you have paid|payment received|thank you for your payment/i.test(text),
-        "the VIP page claims a payment that cannot have happened",
-      );
-    }
+    /* Nothing may ever tell a visitor they have paid before Whop says so. */
+    assert.ok(
+      !/you have paid|payment received|thank you for your payment/i.test(text),
+      "the VIP page claims a payment that cannot have happened",
+    );
 
-    /* Either way: the registration is written BEFORE money is asked for, so an
-       abandoned VIP checkout still leaves a lead. */
+    /* The registration is written BEFORE money is asked for, so an abandoned
+       VIP checkout still leaves a lead. */
     const form = read("src/components/webinar/SeatForm.tsx");
     const registerAt = form.indexOf("registerForWebinar");
     const navigateAt = form.indexOf('navigate(seat === "vip"');
     assert.ok(registerAt > 0 && navigateAt > registerAt, "the VIP route is taken before the row is written");
+
+    const plan = whop.match(/vipSeat:\s*"(plan_[A-Za-z0-9]+)"/)?.[1] ?? null;
+
+    if (!plan) {
+      /* No plan: a visible placeholder and a real human fallback, no checkout. */
+      requireAll("vip-fallback", vipPage, [/ToComeBlock/, /Claim my VIP seat on WhatsApp/]);
+      assert.ok(
+        /\[TO COME: the VIP Seat: the Private Hour checkout\s*\]/.test(text),
+        "no plan, and the VIP page shows no placeholder for the missing checkout",
+      );
+      pass("vip");
+      break;
+    }
+
+    /* A plan exists. It must be wired to the real checkout, mounted only in the
+       browser (the page is prerendered, the Whop SDK needs a window), and the
+       placeholder must be gone. */
+    requireAll("vip-checkout", vipPage, [
+      /<WhopPay[\s\S]*?planId=\{planId\}/,
+      /offer="vip-seat"/,
+      /returnPath="\/webinar\/vip"/,
+      /planId && mounted/,
+      /useEffect\(\(\) => setMounted\(true\)/,
+    ]);
+    assert.ok(!/\[TO COME/.test(text), "a plan exists, but the VIP page still shows the placeholder");
+    assert.ok(/Loading secure checkout/i.test(text), "the prerendered VIP page does not hold the checkout's place");
+
+    /* THE PRICE. The site prints VIP_SEAT; Whop charges what the plan says. The
+       two have drifted apart twice before on this project. WHOP_SEEN is what was
+       last read off Whop's own checkout page, by hand, with a date. */
+    const site = vipPrice().cents;
+    const seen = whop.match(/vipSeat: \{ cents: (\d+), seen: "([\d-]+)" \}/);
+    assert.ok(Number.isFinite(site), "VIP_SEAT has no price in offers.ts");
+    assert.ok(seen, "the VIP plan is wired but WHOP_SEEN has no record of what Whop charges for it");
+    const charged = Number(seen[1]);
+    if (site !== charged)
+      fail("vip", [
+        `the site prints R${site / 100} but Whop charges R${charged / 100} for ${plan} ` +
+          `(read off its checkout on ${seen[2]}). Change VIP_SEAT in src/lib/offers.ts, or the ` +
+          `plan in Whop and then WHOP_SEEN in src/lib/whop.ts, until they match.`,
+      ]);
     pass("vip");
     break;
   }

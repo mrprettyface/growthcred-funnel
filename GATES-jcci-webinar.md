@@ -82,6 +82,30 @@ checkout each degrade to something visible and honest rather than plausible.
     route is taken. Confirmed in the browser: h1 reads "Your webinar seat is
     saved.", not "You're a VIP."
 
+  AMENDED 11 Nov 2026, after Phila supplied Whop plan plan_p4azvJzT5gWRg. The
+    evidence above describes the no-plan state; this is the current one.
+    Before wiring, the plan's own checkout page was read: "VIP Seat -
+    GrowthCred, ZAR 495.00, One-time payment" -- while VIP_SEAT and every button
+    said R497. Phila chose R495 for the site. VIP_SEAT is now 49500.
+    The gate was rewritten for the plan-set state: the checkout must be the real
+    <WhopPay> on plan id, offer "vip-seat", returning to /webinar/vip, mounted
+    only after hydration (the page is prerendered and the Whop SDK needs a
+    window); the placeholder must be gone; and VIP_SEAT must equal WHOP_SEEN in
+    src/lib/whop.ts, the price read off Whop's checkout with its date. Proven
+    able to fail: VIP_SEAT set back to 49700 gave "the site prints R497 but Whop
+    charges R495 for plan_p4azvJzT5gWRg". Restored, "vip OK".
+    The `page` and `price` gates had 49700 / R497 typed into them, so they only
+    proved the gate and the page agreed; both now read the price from
+    offers.ts via vipPrice(), and `price` also fails if any other R4xx figure
+    appears beside it.
+    Browser (vite preview of dist): /webinar/vip shows only "R495"; Whop's frame
+    renders "ZAR 495.00, One-time payment" with email, card and billing fields.
+    No payment attempted. Two console errors (400, 404) come from inside Whop's
+    cross-origin frame; every request the site itself makes is 200, and the
+    checkout renders in full. NOT TESTED: a real purchase and the return to
+    /webinar/vip?whop=vip-seat that sets the "You're a VIP" state. That belongs
+    in the one real test after deploy.
+
 - [x] G6: both thank-you routes prerender and hand over something real
   CHECK: node scripts/verify-jcci-webinar.mjs thanks
   EXPECT: thanks OK
@@ -245,6 +269,31 @@ checkout each degrade to something visible and honest rather than plausible.
     midnight); and the heading's INNER markup counts, because /workshop's
     animated heading is a bare <h2> around a coloured span. Controls assert a
     colourless heading is flagged and a coloured one is not.
+
+- [x] G17: the hero follows Phila's reference layout, and the video frame is
+        ready for his footage without pretending to be a video until then
+  MANUAL: vite preview of dist at 1440x900 and at the pane's narrow width, then
+  the dev server with the slot pointed at an existing video and put back.
+  EVIDENCE: one centred column -- audience line, two-tone headline ("The Day I
+    <gold>Stopped Typing Prompts</gold> Is the Day I Got My Week Back"), one
+    paragraph with "7 AI talks with WeWork" in bold, a 16:9 frame, the button --
+    matching the screenshot Phila sent (11 Nov). The form moved to its own dark
+    band below; every CTA still targets #register there. H1 unchanged in
+    meaning, one H1, never segment-driven.
+    Empty slot: the frame measured 482x271 (1.78), holds phila-portrait (solo,
+    previously unused on the site) as phila-portrait-1200.webp, no <button> in
+    it and no "Click below to watch first" label -- a play button on a still
+    would be a button that does nothing. New webp variants (22 KB / 54 KB, from
+    a 235 KB jpg) made with optimize-images.py's exact settings; the script was
+    NOT run, because it regenerates its whole list and redraws the share card,
+    and phila-portrait was added to its list so a future run keeps it. The
+    September webinar poster was rejected for the frame: it carries the old
+    date and a mock newspaper headline.
+    Filled slot: jcciChatTrap pointed at the existing workshop video for one
+    check -- the label read "CLICK BELOW TO WATCH FIRST", the player's play
+    button appeared, the still was gone. Then `git checkout -- src/lib/videos.ts`
+    restored it, confirmed identical to the committed file before the build.
+    `contrast` moved 149 -> 148 headings, because the H1 left a dark band.
 
 DEFERRED (not a gate; an honest limitation): no end-to-end test submission was
 made. `registerForWebinar` dual-writes to Supabase AND posts to the live "Reserve
