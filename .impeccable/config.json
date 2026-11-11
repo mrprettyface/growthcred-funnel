@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/components/webinar/SeatForm.tsx"
+        ],
+        "createdAt": "2026-11-11T16:56:59.246Z",
+        "reason": "project design system: rounded-2xl border-t-4 border-gold bg-paper is the site's existing form-card shell, used verbatim in ContactForm, WebinarSignup, CorporateEnquiry, SeatStepper and MagnetStepper; SeatForm matches it rather than introducing a new treatment"
+      }
+    ]
+  }
+}

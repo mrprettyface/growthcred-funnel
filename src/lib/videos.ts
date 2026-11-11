@@ -64,6 +64,10 @@ export const VIDEOS: Record<string, VideoSource> = {
   upsell: youtube("https://youtu.be/3Qg1U1gyGOQ"), // "Operators Intensive" video, "/upsell"
   customSystem: youtube("https://youtu.be/XRliPVrPfMI"), // "Custom System" video, "/build"
   freeClass: null, // Free class, "/class" (no video yet)
+  /* The 60-90 second "Chat Trap" clip above the headline on /webinar. Phila to
+     camera. While this is null the hero simply has no video block, rather than
+     a placeholder telling a registrant something is unavailable. */
+  jcciChatTrap: null,
   thankYou: null, // Order confirmation, "/thank-you" (no video, by design)
 };
 

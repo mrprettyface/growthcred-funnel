@@ -1,8 +1,12 @@
 import assert from 'node:assert/strict';
 import {readFile,access} from 'node:fs/promises';
 import path from 'node:path';
+import {eventSession,hasFutureSession} from '../dist-ssr/entry-server.js';
 const read=p=>readFile(p,'utf8');
 const manifest=JSON.parse(await read('dist/search-manifest.json'));
+/* Control for the Event rule below: the ban must still bite somewhere. A route
+   with no session must never be allowed one. */
+assert.equal(eventSession('/contact'),null,'control: a route with no session reported one');
 const publicRoutes=manifest.routes.filter(r=>r.index);
 const sitemap=await read('dist/sitemap.xml');
 const robots=await read('dist/robots.txt');
@@ -17,7 +21,19 @@ function validPage(html,route){
  assert.match(html,/<meta name="twitter:card" content="summary_large_image"/);
  const json=html.match(/<script id="site-schema" type="application\/ld\+json">([\s\S]*?)<\/script>/);assert.ok(json,route.path+' schema');
  const schema=JSON.parse(json[1]);assert.equal(schema['@context'],'https://schema.org');assert.ok(schema['@graph'].length>=4);
- for(const item of schema['@graph']) assert.ok(!['AggregateRating','Review','Event'].includes(item['@type']),'No unverified event or review markup');
+ /* No invented proof in markup. AggregateRating and Review are banned outright:
+    nobody has given us star ratings. Event is banned everywhere EXCEPT a route
+    that src/seo/routes.ts holds a real, dated, still-future session for -- the
+    case this rule was written before (every session was undated, so no page
+    emitted an Event at all). An Event there is verified by the session file and
+    by scripts/verify-event-schema.mjs, which checks its date, price, location
+    and availability. */
+ const dated=eventSession(route.canonical??route.path);
+ const eventAllowed=Boolean(dated&&hasFutureSession(dated.startUtc));
+ for(const item of schema['@graph']){
+   assert.ok(!['AggregateRating','Review'].includes(item['@type']),route.path+': no unverified rating or review markup');
+   if(item['@type']==='Event') assert.ok(eventAllowed,route.path+': Event markup for a session that has no future date in src/lib');
+ }
  if(route.prerendered){
    assert.equal((html.match(/<h1(?:\s|>)/g)||[]).length,1,route.path+' H1 count');
    assert.ok(html.includes(`data-prerendered="${route.path}"`));

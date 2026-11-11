@@ -23,6 +23,14 @@ type FunnelStep =
   | "class_optin"
   | "webinar_view"
   | "webinar_register"
+  /** The JCCI funnel: the seat chosen, and each thank-you page reached. */
+  | "webinar_seat_chosen"
+  | "webinar_thanks_view"
+  | "webinar_vip_view"
+  /** A VIP seat claimed by hand, because the Whop plan is not live yet. */
+  | "webinar_vip_manual"
+  | "webinar_calendar_add"
+  | "webinar_brain_claim"
   /** The parallel funnel: a lead magnet opt-in. */
   | "magnet_view"
   | "magnet_signup"

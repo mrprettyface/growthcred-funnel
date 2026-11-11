@@ -16,7 +16,7 @@ import { recordPayment } from "./supabase";
  * settle who has actually paid.
  */
 
-export type WhopOffer = "workshop" | "intensive" | "course";
+export type WhopOffer = "workshop" | "intensive" | "course" | "vip-seat";
 
 export type WhopReturn = {
   status: "succeeded" | "failed" | "canceled";

@@ -1,6 +1,8 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { postToGoogleForm } from "./forms";
 import { refCode, activeReferrer } from "./referral";
+import { activeAttribution } from "./utm";
+import { activeSegmentSlug } from "./segments";
 
 const url = import.meta.env.VITE_SUPABASE_URL;
 const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -161,6 +163,16 @@ export type WebinarRegistration = {
   email: string;
   whatsapp: string;
   source?: string;
+  /** Optional on the form, because every required field costs registrations. */
+  business?: string | null;
+  /**
+   * The POPIA consent box, stored rather than assumed. The whole value of
+   * consent is being able to show later that it was given; a boolean nobody
+   * wrote down is not consent, it is a claim. Same rule as magnet_signups.
+   */
+  consent?: boolean;
+  /** Which seat was chosen: "free" or "vip". A VIP row is a lead either way. */
+  seat?: "free" | "vip";
 };
 
 /**
@@ -204,7 +216,38 @@ export async function registerForWebinar(
   const ref_code = refCode(reg.email);
   const referrer = activeReferrer();
   const referred_by = referrer && referrer !== ref_code ? referrer : null;
-  const row = { ...reg, ref_code, referred_by };
+
+  /*
+   * Two shapes of the same row. `full` carries everything the JCCI seat form
+   * collects; `base` carries only the columns that have existed since the table
+   * was created.
+   *
+   * Postgres rejects an INSERT naming a column the table does not have, so a
+   * site deployed before `supabase/schema.sql` has been re-run would lose every
+   * registration — the single most expensive failure in this funnel. So a failed
+   * insert is retried once with the base row. The lead survives a forgotten
+   * migration; what is lost is the business name, the consent flag and the seat
+   * type, which is why the retry is logged loudly in the console.
+   */
+  const { business, consent, seat, ...core } = reg;
+  const base = { ...core, ref_code, referred_by };
+  /*
+   * Which ad set this registration came from, read from the URL the visitor
+   * arrived on. This is what makes the ad plan steerable: Meta's spend for an
+   * ad set divided by the rows carrying its `utm_content` is the cost per
+   * registration there. Captured here rather than passed in by each form, so
+   * every registration on the site carries it without anyone remembering to.
+   */
+  const attribution = activeAttribution();
+  const segment = activeSegmentSlug();
+  const extra = {
+    ...(business === undefined ? {} : { business }),
+    ...(consent === undefined ? {} : { consent }),
+    ...(seat === undefined ? {} : { seat }),
+    ...attribution,
+    segment,
+  };
+  const full = { ...base, ...extra };
 
   const gform = postToGoogleForm(WEBINAR_SEAT_FORM, {
     [WEBINAR_SEAT_FIELDS.name]: reg.name,
@@ -212,13 +255,23 @@ export async function registerForWebinar(
   });
 
   const supaErr: Promise<string | null> = client()
-    .then((c) =>
-      "error" in c
-        ? c.error
-        : Promise.resolve(
-            c.db.from("webinar_registrations").insert(row).abortSignal(AbortSignal.timeout(12000)),
-          ).then(({ error }) => error?.message ?? null),
-    )
+    .then(async (c) => {
+      if ("error" in c) return c.error;
+      const insert = (payload: Record<string, unknown>) =>
+        Promise.resolve(
+          c.db.from("webinar_registrations").insert(payload).abortSignal(AbortSignal.timeout(12000)),
+        ).then(({ error }) => error?.message ?? null);
+
+      const first = await insert(full);
+      if (first === null || Object.keys(extra).length === 0) return first;
+
+      console.error(
+        "[seats] insert with the seat-form columns failed, retrying without them. " +
+          "Run supabase/schema.sql so business, consent and seat are stored:",
+        first,
+      );
+      return insert(base);
+    })
     .catch(() => "network_error");
 
   const [supaResult, gformResult] = await Promise.all([supaErr, gform]);

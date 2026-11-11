@@ -43,6 +43,8 @@ https://www.growthcred.co.za/* https://growthcred.co.za/:splat 301!
 /tools/admin-time-calculator /tools/admin-time-calculator.html 200
 /contact /contact.html 200
 /webinar /webinar.html 200
+/webinar/thanks /webinar/thanks.html 200
+/webinar/vip /webinar/vip.html 200
 /playbook /playbook.html 200
 /ai-implementation-guide /ai-implementation-guide.html 200
 /brain /brain.html 200

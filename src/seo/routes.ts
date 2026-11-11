@@ -3,6 +3,7 @@ import { FAQ as HOME_FAQ, FOUNDER } from "../lib/home";
 import { FAQ as CORPORATE_FAQ, CORPORATE_PATH, CORPORATE_SERVICE } from "../lib/corporateSeo";
 import { PRIVATE_AI_FAQ, PRIVATE_AI_PATH, PRIVATE_AI_SERVICE } from "../lib/privateAiSeo";
 import { WEBINAR, hasFutureSession } from "../lib/webinar";
+import { JCCI, JCCI_FAQ, WHY_FREE } from "../lib/jcciWebinar";
 import { WORKSHOP_EVENT, seatsLeft } from "../lib/workshopEvent";
 import { WORKSHOP } from "../lib/offers";
 export const SITE = "https://growthcred.co.za";
@@ -14,8 +15,12 @@ export const ROUTES: RouteMeta[] = [
   {path:"/workshop",title:"Online AI Workshop for Business Owners | GrowthCred SA",description:"Build practical AI workflows in GrowthCred’s one-day online workshop for South African business owners. R990. Session details confirmed on registration.",index:true,modified:REVIEWED},
   ...SEARCH_PAGES.map(p=>({path:p.path,title:p.title,description:p.description,index:!p.draft,modified:p.published??REVIEWED})),
   {path:"/contact",title:"Contact GrowthCred | AI Training & Automation, Johannesburg",description:"Contact GrowthCred in Johannesburg about online AI workshops, team training requests or business automation. Email and WhatsApp contact options.",index:true,modified:REVIEWED},
-  {path:"/webinar",title:"Free Online AI Class for Business Owners | GrowthCred",description:"Register for GrowthCred’s next free online AI class. Learn how business context improves AI workflows. Session details confirmed on registration.",index:true,modified:REVIEWED},
+  {path:"/webinar",title:`Free AI Webinar for SA Business Owners, ${WEBINAR.dayLabel} | GrowthCred`,description:`Free live webinar with JCCI on ${WEBINAR.dayLabel} at ${WEBINAR.timeLabel}: how to set up AI that already knows your business, so it does your repeat work for you.`,index:true,modified:"2026-11-11"},
   {path:"/class",title:"Free Online AI Class | GrowthCred",description:"Register for our next online AI class.",index:false,canonical:"/webinar"},
+  /* The two outcomes of the registration form. Not indexed: they are the inside
+     of a funnel, and a thank-you page in search results is a dead end. */
+  {path:"/webinar/thanks",title:"You’re In | GrowthCred",description:"Your seat at the free live AI webinar is saved. Take the Brain Builder, join the reminder group and add it to your calendar.",index:false,canonical:"/webinar"},
+  {path:"/webinar/vip",title:"Your VIP Seat | GrowthCred",description:"The private hour before the live AI webinar: your Brain Builder reviewed live, and the recording.",index:false,canonical:"/webinar"},
   {path:"/playbook",title:"Free AI Business Resources and Guides | GrowthCred SA",description:"Read GrowthCred’s free practical AI guides for business owners and use the Business Brain builder. Downloadable packs are being prepared.",index:true,modified:REVIEWED},
   {path:"/ai-implementation-guide",title:"The AI Implementation Guide | GrowthCred",description:"Seven steps to put AI to work in your business without changing the way you work or the platforms you work in.",index:false},
   {path:"/brain",title:"Free AI Business Brain Builder | GrowthCred",description:"Build a reusable business context document for AI. Answer practical questions, then copy or download your document.",index:false},
@@ -45,7 +50,7 @@ export function eventNode(s:EventSession|null, now=Date.now()):Record<string,unk
 }
 /** The two sessions the site sells, from the same files the pages read. */
 export function eventSession(path:string):EventSession|null {
-  if(path==="/webinar")return {name:`GrowthCred live class: ${WEBINAR.title}`,description:routeMeta(path).description,path,startUtc:WEBINAR.startUtc,endUtc:WEBINAR.endUtc,online:true,priceCents:0};
+  if(path==="/webinar")return {name:`${JCCI.partner} \u00d7 GrowthCred: ${WEBINAR.title}`,description:routeMeta(path).description,path,startUtc:WEBINAR.startUtc,endUtc:WEBINAR.endUtc,online:true,priceCents:0};
   if(path==="/workshop"&&WORKSHOP_EVENT&&WORKSHOP.amountCents!==null)return {name:`GrowthCred workshop: ${WORKSHOP.name}`,description:routeMeta(path).description,path,startUtc:WORKSHOP_EVENT.startUtc,endUtc:WORKSHOP_EVENT.endUtc,online:WORKSHOP_EVENT.online,venue:WORKSHOP_EVENT.venue,priceCents:WORKSHOP.amountCents,soldOut:seatsLeft()===0};
   return null;
 }
@@ -66,7 +71,7 @@ export function structuredData(meta:RouteMeta) {
   const event=eventNode(eventSession(meta.path));
   if(event) graph.push(event);
   /* FAQPage only where the same questions are visible on the page. */
-  const faq=meta.path==="/"?HOME_FAQ:meta.path===CORPORATE_PATH?CORPORATE_FAQ:meta.path===PRIVATE_AI_PATH?PRIVATE_AI_FAQ:page?.faq;
+  const faq=meta.path==="/"?HOME_FAQ:meta.path===CORPORATE_PATH?CORPORATE_FAQ:meta.path===PRIVATE_AI_PATH?PRIVATE_AI_FAQ:meta.path==="/webinar"?[...JCCI_FAQ,{q:WHY_FREE.q,a:WHY_FREE.a}]:page?.faq;
   if(faq?.length) graph.push({"@type":"FAQPage","@id":`${url}#faq`,mainEntity:faq.map(f=>({"@type":"Question",name:f.q,acceptedAnswer:{"@type":"Answer",text:f.a}}))});
   if(meta.path!=="/") graph.push({"@type":"BreadcrumbList",itemListElement:[{"@type":"ListItem",position:1,name:"Home",item:SITE+"/"},{"@type":"ListItem",position:2,name:page?.heading??(meta.path===CORPORATE_PATH?"Corporate AI training":meta.path===PRIVATE_AI_PATH?"Private AI":meta.title),item:url}]});
   return {"@context":"https://schema.org","@graph":graph};

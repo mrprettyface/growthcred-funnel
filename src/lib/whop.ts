@@ -22,6 +22,15 @@ export const WHOP_PLANS = {
   operatorsIntensive: "plan_Lrt0EkLTJD5nx",
   /** D - the home-study course, offered when the Intensive is declined */
   homeCourse: "plan_Pbw4zu8ngelfI",
+  /**
+   * E - the JCCI webinar's VIP seat (R497, src/lib/offers.ts VIP_SEAT).
+   *
+   * NULL because the plan does not exist in Whop yet. While it is null,
+   * /webinar/vip shows a visible placeholder and takes the seat by hand over
+   * WhatsApp rather than rendering a checkout that cannot charge. Create the
+   * plan at R497, paste its id here, and the checkout appears on its own.
+   */
+  vipSeat: null as string | null,
 } as const;
 
 /** Picks the workshop plan that matches whether the order bump was ticked. */

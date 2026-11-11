@@ -362,11 +362,29 @@
     },
     {
       "path": "/webinar",
-      "title": "Free Online AI Class for Business Owners | GrowthCred",
-      "description": "Register for GrowthCred’s next free online AI class. Learn how business context improves AI workflows. Session details confirmed on registration.",
+      "title": "Free AI Webinar for SA Business Owners, Wednesday 18 November | GrowthCred",
+      "description": "Free live webinar with JCCI on Wednesday 18 November at 18:00 SAST: how to set up AI that already knows your business, so it does your repeat work for you.",
       "index": true,
-      "modified": "2026-09-20",
+      "modified": "2026-11-11",
       "file": "webinar.html",
+      "prerendered": true
+    },
+    {
+      "path": "/webinar/thanks",
+      "title": "You’re In | GrowthCred",
+      "description": "Your seat at the free live AI webinar is saved. Take the Brain Builder, join the reminder group and add it to your calendar.",
+      "index": false,
+      "canonical": "/webinar",
+      "file": "webinar/thanks.html",
+      "prerendered": true
+    },
+    {
+      "path": "/webinar/vip",
+      "title": "Your VIP Seat | GrowthCred",
+      "description": "The private hour before the live AI webinar: your Brain Builder reviewed live, and the recording.",
+      "index": false,
+      "canonical": "/webinar",
+      "file": "webinar/vip.html",
       "prerendered": true
     },
     {

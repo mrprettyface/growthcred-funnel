@@ -6,7 +6,14 @@ import { ExperienceBoundary } from "./components/webinar/ExperienceBoundary";
 
 /* Split out of the main bundle: each is needed by one or two routes, and every
    byte in the main chunk is paid for on every page of the site. */
-const NextClass = lazy(() => import("./pages/NextClass"));
+/**
+ * The JCCI × GrowthCred registration funnel: the page, and the two outcomes.
+ * Lazy like the rest — none of it belongs in the bundle that every other page
+ * on the site pays for.
+ */
+const JcciWebinar = lazy(() => import("./pages/JcciWebinar"));
+const WebinarThanks = lazy(() => import("./pages/WebinarThanks"));
+const WebinarVip = lazy(() => import("./pages/WebinarVip"));
 import { Metadata } from "./seo/Metadata";
 /** Search pages and the 404: their copy is too big for the main bundle. */
 const SearchRoute = lazy(() => import("./pages/SearchRoute"));
@@ -128,7 +135,20 @@ export default function App() {
         <ScrollToTop />
         <Suspense fallback={<LegalLoading />}><Routes>
           {/* Funnel */}
-          <Route path="/class" element={<Layout><NextClass /></Layout>} />
+          {/* The old alias for the live class. Both hosts 301 this to /webinar
+              (public/.htaccess and public/_redirects), so in production nobody
+              renders it. It stays mapped to the same page for client-side
+              navigation and for dev, where no redirect runs. */}
+          <Route
+            path="/class"
+            element={
+              <Layout bare>
+                <Suspense fallback={<WebinarLoading />}>
+                  <JcciWebinar />
+                </Suspense>
+              </Layout>
+            }
+          />
           {/* The parallel funnel. A lead magnet opt-in whose thank-you state
               hands the pack over on the spot and offers a one-tap seat at the
               live class. Deliberately not in the nav: this is an ad
@@ -148,7 +168,40 @@ export default function App() {
               /webinar is the scroll experience; /webinar-plain is the same
               argument as a plain document, kept for slow connections and for
               A/B testing the two against each other. */}
-          <Route path="/webinar" element={<Layout><NextClass /></Layout>} />
+          {/* The JCCI registration page. Bare: it brings its own top bar and
+              its own footer, and the site nav on a registration page is only a
+              way out of it. The two thank-you pages are real routes, so a
+              reminder email or a WhatsApp message can link straight to them. */}
+          <Route
+            path="/webinar"
+            element={
+              <Layout bare>
+                <Suspense fallback={<WebinarLoading />}>
+                  <JcciWebinar />
+                </Suspense>
+              </Layout>
+            }
+          />
+          <Route
+            path="/webinar/thanks"
+            element={
+              <Layout bare>
+                <Suspense fallback={<WebinarLoading />}>
+                  <WebinarThanks />
+                </Suspense>
+              </Layout>
+            }
+          />
+          <Route
+            path="/webinar/vip"
+            element={
+              <Layout bare>
+                <Suspense fallback={<WebinarLoading />}>
+                  <WebinarVip />
+                </Suspense>
+              </Layout>
+            }
+          />
           <Route path="/ai-implementation-guide" element={<Layout><GuidePage /></Layout>} />
           <Route path="/webinar-plain" element={<Navigate to="/webinar" replace />} />
           {/* THE LANDING PAGE — repositioned.

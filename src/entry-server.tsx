@@ -4,7 +4,8 @@ import { PassThrough } from "node:stream";
 import App from "./App";
 export { ROUTES, ALIASES, SITE, structuredData, eventNode, eventSession } from "./seo/routes";
 export { SEARCH_PAGES } from "./content/searchPages";
-export { hasFutureSession, calendarUrl } from "./lib/webinar";
+export { hasFutureSession, calendarUrl, outlookCalendarUrl, msUntilStart, sessionHasPassed } from "./lib/webinar";
+export { chatTrapCost } from "./lib/jcciWebinar";
 export { cleanPage, safeEventPayload, validGaId } from "./lib/searchAnalytics";
 export async function render(path:string):Promise<string> {
   await new Promise((resolve,reject)=>{

@@ -235,11 +235,65 @@ alter table public.webinar_registrations
   add column if not exists ref_code    text,
   add column if not exists referred_by text;
 
+-- The JCCI seat form (11 Nov 2026) asks three more things. All idempotent
+-- ALTERs, so a live table upgrades in place without a drop.
+--
+-- `consent` records that the POPIA box was ticked. It is stored rather than
+-- assumed: the point of consent is being able to show, later, that it was
+-- given, and a boolean nobody wrote down is not consent, it is a claim.
+-- `business` is nullable because every required field costs registrations.
+-- `seat` is 'free' or 'vip'. A VIP row is written BEFORE payment, so this
+-- column records what someone chose, never that they paid. Whop remains the
+-- authority on money; while the VIP plan does not exist, a 'vip' row means a
+-- seat Phila is honouring by hand.
+alter table public.webinar_registrations
+  add column if not exists business text,
+  add column if not exists consent  boolean,
+  add column if not exists seat     text;
+
+-- Which ad brought this registration (11 Nov 2026), read from the URL the
+-- visitor arrived on. The Meta ad plan runs ~20 small ad sets at once and is
+-- steered by one number per ad set: what a registration cost there.
+-- `utm_content` IS the ad set, so it is the column the throttle rule divides by;
+-- `utm_term` is the individual ad or hook inside it, and `segment` is which
+-- micro-audience hook the landing page showed back to them. All nullable:
+-- someone who comes straight to the site has no attribution, which is an
+-- answer, not a missing value.
+alter table public.webinar_registrations
+  add column if not exists utm_source   text,
+  add column if not exists utm_medium   text,
+  add column if not exists utm_campaign text,
+  add column if not exists utm_content  text,
+  add column if not exists utm_term     text,
+  add column if not exists segment      text;
+
+create index if not exists webinar_registrations_adset_idx
+  on public.webinar_registrations (webinar, utm_content);
+
 create or replace view public.webinar_registrations_recent
   with (security_invoker = true) as
-  select created_at, webinar, name, whatsapp, email, source, ref_code, referred_by
+  select created_at, webinar, name, whatsapp, email, business, seat, consent,
+         source, segment, utm_campaign, utm_content, utm_term,
+         utm_source, utm_medium, ref_code, referred_by
   from public.webinar_registrations
   order by created_at desc;
+
+-- Cost per registration, per ad set, is this count divided by what Meta says
+-- that ad set spent. One query, no third-party tool: the throttle rule in
+-- docs/marketing/jcci-webinar-meta-ads.md is read straight off it.
+create or replace view public.webinar_registrations_by_adset
+  with (security_invoker = true) as
+  select webinar,
+         coalesce(utm_campaign, '(none)') as campaign,
+         coalesce(utm_content,  '(none)') as ad_set,
+         coalesce(segment,      '(none)') as segment,
+         count(*)                          as registrations,
+         count(*) filter (where seat = 'vip') as vip_seats,
+         min(created_at)                   as first_seen,
+         max(created_at)                   as last_seen
+  from public.webinar_registrations
+  group by 1, 2, 3, 4
+  order by registrations desc;
 
 
 -- ---------- magnet_signups: lead magnet opt-ins ----------

@@ -1,5 +1,56 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **11 November 2026 — `/webinar` is the JCCI registration funnel.** Phila's
+> brief for the JCCI × GrowthCred webinar on **Wednesday 18 November 2026,
+> 18:00 SAST** on Microsoft Teams is built. `/webinar` was an undated
+> placeholder class; the dated session supersedes it, and `src/pages/NextClass.tsx`
+> is gone. The page is a full registration page in the house voice: a countdown
+> bar, a two-step form (details, then free seat or a R497 VIP seat), the Chat
+> Trap argument, the four engines, a Chat Trap calculator, the takeaways, the
+> seats, the FAQ and a close. A free seat lands on `/webinar/thanks` (Brain
+> Builder, WhatsApp reminder group, calendar links, referral block); a VIP seat
+> lands on `/webinar/vip`. Facts live in `src/lib/jcciWebinar.ts`, the date in
+> `src/lib/webinar.ts`, the VIP price in `src/lib/offers.ts`. Gates:
+> [GATES-jcci-webinar.md](GATES-jcci-webinar.md), oracle
+> `scripts/verify-jcci-webinar.mjs all`.
+>
+> **Four things are waiting on a person before this is launch-ready**, all in
+> [docs/operations/jcci-webinar-reminders.md](docs/operations/jcci-webinar-reminders.md):
+> JCCI's confirmation (members-only? Teams at 18:00? can this page run alongside
+> theirs?); the **Whop plan for the R497 VIP seat**, which does not exist, so
+> `/webinar/vip` shows a visible placeholder and takes the seat on WhatsApp by
+> hand until `WHOP_PLANS.vipSeat` is set; **running `supabase/schema.sql`**, which
+> now adds `business`, `consent` and `seat` to `webinar_registrations` (a
+> registration survives a forgotten migration — the insert retries without those
+> three — but the POPIA consent flag is lost); and the hero video slot
+> `jcciChatTrap` in `src/lib/videos.ts`. The brief's testimonial is NOT on the
+> page: it named "Jeff" from MNE Waste, the contact on record is Sandile, and no
+> quote is approved, so the page carries TaiAscend's and Demure International's
+> already-published results instead.
+>
+> **The Meta ads behind it** are planned in
+> [docs/marketing/jcci-webinar-meta-ads.md](docs/marketing/jcci-webinar-meta-ads.md),
+> on the structure Alex Becker describes: one campaign per demographic, ~15
+> small ad sets at R50–R100/day, each aimed at a micro-audience named in its own
+> copy rather than in Meta's targeting boxes, ABO not CBO, grown by adding ad
+> sets rather than by pushing more money through them. Two parts of the funnel
+> exist to make that work. Each ad carries `?seg=<slug>`, and `/webinar` repeats
+> that ad's own hook back in the eyebrow and an opening line and lifts the
+> closest published client result to the top of the proof column — the H1 never
+> moves, because it is prerendered and indexed, and an unknown slug falls back
+> to the generic hero (`src/lib/segments.ts`). And every registration row now
+> carries `utm_source/medium/campaign/content/term` plus `segment`
+> (`src/lib/utm.ts`), so Meta's spend for an ad set divided by the rows carrying
+> its `utm_content` gives cost per registration per ad set — read straight off
+> the new `webinar_registrations_by_adset` view. That division is the only thing
+> steering the weekly throttle, so **the schema.sql migration is now blocking
+> the ads, not just the consent flag.**
+>
+> `scripts/verify-seo.mjs` changed with it: its blanket ban on Event markup was
+> written when no session on the site had a date. It now bans AggregateRating
+> and Review outright and allows Event only where `eventSession()` holds a real
+> future date, which `verify-event-schema.mjs` then checks in full.
+
 > **23 October 2026 — new site icon.** Phila replaced the gold Arial "GC" on
 > white with the "G." mark: a cream G and a gold full stop on a midnight tile,
 > the ending of the "GrowthCred." wordmark, in Manrope 800. It was picked from
