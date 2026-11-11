@@ -223,6 +223,29 @@ checkout each degrade to something visible and honest rather than plausible.
     string, activeAttribution().utm_content still returned "beauty-r60" and the
     segment still resolved.
 
+- [x] G16: no heading disappears into its own background
+  CHECK: node scripts/verify-jcci-webinar.mjs contrast
+  EXPECT: contrast OK
+  EVIDENCE: exit=0; "contrast OK (149 headings across 98 dark bands)", scanned
+    across every prerendered page on the site, not just this one.
+    WHY IT EXISTS: Phila found five headings on /webinar rendering midnight on
+    midnight -- present, correct, and invisible. src/index.css sets
+    `h1, h2, h3, h4 { color: var(--color-midnight) }` in the base layer, and an
+    element's own rule beats a colour inherited from its parent, so a heading in
+    a <Section dark> never picks up the section's `text-cream`. The <Lead>
+    component set no colour, so all five dark-band headings vanished. Every
+    other gate reads TEXT, and invisible text passes all of them: the voice gate
+    scored those headings, the page gate asserted their words were present.
+    The fix: <Lead dark> on the five dark sections, which the component now
+    requires. The gate asserts what the bug actually was -- a heading on a dark
+    band with NO explicit colour decision anywhere in it or its contents.
+    Two refinements, both from false positives it raised on its first run: an
+    explicit `text-midnight` is allowed, because a dark band can hold a light
+    card (the seat form sits on bg-paper inside the dark hero and is correctly
+    midnight); and the heading's INNER markup counts, because /workshop's
+    animated heading is a bare <h2> around a coloured span. Controls assert a
+    colourless heading is flagged and a coloured one is not.
+
 DEFERRED (not a gate; an honest limitation): no end-to-end test submission was
 made. `registerForWebinar` dual-writes to Supabase AND posts to the live "Reserve
 Your Seat" Google Form, so pressing "Confirm my seat" would put a junk row in

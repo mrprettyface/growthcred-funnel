@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Section, Eyebrow, Faq, VideoSlot } from "../components/ui";
+import { Section, Eyebrow, Faq, VideoSlot, cn } from "../components/ui";
 import { ResponsiveImage } from "../components/ResponsiveImage";
 import { Footer } from "../components/Layout";
 import { ClientLogos } from "../components/ClientLogos";
@@ -53,10 +53,26 @@ function useSegment() {
   return segment;
 }
 
-/** A section heading in the voice: something a person would actually say. */
-function Lead({ children }: { children: React.ReactNode }) {
+/**
+ * A section heading in the voice: something a person would actually say.
+ *
+ * `dark` is NOT optional decoration. src/index.css sets
+ * `h1, h2, h3, h4 { color: var(--color-midnight) }` in the base layer, and an
+ * element's own rule beats a colour inherited from its parent — so a heading on
+ * a dark band does not pick up the section's `text-cream`, it stays midnight on
+ * midnight and disappears. Every Lead inside a dark Section must say so.
+ * scripts/verify-jcci-webinar.mjs gate `contrast` fails the build if one does not.
+ */
+function Lead({ children, dark = false }: { children: React.ReactNode; dark?: boolean }) {
   return (
-    <h2 className="max-w-[22ch] text-3xl leading-[1.08] md:text-5xl">{children}</h2>
+    <h2
+      className={cn(
+        "max-w-[22ch] text-3xl leading-[1.08] md:text-5xl",
+        dark ? "text-cream" : "text-midnight",
+      )}
+    >
+      {children}
+    </h2>
   );
 }
 
@@ -232,7 +248,7 @@ export default function JcciWebinar() {
       {/* ---------------- WHAT IT TAKES: the four engines ---------------- */}
       <Section dark>
         <Eyebrow dark>What it takes</Eyebrow>
-        <Lead>To get 10 hours back, you need four engines.</Lead>
+        <Lead dark>To get 10 hours back, you need four engines.</Lead>
         <p className="mt-6 max-w-[54ch] text-lg text-cream/85">
           Every hour of your week is one of four jobs. Writing. Finding. Replying. Admin. An
           Operator’s Brain has one engine for each.
@@ -329,7 +345,7 @@ export default function JcciWebinar() {
       {/* ---------------- THE MISTAKE ---------------- */}
       <Section dark>
         <Eyebrow dark>The mistake most owners make</Eyebrow>
-        <Lead>You think AI is about better prompts.</Lead>
+        <Lead dark>You think AI is about better prompts.</Lead>
         <div className="mt-8 max-w-[58ch] space-y-5 text-lg text-cream/85">
           <p>
             There are thousands of &ldquo;best ChatGPT prompts&rdquo; lists online. Most owners
@@ -401,7 +417,7 @@ export default function JcciWebinar() {
       {/* ---------------- IS THIS FOR YOU ---------------- */}
       <Section dark>
         <Eyebrow dark>Is this for you?</Eyebrow>
-        <Lead>Be honest. Is one of these you?</Lead>
+        <Lead dark>Be honest. Is one of these you?</Lead>
         <ol className="mt-10 grid gap-4 md:grid-cols-3">
           {OWNERS.map((owner, i) => (
             <li
@@ -459,7 +475,7 @@ export default function JcciWebinar() {
       {/* ---------------- EVERYTHING YOU GET ---------------- */}
       <Section dark>
         <Eyebrow dark>Everything you get</Eyebrow>
-        <Lead>Here is what you get for R0.</Lead>
+        <Lead dark>Here is what you get for R0.</Lead>
         <div className="mt-10 grid gap-5 lg:grid-cols-2">
           <div className="rounded-2xl border border-cream/15 bg-cream/[0.04] p-7">
             <ol className="space-y-6">
@@ -550,7 +566,7 @@ export default function JcciWebinar() {
       <Section dark>
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:gap-16">
           <div>
-            <Lead>Stop starting from zero.</Lead>
+            <Lead dark>Stop starting from zero.</Lead>
             <div className="mt-7 max-w-[54ch] space-y-5 text-lg text-cream/85">
               <p>Your next month goes one of two ways.</p>
               <p>

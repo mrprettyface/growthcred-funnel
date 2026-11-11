@@ -504,10 +504,95 @@ switch (cmd) {
     break;
   }
 
+  /* -------------------------------------------------------------- contrast */
+  case "contrast": {
+    /*
+     * Headings that disappear into their own background.
+     *
+     * src/index.css sets `h1, h2, h3, h4 { color: var(--color-midnight) }` in
+     * the base layer. An element's own rule beats a colour inherited from its
+     * parent, so a heading inside a <Section dark> does NOT pick up the
+     * section's `text-cream`: it stays midnight on midnight and vanishes. Every
+     * other gate here reads TEXT, and text that is present but invisible passes
+     * all of them -- which is exactly how five headings shipped unreadable.
+     *
+     * <Section> stamps data-tone="dark" on the band, so this is checkable on
+     * the built HTML, for every prerendered page on the site.
+     */
+    const manifest = JSON.parse(read("dist/search-manifest.json"));
+    /*
+     * The rule is "an explicit colour choice", not "a light colour".
+     *
+     * A dark band can legitimately contain a light CARD -- the seat form sits
+     * on `bg-paper` inside the dark hero -- and a heading in that card is
+     * correctly `text-midnight`. What is never correct is a heading with NO
+     * colour class at all, because that silently inherits the base-layer
+     * midnight from index.css, which is the bug this gate exists for. So the
+     * check is for the ABSENCE of a decision, which is the actual defect.
+     */
+    const DECIDED = /\btext-(cream|white|gold|gold-soft|paper|sand|midnight|ink|muted)\b/;
+
+    /* Pull each dark band, then every heading inside it. */
+    const darkBands = (html) => {
+      const out = [];
+      const open = /<section[^>]*data-tone="dark"[^>]*>/g;
+      let m;
+      while ((m = open.exec(html))) {
+        /* Sections do not nest on this site, so the next <section stops it. */
+        const rest = html.slice(m.index + m[0].length);
+        const end = rest.search(/<section[\s>]/);
+        out.push(end === -1 ? rest : rest.slice(0, end));
+      }
+      return out;
+    };
+    /*
+     * The heading AND what is inside it. A heading can legitimately carry no
+     * colour itself while its visible text does: /workshop's animated heading
+     * is a bare <h2> wrapper around a <span class="... text-cream">. What
+     * matters is that the rendered words have a colour, wherever it is set.
+     */
+    const headings = (band) =>
+      [...band.matchAll(/<(h[1-4])([^>]*)>([\s\S]*?)<\/\1>/g)].map((h) => ({
+        tag: h[1],
+        cls: h[2].match(/class="([^"]*)"/)?.[1] ?? "",
+        inner: h[3],
+      }));
+
+    /* Control: the detector must flag a heading with no light colour, and must
+       not flag one that has it. Without this, "no findings" could just mean the
+       regex never matched a section at all. */
+    const control = '<section data-tone="dark"><h2 class="text-3xl"><span>x</span></h2></section>';
+    assert.equal(darkBands(control).length, 1, "control: a dark band was not detected");
+    assert.equal(headings(darkBands(control)[0]).length, 1, "control: a heading was not detected");
+    assert.ok(!DECIDED.test(headings(darkBands(control)[0])[0].cls + " " + headings(darkBands(control)[0])[0].inner), "control: a heading with no colour class was not flagged");
+    const ok = '<section data-tone="dark"><h2 class="text-3xl"><span class="text-cream">x</span></h2></section>';
+    assert.ok(DECIDED.test(headings(darkBands(ok)[0])[0].cls + " " + headings(darkBands(ok)[0])[0].inner), "control: a heading with an explicit colour was wrongly flagged");
+
+    const bad = [];
+    let scannedBands = 0;
+    let scannedHeadings = 0;
+    for (const route of manifest.routes) {
+      if (!route.prerendered) continue;
+      const html = read(join("dist", route.file));
+      for (const band of darkBands(html)) {
+        scannedBands++;
+        for (const h of headings(band)) {
+          scannedHeadings++;
+          if (!DECIDED.test(h.cls + ' ' + h.inner))
+            bad.push(`${route.path}: <${h.tag}> on a dark band has no explicit text colour, so it inherits midnight from index.css (class="${h.cls.slice(0, 70)}")`);
+        }
+      }
+    }
+    assert.ok(scannedBands > 0, "no dark sections were scanned at all -- the detector found nothing to check");
+    if (bad.length) fail("contrast", bad);
+    console.log(`contrast OK (${scannedHeadings} headings across ${scannedBands} dark bands)`);
+    break;
+  }
+
   /* ------------------------------------------------------------------- all */
   case "all": {
     const { execFileSync } = await import("node:child_process");
-    const steps = ["page", "price", "proof", "vip", "thanks", "capture", "countdown", "segments", "attribution", "ops"];
+    const steps = ["page", "price", "proof", "vip", "thanks", "capture", "countdown", "segments", "attribution", "contrast", "ops"];
     for (const step of steps)
       execFileSync(process.execPath, [fileURLToPath(import.meta.url), step], {
         stdio: "inherit",
@@ -519,7 +604,7 @@ switch (cmd) {
 
   default:
     console.error(
-      "usage: node scripts/verify-jcci-webinar.mjs page|price|proof|vip|thanks|capture|countdown|segments|attribution|ops|all",
+      "usage: node scripts/verify-jcci-webinar.mjs page|price|proof|vip|thanks|capture|countdown|segments|attribution|contrast|ops|all",
     );
     process.exit(2);
 }
