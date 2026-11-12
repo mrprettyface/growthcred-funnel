@@ -195,7 +195,7 @@ export default function JcciWebinar() {
         <div className="mt-10">
           <CtaButton />
           <p className="mx-auto mt-4 max-w-[52ch] font-mono text-[12px] leading-relaxed text-muted">
-            Free for the {JCCI.partner} community &middot; {WEBINAR.where} &middot; Free gifts for
+            Free and open to everyone &middot; With {JCCI.partner} &middot; {WEBINAR.where} &middot; Free gifts for
             everyone who attends live
           </p>
         </div>
@@ -597,10 +597,8 @@ export default function JcciWebinar() {
       <Section className="pt-0">
         <h2 className="mb-8 text-3xl md:text-4xl">Quick answers.</h2>
         <Faq items={JCCI_FAQ} />
-        {/* "Do I need to be a JCCI member?" is deliberately not answered here.
-            JCCI has not confirmed it, and a guessed answer to that question
-            turns people away at the door. It is the first blocking item in
-            docs/operations/jcci-webinar-reminders.md. */}
+        {/* "Do I need to be a JCCI member?" is answered first in JCCI_FAQ:
+            open to everyone (Phila, 12 Nov 2026). */}
       </Section>
 
       {/* ---------------- FINAL CLOSE ---------------- */}

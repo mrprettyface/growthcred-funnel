@@ -15,10 +15,13 @@ to be pasted as it stands.
 These are blocking or near-blocking, and none of them is something an agent can
 settle.
 
-1. **JCCI.** Can this registration page run alongside theirs? Do attendees have
-   to be members? Is the session on Teams at 18:00? The page deliberately leaves
-   the members-only question as a visible `[TO COME]` rather than guessing, and
-   the answer that turns people away at the door is the one worth having early.
+1. **JCCI. Partly answered, 12 November.** Phila confirmed the session is
+   **open to everyone, not only JCCI members** — JCCI is promoting it publicly
+   on LinkedIn. The page now answers "Do I need to be a JCCI member?" first in
+   its FAQ, and the line under the hero button reads "Free and open to
+   everyone" instead of "Free for the JCCI community". Still open: whether JCCI
+   are happy for **ads** to name their membership (ad set 4.1 in the Meta plan
+   stays off until they are), and confirmation that it is Teams at 18:00.
 2. **The VIP checkout. DONE, 11 November.** Phila created Whop plan
    `plan_p4azvJzT5gWRg` ("VIP Seat - GrowthCred", one-time). Its checkout page
    read **ZAR 495.00** while the brief and the site said R497, so the site

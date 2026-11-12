@@ -10,10 +10,11 @@
  * the Event markup, the calendar link and every other live-class component were
  * already wired to it. This file holds what is specific to this one event.
  *
- * NOT CONFIRMED YET (see docs/operations/jcci-webinar-reminders.md): whether
- * JCCI will run this registration page alongside their own, whether attendance
- * is members-only, and the VIP hour's platform. Anything unconfirmed is written
- * here as a question for Phila, never as a claim on the page.
+ * Attendance is open to everyone, not only JCCI members (Phila, 12 Nov 2026:
+ * JCCI is promoting it publicly on LinkedIn). STILL NOT CONFIRMED (see
+ * docs/operations/jcci-webinar-reminders.md): whether JCCI is happy for ads to
+ * name their membership, and the VIP hour's platform. Anything unconfirmed is
+ * written here as a question for Phila, never as a claim on the page.
  */
 
 import { VIP_SEAT, formatPrice } from "./offers";
@@ -110,11 +111,16 @@ export const OWNERS = [
  * The questions people actually ask before registering.
  *
  * These are rendered on the page AND fed to FAQPage markup, so every answer has
- * to be true on its own. "Do I need to be a JCCI member?" is deliberately absent
- * until JCCI confirms it: a guessed answer to that one turns people away at the
- * door, which is worse than not answering it here.
+ * to be true on its own. The members question comes first, because it is the
+ * one that decides whether someone reads the rest. It was left off until it was
+ * known: Phila confirmed on 12 Nov 2026 that the session is open to everyone,
+ * not only JCCI members, and JCCI is promoting it publicly on LinkedIn.
  */
 export const JCCI_FAQ: { q: string; a: string }[] = [
+  {
+    q: "Do I need to be a JCCI member?",
+    a: "No. It’s open to everyone. JCCI is hosting it and sharing it publicly, so bring anyone you think needs it.",
+  },
   {
     q: "What if I can’t attend live?",
     a: "Come if you can. The free gifts only go to people who are there live. A VIP seat gets the recording.",

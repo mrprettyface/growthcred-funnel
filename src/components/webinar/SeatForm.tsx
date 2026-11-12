@@ -16,7 +16,7 @@ import { BrandIcon } from "../BrandIcons";
  * Two steps on purpose. Everything that identifies someone is asked first, so a
  * person who stops at the seat question is already a lead. Only then does the
  * page ask for money, which is also why the free seat is the default and the
- * pre-selected option: the webinar is a JCCI member benefit, and the VIP hour is
+ * pre-selected option: the webinar is free and open to everyone, and the VIP hour is
  * an offer beside it, not a toll on the way in.
  *
  * The row is written before the seat is paid for, every time. So a VIP who
