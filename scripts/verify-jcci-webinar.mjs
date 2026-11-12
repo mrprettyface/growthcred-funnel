@@ -631,10 +631,118 @@ switch (cmd) {
     break;
   }
 
+  /* ---------------------------------------------------------------- motion */
+  case "motion": {
+    const css = read("src/index.css");
+
+    /*
+     * Which blocks a CSS rule actually sits inside, read the way the browser
+     * nests it: comments stripped, braces walked. A grep for "no-preference
+     * somewhere above" would pass a rule that sits AFTER the block closes.
+     */
+    const enclosing = (source, selector) => {
+      const text = source.replace(/\/\*[\s\S]*?\*\//g, "");
+      const stack = [];
+      let header = "";
+      const found = [];
+      for (const ch of text) {
+        if (ch === "{") {
+          const h = header.trim();
+          if (h === selector) found.push([...stack]);
+          stack.push(h);
+          header = "";
+        } else if (ch === "}") {
+          stack.pop();
+          header = "";
+        } else if (ch === ";") {
+          header = "";
+        } else {
+          header += ch;
+        }
+      }
+      return found;
+    };
+    const NP = "@media (prefers-reduced-motion: no-preference)";
+    const VIEW = "@supports (animation-timeline: view())";
+
+    /* Control: the walker must see a rule that sits OUTSIDE the safe block. */
+    const outside = enclosing(`${NP} { .a { x: 1; } } .b { y: 1; }`, ".b");
+    assert.equal(outside.length, 1, "control: the walker did not find the rule at all");
+    assert.ok(!outside[0].includes(NP), "control: a rule outside the no-preference block was read as inside it");
+
+    /* Every moving rule lives inside no-preference, so a visitor who asked for
+       less motion gets none of it -- and, crucially, none of the stagger
+       DELAYS, which the site's reduce kill-switch does not shorten. */
+    const moving = [".gc-hero-rise", ".gc-hero-settle", ".gc-hero-frame", ".gc-rise", ".gc-press:active"];
+    const bad = [];
+    for (const sel of moving) {
+      const hits = enclosing(css, sel);
+      if (!hits.length) bad.push(`${sel} is not defined in index.css`);
+      for (const chain of hits)
+        if (!chain.includes(NP)) bad.push(`${sel} moves outside ${NP}`);
+    }
+    /* Scroll-driven ones also need the browser to support view timelines, or
+       they must not apply at all. */
+    for (const chain of enclosing(css, ".gc-rise"))
+      if (!chain.includes(VIEW)) bad.push(`.gc-rise is scroll-driven but not inside ${VIEW}`);
+
+    /* The motion layer: transform and opacity only. Never blur, never filter
+       (STATUS.md: blur on scroll-driven elements was the main cause of jank). */
+    const block = css.slice(css.indexOf("/webinar motion (the JCCI funnel)"));
+    assert.ok(block.length > 200, "the /webinar motion block is missing from index.css");
+    const noComments = block.replace(/\/\*[\s\S]*?\*\//g, "");
+    if (/blur\(|\bfilter\s*:/.test(noComments)) bad.push("the /webinar motion block uses blur or filter");
+
+    /* The headline and the frame are the largest paint: they may move, never
+       fade. A keyframe that touches their opacity would delay the page's load
+       moment for every visitor. */
+    for (const name of ["gcSettle", "gcSettleScale"]) {
+      const kf = noComments.match(new RegExp(`@keyframes ${name} \\{[\\s\\S]*?\\n\\}`))?.[0] ?? "";
+      if (!kf) bad.push(`@keyframes ${name} is missing`);
+      if (/opacity/.test(kf)) bad.push(`@keyframes ${name} fades -- the headline and frame must never start invisible`);
+    }
+    const page = read("src/pages/JcciWebinar.tsx");
+    if (!/<h1\s+className="gc-hero-settle /.test(page)) bad.push("the H1 does not use the no-fade settle");
+    if (/<h1[^>]*gc-hero-rise/.test(page)) bad.push("the H1 uses the fading rise");
+    if ((page.match(/gc-hero-frame/g) ?? []).length < 2) bad.push("both video-frame states should use the no-fade frame settle");
+
+    /* No `transition: all` anywhere in the funnel, and no bare Tailwind
+       `transition` left: every transition names what it moves. */
+    const funnel = [
+      "src/pages/JcciWebinar.tsx", "src/pages/WebinarThanks.tsx", "src/pages/WebinarVip.tsx",
+      "src/components/webinar/SeatForm.tsx", "src/components/webinar/ChatTrapMath.tsx",
+      "src/components/webinar/Countdown.tsx",
+    ];
+    for (const f of funnel) {
+      const src = read(f);
+      if (/transition-all/.test(src)) bad.push(`${f}: transition-all`);
+      if (/(?<=[\s"`])transition(?=[\s"`])/.test(src)) bad.push(`${f}: a bare \`transition\` that does not name what it moves`);
+    }
+
+    /* The calculator's rolling figure is for the eye; a screen reader hears
+       only the settled total, and the prerendered page shows the real value. */
+    const calc = read("src/components/webinar/ChatTrapMath.tsx");
+    if (!/aria-hidden="true" className="font-mono text-5xl/.test(calc)) bad.push("the rolling total is not hidden from screen readers");
+    if (!/className="sr-only" aria-live="polite"/.test(calc)) bad.push("no settled total is announced to screen readers");
+    if (!/prefers-reduced-motion: reduce/.test(calc)) bad.push("the rolling number does not snap under reduced motion");
+    const { chatTrapCost } = await import("../dist-ssr/entry-server.js");
+    const expected = chatTrapCost(10, 500).randYear.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    const built = builtPage("/webinar");
+    if (!new RegExp(`aria-hidden="true" class="font-mono text-5xl[^>]*>${expected}<`).test(built))
+      bad.push(`the prerendered total is not the settled R${expected}`);
+
+    /* Nothing is shipped already-hidden: no inline opacity:0 in the HTML. */
+    if (/style="[^"]*opacity:\s*0/.test(built)) bad.push("the prerendered page carries an inline opacity:0");
+
+    if (bad.length) fail("motion", bad);
+    console.log(`motion OK (${moving.length} moving rules, all inside ${NP})`);
+    break;
+  }
+
   /* ------------------------------------------------------------------- all */
   case "all": {
     const { execFileSync } = await import("node:child_process");
-    const steps = ["page", "price", "proof", "vip", "thanks", "capture", "countdown", "segments", "attribution", "contrast", "ops"];
+    const steps = ["page", "price", "proof", "vip", "thanks", "capture", "countdown", "segments", "attribution", "contrast", "motion", "ops"];
     for (const step of steps)
       execFileSync(process.execPath, [fileURLToPath(import.meta.url), step], {
         stdio: "inherit",
@@ -646,7 +754,7 @@ switch (cmd) {
 
   default:
     console.error(
-      "usage: node scripts/verify-jcci-webinar.mjs page|price|proof|vip|thanks|capture|countdown|segments|attribution|contrast|ops|all",
+      "usage: node scripts/verify-jcci-webinar.mjs page|price|proof|vip|thanks|capture|countdown|segments|attribution|contrast|motion|ops|all",
     );
     process.exit(2);
 }

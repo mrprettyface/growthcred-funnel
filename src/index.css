@@ -524,3 +524,111 @@
     transform: translate3d(-240px, 240px, 0);
   }
 }
+
+/* ============================================================
+   /webinar motion (the JCCI funnel).
+
+   The same contract as everything above: transform and opacity only, never
+   blur; every movement lives INSIDE `prefers-reduced-motion: no-preference`;
+   and nothing a visitor needs is ever waiting on an animation.
+
+   Why inside no-preference rather than relying on the reduce kill-switch
+   higher up: that switch shortens animation-DURATION, not animation-DELAY. A
+   staggered entrance with `both` fill would sit at its starting opacity for
+   the whole delay before snapping in -- invisible content, for exactly the
+   visitor who asked for less motion. Here the rules simply never apply to
+   them, and the page is just there.
+
+   scripts/verify-jcci-webinar.mjs (gate `motion`) checks every rule below.
+   ============================================================ */
+:root {
+  /* A strong ease-out: instant response, a long soft landing. */
+  --gc-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Arrival: a short rise with a fade. For supporting elements only. */
+@keyframes gcRise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Settle: movement with NO fade. The headline and the video frame are the
+   largest things painted on load; an element at opacity 0 is not painted, so
+   fading them would push back the moment the page counts as loaded. They are
+   visible from the first frame and only ease into place. */
+@keyframes gcSettle {
+  from {
+    transform: translateY(10px);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes gcSettleScale {
+  from {
+    transform: scale(0.985);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The hero, once, on load. `--i` is the element's place in the stagger. */
+  .gc-hero-rise {
+    animation: gcRise 560ms var(--gc-ease-out) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+  .gc-hero-settle {
+    animation: gcSettle 640ms var(--gc-ease-out) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+  .gc-hero-frame {
+    animation: gcSettleScale 820ms var(--gc-ease-out) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+}
+
+/* Cards rising into view as you scroll to them, one after another. Driven by
+   the browser's view timeline like .gc-reveal: no observer, no scroll handler,
+   and where it is unsupported the cards are simply there.
+
+   The range is declared twice on purpose. The second, staggered by `--i`,
+   wins where calc() is accepted in animation-range; where it is not, it is
+   dropped as invalid and the first, plain range still holds. Without that
+   fallback an unsupported calc() would leave the default range, which runs the
+   fade across the card's whole trip through the screen -- half-transparent
+   while someone is reading it. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .gc-rise {
+      animation: gcRise var(--gc-ease-out) both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 45%;
+      animation-range: entry calc(var(--i, 0) * 7%) entry calc(45% + var(--i, 0) * 7%);
+    }
+  }
+}
+
+/* Press feedback: the button gives slightly under your finger, so the page
+   feels like it heard you. Scale is a separate property from transform, so it
+   never fights a transform-based entrance on the same element. */
+.gc-press {
+  transition:
+    scale 160ms var(--gc-ease-out),
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .gc-press:active {
+    /* 0.97 for a button; a large card sets --gc-press nearer 1. */
+    scale: var(--gc-press, 0.97);
+  }
+}

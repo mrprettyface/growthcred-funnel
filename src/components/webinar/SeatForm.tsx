@@ -50,6 +50,8 @@ export function SeatForm({ id, className }: { id?: string; className?: string })
   const [seat, setSeat] = useState<Seat>("free");
   const [state, setState] = useState<"idle" | "sending" | "error">("idle");
   const [touched, setTouched] = useState(false);
+  /* True once someone has moved between the steps: only then do they slide. */
+  const [moved, setMoved] = useState(false);
 
   const set = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [key]: e.target.value }));
@@ -79,7 +81,7 @@ export function SeatForm({ id, className }: { id?: string; className?: string })
         </p>
         <Link
           to="/contact"
-          className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-gold px-6 font-body text-sm font-semibold text-midnight no-underline transition hover:bg-gold-soft"
+          className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-gold px-6 font-body text-sm font-semibold text-midnight no-underline gc-press hover:bg-gold-soft"
         >
           Put me on the list <span aria-hidden="true">&#8599;</span>
         </Link>
@@ -91,6 +93,7 @@ export function SeatForm({ id, className }: { id?: string; className?: string })
     e.preventDefault();
     setTouched(true);
     if (!stepOneOk) return;
+    setMoved(true);
     setStep(2);
   }
 
@@ -138,7 +141,7 @@ export function SeatForm({ id, className }: { id?: string; className?: string })
       </p>
 
       {step === 1 ? (
-        <form onSubmit={toStepTwo} className="mt-4" noValidate>
+        <form onSubmit={toStepTwo} className={cn("mt-4", moved && "gc-step-in")} noValidate>
           <h2 className="text-xl text-midnight md:text-2xl">Save your free seat.</h2>
           <p className="mt-2 font-mono text-[12px] leading-relaxed text-muted">
             <span className="text-midnight">{WEBINAR.dayLabel}</span>
@@ -236,13 +239,13 @@ export function SeatForm({ id, className }: { id?: string; className?: string })
 
           <button
             type="submit"
-            className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-gold px-6 font-body text-sm font-semibold text-midnight transition hover:bg-gold-soft"
+            className="group mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-gold px-6 font-body text-sm font-semibold text-midnight gc-press hover:bg-gold-soft"
           >
-            Continue <span aria-hidden="true">&rarr;</span>
+            Continue <span aria-hidden="true" className="inline-block transition-[translate] duration-200 ease-[var(--gc-ease-out)] group-hover:translate-x-0.5">&rarr;</span>
           </button>
         </form>
       ) : (
-        <form onSubmit={confirm} className="mt-4">
+        <form onSubmit={confirm} className={cn("mt-4", moved && "gc-step-in")}>
           <h2 className="text-xl text-midnight md:text-2xl">Which seat, {form.name.trim().split(" ")[0]}?</h2>
 
           <fieldset className="mt-5">
@@ -250,7 +253,7 @@ export function SeatForm({ id, className }: { id?: string; className?: string })
 
             <label
               className={cn(
-                "flex cursor-pointer gap-3 rounded-xl border-2 p-4 transition",
+                "flex cursor-pointer gap-3 rounded-xl border-2 p-4 gc-press [--gc-press:0.985]",
                 seat === "free" ? "border-gold bg-gold/[0.07]" : "border-midnight/15",
               )}
             >
@@ -277,7 +280,7 @@ export function SeatForm({ id, className }: { id?: string; className?: string })
 
             <label
               className={cn(
-                "mt-3 flex cursor-pointer gap-3 rounded-xl border-2 p-4 transition",
+                "mt-3 flex cursor-pointer gap-3 rounded-xl border-2 p-4 gc-press [--gc-press:0.985]",
                 seat === "vip" ? "border-gold bg-gold/[0.07]" : "border-midnight/15",
               )}
             >
@@ -308,17 +311,20 @@ export function SeatForm({ id, className }: { id?: string; className?: string })
             type="submit"
             disabled={state === "sending"}
             className={cn(
-              "mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-gold px-6 font-body text-sm font-semibold text-midnight transition hover:bg-gold-soft",
+              "group mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-gold px-6 font-body text-sm font-semibold text-midnight gc-press hover:bg-gold-soft",
               state === "sending" && "pointer-events-none opacity-60",
             )}
           >
             {state === "sending" ? "Saving your seat…" : "Confirm my seat"}{" "}
-            <span aria-hidden="true">&rarr;</span>
+            <span aria-hidden="true" className="inline-block transition-[translate] duration-200 ease-[var(--gc-ease-out)] group-hover:translate-x-0.5">&rarr;</span>
           </button>
 
           <button
             type="button"
-            onClick={() => setStep(1)}
+            onClick={() => {
+              setMoved(true);
+              setStep(1);
+            }}
             className="mt-3 block w-full text-center font-mono text-[12px] uppercase tracking-[0.14em] text-muted underline-offset-4 hover:underline md:text-[11px]"
           >
             Back to my details

@@ -324,6 +324,47 @@ defects in this webinar work that the checks run above never covered:
   STATUS.md was the only source conflict: both sides kept, newest first.
   App.tsx and routes.ts auto-merged and were checked to hold both sides.
 
+- [x] G18: the page moves, and the motion is decoration: transform and opacity
+        only, none of it for a visitor who asked for reduced motion, and
+        nothing a visitor needs waits on an animation
+  CHECK: node scripts/verify-jcci-webinar.mjs motion
+  EXPECT: motion OK
+  EVIDENCE: exit=0; "motion OK (5 moving rules, all inside @media
+    (prefers-reduced-motion: no-preference))". Added 12 Nov 2026 at Phila's
+    request, to the emil-design-eng principles: a staggered hero arrival (70ms
+    steps), sections fading in and cards rising on scroll via the browser's view
+    timeline (no observer, no scroll handler), press feedback at scale 0.97
+    (0.985 on the big seat cards), arrows nudging under a pointer, the form's
+    second step sliding in, and the calculator total rolling to its new value.
+    The gate walks index.css's real nesting, with a control that a rule
+    outside the block is caught; proven able to fail by appending an unguarded
+    .gc-hero-rise ("moves outside ... no-preference"). It also bans blur and
+    filter in the block, a fade on the headline or frame keyframes, bare
+    `transition` and `transition-all` in the funnel, and an inline opacity:0 in
+    the HTML, and requires the rolling total to be aria-hidden with the settled
+    figure announced instead.
+    WHY INSIDE no-preference: the site's reduce kill-switch shortens
+    animation-duration but not animation-delay, so a staggered entrance would
+    have sat invisible through its delay for exactly the visitor who asked for
+    less motion.
+    The headline and video frame only settle (transform), never fade: they are
+    the largest paint on load, and an element at opacity 0 is not painted.
+    Browser (vite preview of dist): headline and frame at opacity 1 at the
+    first frame; every time-based animation finished; all 27 scroll elements at
+    opacity 1 once on screen; nothing hidden in the first screen; the
+    calculator rolled 260 000 -> 340 799 -> 450 575 -> 500 015 -> 513 446 and
+    landed on exactly 520 000 while the screen reader text read "R520 000 a
+    year"; step one still on load, step two slid in (gcStepIn). Real Chromium
+    with reducedMotion "reduce" (the editbot playwright-core, since the
+    Playwright tool needs Google Chrome): no webinar animations at all and
+    everything at opacity 1 from the first frame. In the BUILT stylesheet all
+    five moving rules exist only under no-preference.
+    Site checks: 61 pass, 4 fail, the same 4 that fail on main; the site's own
+    no-blur, static-blur-only, reveal-fails-open, perf-guards and type-floor
+    all pass. NOT DONE on purpose: the countdown digits do not animate -- they
+    change every second, and animation on something seen that often reads as
+    lag, not life.
+
 DEFERRED (not a gate; an honest limitation): no end-to-end test submission was
 made. `registerForWebinar` dual-writes to Supabase AND posts to the live "Reserve
 Your Seat" Google Form, so pressing "Confirm my seat" would put a junk row in

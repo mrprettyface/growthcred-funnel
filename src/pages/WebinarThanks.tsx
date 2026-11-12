@@ -51,9 +51,9 @@ function Step({
 }
 
 const btn =
-  "mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-6 font-body text-sm font-semibold text-midnight no-underline transition hover:bg-gold-soft";
+  "mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-6 font-body text-sm font-semibold text-midnight no-underline gc-press hover:bg-gold-soft";
 const btnOutline =
-  "mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-midnight/20 px-6 font-body text-sm font-semibold text-midnight no-underline transition hover:border-midnight";
+  "mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-midnight/20 px-6 font-body text-sm font-semibold text-midnight no-underline gc-press hover:border-midnight";
 
 export default function WebinarThanks() {
   const location = useLocation();
@@ -182,7 +182,7 @@ export default function WebinarThanks() {
             {WHOP_PLANS.vipSeat ? (
               <Link
                 to="/webinar/vip"
-                className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold text-midnight no-underline transition hover:bg-gold-soft"
+                className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold text-midnight no-underline gc-press hover:bg-gold-soft"
               >
                 Get my VIP seat for {JCCI.vipPrice} <span aria-hidden="true">&rarr;</span>
               </Link>
@@ -194,7 +194,7 @@ export default function WebinarThanks() {
                 target="_blank"
                 rel="noopener"
                 onClick={() => track("webinar_vip_manual", { from: "thanks" })}
-                className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold text-midnight no-underline transition hover:bg-gold-soft"
+                className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold text-midnight no-underline gc-press hover:bg-gold-soft"
               >
                 <BrandIcon name="whatsapp" /> Ask me for a VIP seat
               </a>

@@ -146,7 +146,7 @@ export default function WebinarVip() {
                   target="_blank"
                   rel="noopener"
                   onClick={() => track("webinar_vip_manual", { from: "vip_page" })}
-                  className="mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold text-midnight no-underline transition hover:bg-gold-soft"
+                  className="mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold text-midnight no-underline gc-press hover:bg-gold-soft"
                 >
                   <BrandIcon name="whatsapp" /> Claim my VIP seat on WhatsApp
                 </a>
@@ -172,14 +172,14 @@ export default function WebinarVip() {
             href={BRAIN_BUILDER_PDF}
             download
             onClick={() => track("webinar_brain_claim", { via: "pdf_vip" })}
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-6 font-body text-sm font-semibold text-midnight no-underline transition hover:bg-gold-soft"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-6 font-body text-sm font-semibold text-midnight no-underline gc-press hover:bg-gold-soft"
           >
             Download the Brain Builder <span aria-hidden="true">&darr;</span>
           </a>
           <Link
             to="/brain"
             onClick={() => track("webinar_brain_claim", { via: "builder_vip" })}
-            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-cream/25 px-6 font-body text-sm font-semibold text-cream no-underline transition hover:border-cream"
+            className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-cream/25 px-6 font-body text-sm font-semibold text-cream no-underline gc-press hover:border-cream"
           >
             Build it on my phone <span aria-hidden="true">&#8599;</span>
           </Link>
@@ -223,7 +223,7 @@ export default function WebinarVip() {
                   target="_blank"
                   rel="noopener"
                   onClick={() => track("webinar_calendar_add", { via: "google_vip" })}
-                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-cream/25 px-5 font-body text-sm font-semibold text-cream no-underline transition hover:border-cream"
+                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-cream/25 px-5 font-body text-sm font-semibold text-cream no-underline gc-press hover:border-cream"
                 >
                   Google
                 </a>
@@ -232,7 +232,7 @@ export default function WebinarVip() {
                   target="_blank"
                   rel="noopener"
                   onClick={() => track("webinar_calendar_add", { via: "outlook_vip" })}
-                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-cream/25 px-5 font-body text-sm font-semibold text-cream no-underline transition hover:border-cream"
+                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-cream/25 px-5 font-body text-sm font-semibold text-cream no-underline gc-press hover:border-cream"
                 >
                   Outlook
                 </a>

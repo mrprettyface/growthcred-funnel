@@ -34,6 +34,9 @@ import { track } from "../lib/analytics";
  * the page promises what the site already stands behind.
  */
 
+/** The CSS stagger index for the motion layer in index.css (`--i`). */
+const at = (i: number) => ({ "--i": i }) as React.CSSProperties;
+
 /**
  * The micro-audience this visitor was advertised to, or null.
  *
@@ -70,7 +73,7 @@ function HeroVideo() {
 
   if (VIDEOS.jcciChatTrap) {
     return (
-      <div className="mx-auto mt-10 max-w-[1000px]">
+      <div className="gc-hero-frame mx-auto mt-10 max-w-[1000px]" style={at(3)}>
         <p className="mb-4 font-mono text-[12px] font-medium uppercase tracking-[0.18em] text-midnight">
           <span aria-hidden="true">&#9660;</span> Click below to watch first{" "}
           <span aria-hidden="true">&#9660;</span>
@@ -83,7 +86,7 @@ function HeroVideo() {
   }
 
   return (
-    <div className="mx-auto mt-10 max-w-[1000px]">
+    <div className="gc-hero-frame mx-auto mt-10 max-w-[1000px]" style={at(3)}>
       <div className={cn(frame, "aspect-video")}>
         <ResponsiveImage
           src="/images/phila-portrait.jpg"
@@ -126,18 +129,18 @@ function CtaButton({ className = "" }: { className?: string }) {
     return (
       <Link
         to="/contact"
-        className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold text-midnight no-underline transition hover:bg-gold-soft ${className}`}
+        className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold group text-midnight no-underline gc-press hover:bg-gold-soft ${className}`}
       >
-        Tell me about the next one <span aria-hidden="true">&#8599;</span>
+        Tell me about the next one <span aria-hidden="true" className="inline-block transition-[translate] duration-200 ease-[var(--gc-ease-out)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">&#8599;</span>
       </Link>
     );
   }
   return (
     <a
       href="#register"
-      className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold text-midnight no-underline transition hover:bg-gold-soft ${className}`}
+      className={`inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-7 font-body text-sm font-semibold group text-midnight no-underline gc-press hover:bg-gold-soft ${className}`}
     >
-      Save my free seat <span aria-hidden="true">&rarr;</span>
+      Save my free seat <span aria-hidden="true" className="inline-block transition-[translate] duration-200 ease-[var(--gc-ease-out)] group-hover:translate-x-0.5">&rarr;</span>
     </a>
   );
 }
@@ -170,15 +173,24 @@ export default function JcciWebinar() {
           screen and the eye lands there. The form has its own band directly
           below, which is where every "save my seat" button scrolls to. */}
       <Section className="pt-10 text-center md:pt-14">
-        <p className="mx-auto max-w-[52ch] text-sm leading-relaxed text-muted md:text-base">
+        <p
+          className="gc-hero-rise mx-auto max-w-[52ch] text-sm leading-relaxed text-muted md:text-base"
+          style={at(0)}
+        >
           {segment?.eyebrow ?? "For South African owners tired of doing everything themselves"}
         </p>
-        <h1 className="mx-auto mt-5 max-w-[22ch] text-4xl leading-[1.04] text-midnight md:text-6xl lg:text-7xl">
+        <h1
+          className="gc-hero-settle mx-auto mt-5 max-w-[22ch] text-4xl leading-[1.04] text-midnight md:text-6xl lg:text-7xl"
+          style={at(1)}
+        >
           The Day I <span className="text-gold">Stopped Typing Prompts</span> Is the Day I Got My
           Week Back
         </h1>
 
-        <div className="mx-auto mt-8 max-w-[60ch] space-y-4 text-lg leading-relaxed text-ink md:text-xl">
+        <div
+          className="gc-hero-rise mx-auto mt-8 max-w-[60ch] space-y-4 text-lg leading-relaxed text-ink md:text-xl"
+          style={at(2)}
+        >
           {segment ? <p className="font-semibold text-midnight">{segment.opener}</p> : null}
           <p>
             I&rsquo;ve given{" "}
@@ -192,7 +204,7 @@ export default function JcciWebinar() {
 
         <HeroVideo />
 
-        <div className="mt-10">
+        <div className="gc-hero-rise mt-10" style={at(4)}>
           <CtaButton />
           <p className="mx-auto mt-4 max-w-[52ch] font-mono text-[12px] leading-relaxed text-muted">
             Free and open to everyone &middot; With {JCCI.partner} &middot; {WEBINAR.where} &middot; Free gifts for
@@ -212,22 +224,22 @@ export default function JcciWebinar() {
 
         {/* Proof row: the room, and the work. */}
         <div className="mt-14 grid gap-4 sm:grid-cols-2">
-          <figure className="overflow-hidden rounded-2xl bg-midnight-soft">
+          <figure className="group overflow-hidden rounded-2xl bg-midnight-soft">
             <ResponsiveImage
               src="/images/phila-event.jpg"
               alt="Phila Ngwenya speaking at an AI session in Johannesburg"
               sizes="(max-width: 639px) 100vw, 550px"
               loading="lazy"
-              className="h-56 w-full object-cover md:h-72"
+              className="h-56 w-full object-cover transition-[scale] duration-700 ease-[var(--gc-ease-out)] group-hover:scale-[1.03] md:h-72"
             />
           </figure>
-          <figure className="overflow-hidden rounded-2xl bg-midnight-soft">
+          <figure className="group overflow-hidden rounded-2xl bg-midnight-soft">
             <ResponsiveImage
               src="/images/phila-team.jpg"
               alt="Owners building their systems in the room at an Operator Intensive"
               sizes="(max-width: 639px) 100vw, 550px"
               loading="lazy"
-              className="h-56 w-full object-cover md:h-72"
+              className="h-56 w-full object-cover transition-[scale] duration-700 ease-[var(--gc-ease-out)] group-hover:scale-[1.03] md:h-72"
             />
           </figure>
         </div>
@@ -241,7 +253,7 @@ export default function JcciWebinar() {
       </Section>
 
       {/* ---------------- THE PROBLEM ---------------- */}
-      <Section>
+      <Section reveal>
         <Eyebrow>The problem</Eyebrow>
         <Lead>You are using AI like a search bar.</Lead>
         <div className="mt-8 grid gap-10 md:grid-cols-2">
@@ -298,7 +310,8 @@ export default function JcciWebinar() {
           {ENGINES.map((engine, i) => (
             <li
               key={engine.name}
-              className="rounded-2xl border border-cream/15 bg-cream/[0.04] p-6"
+              className="gc-rise rounded-2xl border border-cream/15 bg-cream/[0.04] p-6 transition-[translate,border-color,background-color] duration-200 ease-[var(--gc-ease-out)] hover:-translate-y-1 hover:border-gold/40 hover:bg-cream/[0.06]"
+              style={at(i)}
             >
               <span className="font-mono text-[12px] text-gold">
                 {String(i + 1).padStart(2, "0")}
@@ -317,7 +330,7 @@ export default function JcciWebinar() {
       </Section>
 
       {/* ---------------- THE AUTOPILOT ---------------- */}
-      <Section>
+      <Section reveal>
         <Eyebrow>The autopilot</Eyebrow>
         <Lead>Build it once. It works every week.</Lead>
         <div className="mt-8 grid gap-10 md:grid-cols-2">
@@ -384,7 +397,7 @@ export default function JcciWebinar() {
       </Section>
 
       {/* ---------------- THE MISTAKE ---------------- */}
-      <Section dark>
+      <Section dark reveal>
         <Eyebrow dark>The mistake most owners make</Eyebrow>
         <Lead dark>You think AI is about better prompts.</Lead>
         <div className="mt-8 max-w-[58ch] space-y-5 text-lg text-cream/85">
@@ -402,7 +415,7 @@ export default function JcciWebinar() {
       </Section>
 
       {/* ---------------- ABOUT PHILA ---------------- */}
-      <Section>
+      <Section reveal>
         <div className="grid gap-12 md:grid-cols-[minmax(0,320px)_minmax(0,1fr)] md:gap-16">
           <div>
             <ResponsiveImage
@@ -463,7 +476,8 @@ export default function JcciWebinar() {
           {OWNERS.map((owner, i) => (
             <li
               key={owner.label}
-              className="rounded-2xl border border-cream/15 bg-cream/[0.04] p-6"
+              className="gc-rise rounded-2xl border border-cream/15 bg-cream/[0.04] p-6 transition-[translate,border-color,background-color] duration-200 ease-[var(--gc-ease-out)] hover:-translate-y-1 hover:border-gold/40 hover:bg-cream/[0.06]"
+              style={at(i)}
             >
               <span className="font-mono text-[12px] text-gold">Owner {i + 1}</span>
               <h3 className="mt-2 font-display text-xl font-extrabold tracking-[-0.03em] text-cream">
@@ -498,9 +512,9 @@ export default function JcciWebinar() {
           {WEBINAR.dayLabel} &middot; {WEBINAR.timeLabel} &middot; {JCCI.length}
         </p>
         <ul className="mt-10 grid gap-5 md:grid-cols-2">
-          {TAKEAWAYS.map((item) => (
-            <li key={item.title} className="flex gap-3 border-t border-midnight/10 pt-5">
-              <span aria-hidden="true" className="mt-0.5 font-mono text-gold">
+          {TAKEAWAYS.map((item, idx) => (
+            <li key={item.title} className="gc-rise flex gap-3 border-t border-midnight/10 pt-5" style={at(idx % 2)}>
+              <span aria-hidden="true" className="gc-pop mt-0.5 font-mono text-gold">
                 &#10003;
               </span>
               <span>
@@ -518,7 +532,7 @@ export default function JcciWebinar() {
         <Eyebrow dark>Everything you get</Eyebrow>
         <Lead dark>Here is what you get for R0.</Lead>
         <div className="mt-10 grid gap-5 lg:grid-cols-2">
-          <div className="rounded-2xl border border-cream/15 bg-cream/[0.04] p-7">
+          <div className="gc-rise rounded-2xl border border-cream/15 bg-cream/[0.04] p-7" style={at(0)}>
             <ol className="space-y-6">
               {[
                 {
@@ -552,7 +566,7 @@ export default function JcciWebinar() {
             <CtaButton className="mt-5 w-full" />
           </div>
 
-          <div className="rounded-2xl border-2 border-gold/50 bg-gold/[0.07] p-7">
+          <div className="gc-rise rounded-2xl border-2 border-gold/50 bg-gold/[0.07] p-7" style={at(1)}>
             <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-gold md:text-[11px]">
               Want more? {VIP_SEATS} seats only
             </p>
@@ -578,7 +592,7 @@ export default function JcciWebinar() {
             </p>
             <a
               href="#register"
-              className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-gold bg-transparent px-6 font-body text-sm font-semibold text-gold no-underline transition hover:bg-gold hover:text-midnight"
+              className="mt-6 inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full border border-gold bg-transparent px-6 font-body text-sm font-semibold text-gold no-underline gc-press hover:bg-gold hover:text-midnight"
             >
               Get my VIP seat for {JCCI.vipPrice} <span aria-hidden="true">&rarr;</span>
             </a>
@@ -587,14 +601,14 @@ export default function JcciWebinar() {
       </Section>
 
       {/* ---------------- REAL TALK ---------------- */}
-      <Section>
+      <Section reveal>
         <Eyebrow>Real talk</Eyebrow>
         <Lead>{WHY_FREE.q}</Lead>
         <p className="mt-7 max-w-[58ch] text-lg leading-relaxed">{WHY_FREE.a}</p>
       </Section>
 
       {/* ---------------- QUICK ANSWERS ---------------- */}
-      <Section className="pt-0">
+      <Section reveal className="pt-0">
         <h2 className="mb-8 text-3xl md:text-4xl">Quick answers.</h2>
         <Faq items={JCCI_FAQ} />
         {/* "Do I need to be a JCCI member?" is answered first in JCCI_FAQ:

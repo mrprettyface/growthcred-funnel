@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { MATH, chatTrapCost } from "../../lib/jcciWebinar";
 
 /**
@@ -78,10 +78,57 @@ function Slider({
   );
 }
 
+/**
+ * A number that rolls to its new value instead of snapping.
+ *
+ * Interruptible on purpose: drag a slider and the target changes many times a
+ * second, so every new target starts from wherever the number is NOW, not from
+ * where it began. Restarting from the old value on each change would make the
+ * figure judder backwards while you drag.
+ *
+ * Starts at the real value, so the prerendered page and the first client
+ * render agree and nothing rolls on load. Under reduced motion it snaps, which
+ * is what it did before this existed.
+ */
+function useRolledNumber(target: number, ms = 260): number {
+  const [shown, setShown] = useState(target);
+  const shownRef = useRef(target);
+  const frame = useRef(0);
+
+  useEffect(() => {
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || shownRef.current === target) {
+      shownRef.current = target;
+      setShown(target);
+      return;
+    }
+    const from = shownRef.current;
+    const start = performance.now();
+    cancelAnimationFrame(frame.current);
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / ms);
+      const eased = 1 - Math.pow(1 - t, 4); // a strong ease-out
+      const value = from + (target - from) * eased;
+      shownRef.current = value;
+      setShown(value);
+      if (t < 1) frame.current = requestAnimationFrame(step);
+    };
+    frame.current = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(frame.current);
+  }, [target, ms]);
+
+  return shown;
+}
+
 export function ChatTrapMath() {
   const [hours, setHours] = useState(10);
   const [rate, setRate] = useState(500);
   const cost = useMemo(() => chatTrapCost(hours, rate), [hours, rate]);
+  const randShown = useRolledNumber(cost.randYear);
+  const hoursShown = useRolledNumber(cost.hoursYear);
+  const weeksShown = useRolledNumber(cost.weeksLost);
 
   return (
     <div className="grid items-stretch gap-4 md:grid-cols-2">
@@ -129,11 +176,14 @@ export function ChatTrapMath() {
           </div>
           <div className="mb-2 flex items-start gap-1 leading-none">
             <span className="mt-1.5 font-mono text-2xl text-gold">R</span>
-            <span
-              className="font-mono text-5xl tabular-nums text-gold md:text-6xl"
-              aria-live="polite"
-            >
-              {group(cost.randYear)}
+            {/* The rolling digits are for the eye only. A screen reader would
+                otherwise read every in-between figure; it hears the settled
+                total below instead. */}
+            <span aria-hidden="true" className="font-mono text-5xl tabular-nums text-gold md:text-6xl">
+              {group(randShown)}
+            </span>
+            <span className="sr-only" aria-live="polite">
+              R{group(cost.randYear)} a year
             </span>
           </div>
           <div className="mb-6 text-sm text-cream/60">
@@ -144,13 +194,13 @@ export function ChatTrapMath() {
             <div className="flex items-baseline justify-between gap-4 border-b border-cream/10 py-3">
               <dt className="text-sm text-cream/60">Hours a year</dt>
               <dd className="font-mono text-[15px] tabular-nums text-cream">
-                {group(cost.hoursYear)} hrs
+                {group(hoursShown)} hrs
               </dd>
             </div>
             <div className="flex items-baseline justify-between gap-4 border-b border-cream/10 py-3">
               <dt className="text-sm text-cream/60">Working weeks lost</dt>
               <dd className="font-mono text-[15px] tabular-nums text-cream">
-                {cost.weeksLost} weeks
+                {Math.round(weeksShown)} weeks
               </dd>
             </div>
           </dl>
