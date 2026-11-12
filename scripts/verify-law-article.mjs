@@ -134,7 +134,9 @@ if (mode === "guide") {
   const head = execFileSync("git", ["show", "HEAD:src/lib/offers.ts"], { encoding: "utf8" });
   const amounts = (s) => [...s.matchAll(/amountCents: (\d+)/g)].map((m) => m[1]).join(",");
   assert.equal(amounts(now), amounts(head), "offers.ts amounts changed");
-  assert.equal(amounts(now), "99000,50000,2500000,399900", "offers.ts amounts are not the Whop-matched set");
+  // 49500 is the JCCI VIP seat (11 Nov 2026), read off Whop plan_p4azvJzT5gWRg's
+  // own checkout and recorded in WHOP_SEEN in src/lib/whop.ts.
+  assert.equal(amounts(now), "99000,50000,2500000,399900,49500", "offers.ts amounts are not the Whop-matched set");
   // Every rand figure in source copy was either there before this work or is one of the article's sourced figures.
   const baseline = new Set((await read("scripts/fixtures/voice-rand-baseline.txt")).split("\n").map((l) => l.trim().replace(/^\d+\s+/, "")).filter(Boolean));
   const allowedNew = new Set(["R50 million", "R3.5 million", "R100", "R82", "R18"]);

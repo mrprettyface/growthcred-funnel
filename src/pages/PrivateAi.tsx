@@ -133,9 +133,9 @@ export default function PrivateAi() {
           <div>
             <Label dark>{PAIN.eyebrow}</Label>
             <h2 className={`mt-5 ${H2} text-cream`}>{PAIN.heading}</h2>
-            {PAIN.paras.map((p) => (
+            {PAIN.paras.map((p, i) => (
               <p key={p} className="mt-6 max-w-[48ch] text-lg leading-relaxed text-cream/75">
-                {p}
+                {i === 0 && PAIN.link ? linkPhrase(p, PAIN.link.phrase, PAIN.link.href, "dark") : p}
               </p>
             ))}
             <Photo photo={PHOTOS.team} className="mt-10 aspect-[3/2]" />

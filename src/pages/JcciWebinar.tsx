@@ -234,7 +234,7 @@ export default function JcciWebinar() {
       </Section>
 
       <Section className="py-10 md:py-14">
-        <p className="mb-6 text-center font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+        <p className="mb-6 text-center font-mono text-[12px] uppercase tracking-[0.18em] text-muted md:text-[11px]">
           Organisations I have worked with
         </p>
         <ClientLogos />
@@ -350,7 +350,7 @@ export default function JcciWebinar() {
               registrant is worse than a column that is simply true. What is
               still owed is tracked in docs/operations/jcci-webinar-reminders.md. */}
           <div className="rounded-2xl border border-midnight/10 bg-paper p-6 md:p-8">
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
+            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-muted md:text-[11px]">
               What other owners built
             </p>
             {/* Every result here is already published on this site, named, with
@@ -412,7 +412,7 @@ export default function JcciWebinar() {
               loading="lazy"
               className="w-full rounded-2xl object-cover"
             />
-            <p className="mt-4 font-mono text-[11px] uppercase leading-relaxed tracking-[0.14em] text-muted">
+            <p className="mt-4 font-mono text-[12px] uppercase leading-relaxed tracking-[0.14em] text-muted md:text-[11px]">
               7 AI talks with WeWork &middot; 5 companies built with AI &middot; Speech AI
               presented at Parliament
             </p>
@@ -553,7 +553,7 @@ export default function JcciWebinar() {
           </div>
 
           <div className="rounded-2xl border-2 border-gold/50 bg-gold/[0.07] p-7">
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold">
+            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-gold md:text-[11px]">
               Want more? {VIP_SEATS} seats only
             </p>
             <h3 className="mt-3 font-display text-2xl font-extrabold tracking-[-0.03em] text-cream">

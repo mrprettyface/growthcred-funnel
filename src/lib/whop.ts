@@ -48,7 +48,7 @@ export const WHOP_PLANS = {
  */
 export const WHOP_SEEN: Partial<Record<keyof typeof WHOP_PLANS, { cents: number; seen: string }>> = {
   /* "VIP Seat - GrowthCred", read off whop.com/checkout/plan_p4azvJzT5gWRg:
-     "ZAR 495.00, One-time payment." */
+     495.00 in ZAR, one-time payment. */
   vipSeat: { cents: 49500, seen: "2026-11-11" },
 };
 

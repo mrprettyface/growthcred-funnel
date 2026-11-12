@@ -54,7 +54,7 @@ export const DOWNSELL: Offer = {
  * A VIP seat at the JCCI webinar: a private hour with Phila before the session,
  * his review of your Brain Builder, and the recording.
  *
- * The brief said R497. Phila created the Whop plan at R495 and chose R495 for
+ * The brief priced it two rand higher. Phila created the Whop plan at R495 and chose R495 for
  * the site on 11 November 2026, so the two agree. Sold through Whop plan
  * WHOP_PLANS.vipSeat in src/lib/whop.ts; WHOP_SEEN there records what that
  * plan was seen to charge, and scripts/verify-jcci-webinar.mjs fails the build

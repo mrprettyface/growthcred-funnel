@@ -71,7 +71,7 @@ export function WebinarTopBar() {
 
   return (
     <div className="border-b border-cream/10 bg-midnight px-5 py-2.5 text-center">
-      <p className="mx-auto flex max-w-[1120px] flex-wrap items-center justify-center gap-x-3 gap-y-1 font-mono text-[11px] uppercase tracking-[0.16em] text-cream/70 md:text-[12px]">
+      <p className="mx-auto flex max-w-[1120px] flex-wrap items-center justify-center gap-x-3 gap-y-1 font-mono text-[12px] uppercase tracking-[0.16em] text-cream/70 md:text-[12px]">
         <span className="text-gold">
           {JCCI.partner} &times; GrowthCred
         </span>

@@ -5,9 +5,21 @@
  * so the two can never drift. Edit copy here, not in the components.
  *
  * The proof on this page (the company names, the talks, the Parliament
- * presentation, the capacity range and the benchmarks) was supplied by Phila
- * on 24 September 2026 for publication. The before/after figures are shown as
- * illustrative benchmarks and must keep that label next to them.
+ * presentation) was supplied by Phila on 24 September 2026 for publication.
+ *
+ * 27 October 2026: trust before the call. Three beats run through the page:
+ * what we believe (BELIEFS, folded into the hero and #own too), one
+ * judgment story (BELIEFS.story), and what working with us feels like
+ * (METHOD). The story comes from Phila's 27 Oct sales one-pager draft and is
+ * anonymised on purpose: no client is named, and it must stay a real
+ * conversation. If it ever stops matching one, rewrite it or take it out.
+ * "Working across Africa" is from the same one-pager. No price, figure or
+ * client name was added.
+ *
+ * 23 October 2026: the headline names the owner the work still runs through.
+ * The old before/after block and the unsourced revenue and weekly-share
+ * claims are gone. The published guarantee stays word for word. No client
+ * is named on the situation pages.
  *
  * 29 September 2026: the Command Core is private AI. Open-weight models run
  * on equipment we choose, deploy and look after, set up around the client's
@@ -19,18 +31,21 @@
  * are labelled that way.
  */
 
+import { SITUATION_LINKS } from "../content/situationLinks";
+
 /** Where every "Apply" goes. The call is earned through an application. */
 export const APPLY_HREF = "/call";
 
 export const HERO = {
-  /** One static, prerendered <h1>: "Let us help you own your intelligence.",
-   *  Phila's exact pitch (29 Sep 2026), with the ownership marked like a
-   *  marker pen. The admin problem it solves moves into the sub. */
-  headlineLead: "Let us help you",
-  headlineMark: "own your intelligence.",
+  /** Option A, 23 Oct 2026. One prerendered <h1>. The marker sits on the
+   *  work that still runs through the owner. The own-your-intelligence pitch
+   *  stays in the sections below. */
+  headlineLead: "For South African owners who are still the person",
+  headlineMark: "every quote, hire and question",
+  headlineTail: "runs through.",
   /** The quieter second way in, beside the Apply button. */
   secondary: { label: "Read client stories", to: "/stories" },
-  sub: "Your own AI. On equipment we choose and set up for you. Built around how your business works. It takes the admin that eats 20–\u206040% of your week. No per-seat subscriptions. Your data never leaves the building.",
+  sub: "You built this business by wearing every hat. Now you want to lead it. We build your own private AI on your documents and your rules, on equipment we set up for you. Your team gets your answers without waiting for you. Your data stays in the building.",
   cta: "Apply to Work With Us",
   scarcity: "Engagements are limited. Not every application is accepted.",
 } as const;
@@ -44,18 +59,17 @@ export const PROOF_LINE =
   "7 AI talks at WeWork Johannesburg. AI system presented at Parliament, Cape Town.";
 
 export const CAPACITY = {
-  heading: "That 20–40% isn't just admin. It's your most expensive hours.",
-  gap: "Your decisions are worth R20,000 an hour. Admin is R200-an-hour work. When you do both, the business pays the gap.",
-  lead: "For a R20M–R100M firm, that gap costs",
-  figure: "R3M–R10M",
-  tail: "a year.",
-  /** Sits under the R200 vs R20,000 comparison. */
+  heading: "The hours that wait on you are the expensive ones.",
+  gap: "You price the quote. You train the new hire. You answer the question only you know. The decision that moves the business waits behind all of that.",
+  lead: "Write down what one of those hours is worth to you. That number is yours. We will not invent it.",
+  waits: [
+    { t: "Quotes", b: "Still priced by you." },
+    { t: "New hires", b: "Still trained by you." },
+    { t: "Questions", b: "Still answered by you." },
+  ],
   tried: "Hiring didn't fix it. New tools didn't either. Both still need you to check the work.",
   closeA: "The fix is not more people.",
   closeB: "It's building your judgment into the business.",
-  /** The two hourly figures the comparison bar is drawn from. */
-  lowRate: 200,
-  highRate: 20000,
 };
 
 /* ---------------- Renting AI, and owning it ---------------- */
@@ -84,7 +98,7 @@ export const RENTING = {
 export const OWN = {
   eyebrow: "The Command Core",
   heading: "Your own intelligence. Owned, not rented.",
-  lead: "We handle the equipment. You never have to think about it. We choose what fits your business, set it up and look after it.",
+  lead: "What you know is the most valuable thing your business owns. Let us help you own your intelligence. We handle the equipment. You never have to think about it. We choose what fits your business, set it up and look after it.",
   items: [
     {
       t: "Equipment that fits you",
@@ -100,34 +114,42 @@ export const OWN = {
     },
     {
       t: "Your team, trained",
-      b: "We train your people on it, on their own work. So it gets used on Monday. Not admired on Friday.",
+      b: "We train your people on it, on their own work. It gives them your answers. It doesn't take their jobs. So it gets used on Monday. Not admired on Friday.",
     },
   ],
   honest: "Is it magic? No. It's excellent at documents, questions and the admin in between. Before you sign, we tell you straight what it will and won't do for you.",
-  owned: "No per-seat subscriptions. Your data stays in the building. And it's yours.",
+  owned: "No per-seat subscriptions. Your data never leaves the building. And it's yours.",
   more: { to: "/private-ai", label: "Why own it? The full case" },
 };
 
-/** Before/after. `from`/`to` are the same quantity in one unit, for the bars. */
-export type Benchmark = {
-  metric: string;
-  before: string;
-  after: string;
-  from: number;
-  to: number;
-};
+/* ---------------- What we believe, and one time we said "not yet" ---------------- */
 
-export const BEFORE_AFTER = {
-  eyebrow: "Before / After",
-  heading: "What changes when the work stops waiting for you.",
-  rows: [
-    { metric: "Owner hours per week", before: "65", after: "35", from: 65, to: 35 },
-    { metric: "Proposal turnaround", before: "3 days", after: "3 hrs", from: 72, to: 3 },
-    { metric: "Lead follow-up", before: "48 hrs", after: "4 min", from: 48 * 60, to: 4 },
-    { metric: "Deals lost to slow response", before: "20%", after: "2%", from: 20, to: 2 },
-  ] satisfies Benchmark[],
-  /** Must stay beside the figures wherever they render. */
-  disclaimer: "Illustrative benchmarks. Results vary by engagement.",
+export const BELIEFS = {
+  eyebrow: "What we believe",
+  heading: "Three things we won't bend on.",
+  items: [
+    {
+      t: "Your intelligence belongs to you.",
+      b: "What you know shouldn't live in someone else's AI. Yours is set up on your SOPs, price lists and templates. If a big AI company changes its rules, you keep working.",
+    },
+    {
+      t: "AI backs your people. It doesn't replace them.",
+      b: "Your clients trust your team. Not a chatbot. The AI hands your people the answers that used to wait for you.",
+    },
+    {
+      t: "Don't buy a big build before you know it pays.",
+      b: "That's why every engagement starts with an audit. We don't build before the list exists.",
+    },
+  ],
+  story: {
+    eyebrow: "When we said “not yet”",
+    paragraphs: [
+      "An owner asked us for the full quoting setup. An agent for sales. One for customers. One for after-hours calls. The biggest option on the table.",
+      "The audit found a different problem. Quotes were slow because the price rules lived in one place: the owner's head. A customer-facing agent would only send wrong quotes faster.",
+      "So we said start with the internal one. Get the rules out of your head and into a system your team uses daily. Add the customer side once the rules work.",
+    ],
+    moral: "Sometimes the right advice is to spend less. We'll tell you.",
+  },
 };
 
 export type Stage = { band: string; family: string; name: string; line: string };
@@ -135,7 +157,7 @@ export type Stage = { band: string; family: string; name: string; line: string }
 export const STAGES = {
   eyebrow: "Engagements",
   heading: "Pick your stage.",
-  sub: "Same method. The scope grows with the business.",
+  sub: "Same method. Same straight advice on what not to build. The scope grows with the business.",
   /** Every stage is the Command Core, so every stage is the client's own AI. */
   equipment: "Every stage runs on your own AI, on equipment we choose and deploy to fit you.",
   items: [
@@ -149,32 +171,33 @@ export const STAGES = {
       band: "R50M–R200M",
       family: "Command Core",
       name: "Integration",
-      line: "90 days. The same fix built into sales, delivery and admin.",
+      line: "90 days. The same fix built into sales, delivery and admin. Your team stops queueing at your door.",
     },
     {
       band: "R200M+",
       family: "Command Core",
       name: "Transformation",
-      line: "Your whole operating model rebuilt, department by department. Custom scope.",
+      line: "Your whole operating model rebuilt, department by department. You run the company, not the inbox. Custom scope.",
     },
   ] satisfies Stage[],
 };
 
 export const METHOD = {
-  eyebrow: "The Method",
-  heading: "How you get the 20–40% back.",
+  eyebrow: "Working with us",
+  heading: "How the work stops waiting for you.",
+  note: "Here's what it feels like from your side of the desk. Start with one team. Measure the return. Then decide.",
   steps: [
     {
       t: "Audit",
-      b: "Find where your week goes. Put a rand value on every hour stuck on your desk.",
+      b: "We do the heavy lifting. You and your team talk. We read the documents. We put a rand value on every hour stuck on your desk. You get a plain-English plan: what to build first, and what to leave alone.",
     },
     {
       t: "Deploy",
-      b: "Set up your own AI on equipment that fits you. Build it around the way you work. First result in 14 days.",
+      b: "We set up your own AI on equipment that fits you, built around how you work. You see working parts early, not one big reveal. Your staff test it on real jobs. Nothing goes live until you say so. First result in 14 days.",
     },
     {
       t: "Embed",
-      b: "Keep it sharp. Better models go in as they come out. Hours back tracked every month.",
+      b: "We stay. When your prices, people or products change, we update it. Better models go in as they come out. Hours back tracked every month. You lead. It does the routine.",
     },
   ],
 };
@@ -199,9 +222,16 @@ export const GUARANTEE = {
 };
 
 export const CLOSE = {
-  heading: "Next week, that 20–40% goes again.",
-  sub: "Unless something changes. Apply and we'll tell you if it's a fit.",
+  heading: "Next week, it lands on you again.",
+  sub: "Start with one team. Measure the return. Then decide. Apply and we'll tell you if it's a fit. If it isn't yet, we'll tell you that too.",
   cta: "Apply",
+};
+
+export const SITUATIONS = {
+  eyebrow: "If this is you",
+  heading: "Name the job that still waits for you.",
+  sub: "Pick the week that sounds like yours. The page says what we do. Then you book a call.",
+  items: SITUATION_LINKS,
 };
 
 /* ---------------- Stories: the proof behind the claims ---------------- */
@@ -317,7 +347,7 @@ export const GUIDES = {
 export const FAQ: { q: string; a: string }[] = [
   {
     q: "What is the Command Core?",
-    a: "Your own AI, on equipment we choose, deploy and look after for you. It's set up around how your business works, with agents built for your admin. So the work eating 20–40% of your week stops landing on your desk. You own it. You don't rent it.",
+    a: "Your own AI, on equipment we choose, deploy and look after for you. It's set up around how your business works. Quotes, training and the questions your team asks stop landing only on your desk. You own it. You don't rent it.",
   },
   {
     q: "Where does our data go?",
@@ -332,12 +362,12 @@ export const FAQ: { q: string; a: string }[] = [
     a: "We test it on your work. If it does the job better, we put it in. Your setup, your documents and your agents stay. You don't start again.",
   },
   {
-    q: "Who is it for?",
-    a: "Owner-led businesses where you, the founder, are the bottleneck. From R5M to over R200M in revenue. Pick your stage above. The engagement grows with your business.",
+    q: "Do I need AI in my business?",
+    a: "Not for its own sake. You need it if you, the founder, are the bottleneck: quotes wait for you, new hires wait for you, every question lands on your desk. It's for owner-led businesses from R5M to over R200M in revenue. Pick your stage above. The engagement grows with your business.",
   },
   {
-    q: "How is this different from ChatGPT?",
-    a: "ChatGPT is rented, general and outside your building. It knows nothing about your business, so its answers could be for anyone. Your Command Core runs on your own equipment. It starts every task already knowing how you work. Will it beat the newest ChatGPT at everything? No. At your documents, your enquiries and your SOPs, that's what it's built for.",
+    q: "Private AI or ChatGPT: which is better for a business?",
+    a: "ChatGPT is rented, general and outside your building. It knows nothing about your business, so its answers could be for anyone. Your Command Core runs on your own equipment and starts every task already knowing how you work. Will it beat the newest ChatGPT at everything? No. Your documents, your enquiries and your SOPs are what it's built for.",
   },
   {
     q: "Does it work in my industry?",
@@ -348,11 +378,31 @@ export const FAQ: { q: string; a: string }[] = [
     a: "The workshop is one day, online. You build your first systems yourself, on tools you rent. The Command Core is an engagement. We deploy your own AI on your own equipment and build it into your departments.",
   },
   {
-    q: "What does it cost?",
-    a: "It depends on your stage and your scope. Transformation engagements are scoped to you. Engagements are limited, so apply and we'll tell you if it's a fit.",
+    q: "How much does private AI cost for a business in South Africa?",
+    a: "It depends on your stage and your scope. Transformation engagements are scoped to you. If a smaller start is the right call, we'll say so. Engagements are limited, so apply and we'll tell you if it's a fit.",
   },
   {
-    q: "Where is GrowthCred based?",
-    a: "Rosebank, Johannesburg, South Africa. I run GrowthCred from here myself.",
+    q: "Where is GrowthCred based? Is there AI automation near me?",
+    a: "Rosebank, Johannesburg, South Africa. I run GrowthCred from here myself. We work with owners across South Africa and the rest of Africa.",
+  },
+  {
+    q: "Is it safe to put company data into ChatGPT?",
+    a: "Public AI tools process what you paste on someone else's equipment, under their terms. For client files that's a real POPIA question. With private AI, your documents stay on your own equipment, and we agree in writing who can reach the system before anything goes in.",
+  },
+  {
+    q: "When should a business get AI agents?",
+    a: "When you're doing everything twice: briefing each person separately, relaying client messages, answering the same questions. If you're still the person everything runs through, it's time. Start with one team, see what changes, then decide.",
+  },
+  {
+    q: "Can I set up private AI myself?",
+    a: "You can, if you have time to pick the models and equipment, secure them and keep them running. Most owners don't, and you want the result, not another job. If you'd rather build your first systems yourself, start with the one-day workshop.",
+  },
+  {
+    q: "Is GrowthCred legit? Where can I read reviews?",
+    a: "Read our client stories. They use the words clients actually said. Then apply, and judge us on the first call.",
+  },
+  {
+    q: "Should I buy another AI or marketing tool first?",
+    a: "Check the free ones first. Our free tools guide lists the ones we open before we recommend you pay for anything. A tool shows you the numbers. It doesn't take the work off your desk. That part we build.",
   },
 ];

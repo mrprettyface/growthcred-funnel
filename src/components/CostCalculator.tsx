@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { ButtonLink, Eyebrow } from "./ui";
+import { linkPhrase } from "./PhraseLink";
 
 /**
  * "The cost of busy work" calculator, ported from the landing page.
@@ -38,7 +39,7 @@ function Slider({
 }: {
   id: string;
   label: string;
-  help: string;
+  help: ReactNode;
   value: number;
   min: number;
   max: number;
@@ -78,7 +79,9 @@ function Slider({
   );
 }
 
-export function CostCalculator() {
+const HOURS_HELP = "Follow-ups, quotes, scheduling, chasing, copy-paste admin.";
+
+export function CostCalculator({ linkQuotes = false }: { linkQuotes?: boolean }) {
   const [hours, setHours] = useState(12);
   const [rate, setRate] = useState(450);
 
@@ -111,7 +114,7 @@ export function CostCalculator() {
           <Slider
             id="gc-hours"
             label="Hours a week on repetitive, admin-type work"
-            help="Follow-ups, quotes, scheduling, chasing, copy-paste admin."
+            help={linkQuotes ? linkPhrase(HOURS_HELP, "quotes", "/ai-proposal-automation") : HOURS_HELP}
             value={hours}
             min={1}
             max={40}

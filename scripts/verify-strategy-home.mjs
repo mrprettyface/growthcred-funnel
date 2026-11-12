@@ -13,7 +13,9 @@ const home = await readFile("dist/index.html", "utf8");
 // Exactly one H1, and it is the strategy claim, prerendered (not JS-dependent).
 assert.equal((home.match(/<h1(?:\s|>)/g) || []).length, 1, "homepage must have exactly one <h1>");
 assert.match(home, /data-prerendered="\/"/, "homepage is not prerendered");
-assert.match(home, /own your intelligence/, "homepage headline does not lead with the own-your-intelligence pitch");
+assert.match(home, /For South African owners who are still the person/, "homepage headline does not name the owner");
+assert.match(home, /every quote, hire and question/, "homepage headline dropped the quote, hire and question line");
+assert.match(home, /Let us help you own your intelligence/, "homepage dropped the own-your-intelligence pitch");
 
 // The one ask is the strategy call.
 assert.match(home, /href="\/call"/, "homepage has no link to the strategy call");
@@ -25,8 +27,12 @@ assert.doesNotMatch(home, /R990/, "homepage still prices the workshop that moved
 // Nothing unproven is shipped: no dev-only placeholder text leaked into prod.
 assert.doesNotMatch(home, /\[TO COME:/, "a [TO COME] placeholder leaked into the production homepage");
 
-// The benchmarks are illustrative, and the page must say so beside them.
-assert.match(home, /Illustrative benchmarks\. Results vary by engagement\./, "the before/after figures lost their disclaimer");
+// Unproven outcome figures stay off the homepage. The published 20% guarantee is a term, not one of these claims.
+for (const claim of ["Illustrative benchmarks", "R3M", "20–40%", "20-40%", "R20,000", "48 hrs", "Owner hours per week"])
+  assert.doesNotMatch(home, new RegExp(claim), `homepage still carries the unproven claim: ${claim}`);
+for (const path of ["/guides/ppe-quotes-without-the-owner", "/quoting-uniforms-for-a-security-company", "/guides/staff-chatgpt-client-files-popia", "/guides/stop-training-every-new-hire", "/senior-dispatcher-on-leave"])
+  assert.match(home, new RegExp(`href="${path}"`), `homepage has no link to ${path}`);
+assert.doesNotMatch(home, /href="\/how-to-send-ppe-quotes-faster"|href="\/chatgpt-client-files-popia-south-africa"|href="\/i-still-train-every-new-hire-myself"/, "homepage links a situation slug this PR does not publish");
 // The homepage renders bare: the site nav with the workshop Register button is not on it.
 assert.doesNotMatch(home, /href="\/checkout"/, "the homepage still links into the R990 checkout");
 

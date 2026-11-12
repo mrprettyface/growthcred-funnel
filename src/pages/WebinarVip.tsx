@@ -87,7 +87,7 @@ export default function WebinarVip() {
       {paid || sessionHasPassed() ? null : (
         <Section className="pt-0">
           <div className="max-w-[760px] rounded-2xl border-2 border-gold/50 bg-gold/[0.06] p-6 md:p-8">
-            <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold-soft">
+            <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-gold-soft md:text-[11px]">
               {VIP_SEATS} seats only &middot; {JCCI.vipPrice}
             </p>
             <h2 className="mt-3 text-2xl text-midnight md:text-3xl">

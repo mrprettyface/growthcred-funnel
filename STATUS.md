@@ -52,6 +52,60 @@
 > and Review outright and allows Event only where `eventSession()` holds a real
 > future date, which `verify-event-schema.mjs` then checks in full.
 
+> **29 October 2026 — Content Compass is not a product.** `/tools/content-compass` 301s to `/resources` on Apache and on Pages. The homepage FAQ and meta now use the customer-search questions that fit this business (need, cost in South Africa, near me, ChatGPT comparison, safety, when, doing it yourself, reviews, free tools first). Shapes that would invent a price or a claim are not on the page. `/guides/free-marketing-tools-before-you-buy` names 30 free marketing tools under five questions and closes on the work we build. No new price. No new client name. Phila deploys: cPanel Update from Remote, then Deploy HEAD. This change does not deploy.
+
+> **27 October 2026 — homepage sells trust before the call.** Copy only, plus
+> one new section. Three beats, from Phila's 27 Oct sales one-pager: what we
+> believe (hero sub, `#own` lead and team pillar, new `#beliefs`), one
+> anonymised judgment story ("When we said 'not yet'", in `#beliefs`), and what
+> working with us feels like (Audit, Deploy, Embed in `#method`, now labelled
+> "Working with us"). Every section, offer, stage, story, guarantee and FAQ
+> question stays. No price, figure or client name was added. **Before deploy:**
+> Phila confirms the quoting story matches a real conversation, and that
+> "the rest of Africa" (home FAQ) is a claim he wants. `wc-home` was already
+> over its 2,400 cap on main (2,650: the article cards and header menu); this
+> adds about 370 words.
+
+> **26 October 2026 — homepage names the owner, two situation pages.** Salvaged
+> from the closed long-tail branch. The homepage h1 is "For South African
+> owners who are still the person every quote, hire and question runs through."
+> The own-your-intelligence pitch stays under it. Removed from `/`: the
+> illustrative benchmarks (65→35, 3 days→3 hrs, 48 hrs→4 min, 20%→2%),
+> "R3M–R10M a year", the R20,000 / R200 hourly comparison, and every "20–40%
+> of your week". The published guarantee ("at least 20% of your week") is
+> unchanged. Situation cards link the three guides already on main
+> (`/guides/ppe-quotes-without-the-owner`,
+> `/guides/staff-chatgpt-client-files-popia`,
+> `/guides/stop-training-every-new-hire`) and the two pages this branch adds:
+> `/quoting-uniforms-for-a-security-company` and `/senior-dispatcher-on-leave`.
+> Both are in the sitemap, the resources hub, the Resources menu and the
+> footer. No named customer. Proof is queued in
+> [docs/search/HUMAN-LAYER.md](docs/search/HUMAN-LAYER.md).
+
+> **26 October 2026 — AI consulting page.** Phila approved Hark's draft.
+> `/ai-consulting-south-africa` is a service page in `src/content/searchPages.ts`,
+> linked from Solutions and the footer. It repeats the published Command Core
+> guarantee (20% of your week) and only the TaiAscend and MNE Waste results
+> already on the site. Homepage title is now within 60 characters. `/playbook`
+> is linked from Resources and the footer. Terms, privacy and checkout have
+> their own meta descriptions. cPanel: Update from Remote, then Deploy HEAD.
+> The host does not build. `dist/` is already in the commit.
+
+> **25 October 2026 — content compass.** `/tools/content-compass` fills 34 customer-search question shapes in the browser. You type what you sell, plus an optional company and competitor. Empty slots stay as placeholders. Copy or download the list. No signup and no comment-to-DM flow. The shapes follow Neil Patel's public reel De7T-h6Dg8J. Claims in that reel are not repeated as facts. Phila deploys: source and `dist/` are in git, and cPanel Deploy HEAD is his step.
+
+> **25 October 2026 — long-tail situations and three offer pages.** Six indexed
+> pages, from the Neil Patel reel `De6qg45ET4d` (hyper-specific searches, not
+> broad keywords) and the 23 Oct long-tail plan. Situations:
+> `/guides/ppe-quotes-without-the-owner`,
+> `/guides/staff-chatgpt-client-files-popia`,
+> `/guides/stop-training-every-new-hire`. Offers, in the names the plan asked
+> for: `/quote-engine`, `/company-brain`, `/new-hire-trainer`. No supplier or
+> client is named. No before/after number. No price. The POPIA page is not
+> legal advice and points at the two existing guides plus a lawyer. These are
+> hypotheses, not Search Console queries. Homepage illustrative benchmarks were
+> left as they are. Phila deploys: cPanel Update from Remote, then Deploy HEAD.
+> Nothing here is a live deploy. Gates: [GATES-long-tail.md](GATES-long-tail.md).
+
 > **23 October 2026 — new site icon.** Phila replaced the gold Arial "GC" on
 > white with the "G." mark: a cream G and a gold full stop on a midnight tile,
 > the ending of the "GrowthCred." wordmark, in Manrope 800. It was picked from

@@ -1,12 +1,17 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { transformWithEsbuild } from 'vite';
-import { hasFutureSession, calendarUrl } from '../dist-ssr/entry-server.js';
+import { hasFutureSession, calendarUrl, sessionHasPassed } from '../dist-ssr/entry-server.js';
 const now=Date.parse('2026-09-21T00:00:00Z');
 assert.equal(hasFutureSession('20260909T100000Z',now),false);
 assert.equal(hasFutureSession('20261009T100000Z',now),true);
 assert.equal(hasFutureSession('',now),false);assert.equal(hasFutureSession('nonsense',now),false);
-assert.equal(calendarUrl(),'https://growthcred.co.za/contact');
+/* The rule from src/lib/webinar.ts: an undated or finished session must never
+   produce a calendar event. This line used to assert the fallback outright,
+   because the live class had no date; it now has one (JCCI, 18 Nov 2026). So it
+   checks the rule both ways, and keeps biting once the session has passed. */
+if(sessionHasPassed())assert.equal(calendarUrl(),'https://growthcred.co.za/contact','a finished session still offers a calendar event');
+else assert.match(calendarUrl(),/^https:\/\/calendar\.google\.com\/calendar\/render\?action=TEMPLATE&.*dates=\d{8}T\d{6}Z%2F\d{8}T\d{6}Z/,'a dated, future session gives no real calendar link');
 const storage=new Map();globalThis.localStorage={getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,v)};
 const session=new Map();globalThis.sessionStorage={getItem:k=>session.get(k)??null,setItem:(k,v)=>session.set(k,v)};
 const calls=[];const scripts=[];

@@ -2,8 +2,8 @@
   "routes": [
     {
       "path": "/",
-      "title": "Private AI Implementation in Johannesburg & South Africa | GrowthCred",
-      "description": "Let us help you own your intelligence. Your own AI on equipment we deploy, built around your business. No per-seat subscriptions. Apply today.",
+      "title": "Private AI Implementation in South Africa | GrowthCred",
+      "description": "Private AI implementation and AI automation in South Africa. Your own AI on equipment we deploy, built around your business. No per-seat subscriptions.",
       "index": true,
       "modified": "2026-09-20",
       "file": "index.html",
@@ -37,6 +37,24 @@
       "prerendered": true
     },
     {
+      "path": "/quoting-uniforms-for-a-security-company",
+      "title": "Quoting Uniforms for a Security Company | GrowthCred",
+      "description": "Quoting uniforms for a security company with guards on several sites. Keep each site's kit and your prices together. You still sign every quote.",
+      "index": true,
+      "modified": "2026-10-26",
+      "file": "quoting-uniforms-for-a-security-company.html",
+      "prerendered": true
+    },
+    {
+      "path": "/senior-dispatcher-on-leave",
+      "title": "When a Senior Dispatcher Is on Leave | GrowthCred",
+      "description": "What happens when your senior dispatcher is on leave. The know-how sits in a few heads. Your private AI answers from the source document, by role.",
+      "index": true,
+      "modified": "2026-10-26",
+      "file": "senior-dispatcher-on-leave.html",
+      "prerendered": true
+    },
+    {
       "path": "/ai-training-south-africa",
       "title": "Practical AI Training for Business Owners | GrowthCred",
       "description": "Explore practical AI training for South African business owners. Build business context, practise real tasks and choose between training and implementation.",
@@ -52,6 +70,15 @@
       "index": true,
       "modified": "2026-09-20",
       "file": "ai-automation-south-africa.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-consulting-south-africa",
+      "title": "AI Consulting in South Africa | GrowthCred",
+      "description": "AI consulting for South African owner-led firms. We find where your week goes, build your own private AI around it, and train your team. Rosebank, Joburg.",
+      "index": true,
+      "modified": "2026-10-26",
+      "file": "ai-consulting-south-africa.html",
       "prerendered": true
     },
     {
@@ -334,6 +361,60 @@
       "prerendered": true
     },
     {
+      "path": "/guides/ppe-quotes-without-the-owner",
+      "title": "Send PPE Quotes Faster Without the Owner | GrowthCred",
+      "description": "You still price every PPE and uniform quote. A Quote Engine drafts from your list and your rules. You approve the price, the promise and the send.",
+      "index": true,
+      "modified": "2026-10-25",
+      "file": "guides/ppe-quotes-without-the-owner.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/staff-chatgpt-client-files-popia",
+      "title": "Staff, ChatGPT and Client Files under POPIA | GrowthCred",
+      "description": "You suspect staff already paste client files into ChatGPT. POPIA gives no blanket yes. Read the checks, then have a lawyer review your own workflow.",
+      "index": true,
+      "modified": "2026-10-25",
+      "file": "guides/staff-chatgpt-client-files-popia.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/stop-training-every-new-hire",
+      "title": "Stop Training Every New Hire Yourself | GrowthCred",
+      "description": "You still train every new person yourself. A New Hire Trainer teaches one role from your own notes. You still check the work. No time promise.",
+      "index": true,
+      "modified": "2026-10-25",
+      "file": "guides/stop-training-every-new-hire.html",
+      "prerendered": true
+    },
+    {
+      "path": "/quote-engine",
+      "title": "Quote Engine for PPE and Uniform Quotes | GrowthCred",
+      "description": "A Quote Engine drafts PPE and uniform quotes from your price list and your rules. You approve every price and every send. Ask for an audit.",
+      "index": true,
+      "modified": "2026-10-25",
+      "file": "quote-engine.html",
+      "prerendered": true
+    },
+    {
+      "path": "/company-brain",
+      "title": "Company Brain: Answers From Your Files | GrowthCred",
+      "description": "A Company Brain answers your team from your own files, on equipment you control. It shows the source. You decide who can ask. Ask for an audit.",
+      "index": true,
+      "modified": "2026-10-25",
+      "file": "company-brain.html",
+      "prerendered": true
+    },
+    {
+      "path": "/new-hire-trainer",
+      "title": "New Hire Trainer So You Stop Training | GrowthCred",
+      "description": "A New Hire Trainer teaches one role from your scripts and calls. It stays inside the business. You still sign off. Ask us for a quote.",
+      "index": true,
+      "modified": "2026-10-25",
+      "file": "new-hire-trainer.html",
+      "prerendered": true
+    },
+    {
       "path": "/data-and-security",
       "title": "Data Protection and Security at GrowthCred | POPIA",
       "description": "How GrowthCred handles your information: POPIA, encryption, write-only website forms, cross-border transfers, and human review in every AI system we build.",
@@ -352,6 +433,15 @@
       "prerendered": true
     },
     {
+      "path": "/guides/free-marketing-tools-before-you-buy",
+      "title": "Free Marketing Tools to Check Before You Buy | GrowthCred",
+      "description": "Before you pay for another marketing or analytics tool, check the free ones from Google, Meta, Microsoft and others. The list we open first for SA owners.",
+      "index": true,
+      "modified": "2026-10-29",
+      "file": "guides/free-marketing-tools-before-you-buy.html",
+      "prerendered": true
+    },
+    {
       "path": "/contact",
       "title": "Contact GrowthCred | AI Training & Automation, Johannesburg",
       "description": "Contact GrowthCred in Johannesburg about online AI workshops, team training requests or business automation. Email and WhatsApp contact options.",
@@ -362,7 +452,7 @@
     },
     {
       "path": "/webinar",
-      "title": "Free AI Webinar for SA Business Owners, Wednesday 18 November | GrowthCred",
+      "title": "Free AI Webinar for SA Owners, 18 November | GrowthCred",
       "description": "Free live webinar with JCCI on Wednesday 18 November at 18:00 SAST: how to set up AI that already knows your business, so it does your repeat work for you.",
       "index": true,
       "modified": "2026-11-11",
@@ -423,7 +513,7 @@
     {
       "path": "/checkout",
       "title": "Workshop Registration | GrowthCred",
-      "description": "Manage your GrowthCred registration and next steps.",
+      "description": "Register for the one-day online workshop. Add your details and pay. We confirm session details after you register.",
       "index": false,
       "file": "checkout.html",
       "prerendered": false
@@ -463,7 +553,7 @@
     {
       "path": "/terms",
       "title": "Terms | GrowthCred",
-      "description": "Read GrowthCred’s terms policy and contact us with questions.",
+      "description": "Terms for using growthcred.co.za and buying a GrowthCred workshop, digital product or service. Read them with the privacy and refund policies.",
       "index": false,
       "file": "terms.html",
       "prerendered": true
@@ -471,7 +561,7 @@
     {
       "path": "/privacy",
       "title": "Privacy | GrowthCred",
-      "description": "Read GrowthCred’s privacy policy and contact us with questions.",
+      "description": "How GrowthCred uses what you type into our forms, who can see it, and how to ask us about your information. We never see your card number.",
       "index": false,
       "file": "privacy.html",
       "prerendered": true
@@ -496,6 +586,7 @@
   "aliases": {
     "/agency": "/ai-automation-south-africa",
     "/webinar-plain": "/webinar",
-    "/class": "/webinar"
+    "/class": "/webinar",
+    "/tools/content-compass": "/resources"
   }
 }

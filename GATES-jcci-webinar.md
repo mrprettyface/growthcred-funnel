@@ -295,6 +295,35 @@ checkout each degrade to something visible and honest rather than plausible.
     restored it, confirmed identical to the committed file before the build.
     `contrast` moved 149 -> 148 headings, because the H1 left a dark band.
 
+MERGE WITH MAIN, 12 Nov 2026. main had gained nine PRs (#4-#12) since this
+branch was cut, so it was merged in rather than pushed over. A baseline of every
+site check was taken on a clean checkout of origin/main first (58 pass, 6 fail,
+the two live-network checks skipped), then the same runner was run on the
+merged tree. FIVE checks that pass on main failed after the merge. All five were
+defects in this webinar work that the checks run above never covered:
+  - verify-mobile type-floor: ten base `text-[11px]` sizes in the webinar files,
+    below the site's 12px phone floor. Now `text-[12px] md:text-[11px]`.
+  - verify-seo-onpage: /webinar jumped h1 -> h3 (the seat form's title, once the
+    form sat straight under the hero). SeatForm's three titles are now h2. It
+    then reported the page title at 74 chars against a 42-60 range; the title is
+    now "Free AI Webinar for SA Owners, 18 November | GrowthCred" (55).
+  - verify-own-intelligence suite: repeated the two above; fixed by them.
+  - verify-search-behavior: asserted calendarUrl() IS the /contact fallback,
+    written when the class had no date. Now checks the webinar.ts rule both
+    ways: a real calendar link while the session is ahead, the fallback after.
+  - verify-law-article prices: its Whop-matched price list now includes 49500
+    (the VIP seat, read off Whop's checkout and recorded in WHOP_SEEN). Its rand
+    scan also flagged four figures, all in comments: R495 and R260 000 are real
+    and were added to scripts/fixtures/voice-rand-baseline.txt; the two history
+    comments mentioning the old R497 were reworded instead, so the wrong price
+    is never on the approved list.
+  After: 61 pass, 4 fail, 0 regressions. The 4 failures are 4 of main's 6,
+  unchanged (human-layer, mobile review-order, mobile host-portable,
+  own-intelligence home). main's other 2 (codex-setup workflow and audit) pass
+  here only because this working folder has untracked codex files; not a fix.
+  STATUS.md was the only source conflict: both sides kept, newest first.
+  App.tsx and routes.ts auto-merged and were checked to hold both sides.
+
 DEFERRED (not a gate; an honest limitation): no end-to-end test submission was
 made. `registerForWebinar` dual-writes to Supabase AND posts to the live "Reserve
 Your Seat" Google Form, so pressing "Confirm my seat" would put a junk row in

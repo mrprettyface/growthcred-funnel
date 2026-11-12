@@ -1,3 +1,5 @@
+import { SITUATION_PAGES } from "./situationPages";
+
 /** One existing phrase inside a heading or paragraph, linked without rewriting the sentence. */
 export type PhraseAnchor = { phrase: string; href: string };
 export type SearchSection = {
@@ -7,15 +9,17 @@ export type SearchSection = {
   mark?: "price" | "industry" | "diy";
   /** Link `phrase` inside the heading. The heading words stay the same. */
   titleLink?: PhraseAnchor;
-  /** Link `phrase` inside `paragraphs[index]`. */
+  /** Link `phrase` inside `paragraphs[index]`. Several anchors may share an index. */
   links?: ({ index: number } & PhraseAnchor)[];
+  /** Link `phrase` inside `items[index]`. */
+  itemLinks?: ({ index: number } & PhraseAnchor)[];
 };
 export type StoryImage = { src: string; alt: string; width: number; height: number; caption?: string };
 export type SearchPage = {
   path: string; title: string; description: string; heading: string; intro: string;
   /** Link one existing phrase in the intro. The intro words stay the same. */
   introLink?: PhraseAnchor;
-  kind: "service" | "guide" | "about" | "hub" | "tool" | "story";
+  kind: "service" | "guide" | "about" | "hub" | "tool" | "story" | "situation";
   sections: SearchSection[]; related: string[];
   /** Client stories: the words a client actually used, and who said them. */
   quote?: { text: string; by: string };
@@ -23,10 +27,13 @@ export type SearchPage = {
   images?: StoryImage[];
   /** ISO date first published, where it differs from REVIEWED. */
   published?: string;
-  /** A visible FAQ. Also emitted as FAQPage structured data, so it must match. */
-  faq?: { q: string; a: string }[];
+  /** A visible FAQ. Also emitted as FAQPage structured data, so it must match.
+   *  `qLink` / `aLink` wrap an existing phrase; the strings themselves stay the schema text. */
+  faq?: { q: string; a: string; qLink?: PhraseAnchor; aLink?: PhraseAnchor }[];
   /** Primary and secondary next steps for pages that serve more than one offer. */
   ctas?: { to: string; label: string }[];
+  /** Also show those next steps under the hero, not only in the sidebar. */
+  heroCtas?: boolean;
   /** Public evidence used for market claims on the page. */
   sources?: { label: string; href: string }[];
   /** Kept out of search and the sitemap until the owner confirms it. */
@@ -43,6 +50,7 @@ export const STORIES_PUBLISHED = "2026-09-24";
 /** The service, industry, market and bottom-of-funnel pages added for search. */
 export const SEO_PUBLISHED = "2026-09-24";
 export const SEARCH_PAGES: SearchPage[] = [
+  ...SITUATION_PAGES,
   {
     path: "/ai-training-south-africa", kind: "service",
     title: "Practical AI Training for Business Owners | GrowthCred",
@@ -51,7 +59,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     intro: "You don't need another AI course. You need AI doing the work your business already does. Proposals. Research. Follow-ups. The admin that lands on your desk every week. That's what I train owners to build, from Rosebank, Johannesburg.",
     sections: [
       { title: "Choose the kind of help you need", paragraphs: ["There are three ways to work with me. Pick the one that fits your week.", "The one-day workshop is guided building. You bring your laptop and real work. You build alongside us. You leave with it running.", "Done for you is separate. You tell us what's stuck, and we map and build the workflows with your team. We agree scope, delivery and who looks after what before you get a quote.", "Got a team? Tell us the roles, the group size and where you are. We'll tell you straight whether we can meet the brief. And the workshop doesn't lock you into a later programme. One day is one day."] },
-      { title: "What you practise", paragraphs: ["You start by listing the tasks that repeat. Then you write down how your business works. Your services. Your clients. Your tone. Then you use that to draft a proposal, a follow-up or an answer to an internal question.", "Then you compare it with how you do it now. Is it faster? Is it better? Only then do you decide what to automate.", "You're building a way of working, not a folder of prompts. And you still check prices, client promises and anything that leaves the building. The AI drafts. You decide."] },
+      { title: "What you practise", paragraphs: ["You start by listing the tasks that repeat. Then you write down how your business works. Your services. Your clients. Your tone. Then you use that to draft a proposal, a follow-up or an answer to an internal question.", "Then you compare it with how you do it now. Is it faster? Is it better? Only then do you decide what to automate.", "You're building a way of working, not a folder of prompts. And you still check prices, client promises and anything that leaves the building. The AI drafts. You decide."], links: [{ index: 0, phrase: "draft a proposal", href: "/ai-proposal-automation" }] },
       { title: "Training that has already run", paragraphs: ["I've given seven AI talks at WeWork Johannesburg. The first Operator Intensive at WeWork Rosebank sold out all five seats. Every owner in that room ran a business that depended entirely on them. They left that day with working systems.", "After one working session, Macaela Oor of Demure International wrote: “My Claude has been operating a lot better since the last session.” Same tool. Better context. That's the whole trick."] },
       { title: "Who is it for?", mark: "industry", paragraphs: ["You run a business. You're not technical. You've got roughly 3 to 50 people, and you still do too much of the admin yourself. That's who I built this for.", "You need to be comfortable in a browser. And you need to be willing to work on your own business on the day. That's it.", "One honest note. This is practical business training. It's not a programming qualification or an accredited machine-learning course. I don't claim any accreditation."] },
       { title: "Format, tools and next dates", paragraphs: ["The workshop is one full day, online. You get the dates, times and joining link when you register. Want a session for your team? Contact us and we'll confirm a format that fits your brief.", "Bring a laptop and a work example that isn't sensitive. Ask us for the tool list before you buy any plan. I won't promise every tool is free, because they aren't."] },
@@ -72,7 +80,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     sections: [
       { title: "Start with one workflow", paragraphs: ["Don't try to automate the whole business. Pick one thing. Proposal drafts. Quote prep. Follow-ups. Recurring research. That's where I start.", "I look at the real workflow before I promise an integration. Why? Because if the records are incomplete, or every case needs judgement, you need a process fix first. Automating a mess just gives you a faster mess.", "We also agree what to measure before we build. Otherwise, how would you know it worked?"] },
       { title: "How the engagement works", paragraphs: ["It's four steps. First, discovery. We write down the current process, the volume and what hurts.", "Second, scope. We agree what gets built, what it connects to, how we'll test it and what's left out.", "Third, build and test. We run it against real examples with your team. Not a demo. Your actual work.", "Fourth, handover. You get the documentation, the access and a clear answer to who maintains what. No mystery box."] },
-      { title: "Results clients have reported", paragraphs: ["TaiAscend reported that a document process that took three days now takes two hours.", "Sandile runs MNE Waste. Trucks, drivers, compliance, municipal contracts. He built his Operator's Brain in one day and is now fully operational. If AI can handle that, it can handle what you do."] },
+      { title: "Results clients have reported", paragraphs: ["TaiAscend reported that a document process that took three days now takes two hours.", "Sandile runs MNE Waste. Trucks, drivers, compliance, municipal contracts. He built his Operator's Brain in one day and is now fully operational. If AI can handle that, it can handle what you do."], links: [{ index: 1, phrase: "Operator's Brain", href: "/guides/business-brain" }] },
       { title: "What will it cost?", mark: "price", paragraphs: ["There's no single price. Honestly. It depends on the workflow, how ready your data is, what it connects to, the exceptions and the support. We quote after we've seen your brief.", "And the R990 workshop? That's training. It's not the price of a custom build.", "Ask for setup costs, running costs and third-party subscriptions separately. And agree how changes get handled. Otherwise a small first project grows without anyone deciding it should."] },
       { title: "Your systems and your information", paragraphs: ["Tell us which tools you use now. Whether they connect depends on their APIs, your account permissions and the workflow. Naming a tool isn't a promise that a connector exists. We check.", "Keep confidential customer data out of your first message. During scoping we agree data access, retention, review and who approves anything that goes out. And no, installing an AI tool doesn't make you compliant with any law. Nobody can sell you that."] },
       { title: "Training or implementation?", mark: "diy", paragraphs: ["Want to build it and understand it yourself? Take the workshop. Does the work cross systems, need testing and maintenance, or need a team to deliver it? Talk to us about implementation.", "Either way, start with one real task. Not a promise to automate everything."] },
@@ -81,7 +89,91 @@ export const SEARCH_PAGES: SearchPage[] = [
       { q: "Which workflows should we automate first?", a: "Start with proposal drafts, quote prep, follow-up drafts or recurring research. We look at the real workflow before we promise any integration." },
       { q: "Will it connect to the tools we already use?", a: "That depends on each tool's APIs, your account permissions and the workflow. Naming a tool isn't a promise of a connector, so we check before we scope." },
     ],
-    related: ["/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/ai-proposal-automation", "/ai-follow-up-automation", "/ai-admin-automation", "/guides/how-we-work-first-30-days", "/call", "/data-and-security"],
+    related: ["/ai-consulting-south-africa", "/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/ai-proposal-automation", "/ai-follow-up-automation", "/ai-admin-automation", "/guides/how-we-work-first-30-days", "/call", "/data-and-security"],
+  },
+  {
+    path: "/ai-consulting-south-africa", kind: "service", published: "2026-10-26",
+    title: "AI Consulting in South Africa | GrowthCred",
+    description: "AI consulting for South African owner-led firms. We find where your week goes, build your own private AI around it, and train your team. Rosebank, Joburg.",
+    heading: "AI consulting that ends in working systems, not a slide deck.",
+    intro: "You didn't hire a consultant for a slide deck. You want the work done. I find where your week goes. We build your own private AI around it. Then we train your team to run it. I work from Rosebank, Johannesburg.",
+    heroCtas: true,
+    sections: [
+      { title: "Who this is for", paragraphs: [
+        "You still run the firm. Proposals wait on you. Follow-ups wait on you. So does the admin.",
+        "This is for an owner-led firm. From about R5M to over R200M. You're the bottleneck. That's the firm I sit down with.",
+        "Velocity fits firms from R5M to R50M. It's one day. Your biggest admin drains get fixed before you leave the room.",
+        "Integration fits firms from R50M to R200M. It runs for 90 days. The same fix goes into sales, delivery and admin.",
+        "Above R200M, Transformation is scoped with you. We rebuild the operating model department by department.",
+        "Want a deck and a goodbye? This is the wrong page. Want a system your team uses next week? You're in the right place.",
+      ]},
+      { title: "What we actually build", paragraphs: [
+        "It starts with an audit. We find where your week goes. Then we put a rand value on the hours stuck on your desk. That list is the brief. We don't build before it exists.",
+        "Next we deploy your own private AI. It runs on equipment we choose and look after. We set it up around how you already work. You own it. You don't rent another login.",
+        "Then the repeating work gets handled. Proposal drafts use facts you've already approved. A person still checks the price and the promise.",
+        "Follow-ups go out while the deal is still warm. You stop being the only one who remembers to chase.",
+        "Admin that repeats stops landing back on your desk. Your team asks the system. You get the exceptions.",
+        "Your team learns the system we built for you. That's not a generic course. Corporate AI training is the same idea when the whole team needs it.",
+        "Then we keep it sharp. Better models go in as they come out. We track the hours you get back every month.",
+      ], links: [
+        { index: 0, phrase: "audit", href: "/guides/how-we-work-first-30-days" },
+        { index: 1, phrase: "private AI", href: "/private-ai" },
+        { index: 2, phrase: "Proposal drafts", href: "/ai-proposal-automation" },
+        { index: 3, phrase: "Follow-ups", href: "/ai-follow-up-automation" },
+        { index: 4, phrase: "Admin that repeats", href: "/ai-admin-automation" },
+        { index: 5, phrase: "Corporate AI training", href: "/corporate-ai-training" },
+        { index: 6, phrase: "keep it sharp", href: "/guides/how-we-work-first-30-days" },
+      ]},
+      { title: "Why owners stay with us", paragraphs: [
+        "A lot of consulting ends when the deck lands. We build the system. Then we leave it running inside your business.",
+        "We build for South African firms. POPIA is the law we work under when personal information is in play.",
+        "Read how we handle data before you send us a client file. Installing a tool doesn't make you compliant. Nobody can sell you that.",
+        "You own the system. You don't rent a seat. The long version of that choice sits on the private AI page.",
+        "Here's the guarantee, in the same words as the homepage. If the Command Core doesn't give you back at least 20% of your week, the engagement is on us.",
+      ], links: [
+        { index: 1, phrase: "POPIA", href: "/guides/private-ai-popia" },
+        { index: 2, phrase: "how we handle data", href: "/data-and-security" },
+        { index: 3, phrase: "private AI page", href: "/private-ai" },
+      ]},
+      { title: "What clients have reported", paragraphs: [
+        "I only publish a result a named client reported, with permission. These two are from training and builds. The only private AI deployment so far is ours.",
+        "TaiAscend reported that a document process that took three days now takes two hours.",
+        "Sandile runs MNE Waste. Trucks, drivers, compliance, municipal contracts. He built his Operator's Brain in one day and is now fully operational. If AI can handle that, it can handle what you do.",
+      ], links: [
+        { index: 1, phrase: "TaiAscend", href: "/stories" },
+        { index: 2, phrase: "MNE Waste", href: "/stories/mne-waste" },
+        { index: 2, phrase: "Operator's Brain", href: "/guides/business-brain" },
+      ]},
+      { title: "How you start", paragraphs: [
+        "You apply. The form asks how your business runs and where you're stuck. Then we talk. The call is the work. It's not a pitch.",
+        "On the call we sort fit, scope and cost. Engagements are limited. Not every application gets a yes.",
+        "If we go ahead, the audit comes first. Deploy comes next. Your first result is due within 14 days. We agree the stage before anyone starts.",
+        "Velocity is one day. Integration is 90 days. You pick the one that fits the firm you actually run.",
+        "Not ready for the full engagement? The one-day workshop is the smaller start. You build the first workflow yourself.",
+        "Want the week-by-week version? Read how the first 30 days go.",
+      ], links: [
+        { index: 4, phrase: "one-day workshop", href: "/workshop" },
+        { index: 5, phrase: "first 30 days", href: "/guides/how-we-work-first-30-days" },
+      ]},
+    ],
+    faq: [
+      { q: "What does AI consulting cost?", a: "There's no single price. It depends on the work, your data and the stage. We quote after the call. The R990 workshop is training. It's not the price of a custom build." },
+      { q: "Who is this for?", a: "Owner-led firms from about R5M to over R200M. You're still the bottleneck. If you want a slide deck and a goodbye, this is the wrong fit." },
+      { q: "Do you advise, or do you build?", a: "We build. The audit finds the work. Then we deploy your own private AI, train your team and keep the system sharp." },
+      { q: "What if I don't get the time back?", a: "If the Command Core doesn't give you back at least 20% of your week, the engagement is on us." },
+      { q: "How do I start?", a: "Apply. The call decides fit, scope and cost. You'll know if it's a fit before any work starts." },
+    ],
+    guide: { after: 0, line: "If this sounds like your week, get the AI Implementation Guide." },
+    close: {
+      line: "Next week, the same work is waiting on you.",
+      ask: "Want us to do this for you? Apply.",
+      cta: { to: "/call", label: "Apply" },
+    },
+    ctas: [
+      { to: "/call", label: "Apply" },
+      { to: "/workshop", label: "Build it in the workshop" },
+    ],
+    related: ["/private-ai", "/corporate-ai-training", "/ai-automation-south-africa", "/guides/how-we-work-first-30-days", "/stories/mne-waste", "/call"],
   },
   {
     path: "/about", kind: "about",
@@ -104,8 +196,8 @@ export const SEARCH_PAGES: SearchPage[] = [
     description: "Practical guides to AI training costs, business context, proposals, follow-ups and automation decisions for South African business owners.",
     heading: "Put AI to work, one useful task at a time.",
     intro: "Start with one question. One real task. And a way to check the result. These guides help you decide what to learn, what to build and where you still need a person checking the work.",
-    sections: [{title:"Choose your next step", paragraphs:["Not sure whether to learn it or buy it? Compare training and implementation first. Then write down your business context with the business brain guide. Then try one proposal or follow-up with information you're allowed to share.", "The calculator helps you put a value on your time. It won't promise you a saving. Only measuring does that."]}],
-    related: ["/guides/can-staff-paste-client-files-into-chatgpt", "/guides/private-ai-popia", "/guides/law-firm-billing-leakage", "/guides/ai-business-proposals-faster", "/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/guides/ai-training-cost-south-africa", "/guides/business-brain", "/guides/ai-proposals-and-follow-ups", "/guides/ai-training-vs-automation", "/guides/ai-automation-cost-south-africa", "/tools/admin-time-calculator", "/stories"],
+    sections: [{title:"Choose your next step", paragraphs:["Not sure whether to learn it or buy it? Compare training and implementation first. Then write down your business context with the business brain guide. Then try one proposal or follow-up with information you're allowed to share.", "The calculator helps you put a value on your time. It won't promise you a saving. Only measuring does that.", "Before you pay for another tool, check the free ones you already have. Our free tools guide lists the ones we open first."]}],
+    related: ["/quoting-uniforms-for-a-security-company", "/senior-dispatcher-on-leave", "/guides/ppe-quotes-without-the-owner", "/guides/staff-chatgpt-client-files-popia", "/guides/stop-training-every-new-hire", "/guides/can-staff-paste-client-files-into-chatgpt", "/guides/private-ai-popia", "/guides/law-firm-billing-leakage", "/guides/ai-business-proposals-faster", "/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/guides/ai-training-cost-south-africa", "/guides/business-brain", "/guides/ai-proposals-and-follow-ups", "/guides/ai-training-vs-automation", "/guides/ai-automation-cost-south-africa", "/tools/admin-time-calculator", "/guides/free-marketing-tools-before-you-buy", "/stories", "/playbook"],
   },
   {
     path: "/guides/ai-training-cost-south-africa", kind: "guide",
@@ -155,7 +247,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     heading: "Should you choose AI training or done-for-you automation?",
     intro: "Want to learn it and run it yourself? Take training. Does the work cross systems, need delivery support or need looking after? Talk to us about implementation. Either way, the business decisions stay yours.",
     sections: [
-      { title: "When a workshop fits", paragraphs: ["A workshop suits you if you've got time to practise and you want to understand how it works. Bring one bounded task. Say, drafting a proposal from approved information. You'll learn how to brief it, check it and repeat it.", "But you'll still need to keep your business information current. And you'll need to actually use the workflow afterwards. No time for that? Expecting a fully managed service? Then training isn't your answer."] },
+      { title: "When a workshop fits", paragraphs: ["A workshop suits you if you've got time to practise and you want to understand how it works. Bring one bounded task. Say, drafting a proposal from approved information. You'll learn how to brief it, check it and repeat it.", "But you'll still need to keep your business information current. And you'll need to actually use the workflow afterwards. No time for that? Expecting a fully managed service? Then training isn't your answer."], links: [{ index: 0, phrase: "drafting a proposal", href: "/ai-proposal-automation" }] },
       { title: "When implementation fits", paragraphs: ["Implementation fits when information moves between tools, several people approve the work or exceptions need testing. Ask whoever you hire to show it working on your examples. Not just a polished demo.", "And agree what happens after handover. Tools change. Permissions change. Messy input breaks things. A delivered project and a managed service are different jobs. Know which one you're buying."] },
       { title: "Compare the responsibilities", paragraphs: ["With training, you invest time learning and practising. With implementation, you invest time briefing, checking and signing off. Either way, someone in your business has to own it. Ask these five questions of either option."], items: ["Time: who learns, supplies inputs and approves output?", "Scope: one task, a connected process or ongoing operation?", "Cost: training fee or project quote, plus tools and support?", "Ownership: who controls accounts, documents and workflow configuration?", "Support: what is included, for how long, and how are changes quoted?"] },
       { title: "Use one task to decide", paragraphs: ["Write down one task you do every week. Its inputs. What a good output looks like. How long it takes now. Can you practise it safely in a browser? Then the workshop might be your first step. Does it need several integrations and operational checks? Ask us for a scope assessment.", "The workshop and done-for-you work are separate offers. You can talk to us about fit without signing up for anything later. Ask us to confirm availability, scope and every cost before you choose."] },
@@ -213,7 +305,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     sections: [
       { title: "The contrarian view: don't start with the tool", paragraphs: ["A demo shows you what a tool does on its best day. It doesn't show you whether your inputs are usable. Or whether your process has settled. Or who handles the exceptions. Buy before you know that, and you've got another unfinished project.", "Start with the task instead. What triggers it? What goes in? What are the steps? What comes out? Who checks it? What breaks? If the process changes every week, settle it before you automate it.", "I've seen this first-hand. Macaela Oor runs Demure International. After one session with us, she wrote: “My Claude has been operating a lot better since the last session.” She didn't buy a new tool. She changed what her tool knew. That's the whole argument of this guide."] },
       { title: "Score the bottleneck before shopping", paragraphs: ["Track a normal week. List the tasks that repeat. For each one, note how often it happens and your hands-on minutes. Note the delay it causes, how often it needs fixing and what happens when it's late or wrong.", "Then ask yourself one more question. Can someone on your team judge the result consistently? If not, you're not ready for a tool.", "And don't just pick your longest task. A short task that blocks every sale might matter more to you."] },
-      { title: "Choose the smallest tool category", paragraphs: ["Use an AI assistant when you supply the context and check each draft. Think proposals, summaries, research prep and first drafts.", "Use workflow automation when your task moves predictable information between systems. Think routing forms, creating tasks, reminders and handoffs.", "Use a system of record when your real problem is that nobody knows which customer, task or document is current. You need one reliable place for status.", "Most businesses need that last one fixed before they need more AI. Automate scattered, contradictory information and you get faster confusion. Not progress."] },
+      { title: "Choose the smallest tool category", paragraphs: ["Use an AI assistant when you supply the context and check each draft. Think proposals, summaries, research prep and first drafts.", "Use workflow automation when your task moves predictable information between systems. Think routing forms, creating tasks, reminders and handoffs.", "Use a system of record when your real problem is that nobody knows which customer, task or document is current. You need one reliable place for status.", "Most businesses need that last one fixed before they need more AI. Automate scattered, contradictory information and you get faster confusion. Not progress."], links: [{ index: 0, phrase: "proposals", href: "/ai-proposal-automation" }] },
       { title: "Use this six-question buying test", paragraphs: ["Plenty of products fit more than one category. And their terms change. So check the current documentation and contract for the exact plan you'd buy. Not an old comparison article. Then ask these six questions."], items: [
         "Fit: can it handle representative examples from our actual workflow?",
         "Context: can it use our approved information without mixing customers or versions?",
@@ -245,7 +337,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     heading: "South Africa does not have an AI problem. It has an imported-workflow problem.",
     intro: "Buy the same tool as a company in San Francisco. Do you get the same operating system? No. Your business has South African data duties, South African customer channels, South African infrastructure and your own team. The fix isn't a bigger tool stack. It's adapting the work.",
     sections: [
-      { title: "The contrarian view: local context is the implementation", paragraphs: ["Most AI strategies fail before the model does. You put the wrong information into the tool. You push customers into a channel they don't use. Nobody owns the exceptions. And you mistake a foreign template for a local process.", "So stop asking whether South Africa is ahead or behind. Ask whether one workflow fits your customers, your information, your people and your controls. A small system that survives a normal Tuesday beats an impressive demo that needs perfect inputs.", "Here's what local looks like. Sandile runs MNE Waste, a South African waste company working on municipal contracts and compliance. His Operator's Brain wasn't a foreign template. He built it from how his own operation runs, in one day, at my first Operator Intensive in Rosebank. He's now fully operational."] },
+      { title: "The contrarian view: local context is the implementation", paragraphs: ["Most AI strategies fail before the model does. You put the wrong information into the tool. You push customers into a channel they don't use. Nobody owns the exceptions. And you mistake a foreign template for a local process.", "So stop asking whether South Africa is ahead or behind. Ask whether one workflow fits your customers, your information, your people and your controls. A small system that survives a normal Tuesday beats an impressive demo that needs perfect inputs.", "Here's what local looks like. Sandile runs MNE Waste, a South African waste company working on municipal contracts and compliance. His Operator's Brain wasn't a foreign template. He built it from how his own operation runs, in one day, at my first Operator Intensive in Rosebank. He's now fully operational."], links: [{ index: 2, phrase: "Operator's Brain", href: "/guides/business-brain" }] },
       { title: "POPIA: paid is not the same as compliant", titleLink: { phrase: "POPIA", href: "/guides/private-ai-popia" }, paragraphs: ["Free AI versus paid AI isn't the question. Before personal information goes into any service, you still need a lawful purpose. You need to keep it to the minimum, with safeguards. And you need to be clear on operators, contracts, retention and anything that leaves the country. A subscription badge answers none of that.", "So map the information before you pick the tool. Which fields do you need? Whose data is it? Why does the task need it? Where does it travel? Who can see it? How long does it stay? How does someone correct or delete it?", "Use made-up or properly redacted examples until your organisation approves the real workflow."] },
       { title: "Mobile-first doesn't mean message everyone", paragraphs: ["Statistics South Africa reported that 85.6% of households had some form of internet access in 2025. That doesn't mean your customers want another portal. Or have fibre at home. So design your customer step around the channel they actually use. Then give them another way in.", "Using WhatsApp or any messaging channel? Use an approved business route. Get the permissions your use case needs. Keep sensitive detail out of messages. Give people a way to reach a human. And watch for failed deliveries. Automating an unwanted message just makes the irritation arrive faster."] },
       { title: "Resilience: stop designing around an outdated headline", paragraphs: ["By 4 September 2026, Eskom reported 476 consecutive days without loadshedding. So national loadshedding isn't the defining barrier to business AI right now. But you'll still hit local outages, patchy signal, provider downtime and broken integrations. Resilience is still your operating requirement. It's just not a slogan.", "So decide what your workflow does when a service goes down. Queue or pause the action. Show the failure to an owner. Stop duplicates. Keep a manual route. Reconcile when you're back up. And don't believe a cloud model works offline unless the provider's current docs say that function does."] },
@@ -288,7 +380,7 @@ export const SEARCH_PAGES: SearchPage[] = [
         "MNE Waste: Sandile built his Operator's Brain in one day at the first Operator Intensive, and is now fully operational.",
         "Demure International (Enigma Essentials): “My Claude has been operating a lot better since the last session.”",
         "The first Operator Intensive sold out all five seats at WeWork Rosebank.",
-      ] },
+      ], itemLinks: [{ index: 1, phrase: "Operator's Brain", href: "/guides/business-brain" }] },
       { title: "Why it works across industries", paragraphs: ["Why does generic AI give you generic answers? Because it knows nothing about your business. So every system I build starts by writing down how your business actually runs. Your services. Your clients. Your rules. Your way of working. The AI gets all of that before it does any work.", "That's why the same method works for a company running trucks, drivers and municipal contracts. And for a brand managing orders, inventory and bookings. Your knowledge changes. The method doesn't."] },
     ],
     related: ["/stories/mne-waste", "/stories/demure-international", "/stories/operators-intensive-wework-rosebank"],
@@ -339,9 +431,9 @@ export const SEARCH_PAGES: SearchPage[] = [
       { src: "/images/stories/operators-intensive-sold-out.jpg", alt: "GrowthCred announcement: Your week is sold out", width: 390, height: 330, caption: "All five seats went." },
     ],
     sections: [
-      { title: "The problem they brought", paragraphs: ["Every owner in that room had the same bottleneck. It was them. Proposals waited for them. Follow-ups waited for them. The decisions only they could make sat behind work anyone could do. Is that you too?", "Is that your week too?"] },
+      { title: "The problem they brought", paragraphs: ["Every owner in that room had the same bottleneck. It was them. Proposals waited for them. Follow-ups waited for them. The decisions only they could make sat behind work anyone could do. Is that you too?", "Is that your week too?"], links: [{ index: 0, phrase: "Proposals", href: "/ai-proposal-automation" }] },
       { title: "What happened on the day", paragraphs: ["We spent the day on each owner's own business. Not theory. Your business is the curriculum. I had them write down how their business runs, who it serves and how it speaks. Then they turned that knowledge into systems they could use. You'd do the same.", "By the end of the day, they'd built working systems. What would you build with a day like that?"] },
-      { title: "One of the five", paragraphs: ["Sandile, who runs MNE Waste, was in that room with me. He built his Operator's Brain in one day and is now fully operational. If this works for waste management, it works for whatever you do. So what's stopping you?"] },
+      { title: "One of the five", paragraphs: ["Sandile, who runs MNE Waste, was in that room with me. He built his Operator's Brain in one day and is now fully operational. If this works for waste management, it works for whatever you do. So what's stopping you?"], links: [{ index: 0, phrase: "Operator's Brain", href: "/guides/business-brain" }] },
     ],
     related: ["/stories/mne-waste", "/ai-automation-johannesburg", "/workshop", "/stories"],
   },
@@ -397,7 +489,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     ],
     faq: [
       { q: "Is this cheaper than hiring an admin assistant?", a: "It depends on the work. Use the admin time calculator to put a value on your hours, then read the comparison guide. Repetitive drafting suits automation. Judgement and relationships often suit a person." },
-      { q: "Which admin tasks are good candidates?", a: "Repeated, rules-based work with clear inputs. Proposal drafts, follow-ups, reports, recurring internal questions and research. If a task depends on incomplete records, it may need a process fix first." },
+      { q: "Which admin tasks are good candidates?", a: "Repeated, rules-based work with clear inputs. Proposal drafts, follow-ups, reports, recurring internal questions and research. If a task depends on incomplete records, it may need a process fix first.", aLink: { phrase: "Proposal drafts", href: "/ai-proposal-automation" } },
       { q: "Will my team lose their jobs?", a: "The aim is to take repetitive drafting off whoever is stuck doing it. Including you. People stay responsible for review, decisions and exceptions." },
     ],
     related: ["/guides/choose-ai-tools-small-business", "/guides/admin-assistant-vs-ai-automation", "/tools/admin-time-calculator", "/ai-automation-south-africa", "/call"],
@@ -414,7 +506,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     ],
     sections: [
       { title: "Where the owner gets stuck", paragraphs: ["You carry a heavy load of paperwork and coordination. Compliance documents. Contracts and tenders. Client reports. Driver messages. Scheduling questions. Most of it follows rules you know by heart. But you've never written them down.", "That's exactly what an AI system needs. Without it, generic tools give you generic answers."] },
-      { title: "Where AI helps first", paragraphs: ["Start with documents that repeat, follow clear rules and have a person who can check them.", "Client reports and service summaries, drafted from the job records you already keep. First drafts of tender and contract responses from your standard information. Answers to the procedure questions your drivers and staff keep asking, so they're not waiting on you. And follow-ups and quotes for new facilities, in your voice."] },
+      { title: "Where AI helps first", paragraphs: ["Start with documents that repeat, follow clear rules and have a person who can check them.", "Client reports and service summaries, drafted from the job records you already keep. First drafts of tender and contract responses from your standard information. Answers to the procedure questions your drivers and staff keep asking, so they're not waiting on you. And follow-ups and quotes for new facilities, in your voice."], links: [{ index: 1, phrase: "quotes for new facilities", href: "/ai-proposal-automation" }] },
       { title: "Compliance stays with people", paragraphs: ["Compliance documents carry legal weight. So AI drafts and organises them from your approved information. A responsible person checks and signs off. We agree those review points before we build anything."] },
       { title: "The MNE Waste story", paragraphs: ["Sandile runs MNE Waste. They collect and dispose of waste, including medical waste. He came to my first Operator Intensive. He built his Operator's Brain in one day. He's now fully operational. Read the full story."], links: [{ index: 0, phrase: "Operator's Brain", href: "/guides/business-brain" }] },
     ],
@@ -454,7 +546,7 @@ export const SEARCH_PAGES: SearchPage[] = [
       { title: "The real problem is the work around the decision", mark: "industry", paragraphs: ["Month-end commentary. Management packs. Review prep. Meeting notes. Document requests. The same client questions, again. They all eat your senior people's time. The maths may already be in the system. But the explanation, the checking and the follow-up still wait for the same finance lead, partner or adviser.", "A general AI tool won't fix that by itself. If every person uses different prompts and different sources, you get inconsistent drafts, unclear data handling and more time checking what the tool invented.", "Sound familiar? Your monthly packs get rebuilt by hand for every audience. Client questions interrupt your senior people, because the approved answer is scattered across files and email. Onboarding and review packs stall on missing documents, and nobody can safely guess what's absent.", "And your team measures how fast the draft appears. Not the prep, correction and review time around it."] },
       { title: "A better way to look at it", paragraphs: ["Don't ask whether AI can do finance. Ask which part of one of your repeated workflows can be prepared safely before professional judgement starts. The useful unit isn't a prompt. It's a controlled handoff. Approved inputs. A defined output. A named reviewer. A route for exceptions.", "That keeps the judgement with your accountants, finance leaders and licensed advisers. The system does the preparation and the consistency. The professional checks the figures, the interpretation, the suitability and the message."] },
       { title: "Start with one controlled workflow", paragraphs: ["Pick a task that happens often, has clear source material and already ends with a person reviewing it. Record how long the whole task takes today, corrections included. Pilot it on representative redacted examples. Then compare elapsed time, review time, missing-input cases and errors before you expand.", "Where would I start with you? Management-pack commentary drafted from your approved figures, with every variance linked back to its source. Meeting notes turned into a summary and action register for a professional to approve.", "Onboarding or review checklists that flag missing information instead of filling the gap. And your recurring client or management updates, drafted from approved facts, with a person approving what gets sent."] },
-      { title: "Where the boundary belongs", paragraphs: ["GrowthCred does not replace an accountant, a finance officer, a compliance function or a licensed financial adviser. We don't position a general AI model as the maker of credit decisions, investment recommendations, financial statements, filings or anything that affects a customer.", "Before we build, your firm decides which information may be used. Who may see it. What must be kept. What the system must never do. Who signs off. And installing a tool doesn't make a workflow compliant with POPIA or financial-sector rules. Nobody can sell you that."] },
+      { title: "Where the boundary belongs", paragraphs: ["GrowthCred does not replace an accountant, a finance officer, a compliance function or a licensed financial adviser. We don't position a general AI model as the maker of credit decisions, investment recommendations, financial statements, filings or anything that affects a customer.", "Before we build, your firm decides which information may be used. Who may see it. What must be kept. What the system must never do. Who signs off. And installing a tool doesn't make a workflow compliant with POPIA or financial-sector rules. Nobody can sell you that."], links: [{ index: 1, phrase: "POPIA", href: "/guides/private-ai-popia" }] },
       { title: "Workshop or implementation?", mark: "diy", paragraphs: ["Take the one-day workshop if your team needs a shared method and wants to build the first controlled workflow themselves. Bring a made-up or redacted example. You leave with a mapped task, an approved context pack, a review checklist and a way to measure the pilot. Not just a list of prompts.", "Apply for implementation when the workflow crosses tools, needs permissions or repeatable input handling, or has to be handed over across a team. We scope one workflow. We define the acceptance tests. We build and test it with your reviewers. Then we agree ownership and support before wider use."] },
       { title: "Who has the strongest fit", paragraphs: ["The clearest fit? An accounting, bookkeeping, outsourced-finance, fractional-CFO, advisory or brokerage team of roughly 3 to 50 people. Recurring document work. A professional reviewer you can name. Internal finance teams in owner-led businesses fit for the same reason.", "Large banks and insurers are investing heavily in AI. But their model-risk, procurement, security and integration requirements need a different kind of engagement. I'll only take on work that matches our capacity and your governance."] },
       { title: "Who's telling you this", paragraphs: ["I'll be straight with you. I haven't published a finance case study yet, so I won't show you one. What I have done: I co-developed an AI system presented at Parliament. I've given seven AI talks at WeWork Johannesburg. And I build every workflow the same controlled way, with the professional at the controls."] },
@@ -514,7 +606,7 @@ export const SEARCH_PAGES: SearchPage[] = [
       { title: "In person or online", paragraphs: ["The one-day workshop and the free class run online. So you can join from anywhere in Gauteng.", "Want a Command Core engagement? Ask on the call whether working sessions can happen in person. We scope the audit, build and handover around your team."] },
       { title: "What working together looks like", paragraphs: ["Three steps. First, an audit that puts a rand value on the hours stuck with you. Second, we deploy systems that do that work the way you would. Third, we embed them and track the results monthly."] },
       { title: "Where Johannesburg owners start", paragraphs: ["There are three ways in. Pick the one that matches how ready you are.", "The Command Core is the full engagement, for owner-led firms from R5M to over R200M in revenue. We audit, deploy and embed across your departments.", "The one-day online workshop is for building your first systems yourself. Guided. Laptop open. Real work in hand.", "The free online class is a practical first hour on giving AI the context your business needs. All three run on the same idea. AI works when it starts from your knowledge, not a template."] },
-      { title: "The work that waits in a Johannesburg business", paragraphs: ["I see the same pattern all over this city. Proposals queue behind the founder. Follow-ups wait until the evening. Admin only one person knows how to do. Those are the first tasks I look at. Because they cost you the most."], links: [{ index: 0, phrase: "Proposals", href: "/ai-proposal-automation" }] },
+      { title: "The work that waits in a Johannesburg business", paragraphs: ["I see the same pattern all over this city. Proposals queue behind the founder. Follow-ups wait until the evening. Admin only one person knows how to do. Those are the first tasks I look at. Because they cost you the most.", "Some of you still price every PPE quote. The quote sits until you touch it.", "Some of you still train every new hire. You still approve the work."], links: [{ index: 0, phrase: "Proposals", href: "/ai-proposal-automation" }, { index: 1, phrase: "price every PPE quote", href: "/guides/ppe-quotes-without-the-owner" }, { index: 2, phrase: "train every new hire", href: "/guides/stop-training-every-new-hire" }] },
     ],
     faq: [
       { q: "Where is GrowthCred based?", a: "Rosebank, Johannesburg. GrowthCred (Pty) Ltd is registered in South Africa, registration number 2026/229279/07." },
@@ -625,7 +717,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     sections: [
       { title: "Start with the work, not the solution", paragraphs: ["For two weeks, list the admin that waits for you. What it is. How often it happens. How long it takes. Then put a value on those hours with the admin time calculator.", "Your answer depends far more on the kind of work you're drowning in than on which option sounds modern."] },
       { title: "When a person is the better answer", paragraphs: ["Hire or outsource when your work is mostly judgement, relationships or physical tasks. Calming an upset customer. Negotiating. Chasing things in person. Calls where you need to read the room.", "A person also makes sense when your process still changes every week. Automate a process nobody has settled yet, and you just get faster confusion."] },
-      { title: "When AI automation is the better answer", paragraphs: ["Automate when the work repeats, with clear inputs and a known standard. Proposal and quote drafts. Follow-ups. Reports. Recurring internal questions. Research. You write the knowledge down once and use it every time. So it doesn't walk out the door when someone resigns.", "An assistant still needs your knowledge to do the job well. A system built from that knowledge drafts in seconds what used to wait for you. And a person still checks it."] },
+      { title: "When AI automation is the better answer", paragraphs: ["Automate when the work repeats, with clear inputs and a known standard. Proposal and quote drafts. Follow-ups. Reports. Recurring internal questions. Research. You write the knowledge down once and use it every time. So it doesn't walk out the door when someone resigns.", "An assistant still needs your knowledge to do the job well. A system built from that knowledge drafts in seconds what used to wait for you. And a person still checks it."], links: [{ index: 0, phrase: "Proposal and quote drafts.", href: "/ai-proposal-automation" }] },
       { title: "Compare the full cost", paragraphs: ["For a hire, count the salary, recruitment, onboarding and the time you spend managing them. For outsourcing, count the fee, the briefing and the rework. For automation, count setup, subscriptions, usage and the time spent checking output.", "My automation cost guide lists what drives a quote. Compare like with like. And treat estimated savings as estimates until you've measured them."] },
       { title: "The usual answer is both", paragraphs: ["You'll most likely end up with a mix, like most owner-led businesses. Systems take your repetitive drafting. Your people review, decide and handle the exceptions. That gets you out of the loop without taking human judgement out of it."] },
     ],
@@ -739,7 +831,7 @@ export const SEARCH_PAGES: SearchPage[] = [
       { label: "South African Government: Protection of Personal Information Act 4 of 2013", href: "https://www.gov.za/documents/protection-personal-information-act" },
       { label: "Information Regulator: Condition 7 security safeguards, sections 19–22", href: "https://inforegulator.org.za/knowledge-base/category/popia/chapter-3-conditions-for-lawful-processing/part-a-processing-of-personal-information-in-general/condition-7-security-safeguards/" },
     ],
-    related: ["/guides/private-ai-popia", "/data-and-security", "/guides/ai-challenges-south-africa", "/guides/business-brain", "/call"],
+    related: ["/guides/staff-chatgpt-client-files-popia", "/guides/private-ai-popia", "/data-and-security", "/guides/ai-challenges-south-africa", "/guides/business-brain", "/call"],
   },
   {
     path: "/guides/private-ai-popia", kind: "guide", published: "2026-10-13",
@@ -751,7 +843,7 @@ export const SEARCH_PAGES: SearchPage[] = [
       { title: "Start with the information, not the hardware", paragraphs: ["POPIA applies to personal information. Your client documents may also carry confidentiality, contractual or professional duties. List the information in the task, its purpose, who may use it and what the output will do. You need to include the connected tools too.", "Then decide what the system needs. Remove information the task doesn't need. Set who can access the files and outputs. Decide what gets kept, for how long and who checks the work. You choose the purpose and the people who may use it."] },
       { title: "What private AI can change", paragraphs: ["A private setup can be designed so documents are processed on equipment inside your business rather than sent to an outside AI provider. That gives you a different place to set access, retention and operating controls. You can design those controls around your work.", "But location is only one part of the picture. A private system can still expose data through weak permissions, poor security, unnecessary collection, unsafe backups or a badly designed workflow. A system inside your office is not automatically a safe system. You still have to check the full setup."] },
       { title: "What the law still asks you to do", paragraphs: ["Section 19 requires reasonable technical and organisational measures to protect personal information. Sections 20 and 21 cover people or operators processing it on your behalf, including written security commitments for operators. You need to review those arrangements.", "If a workflow transfers personal information to a third party in another country, check section 72 and the actual arrangements. On-premise processing may reduce one transfer. It doesn't settle every transfer made by connected tools, support services, backups or people. You should map each route the information takes.", "Keep a human responsible for outputs. Review the result before it reaches a client or changes a record. Agree what the system may do, what it must not do and how someone stops it. Your team needs to know who takes that decision."] },
-      { title: "A sensible first test", paragraphs: ["Choose one recurring task. Use a sample without personal information. Map the source files, access, output, reviewer and failure route. Then test the same task with approved information only after the responsible people have signed off. You can start with a fictional example.", "Measure whether the process improved. Keep a record of the controls you chose. Recheck them when the data, provider or workflow changes. You should revisit the controls when the work changes too."] },
+      { title: "A sensible first test", paragraphs: ["Choose one recurring task. Use a sample without personal information. Map the source files, access, output, reviewer and failure route. Then test the same task with approved information only after the responsible people have signed off. You can start with a fictional example.", "Measure whether the process improved. Keep a record of the controls you chose. Recheck them when the data, provider or workflow changes. You should revisit the controls when the work changes too.", "If your staff already paste client files into ChatGPT, read that situation first. Then you come back here. You see what private AI can change for you. Have your lawyer review your own facts."], links: [{ index: 2, phrase: "paste client files into ChatGPT", href: "/guides/staff-chatgpt-client-files-popia" }] },
     ],
     guide: { after: 1, line: "The AI Implementation Guide helps you give a system useful business context. Start there, then decide which information the task is allowed to use." },
     close: { line: "Private is a design choice. Compliance is the work around it.", ask: "Map the information and the workflow before you deploy.", cta: { to: "/data-and-security", label: "Read our data and security page" } },
@@ -765,7 +857,148 @@ export const SEARCH_PAGES: SearchPage[] = [
       { label: "South African Government: Protection of Personal Information Act 4 of 2013", href: "https://www.gov.za/documents/protection-personal-information-act" },
       { label: "Information Regulator: Condition 7 security safeguards, sections 19–22", href: "https://inforegulator.org.za/knowledge-base/category/popia/chapter-3-conditions-for-lawful-processing/part-a-processing-of-personal-information-in-general/condition-7-security-safeguards/" },
     ],
-    related: ["/guides/can-staff-paste-client-files-into-chatgpt", "/private-ai", "/data-and-security", "/guides/ai-challenges-south-africa", "/call"],
+    related: ["/guides/staff-chatgpt-client-files-popia", "/guides/can-staff-paste-client-files-into-chatgpt", "/private-ai", "/data-and-security", "/guides/ai-challenges-south-africa", "/call"],
+  },
+  {
+    path: "/guides/ppe-quotes-without-the-owner", kind: "guide", published: "2026-10-25",
+    title: "Send PPE Quotes Faster Without the Owner | GrowthCred",
+    description: "You still price every PPE and uniform quote. A Quote Engine drafts from your list and your rules. You approve the price, the promise and the send.",
+    heading: "How do you send PPE quotes faster without doing every quote?",
+    intro: "You run a PPE or uniform supply business. Every bulk quote still waits for you to price it. You want those quotes out without doing every line yourself. A Quote Engine drafts the quote from your own price list and your own rules. You still approve the price, the promise and the send.",
+    introLink: { phrase: "Quote Engine", href: "/quote-engine" },
+    sections: [
+      { title: "Why the quote still waits for you", paragraphs: ["The price lives in your head. Sizes live in a spreadsheet. Branding and lead times live in email. So the quote cannot move until you sit down.", "A junior can type. They still stop and ask you. What do we charge? How long will it take? What did we promise last time?", "Hiring another person does not move the price out of your head. They still come to you."] },
+      { title: "What the Quote Engine does", paragraphs: ["It drafts the quote. It uses your price list. It uses the rules you wrote down. Size. Branding. Lead time. Minimum order. What you will not discount.", "A missing price stays a question. It does not become a guess. The draft shows where each line came from.", "Those rules can also live in a Company Brain. The next quote starts from the same facts. You are not briefing the job again every Monday."], links: [{ index: 2, phrase: "Company Brain", href: "/company-brain" }] },
+      { title: "What stays with you", paragraphs: ["You approve the price. You approve the lead time. You approve anything the customer will hold you to. Then a person sends it.", "The draft does not talk to the customer on its own. It does not invent a discount. It does not promise a date you did not approve.", "You are still the person who stands behind the quote."] },
+      { title: "Start with one product line", paragraphs: ["Don't try to quote the whole catalogue on day one. Pick one line you quote every week. Write the prices and the rules for that line only.", "Run a few real requests through the draft. You check them. You fix the rules where the draft was wrong. Then you add the next line.", "A proposal is the cousin of this job. The draft comes from facts you approved. A person still sends it."], links: [{ index: 2, phrase: "proposal", href: "/ai-proposal-automation" }] },
+      { title: "What I will not claim", paragraphs: ["I will not name a PPE or uniform supplier on this page. Nobody has given me permission to do that.", "I will not give you a before and after time. I do not have a measured quote result I can show you yet.", "When a supplier gives me both, the story goes here. Until then, this page tells you the job. It does not pretend we have already done it."] },
+    ],
+    guide: { after: 1, line: "If this sounds like your week, get the AI Implementation Guide. Start with one task. Yours can be the quote." },
+    close: { line: "The quote can leave your desk. The price does not leave your hands.", ask: "Want us to look at one product line? Ask for an audit.", cta: { to: "/call", label: "Ask for an audit" } },
+    faq: [
+      { q: "Can the Quote Engine send PPE quotes without me?", a: "No. It drafts from your price list and your rules. You approve the price, the lead time and the promise. Then a person sends it." },
+      { q: "Will it invent a price if the list is missing one?", a: "No. A missing price stays a question. It does not become a guess on the quote." },
+      { q: "What does a Quote Engine cost?", a: "There is no price on this page. We look at one product line in an audit, then we quote the work. Contact us if you would rather write first." },
+    ],
+    ctas: [{ to: "/call", label: "Ask for an audit" }, { to: "/contact", label: "Contact us" }],
+    related: ["/quote-engine", "/company-brain", "/ai-proposal-automation", "/guides/ai-proposals-and-follow-ups", "/guides/how-we-work-first-30-days", "/call"],
+  },
+  {
+    path: "/guides/staff-chatgpt-client-files-popia", kind: "guide", published: "2026-10-25",
+    title: "Staff, ChatGPT and Client Files under POPIA | GrowthCred",
+    description: "You suspect staff already paste client files into ChatGPT. POPIA gives no blanket yes. Read the checks, then have a lawyer review your own workflow.",
+    heading: "Can my staff use ChatGPT with client files under POPIA?",
+    intro: "You run a law firm or an accounting practice in South Africa. You suspect your staff already paste client files into ChatGPT. There is no blanket yes. There is no blanket no. You stay responsible. Have a lawyer review your own workflow before you allow it.",
+    sections: [
+      { title: "There is no blanket yes", paragraphs: ["POPIA does not ban every AI tool. It also does not clear one because you pay for it. The question is the workflow. What moves. Why. Who processes it. Where it goes.", "A client file can hold personal information. It can also hold secrets your contract protects. You have to check both.", "I'm not your lawyer. This page is not legal advice. Read the two checks below. A lawyer still has to review your facts."] },
+      { title: "Read the two checks we already published", paragraphs: ["Start with can staff paste client files into ChatGPT. It asks you to map the file, the account and the trip the prompt takes.", "Then read how private AI can help with POPIA. It says what a private setup can change. It also says what it cannot settle for you.", "Use both. Don't stop at the tool name. A paid plan is not the legal answer. A company login is not either."], links: [{ index: 0, phrase: "can staff paste client files into ChatGPT", href: "/guides/can-staff-paste-client-files-into-chatgpt" }, { index: 1, phrase: "how private AI can help with POPIA", href: "/guides/private-ai-popia" }] },
+      { title: "What private AI changes", paragraphs: ["Private AI means the work runs on equipment we choose, deploy and look after. The aim is that client files are not pasted into a public chat.", "Your team can ask a Company Brain that holds only the files you approved. You decide who can ask. The answer should point back to the source.", "That can reduce one kind of exposure. It is a design choice. It is not a compliance badge."], links: [{ index: 1, phrase: "Company Brain", href: "/company-brain" }] },
+      { title: "What private AI does not change", paragraphs: ["You still need a lawful purpose. You still keep the file to what the task needs. You still name who can see it.", "You still decide how long it stays. A person still checks the output before it reaches a client.", "A system in your office can still leak. Weak access. A bad backup. A person who exports the file. Location is not the whole job.", "If personal information may leave South Africa, take section 72 to your lawyer. I will not answer that for your firm from this page.", "Our data and security page says how we handle information here, and what we agree before a build. It is not a legal opinion."], links: [{ index: 4, phrase: "data and security", href: "/data-and-security" }] },
+      { title: "Run this check this week", paragraphs: ["Pick one task your staff already do in a chat window. Write down the fields that task needs. If a made-up file is enough, use that.", "Name the person who may approve the real workflow. Write the one line your staff can repeat on a busy day. If you cannot say it, they cannot follow it.", "Then stop. Take that note to your Information Officer and to a lawyer. Don't put a live client file in until they have reviewed it."] },
+    ],
+    guide: { after: 2, line: "If you want the task mapped before you pick a tool, get the AI Implementation Guide. Start with the work. Then decide what information it may use." },
+    close: { line: "A client file is not a test prompt.", ask: "Want help mapping one workflow? Ask for an audit. A lawyer still reviews the legal call.", cta: { to: "/call", label: "Ask for an audit" } },
+    faq: [
+      { q: "Can my staff use ChatGPT with client files under POPIA?", a: "There is no blanket yes, and no blanket no. You stay responsible for the workflow. Have a lawyer review your facts. Start with the checks in our ChatGPT and POPIA guides." },
+      { q: "Does private AI make us POPIA-compliant?", a: "No. It can change where some work is processed. You still need a lawful purpose, limits on the file, and a person who checks the output. A lawyer reviews your case." },
+      { q: "Will you give us a legal opinion?", a: "No. This page is not legal advice. We can help you map a workflow. Your lawyer, or your Information Officer, reviews the legal question." },
+    ],
+    ctas: [{ to: "/call", label: "Ask for an audit" }, { to: "/guides/private-ai-popia", label: "Read the POPIA guide" }],
+    sources: [
+      { label: "South African Government: Protection of Personal Information Act 4 of 2013", href: "https://www.gov.za/documents/protection-personal-information-act" },
+      { label: "Information Regulator: Condition 7 security safeguards, sections 19–22", href: "https://inforegulator.org.za/knowledge-base/category/popia/chapter-3-conditions-for-lawful-processing/part-a-processing-of-personal-information-in-general/condition-7-security-safeguards/" },
+      { label: "POPIA, section 72", href: "https://popia.co.za/section-72-transfers-of-personal-information-outside-republic/" },
+    ],
+    related: ["/guides/private-ai-popia", "/guides/can-staff-paste-client-files-into-chatgpt", "/private-ai", "/company-brain", "/data-and-security", "/ai-for-law-firms", "/call"],
+  },
+  {
+    path: "/guides/stop-training-every-new-hire", kind: "guide", published: "2026-10-25",
+    title: "Stop Training Every New Hire Yourself | GrowthCred",
+    description: "You still train every new person yourself. A New Hire Trainer teaches one role from your own notes. You still check the work. No time promise.",
+    heading: "I still train every new hire myself. How do I stop?",
+    intro: "You're growing. You hire every few months. Every new person still learns the job from you. A New Hire Trainer can teach one role from your own notes, your scripts and your calls. It stays inside the business. You still check the work.",
+    introLink: { phrase: "New Hire Trainer", href: "/new-hire-trainer" },
+    sections: [
+      { title: "You are still the training", paragraphs: ["The new person can read a handbook. They still wait for you. How do we do this client? What do we never promise? Where is the form?", "You hired them to get time back. Then you spend the month sitting beside them. The business pays for two people and gets one.", "A course from the internet does not know your customers, your forms or your exceptions. So you teach it again."] },
+      { title: "Why another hire does not fix it", paragraphs: ["Another person still needs the way you do the job. If that way lives only in your head, they will pull it out of you. One question at a time.", "Doing it yourself is what you already do. That is the trap. Ignoring it means the next hire starts from zero too.", "Write the job down once. Then a new person can ask the notes before they ask you."] },
+      { title: "What the New Hire Trainer does", paragraphs: ["It teaches one role. It uses your scripts, your notes and your calls. It is not customer-facing. A client never talks to it.", "The new person asks the question they would have asked you. The answer should point at the note you approved. If the note is silent, the answer stays a question.", "The same facts can sit in a Company Brain for the rest of the team. The trainer is the path for someone who is new. The brain is the path for someone who already works here."], links: [{ index: 2, phrase: "Company Brain", href: "/company-brain" }] },
+      { title: "What stays with you", paragraphs: ["You still decide what good looks like. You still sign off before they face a customer, a site or a regulator.", "You still take the judgement calls. The awkward client. The exception that is not in the notes.", "If the notes are wrong, the trainer will teach the wrong job. You own the notes."] },
+      { title: "Start with one role", paragraphs: ["Pick the role you hire most often. Write the first week. The questions they always ask. The tasks they must not do alone yet.", "Measure it yourself. How many days until they work without you in the chair? Write your number down before you start. Write it again after.", "I will not give you that number. I do not have a measured time I can publish. And I will not name a client here. I don't have permission."] },
+    ],
+    guide: { after: 2, line: "If this sounds like your hiring month, get the AI Implementation Guide. Start with one role. Write that job down first." },
+    close: { line: "You can stop being the only copy of the job.", ask: "Want us to start with one role? Ask for an audit.", cta: { to: "/call", label: "Ask for an audit" } },
+    faq: [
+      { q: "Will a New Hire Trainer replace me with new staff?", a: "No. It teaches one role from notes you approved. You still sign off before they face a customer. You still take the exceptions." },
+      { q: "Can it talk to customers?", a: "No. It stays inside the business. A client never talks to it. People still send anything a customer will see." },
+      { q: "How fast will a new hire work alone?", a: "I won't give you a number. I don't have a measured result I can publish. Write your own days-to-work-alone before you start, then measure it again." },
+    ],
+    ctas: [{ to: "/call", label: "Ask for an audit" }, { to: "/new-hire-trainer", label: "See the New Hire Trainer" }],
+    related: ["/new-hire-trainer", "/company-brain", "/corporate-ai-training", "/guides/admin-assistant-vs-ai-automation", "/guides/how-we-work-first-30-days", "/call"],
+  },
+  {
+    path: "/quote-engine", kind: "service", published: "2026-10-25",
+    title: "Quote Engine for PPE and Uniform Quotes | GrowthCred",
+    description: "A Quote Engine drafts PPE and uniform quotes from your price list and your rules. You approve every price and every send. Ask for an audit.",
+    heading: "Quotes go out. You still own the price.",
+    intro: "You want PPE and uniform quotes to leave the building without you pricing every line. That is the Quote Engine. It drafts from your price list and your rules. You approve the price and the send. We quote the build after an audit. There is no price on this page.",
+    sections: [
+      { title: "Your day changes", paragraphs: ["A request comes in. A draft is waiting, built from your prices. You check it. You send it. You go back to the customer.", "You are no longer the queue. The quote does not sit because you were on a site, or on a call, or out.", "If you supply PPE or uniforms, start there. The same pattern fits any firm where you still price the work yourself."] },
+      { title: "What it drafts", paragraphs: ["It drafts from the list and the rules you gave it. Size. Branding. Lead time. What you will not discount.", "A missing price stays a question. The draft shows where each line came from. You can see the source before you trust the total.", "The rules can live in a Company Brain, so the next quote does not start from a blank page."], links: [{ index: 2, phrase: "Company Brain", href: "/company-brain" }] },
+      { title: "What stays human", paragraphs: ["You approve the price. You approve the date. You approve the promise. Then a person sends it.", "It does not email the customer on its own. It does not haggle. It does not invent a line to make the quote look finished.", "You still stand behind what goes out."] },
+      { title: "Start with one line", paragraphs: ["Pick the product line you quote every week. We look at how you price it now, and where the quote waits for you.", "The long version of that job is on the PPE quotes page. Read it if you want the situation first, and the offer second.", "A proposal follows the same rule. Approved facts in. A person sends it."], links: [{ index: 1, phrase: "PPE quotes page", href: "/guides/ppe-quotes-without-the-owner" }, { index: 2, phrase: "proposal", href: "/ai-proposal-automation" }] },
+      { title: "What it costs", paragraphs: ["There's no price on this page. I won't invent one.", "Ask for an audit. We look at one product line. We tell you if it fits. Then we quote the work. You can also contact us and write it down first.", "I won't name a supplier, and I won't show you a faster-quote number. I don't have a measured result, or permission, to publish."] },
+    ],
+    close: { line: "The outcome is a quote that does not wait for you to type it.", ask: "Want us to look at one product line? Ask for an audit.", cta: { to: "/call", label: "Ask for an audit" } },
+    faq: [
+      { q: "Is the Quote Engine a public chatbot?", a: "No. It drafts from your price list and your rules, on private AI we set up for you. You approve the price and the send. A customer does not chat with it." },
+      { q: "What does it cost?", a: "We don't publish a price. Ask for an audit of one product line, or contact us, and we quote the work before you commit." },
+      { q: "Do you have a PPE client result I can see?", a: "Not on this page. I won't name a supplier, and I won't invent a before and after. When someone gives permission and a measured result, it can go on the site." },
+    ],
+    ctas: [{ to: "/call", label: "Ask for an audit" }, { to: "/contact", label: "Contact us" }],
+    related: ["/guides/ppe-quotes-without-the-owner", "/company-brain", "/ai-proposal-automation", "/private-ai", "/guides/how-we-work-first-30-days", "/call"],
+  },
+  {
+    path: "/company-brain", kind: "service", published: "2026-10-25",
+    title: "Company Brain: Answers From Your Files | GrowthCred",
+    description: "A Company Brain answers your team from your own files, on equipment you control. It shows the source. You decide who can ask. Ask for an audit.",
+    heading: "Your team gets the answer when you are out.",
+    intro: "You hold the know-how. When you are on leave, or on a site, the questions stop. A Company Brain answers from your own files. It runs on equipment we choose, deploy and look after. It shows the source. You decide who can ask. Ask us for a quote. There is no price on this page.",
+    sections: [
+      { title: "The question does not wait for you", paragraphs: ["Your team asks the question they would have saved for you. The answer comes from a file you approved. They can see which file.", "If the file does not say it, the answer stays a question. It does not get filled in to sound helpful.", "You get your attention back for the calls that actually need you."] },
+      { title: "What your team can ask", paragraphs: ["How you price. What you promised. Which form to use. What the last job taught you. The things that today live in two senior heads.", "You choose the files. You choose the roles. A person in one role does not see another role's files just because they can log in.", "Quotes can use the same facts.", "A new hire can use them too. One brain. Two jobs. You still approve what each one may do."], links: [{ index: 2, phrase: "Quotes", href: "/quote-engine" }, { index: 3, phrase: "new hire", href: "/new-hire-trainer" }] },
+      { title: "What stays human", paragraphs: ["You still make the promise to a customer. You still decide the exception. You still say who may see a client file.", "The brain does not send mail, place an order or sign anything. A person does that.", "If a file is old, the answer will be old. You own the files. We don't pretend otherwise."] },
+      { title: "This is not the free document builder", paragraphs: ["The business context guide helps you write the facts down.", "The Business Brain builder turns your answers into a document you can copy. Both are free. Both are a start.", "A Company Brain is the private system your team asks. It is not a download. It is not a public chat. We scope it in an audit, then we quote it.", "Private AI is the setup underneath. Your own AI. On equipment we look after. The only one we run today is our own. I won't say a client already has this."], links: [{ index: 0, phrase: "business context guide", href: "/guides/business-brain" }, { index: 1, phrase: "Business Brain builder", href: "/brain" }, { index: 3, phrase: "Private AI", href: "/private-ai" }] },
+      { title: "What it costs", paragraphs: ["There's no price on this page. The audit tells us how many files, how many roles, and whether the files are ready.", "Ask for an audit, or contact us with the team you want to start with. We quote before you commit.", "I won't give you a count of questions saved. I don't have that measurement."] },
+    ],
+    close: { line: "The outcome is an answer your team can check, without waiting for you.", ask: "Want us to start with one team? Ask for an audit.", cta: { to: "/call", label: "Ask for an audit" } },
+    faq: [
+      { q: "Is a Company Brain the free Business Brain builder?", a: "No. The builder gives you a document you can copy. A Company Brain is a private system your team asks, on equipment we set up. We quote that after an audit." },
+      { q: "Will it answer if the file does not say?", a: "No. If the source is silent, the answer stays a question. It should show you the file it used." },
+      { q: "What does it cost?", a: "We don't publish a price. Ask for an audit, or contact us, and we quote the work before you commit." },
+    ],
+    ctas: [{ to: "/call", label: "Ask for an audit" }, { to: "/contact", label: "Contact us" }],
+    related: ["/guides/business-brain", "/private-ai", "/quote-engine", "/new-hire-trainer", "/guides/private-ai-popia", "/call"],
+  },
+  {
+    path: "/new-hire-trainer", kind: "service", published: "2026-10-25",
+    title: "New Hire Trainer So You Stop Training | GrowthCred",
+    description: "A New Hire Trainer teaches one role from your scripts and calls. It stays inside the business. You still sign off. Ask us for a quote.",
+    heading: "New hires learn the job without you in the chair.",
+    intro: "You want to stop training every new person yourself. The New Hire Trainer teaches one role from your scripts, your notes and your calls. It stays inside the business. Nothing a customer sees. You still sign off. We price it after an audit. There is no price on this page.",
+    sections: [
+      { title: "You get the month back", paragraphs: ["A new person has the questions on day one. They ask the trainer before they ask you. You review the work. You don't re-teach the whole job.", "You still hire. You still lead. You stop being the only person who can explain the role.", "If you still train every new hire yourself, the guide walks the situation. This page is the offer."], links: [{ index: 2, phrase: "train every new hire", href: "/guides/stop-training-every-new-hire" }] },
+      { title: "What they can use", paragraphs: ["Your scripts. Your notes. Your calls. The way you actually do the job, not a generic course.", "One role first. The role you hire most often. We don't load the whole company on day one.", "The wider know-how can live in a Company Brain. The trainer is for the person who just arrived."], links: [{ index: 2, phrase: "Company Brain", href: "/company-brain" }] },
+      { title: "What stays human", paragraphs: ["You decide what good looks like. You sign off before they face a customer, a site or a regulator.", "The trainer does not speak to customers. It does not send their work out. A person does.", "Wrong notes teach the wrong job. You own the notes. We say so before we build."] },
+      { title: "What it costs", paragraphs: ["There's no price on this page. I won't invent a days-to-productive number either. I don't have one I can stand behind.", "Ask for an audit of one role. Or contact us and name the role. We tell you if it fits, then we quote.", "Team training is a different offer. Use it when the whole team needs a shared way to work. Use the trainer when each new hire still learns from you."], links: [{ index: 2, phrase: "Team training", href: "/corporate-ai-training" }] },
+    ],
+    close: { line: "The outcome is a new hire who can learn the role while you run the business.", ask: "Want us to start with one role? Ask for an audit.", cta: { to: "/call", label: "Ask for an audit" } },
+    faq: [
+      { q: "Does the New Hire Trainer talk to customers?", a: "No. It stays inside the business. It teaches from your notes. You still sign off before a new hire faces a customer." },
+      { q: "Will you promise a faster time to productivity?", a: "No. I don't have a measured number I can publish. You write down how long it takes today, and you measure it again after." },
+      { q: "What does it cost?", a: "We don't publish a price. Ask for an audit of one role, or contact us, and we quote the work before you commit." },
+    ],
+    ctas: [{ to: "/call", label: "Ask for an audit" }, { to: "/contact", label: "Contact us" }],
+    related: ["/guides/stop-training-every-new-hire", "/company-brain", "/corporate-ai-training", "/private-ai", "/guides/how-we-work-first-30-days", "/call"],
   },
   {
     path: "/data-and-security", kind: "about", published: SEO_PUBLISHED,
@@ -779,7 +1012,7 @@ export const SEARCH_PAGES: SearchPage[] = [
       { title: "In the AI systems we build", paragraphs: ["Keep confidential customer data out of your first message. During scoping we agree which information each system may use and who can access it. We agree how long it's kept, where a person reviews it and who can approve anything that leaves your business.", "People stay responsible for prices, commitments, compliance documents and anything your customers see."] },
       { title: "If something goes wrong", paragraphs: ["No system is perfectly secure. If personal information is ever accessed by someone who shouldn't have it, POPIA requires us to tell the Information Regulator and you. We'll do both as soon as we reasonably can."] },
     ],
-    related: ["/guides/can-staff-paste-client-files-into-chatgpt", "/guides/private-ai-popia", "/guides/ai-challenges-south-africa", "/privacy", "/contact", "/guides/how-we-work-first-30-days", "/call"],
+    related: ["/guides/staff-chatgpt-client-files-popia", "/guides/can-staff-paste-client-files-into-chatgpt", "/guides/private-ai-popia", "/guides/ai-challenges-south-africa", "/privacy", "/contact", "/guides/how-we-work-first-30-days", "/call"],
   },
   {
     path: "/tools/admin-time-calculator", kind: "tool",
@@ -791,6 +1024,23 @@ export const SEARCH_PAGES: SearchPage[] = [
       { title: "A worked example", paragraphs: ["Say you spend 12 hours a week on it, and your hour is worth R450 to you. That's 12 × 48 × R450 = R259,200 a year. It's 576 hours. Or 72 eight-hour working days. Those inputs are illustrative. Put your own in.", "The calculator also shows what ten hours back each week would be worth. At R450 an hour over 48 weeks, that's R216,000 in time. You'd still need to test which tasks can improve. And count the time you spend checking the output."] },
       { title: "Turn an estimate into a useful baseline", paragraphs: ["Track a few examples of one repetitive task. Record the prep, the doing, the fixing and the review. Compare like with like after you change the workflow. And redo the estimate when the volume changes.", "A saved hour only becomes cash if it cuts a real cost. It only becomes revenue if you fill it with paid work. So use the estimate to choose a task to investigate. Not as a promise of return."] },
     ], related: ["/workshop", "/guides/ai-automation-cost-south-africa", "/guides/ai-proposals-and-follow-ups"],
+  },
+  {
+    path: "/guides/free-marketing-tools-before-you-buy", kind: "guide", published: "2026-10-29",
+    title: "Free Marketing Tools to Check Before You Buy | GrowthCred",
+    description: "Before you pay for another marketing or analytics tool, check the free ones from Google, Meta, Microsoft and others. The list we open first for SA owners.",
+    heading: "Check the free tools before you buy another one.",
+    intro: "Is your business paying for software that a free tool already covers? Many owners are. Before we recommend you pay for anything, we open the free tools first. Here they are, grouped by the question each one answers. Check each tool's current terms and limits yourself. They change.",
+    sections: [
+      { title: "What are your competitors running?", paragraphs: ["See the ads a competitor is running. See what their site used to say. See what their customers say. Open Meta Ad Library, Google Ads Transparency Center, TikTok Creative Center and LinkedIn Ad Library. Then open Wayback Machine and Trustpilot."] },
+      { title: "What are customers searching for?", paragraphs: ["See what people type before they find you. See what they talk about. Then answer those exact questions on your own site. Open Google Trends, Google Keyword Planner, Pinterest Trends, Reddit Pro and Google Alerts."] },
+      { title: "How do people find your site, and where do they get stuck?", paragraphs: ["See which searches bring people in. See how fast your pages load. See where visitors leave. Open Google Search Console and Bing Webmaster Tools. Open Google Analytics and Microsoft Clarity. Open PageSpeed Insights, Rich Results Test and Yoast SEO for WordPress."] },
+      { title: "Can local customers find you?", paragraphs: ["Make sure your business shows up when someone nearby searches for what you sell. Open Google Business Profile, Bing Places and Apple Business Connect. Open Yelp, Nextdoor and Google Merchant Center."] },
+      { title: "Where do your numbers live?", paragraphs: ["Keep the numbers you already have access to. Social, video, tracking, reporting and email. Open Meta Business Suite, YouTube Studio and TikTok Studio. Open Google Tag Manager, Looker Studio and Google Postmaster Tools."] },
+      { title: "When a free tool is not enough", paragraphs: ["Free tools show you the numbers. They don't do the work. Someone still has to read them, answer the enquiry and send the quote. If that someone is always you, the problem isn't a missing tool. It's that everything runs through you.", "That's the part we fix. We build private AI that your business owns, so quotes, follow-ups and the questions your team asks stop landing only on your desk."], links: [{ index: 1, phrase: "quotes, follow-ups", href: "/ai-proposal-automation" }] },
+    ],
+    ctas: [{ to: "/call", label: "Apply to work with us" }, { to: "/tools/admin-time-calculator", label: "Work out what admin costs you" }],
+    related: ["/guides/choose-ai-tools-small-business", "/guides/ai-automation-cost-south-africa", "/tools/admin-time-calculator", "/resources"],
   },
 ];
 export const searchPage = (path: string) => SEARCH_PAGES.find(page => page.path === path);

@@ -32,7 +32,7 @@ import { BrandIcon } from "../BrandIcons";
 const fieldCls =
   "w-full rounded-xl border border-midnight/15 bg-white px-4 py-3 text-base outline-none focus:border-gold";
 const labelCls =
-  "mb-1.5 block font-mono text-[11px] uppercase tracking-[0.14em] text-muted";
+  "mb-1.5 block font-mono text-[12px] uppercase tracking-[0.14em] text-muted md:text-[11px]";
 
 const emailOk = (v: string) => /.+@.+\..+/.test(v.trim());
 const phoneOk = (v: string) => v.replace(/\D/g, "").length >= 9;
@@ -72,7 +72,7 @@ export function SeatForm({ id, className }: { id?: string; className?: string })
           className,
         )}
       >
-        <h3 className="text-xl text-midnight md:text-2xl">This one has already run.</h3>
+        <h2 className="text-xl text-midnight md:text-2xl">This one has already run.</h2>
         <p className="mt-4 text-ink">
           The {WEBINAR.dayLabel} session is done. I run these regularly. Tell me what is eating
           your week and I will put you on the list for the next one.
@@ -133,13 +133,13 @@ export function SeatForm({ id, className }: { id?: string; className?: string })
 
   return (
     <div id={id} className={cn(shell, "scroll-mt-28")}>
-      <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
+      <p className="font-mono text-[12px] uppercase tracking-[0.14em] text-muted md:text-[11px]">
         Step {step} of 2 &middot; {step === 1 ? "Your details" : "Choose your seat"}
       </p>
 
       {step === 1 ? (
         <form onSubmit={toStepTwo} className="mt-4" noValidate>
-          <h3 className="text-xl text-midnight md:text-2xl">Save your free seat.</h3>
+          <h2 className="text-xl text-midnight md:text-2xl">Save your free seat.</h2>
           <p className="mt-2 font-mono text-[12px] leading-relaxed text-muted">
             <span className="text-midnight">{WEBINAR.dayLabel}</span>
             <br />
@@ -243,7 +243,7 @@ export function SeatForm({ id, className }: { id?: string; className?: string })
         </form>
       ) : (
         <form onSubmit={confirm} className="mt-4">
-          <h3 className="text-xl text-midnight md:text-2xl">Which seat, {form.name.trim().split(" ")[0]}?</h3>
+          <h2 className="text-xl text-midnight md:text-2xl">Which seat, {form.name.trim().split(" ")[0]}?</h2>
 
           <fieldset className="mt-5">
             <legend className="sr-only">Choose your seat</legend>
@@ -319,7 +319,7 @@ export function SeatForm({ id, className }: { id?: string; className?: string })
           <button
             type="button"
             onClick={() => setStep(1)}
-            className="mt-3 block w-full text-center font-mono text-[11px] uppercase tracking-[0.14em] text-muted underline-offset-4 hover:underline"
+            className="mt-3 block w-full text-center font-mono text-[12px] uppercase tracking-[0.14em] text-muted underline-offset-4 hover:underline md:text-[11px]"
           >
             Back to my details
           </button>
@@ -343,7 +343,7 @@ export function SeatForm({ id, className }: { id?: string; className?: string })
         </form>
       )}
 
-      <p className="mt-5 flex items-start gap-2 border-t border-midnight/10 pt-4 font-mono text-[11px] leading-relaxed text-muted">
+      <p className="mt-5 flex items-start gap-2 border-t border-midnight/10 pt-4 font-mono text-[12px] leading-relaxed text-muted md:text-[11px]">
         <span aria-hidden="true">&#128274;</span>
         <span>Your details are safe with us. We follow POPIA.</span>
       </p>

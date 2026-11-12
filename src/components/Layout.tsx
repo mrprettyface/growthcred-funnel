@@ -49,9 +49,18 @@ const NAV = [
       {
         heading: "For teams and owners",
         links: [
+          { to: "/ai-consulting-south-africa", label: "AI consulting", blurb: "Working systems for your firm. Not a slide deck." },
           { to: "/corporate-ai-training", label: "Corporate AI training", blurb: "Every team producing its reports and documents faster." },
           { to: "/ai-automation-south-africa", label: "AI automation", blurb: "Your repetitive work, built into AI workflows." },
           { to: "/ai-training-south-africa", label: "AI training for owners", blurb: "AI on the work your business already does." },
+        ],
+      },
+      {
+        heading: "For one job",
+        links: [
+          { to: "/quote-engine", label: "Quote Engine", blurb: "Quotes drafted from your prices. You still approve." },
+          { to: "/company-brain", label: "Company Brain", blurb: "Your team asks your files when you are out." },
+          { to: "/new-hire-trainer", label: "New Hire Trainer", blurb: "One role, from your notes. You still sign off." },
         ],
       },
       {
@@ -79,7 +88,10 @@ const NAV = [
       },
       {
         links: [
+          { to: "/guides/free-marketing-tools-before-you-buy", label: "Free tools before you buy", blurb: "Check these before you pay for another tool." },
           { to: "/tools/admin-time-calculator", label: "Admin time calculator", blurb: "Put a rand figure on the hours admin takes." },
+          { to: "/quoting-uniforms-for-a-security-company", label: "Security uniform quotes", blurb: "Each site's kit, priced from the last list you approved." },
+          { to: "/senior-dispatcher-on-leave", label: "Senior person on leave", blurb: "The desk still moves when that one person is out." },
           { to: "/about", label: "About GrowthCred", blurb: "Who we are, and why we build this way." },
         ],
       },
@@ -311,12 +323,16 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
     title: "Services",
     links: [
       ["/", "The Command Core"],
+      ["/ai-consulting-south-africa", "AI consulting"],
       ["/ai-automation-south-africa", "AI automation"],
       ["/ai-proposal-automation", "Proposal automation"],
       ["/ai-follow-up-automation", "Follow-up automation"],
       ["/ai-admin-automation", "Admin automation"],
       ["/ai-training-south-africa", "AI training"],
       ["/private-ai", "Private AI"],
+      ["/quote-engine", "Quote Engine"],
+      ["/company-brain", "Company Brain"],
+      ["/new-hire-trainer", "New Hire Trainer"],
       ["/corporate-ai-training", "Corporate AI training"],
       ["/workshop", "The one-day workshop"],
       ["/webinar", "Free online class"],
@@ -349,6 +365,10 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
       ["/stories", "Client stories"],
       ["/guides/how-we-work-first-30-days", "How we work"],
       ["/resources", "AI guides"],
+      ["/quoting-uniforms-for-a-security-company", "Security uniform quotes"],
+      ["/senior-dispatcher-on-leave", "Senior person on leave"],
+      ["/playbook", "Free resources"],
+      ["/guides/free-marketing-tools-before-you-buy", "Free marketing tools"],
       ["/tools/admin-time-calculator", "Admin time calculator"],
       ["/brain", "Business Brain builder"],
       ["/data-and-security", "Data & security"],

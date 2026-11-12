@@ -38,6 +38,17 @@ export const PAGE_SCENES: Record<string, ReactElement> = {
     </>
   ),
 
+  /* AI consulting — the work is running, and the deck stays shut. */
+  "/ai-consulting-south-africa": (
+    <>
+      <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l22 -4" />
+      <rect x="96" y="36" width="70" height="52" rx="5" />
+      <path d="M86 96h90" />
+      <path d="M118 56l8 8 16-18" stroke={GOLD} strokeWidth={3} />
+      <path d="M106 78h46" />
+    </>
+  ),
+
   /* AI automation — the work moves along a belt without anyone carrying it. */
   "/ai-automation-south-africa": (
     <>
@@ -129,7 +140,6 @@ export const PAGE_SCENES: Record<string, ReactElement> = {
     </>
   ),
 
-  /* The time calculator — a figure with a calculator and the answer lit. */
   "/tools/admin-time-calculator": (
     <>
       <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l22 6" />
@@ -394,6 +404,90 @@ export const PAGE_SCENES: Record<string, ReactElement> = {
         <circle cx="150" cy="84" r="11" />
         <path d="M161 84h6M157.8 91.8l4.2 4.2M150 95v6M142.2 91.8l-4.2 4.2M139 84h-6M142.2 76.2l-4.2-4.2M150 73v-6M157.8 76.2l4.2-4.2" />
       </g>
+    </>
+  ),
+
+  /* Security uniform quotes — the kit list, one line already priced. */
+  "/quoting-uniforms-for-a-security-company": (
+    <>
+      <Figure x={40} y={64} arms="M0 10 l-13 12 M0 10 l22 -4" />
+      <rect x="100" y="36" width="64" height="22" rx="3" />
+      <rect x="108" y="58" width="64" height="22" rx="3" />
+      <rect x="116" y="80" width="64" height="22" rx="3" fill={GOLD} stroke="none" />
+      <path d="M124 91h28" stroke={INK} />
+    </>
+  ),
+
+  /* Senior person on leave — the desk, and the question that still has a source. */
+  "/senior-dispatcher-on-leave": (
+    <>
+      <Figure x={42} y={62} arms="M0 10 l-13 12 M0 10 l20 -6" />
+      <rect x="96" y="48" width="78" height="48" rx="6" />
+      <path d="M108 64h36M108 76h24" />
+      <circle cx="156" cy="70" r="8" fill={GOLD} stroke="none" />
+    </>
+  ),
+
+  /* PPE quotes — a quote sheet, one line already priced, waiting for your tick. */
+  "/guides/ppe-quotes-without-the-owner": (
+    <>
+      <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l22 -6" />
+      <rect x="96" y="36" width="68" height="84" rx="4" />
+      <path d="M108 52h44M108 66h44M108 80h28" />
+      <path d="M108 96h14l4 6 8-14" stroke={GOLD} />
+    </>
+  ),
+
+  /* Quote Engine — the same quote sheet, the draft already on the page. */
+  "/quote-engine": (
+    <>
+      <Figure x={38} y={62} arms="M0 10 l-12 12 M0 10 l16 -4" />
+      <rect x="92" y="40" width="72" height="78" rx="4" />
+      <path d="M104 56h48M104 70h48M104 84h32" />
+      <rect x="104" y="96" width="28" height="10" rx="2" fill={GOLD} stroke="none" />
+    </>
+  ),
+
+  /* Staff and ChatGPT — a file, and a chat window it should not enter yet. */
+  "/guides/staff-chatgpt-client-files-popia": (
+    <>
+      <Figure x={36} y={62} arms="M0 10 l-12 12 M0 10 l20 -2" />
+      <rect x="88" y="46" width="36" height="48" rx="3" />
+      <path d="M96 58h20M96 68h20M96 78h12" />
+      <rect x="136" y="58" width="40" height="28" rx="6" stroke={GOLD} />
+      <path d="M146 72h20" />
+    </>
+  ),
+
+  /* Company Brain — a person asking, the answer pointing back at the file. */
+  "/company-brain": (
+    <>
+      <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l18 -10" />
+      <circle cx="118" cy="58" r="22" />
+      <path d="M108 58h20M118 48v20" />
+      <rect x="148" y="70" width="28" height="36" rx="3" stroke={GOLD} />
+      <path d="M154 82h16M154 92h10" />
+    </>
+  ),
+
+  /* New-hire training — you, and a new person with the notes in front of them. */
+  "/guides/stop-training-every-new-hire": (
+    <>
+      <Figure x={36} y={62} arms="M0 10 l-12 12 M0 10 l16 -6" />
+      <Figure x={92} y={70} arms="M0 10 l-10 10 M0 10 l12 -4" />
+      <rect x="132" y="48" width="40" height="52" rx="3" />
+      <path d="M140 62h24M140 74h24" />
+      <path d="M140 86h16" stroke={GOLD} />
+    </>
+  ),
+
+  /* New Hire Trainer — the new person, the notes, you no longer in the chair. */
+  "/new-hire-trainer": (
+    <>
+      <Figure x={48} y={62} arms="M0 10 l-13 12 M0 10 l14 -8" />
+      <rect x="100" y="42" width="64" height="72" rx="4" />
+      <path d="M112 58h40M112 72h40M112 86h24" />
+      <circle cx="124" cy="100" r="4" fill={GOLD} stroke="none" />
     </>
   ),
 
