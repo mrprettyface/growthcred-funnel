@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { BrandIcon } from "../components/BrandIcons";
 import { SEARCH_PAGES, REVIEWED, type SearchPage as Page } from "../content/searchPages";
 
-const kindLabel=(page?:Page)=>page?.kind==="tool"?"Calculator":page?.kind==="story"?"Client story":"Guide";
+const kindLabel=(page?:Page)=>page?.kind==="tool"?"Calculator":page?.kind==="story"?"Client story":page?.kind==="service"?"Service":"Guide";
 import { Button, ButtonLink, Section, Eyebrow, Faq } from "../components/ui";
 import { AuthorBox, Byline } from "../components/AuthorBox";
 import { CostCalculator } from "../components/CostCalculator";
@@ -15,11 +15,12 @@ export function SearchPage({page}:{page:Page}) {
   if (page.kind === "situation") return <SituationPage page={page} />;
   return <>
     <Section dark className="pt-10 md:pt-16">
-      <nav aria-label="Breadcrumb" className="mb-8 font-mono text-[12px] uppercase tracking-[0.14em] text-cream/55 [&_a]:text-cream/75 [&_a]:no-underline [&_a:hover]:text-gold"><Link to="/">Home</Link> / {page.kind==='guide'&&<><Link to="/resources">Resources</Link> / </>}{page.kind==='story'&&<><Link to="/stories">Stories</Link> / </>}<span aria-current="page">{page.kind==='guide'?'Guide':page.kind==='story'?'Client story':page.kind==='tool'?'Calculator':page.kind==='about'?'About':page.path==='/stories'?'Stories':page.kind==='hub'?'Resources':'Services'}</span></nav>
+      <nav aria-label="Breadcrumb" className="mb-8 font-mono text-[12px] uppercase tracking-[0.14em] text-cream/55 [&_a]:text-cream/75 [&_a]:no-underline [&_a:hover]:text-gold"><Link to="/">Home</Link>{page.kind==='guide'&&<> / <Link to="/resources">Resources</Link></>}{page.kind==='story'&&<> / <Link to="/stories">Stories</Link></>} / <span aria-current="page" className="inline-block max-w-[22rem] truncate align-bottom">{page.heading}</span></nav>
       <div className="grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_320px]">
       <div className="max-w-[860px]">
         <Eyebrow dark>{page.kind==='guide'?'The GrowthCred field guide':page.kind==='story'?'Client story':page.path==='/stories'?'Client stories':page.kind==='tool'?'Work out the time':'GrowthCred · South Africa'}</Eyebrow>
         <h1 className="mt-5 text-4xl leading-tight text-cream md:text-6xl">{page.heading}</h1>
+        {page.answer&&<p data-direct-answer className="mt-6 max-w-[68ch] border-l-2 border-gold pl-4 text-base leading-relaxed text-cream">{page.answer}</p>}
         <p className="mt-7 max-w-[68ch] text-lg leading-relaxed text-cream/75">{page.introLink ? linkPhrase(page.intro, page.introLink.phrase, page.introLink.href, "dark") : page.intro}</p>
         {page.kind!=='hub'&&page.kind!=='about'&&<Byline dark className="mt-6" date={page.published??REVIEWED} label={page.published?'Published':'Reviewed'}/>}
         {page.heroCtas&&page.ctas&&<div className="mt-8 flex flex-wrap gap-4">{page.ctas.map((cta,i)=><ButtonLink key={cta.to} to={cta.to} variant={i===0?undefined:"outline"}>{cta.label}</ButtonLink>)}</div>}

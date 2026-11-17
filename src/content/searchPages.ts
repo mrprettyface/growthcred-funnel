@@ -27,6 +27,10 @@ export type SearchPage = {
   images?: StoryImage[];
   /** ISO date first published, where it differs from REVIEWED. */
   published?: string;
+  /** ISO date of the last material edit. Sitemap lastmod and article:modified_time. */
+  updated?: string;
+  /** A 40–60 word answer under the heading. Same words a person and a crawler should quote. */
+  answer?: string;
   /** A visible FAQ. Also emitted as FAQPage structured data, so it must match.
    *  `qLink` / `aLink` wrap an existing phrase; the strings themselves stay the schema text. */
   faq?: { q: string; a: string; qLink?: PhraseAnchor; aLink?: PhraseAnchor }[];
@@ -49,13 +53,16 @@ export const REVIEWED = "2026-09-20";
 export const STORIES_PUBLISHED = "2026-09-24";
 /** The service, industry, market and bottom-of-funnel pages added for search. */
 export const SEO_PUBLISHED = "2026-09-24";
+/** Material SEO and answer-engine edits. Does not change the published byline. */
+export const SEO_UPDATED = "2026-11-17";
 export const SEARCH_PAGES: SearchPage[] = [
   ...SITUATION_PAGES,
   {
-    path: "/ai-training-south-africa", kind: "service",
-    title: "Practical AI Training for Business Owners | GrowthCred",
-    description: "Explore practical AI training for South African business owners. Build business context, practise real tasks and choose between training and implementation.",
+    path: "/ai-training-south-africa", kind: "service", updated: SEO_UPDATED,
+    title: "AI Training for Business Owners in South Africa | GrowthCred",
+    description: "Hands-on AI training for South African business owners. One-day online workshop, R990. You practise on your own work. Team training is quoted separately.",
     heading: "Practical AI training for South African business owners.",
+    answer: "AI training for South African business owners is my one-day online workshop. You bring real work. You leave with a workflow you can run. The founding rate is R990. It is not an accredited course. A team session is corporate AI training, quoted per person. Done-for-you builds are quoted separately.",
     intro: "You don't need another AI course. You need AI doing the work your business already does. Proposals. Research. Follow-ups. The admin that lands on your desk every week. That's what I train owners to build, from Rosebank, Johannesburg.",
     sections: [
       { title: "Choose the kind of help you need", paragraphs: ["There are three ways to work with me. Pick the one that fits your week.", "The one-day workshop is guided building. You bring your laptop and real work. You build alongside us. You leave with it running.", "Done for you is separate. You tell us what's stuck, and we map and build the workflows with your team. We agree scope, delivery and who looks after what before you get a quote.", "Got a team? Tell us the roles, the group size and where you are. We'll tell you straight whether we can meet the brief. And the workshop doesn't lock you into a later programme. One day is one day."] },
@@ -92,10 +99,11 @@ export const SEARCH_PAGES: SearchPage[] = [
     related: ["/ai-consulting-south-africa", "/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/ai-proposal-automation", "/ai-follow-up-automation", "/ai-admin-automation", "/guides/how-we-work-first-30-days", "/call", "/data-and-security"],
   },
   {
-    path: "/ai-consulting-south-africa", kind: "service", published: "2026-10-26",
+    path: "/ai-consulting-south-africa", kind: "service", published: "2026-10-26", updated: SEO_UPDATED,
     title: "AI Consulting in South Africa | GrowthCred",
     description: "AI consulting for South African owner-led firms. We find where your week goes, build your own private AI around it, and train your team. Rosebank, Joburg.",
     heading: "AI consulting that ends in working systems, not a slide deck.",
+    answer: "AI consulting here is not a slide deck. I find where your week goes. We build your own private AI around that work. Then we train your team to run it. I work from Rosebank, Johannesburg. This is for an owner-led South African firm. You leave with a system your people use.",
     intro: "You didn't hire a consultant for a slide deck. You want the work done. I find where your week goes. We build your own private AI around it. Then we train your team to run it. I work from Rosebank, Johannesburg.",
     heroCtas: true,
     sections: [
@@ -176,9 +184,9 @@ export const SEARCH_PAGES: SearchPage[] = [
     related: ["/private-ai", "/corporate-ai-training", "/ai-automation-south-africa", "/guides/how-we-work-first-30-days", "/stories/mne-waste", "/call"],
   },
   {
-    path: "/about", kind: "about",
+    path: "/about", kind: "about", updated: SEO_UPDATED,
     title: "About GrowthCred and Founder Phila Ngwenya | Johannesburg",
-    description: "Meet Phila Ngwenya, founder of GrowthCred. Practical AI workshops and business workflow support from Rosebank, Johannesburg.",
+    description: "Phila Ngwenya runs GrowthCred (Pty) Ltd from Rosebank, Johannesburg. AI training and automation. We are not Growth Credit Ltd.",
     heading: "Practical AI. A real person behind it.",
     intro: "I'm Phila Ngwenya. I run GrowthCred from Rosebank, Johannesburg. I help South African owners get what's in their heads written down. Then I put AI to work on the repetitive stuff.",
     introLink: { phrase: "Johannesburg", href: "/ai-automation-johannesburg" },
@@ -186,9 +194,14 @@ export const SEARCH_PAGES: SearchPage[] = [
       { title: "Meet Phila Ngwenya", paragraphs: ["I'm GrowthCred's founder and CEO. My job is simple to say. I move owners from briefing their tools over and over to running systems built around how their business works.", "I share demos and system ideas on my YouTube channel and on LinkedIn. Come and watch me build."] },
       { title: "Experience behind the work", paragraphs: ["I didn't read about this method. I built it.", "I've built five companies with AI. I co-developed an AI system presented at Parliament in Cape Town. I've given seven AI talks at WeWork Johannesburg. And I ran the first Operator Intensive at WeWork Rosebank. It sold out all five seats."] },
       { title: "What good training looks like", paragraphs: ["Bring real work. Write down the context. Build one small workflow. Check the result. Keep what works and measure it. That's the whole method.", "A system should move you forward without taking away the judgement that's yours. And I keep demos and client results apart. A worked example in my guides is illustrative, unless I tell you it's a measured, permissioned case study."] },
-      { title: "Our business details", paragraphs: ["GrowthCred (Pty) Ltd. Registration 2026/229279/07. Rosebank, Johannesburg, South Africa. Email info@growthcred.co.za, or use the contact page to talk about a workshop or a build.", "Workshops run online. You get the session details when you register. And our Johannesburg base isn't a walk-in office, so message us first."] },
+      { title: "Our business details", paragraphs: ["GrowthCred (Pty) Ltd. Registration 2026/229279/07. Rosebank, Johannesburg, South Africa. Email info@growthcred.co.za, or use the contact page to talk about a workshop or a build.", "If you searched for Growth Credit Ltd, this is not that company. We train teams and build AI systems. We do not lend money.", "Workshops run online. You get the session details when you register. And our Johannesburg base isn't a walk-in office, so message us first."] },
       { title: "Results and evidence", paragraphs: ["I only publish a named client result with permission. MNE Waste, Demure International and TaiAscend agreed to be named. Their stories are on the client stories page, in their words or as the result they reported.", "Worked examples stay labelled as illustrative. A method isn't a promise of a result. I keep the two apart on purpose."] },
-    ], related: ["/stories", "/stories/mne-waste", "/ai-automation-johannesburg", "/contact"],
+    ],
+    faq: [
+      { q: "Is GrowthCred the same as Growth Credit Ltd?", a: "No. We are GrowthCred (Pty) Ltd, registration 2026/229279/07. Phila Ngwenya is the founder. We train teams and build AI systems from Rosebank, Johannesburg. We do not lend money." },
+      { q: "Where is GrowthCred based?", a: "Rosebank, Johannesburg. That is not a walk-in office. Message us first. Workshops run online, and corporate training can run in the room in Johannesburg." },
+    ],
+    related: ["/stories", "/stories/mne-waste", "/ai-automation-johannesburg", "/corporate-ai-training", "/contact"],
   },
   {
     path: "/resources", kind: "hub",
@@ -200,17 +213,25 @@ export const SEARCH_PAGES: SearchPage[] = [
     related: ["/quoting-uniforms-for-a-security-company", "/senior-dispatcher-on-leave", "/guides/ppe-quotes-without-the-owner", "/guides/staff-chatgpt-client-files-popia", "/guides/stop-training-every-new-hire", "/guides/can-staff-paste-client-files-into-chatgpt", "/guides/private-ai-popia", "/guides/law-firm-billing-leakage", "/guides/ai-business-proposals-faster", "/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/guides/ai-training-cost-south-africa", "/guides/business-brain", "/guides/ai-proposals-and-follow-ups", "/guides/ai-training-vs-automation", "/guides/ai-automation-cost-south-africa", "/tools/admin-time-calculator", "/guides/free-marketing-tools-before-you-buy", "/stories", "/playbook"],
   },
   {
-    path: "/guides/ai-training-cost-south-africa", kind: "guide",
-    title: "AI Training Costs in South Africa: What to Compare",
-    description: "Understand workshop fees, team quotes, tool subscriptions and support before choosing AI training for your South African business.",
+    path: "/guides/ai-training-cost-south-africa", kind: "guide", updated: SEO_UPDATED,
+    title: "AI Training Cost in South Africa: From R990 | GrowthCred",
+    description: "No single AI training price in South Africa. Compare the workshop, VAT and tools. Team training is quoted per person. Not a recorded video.",
     heading: "What does AI training cost in South Africa?",
+    answer: "There is no single AI training price in South Africa. My one-day online workshop for owners is R990 at the founding rate. Confirm the date, VAT and any tool costs before you pay. Corporate training for a team is quoted per employee after we time your real documents. I do not sell a recorded training video at a published price.",
     intro: "There's no universal price for AI training. So what do you compare? The format. How many people. How much real work you do. And what support you get after. My one-day workshop is R990 at the founding rate. Confirm the next session and the full booking terms before you pay.",
     sections: [
       { title: "Compare the same unit", paragraphs: ["A price per person isn't a price per team. A recorded video isn't a day spent building with a facilitator. So first ask: what does this amount actually buy me?", "Here's the maths. Say a team quote is R6,000 for six people. That's R1,000 each, before extras. Does that tell you it's good? No. It's just arithmetic. And it's an illustration, not our team quote or a market average."] },
       { title: "Ask for the complete cost", paragraphs: ["Does the fee include materials? Build time? Support after? Is VAT in or on top? Do the tools need paid accounts? A workshop fee and a software subscription are two different purchases. Don't let one hide inside the other. Take this list to whoever you're comparing."], items: ["Is the rate per seat, per team or per session?", "Are the date, location and duration confirmed?", "Which tools and subscriptions are required?", "What support and materials are included?", "What are the cancellation and refund terms?"] },
-      { title: "What I offer right now", paragraphs: ["The R990 founding workshop is about writing down your business context and using it in real workflows. It runs online. You get the session details when you register. Check the tool requirements before you subscribe to anything.", "Done-for-you work is scoped separately. And buying the workshop doesn't commit you to anything after it. The refund terms are linked in the footer. Read them next to the offer."] },
+      { title: "What I offer right now", paragraphs: ["The R990 founding workshop is about writing down your business context and using it in real workflows. It runs online. You get the session details when you register. Check the tool requirements before you subscribe to anything.", "Done-for-you work is scoped separately. And buying the workshop doesn't commit you to anything after it. The refund terms are linked in the footer. Read them next to the offer.", "Got a team? Corporate AI training is live. It runs in Johannesburg or online. We quote per employee after a baseline. It is not a recorded video."], links: [{ index: 2, phrase: "Corporate AI training", href: "/corporate-ai-training" }] },
       { title: "Judge what you'll use, not hours in a room", paragraphs: ["Pick one task you want to fix. Ask how the training helps you practise it. A good one leaves you with something you can run on Monday: a context document, a repeatable process and a way to check the output.", "And careful with the hours maths. An hour saved isn't cash. It's only worth money if you use it for paid work or it cuts a real cost. Anyone who quotes you results should tell you how they measured them."] },
-    ], related: ["/workshop", "/ai-training-south-africa", "/guides/ai-training-vs-automation", "/contact"],
+    ],
+    faq: [
+      { q: "What does AI training cost in South Africa?", a: "There is no single price. My one-day online workshop for owners is R990 at the founding rate. Confirm the date, VAT and tool costs before you pay. Team training is quoted per person." },
+      { q: "How much does a corporate training video cost in South Africa?", a: "I do not sell a recorded corporate training video at a published price. Corporate AI training is live. It runs in Johannesburg or online. We quote per employee after a baseline." },
+      { q: "Is the R990 workshop the same as corporate training?", a: "No. The workshop is one day, online, for an owner who wants to build. Corporate training is for a team, on your real reports, in the room or online, quoted after we time the work." },
+      { q: "Do you train teams onsite in Johannesburg?", a: "Yes. Corporate sessions can run in the room in Johannesburg. They can also run online if your people sit elsewhere in South Africa." },
+    ],
+    related: ["/corporate-ai-training", "/workshop", "/ai-training-south-africa", "/guides/ai-training-vs-automation", "/contact"],
   },
   {
     path: "/guides/business-brain", kind: "guide",
@@ -386,10 +407,11 @@ export const SEARCH_PAGES: SearchPage[] = [
     related: ["/stories/mne-waste", "/stories/demure-international", "/stories/operators-intensive-wework-rosebank"],
   },
   {
-    path: "/stories/mne-waste", kind: "story", published: STORIES_PUBLISHED,
-    title: "MNE Waste: An Operator's Brain Built in One Day | GrowthCred",
-    description: "Sandile runs MNE Waste, a South African waste management company. He built his Operator's Brain in one day at GrowthCred's first Operator Intensive.",
+    path: "/stories/mne-waste", kind: "story", published: STORIES_PUBLISHED, updated: SEO_UPDATED,
+    title: "MNE Waste Case Study by GrowthCred | AI in One Day",
+    description: "A GrowthCred case study, not the MNE Waste website. Sandile built his Operator's Brain in one day at our Rosebank intensive. He is now fully operational.",
     heading: "MNE Waste built its Operator's Brain in one day.",
+    answer: "This page is a GrowthCred case study. It is not the MNE Waste company website. Sandile runs MNE Waste in South Africa. He came to my first Operator Intensive in Rosebank and built his Operator's Brain in one day. He is now fully operational. If you want MNE Waste itself, you will not find their site here.",
     intro: "Sandile runs MNE Waste. Trucks, drivers, compliance and municipal contracts. He came to my first Operator Intensive. He built his Operator's Brain in one day. And he's now fully operational.",
     images: [
       { src: "/images/stories/operators-intensive-session.jpg", alt: "Owners working through the first Operator Intensive at WeWork Rosebank", width: 1200, height: 900, caption: "The first Operator Intensive, WeWork Rosebank." },
@@ -400,6 +422,11 @@ export const SEARCH_PAGES: SearchPage[] = [
       { title: "What he built", paragraphs: ["I ran the Operator Intensive where Sandile built his Operator's Brain. It's one place that holds how MNE Waste actually runs. So his AI starts every task already knowing the business. Yours could too. No more blank page.", "He built it from his own knowledge of his own operation. Not from a template. That's the part generic AI tools skip. It's why the answers you get from them could be about anyone."] },
       { title: "The result", paragraphs: ["He built it in one day. In the room with me. On his own business. He's now fully operational. What would you build in a day?"] },
       { title: "What it means for your business", mark: "industry", paragraphs: ["If AI can handle trucks, drivers, compliance and municipal contracts, it can handle whatever you do. Your system gets built from your knowledge. Not a template."] },
+    ],
+    faq: [
+      { q: "Is this the MNE Waste website?", a: "No. This is a GrowthCred case study. If you need the company itself, you will not find their site on this page." },
+      { q: "What did MNE Waste build with GrowthCred?", a: "Sandile built his Operator's Brain in one day at my first Operator Intensive in Rosebank. He is now fully operational." },
+      { q: "Who is GrowthCred?", a: "GrowthCred is my company. I am Phila Ngwenya. We train owners and teams, and we build AI systems, from Rosebank, Johannesburg." },
     ],
     related: ["/ai-for-waste-management", "/stories/operators-intensive-wework-rosebank", "/guides/business-brain", "/stories"],
   },
@@ -476,10 +503,11 @@ export const SEARCH_PAGES: SearchPage[] = [
     related: ["/guides/ai-proposals-and-follow-ups", "/ai-proposal-automation", "/ai-admin-automation", "/call"],
   },
   {
-    path: "/ai-admin-automation", kind: "service", published: SEO_PUBLISHED,
-    title: "AI Admin Automation for Small Businesses | GrowthCred SA",
-    description: "An alternative to outsourcing admin: AI systems built from your own business knowledge that take on repetitive admin, with people reviewing the output.",
+    path: "/ai-admin-automation", kind: "service", published: SEO_PUBLISHED, updated: SEO_UPDATED,
+    title: "Hire Someone to Automate Admin with AI | GrowthCred",
+    description: "Hire GrowthCred to automate repetitive admin in South Africa. Built from your knowledge. A person still reviews. First result within 14 days.",
     heading: "Admin that no longer waits for the owner.",
+    answer: "You can hire us to automate the admin that waits on you. We write down how your business works, then build systems that draft the repeat work. A person still reviews it. The first result is targeted within 14 days. There is no single price. We quote after we have seen the workflow.",
     intro: "Drowning in admin? Your first thought is probably to outsource it. There's another option. Build systems that do the repetitive part from your own knowledge, and keep people for the judgement. I design and install those systems with your team.",
     sections: [
       { title: "The admin that traps the founder", paragraphs: ["Reports. Quotes. Recurring emails. Internal questions. Status updates. Research. None of it is hard. But most of it needs someone who knows how the business works. In an owner-led firm, that's you.", "The cost isn't just the hours. It's you doing low-value work when your decisions are worth far more."] },
@@ -488,6 +516,7 @@ export const SEARCH_PAGES: SearchPage[] = [
       { title: "How we approach it", paragraphs: ["Every engagement runs the same three steps. First, the audit. We map your admin, how often it happens and who it waits for. Then we put a rand value on those hours.", "Second, deploy. We build the first system on the task worth the most. The first result is targeted within 14 days.", "Third, embed. We review monthly and add capabilities as your business changes."] },
     ],
     faq: [
+      { q: "Can I hire you to automate my admin?", a: "Yes. Apply and tell us the admin that waits on you. We quote after we see the workflow. A person still reviews the output. The first result is targeted within 14 days." },
       { q: "Is this cheaper than hiring an admin assistant?", a: "It depends on the work. Use the admin time calculator to put a value on your hours, then read the comparison guide. Repetitive drafting suits automation. Judgement and relationships often suit a person." },
       { q: "Which admin tasks are good candidates?", a: "Repeated, rules-based work with clear inputs. Proposal drafts, follow-ups, reports, recurring internal questions and research. If a task depends on incomplete records, it may need a process fix first.", aLink: { phrase: "Proposal drafts", href: "/ai-proposal-automation" } },
       { q: "Will my team lose their jobs?", a: "The aim is to take repetitive drafting off whoever is stuck doing it. Including you. People stay responsible for review, decisions and exceptions." },
@@ -537,10 +566,11 @@ export const SEARCH_PAGES: SearchPage[] = [
     related: ["/stories/demure-international", "/ai-follow-up-automation", "/guides/business-brain", "/call"],
   },
   {
-    path: "/ai-for-financial-services", kind: "service", published: "2026-09-25",
-    title: "AI Workflows for Finance Teams & FSPs | GrowthCred SA",
-    description: "Practical AI workflows for South African finance teams, accounting firms and FSPs: controlled reporting, review packs and client admin with human sign-off.",
+    path: "/ai-for-financial-services", kind: "service", published: "2026-09-25", updated: SEO_UPDATED,
+    title: "Finance Automation in South Africa | GrowthCred",
+    description: "AI workflows for South African finance teams and FSPs. Draft packs and updates from approved figures. A professional still signs off. Not financial advice.",
     heading: "AI for finance work that still needs a professional at the controls.",
+    answer: "Finance automation at GrowthCred prepares the work around the decision. We draft management packs, meeting notes and client updates from figures you have approved. A professional on your team still checks the numbers and signs off. We do not give financial advice. I have not published a finance case study, so I will not invent one.",
     intro: "You don't need another tool that gives you a fast answer nobody can defend. You need a controlled way to prepare recurring work from approved information. One that shows you what's missing. And hands every decision that matters to the right person.",
     sections: [
       { title: "The real problem is the work around the decision", mark: "industry", paragraphs: ["Month-end commentary. Management packs. Review prep. Meeting notes. Document requests. The same client questions, again. They all eat your senior people's time. The maths may already be in the system. But the explanation, the checking and the follow-up still wait for the same finance lead, partner or adviser.", "A general AI tool won't fix that by itself. If every person uses different prompts and different sources, you get inconsistent drafts, unclear data handling and more time checking what the tool invented.", "Sound familiar? Your monthly packs get rebuilt by hand for every audience. Client questions interrupt your senior people, because the approved answer is scattered across files and email. Onboarding and review packs stall on missing documents, and nobody can safely guess what's absent.", "And your team measures how fast the draft appears. Not the prep, correction and review time around it."] },
@@ -552,6 +582,7 @@ export const SEARCH_PAGES: SearchPage[] = [
       { title: "Who's telling you this", paragraphs: ["I'll be straight with you. I haven't published a finance case study yet, so I won't show you one. What I have done: I co-developed an AI system presented at Parliament. I've given seven AI talks at WeWork Johannesburg. And I build every workflow the same controlled way, with the professional at the controls."] },
     ],
     faq: [
+      { q: "Do you do finance automation in South Africa?", a: "We prepare recurring finance work with AI. Packs, notes and updates come from figures you approved. A professional still signs off. We do not give financial advice, and we have not published a finance case study." },
       { q: "Can AI give financial advice or approve credit?", a: "That's not the offer. We focus on controlled preparation, drafting and internal workflows. Licensed advice, credit decisions, financial statements, filings and other consequential decisions stay with properly authorised people and your compliance process." },
       { q: "What finance workflow should we start with?", a: "Pick a task you do often, with approved source material and a person who already reviews it. Management-pack commentary, meeting summaries, missing-document checklists or recurring client-update drafts all work well." },
       { q: "Should we choose the workshop or implementation?", a: "Take the workshop if your team wants to learn the method and build a first controlled workflow. Apply for implementation if the process crosses systems, needs permissions or must be mapped, built, tested and handed over for you." },
@@ -562,7 +593,7 @@ export const SEARCH_PAGES: SearchPage[] = [
       { label: "SARB & FSCA: Artificial Intelligence in the South African Financial Sector (2025)", href: "https://www.resbank.co.za/en/home/publications/publication-detail-pages/prudential-authority/pa-public-awareness/Communication/2025/AI-in-the-South-African-Financial-Sector" },
       { label: "FSCA & Prudential Authority: report release and key findings (2025)", href: "https://www.fsca.co.za/News%20Documents/Press%20Release%20-%20Artificial%20Intelligence%20in%20the%20South%20African%20Financial%20Sector%20Final_24%20November%202025.pdf" },
     ],
-    related: ["/guides/ai-challenges-south-africa", "/guides/how-we-work-first-30-days", "/data-and-security", "/workshop", "/call"],
+    related: ["/guides/ai-challenges-south-africa", "/ai-automation-south-africa", "/guides/how-we-work-first-30-days", "/data-and-security", "/workshop", "/call"],
   },
   {
     path: "/ai-for-law-firms", kind: "service", published: "2026-09-25",
@@ -596,14 +627,15 @@ export const SEARCH_PAGES: SearchPage[] = [
     related: ["/guides/law-firm-billing-leakage", "/guides/ai-challenges-south-africa", "/guides/how-we-work-first-30-days", "/data-and-security", "/workshop", "/call"],
   },
   {
-    path: "/ai-automation-johannesburg", kind: "service", published: SEO_PUBLISHED,
-    title: "AI Automation in Johannesburg | GrowthCred, Rosebank",
-    description: "Founder-led AI automation and training from Rosebank, Johannesburg. The first Operator Intensive sold out at WeWork Rosebank. Apply to work with us.",
+    path: "/ai-automation-johannesburg", kind: "service", published: SEO_PUBLISHED, updated: SEO_UPDATED,
+    title: "AI Automation in Johannesburg, Rosebank | GrowthCred",
+    description: "AI automation from Rosebank, Johannesburg. In-person sessions or online across Gauteng. Proposals, admin and corporate team training for owner-led firms.",
     heading: "AI automation in Johannesburg, from Rosebank.",
+    answer: "I run GrowthCred from Rosebank, Johannesburg. We build AI automation for owner-led firms, and we train teams in the room or online. I have given seven AI talks at WeWork Johannesburg. The first Operator Intensive sold out all five seats at WeWork Rosebank. The workshop is online, so you can join from anywhere in Gauteng.",
     intro: "I run GrowthCred from Rosebank, Johannesburg. I've given seven AI talks at WeWork Johannesburg. And the first Operator Intensive sold out all five seats at WeWork Rosebank. This is home.",
     sections: [
       { title: "Built here, with owners from here", paragraphs: ["Johannesburg runs on owner-led businesses. Firms where the founder still writes the proposals, answers the questions and approves every quote. Is that you? That's the bottleneck I exist to remove.", "The first Operator Intensive ran in person at WeWork Rosebank. Five owners whose businesses depended entirely on them. They left with working systems. One of them, Sandile of MNE Waste, built his Operator's Brain that day. He's now fully operational."], links: [{ index: 1, phrase: "Operator's Brain", href: "/guides/business-brain" }] },
-      { title: "In person or online", paragraphs: ["The one-day workshop and the free class run online. So you can join from anywhere in Gauteng.", "Want a Command Core engagement? Ask on the call whether working sessions can happen in person. We scope the audit, build and handover around your team."] },
+      { title: "In person or online", paragraphs: ["The one-day workshop and the free class run online. So you can join from anywhere in Gauteng.", "Want a Command Core engagement? Ask on the call whether working sessions can happen in person. We scope the audit, build and handover around your team.", "Want the whole team trained on their reports? Corporate AI training can run in the room in Johannesburg, or online."], links: [{ index: 2, phrase: "Corporate AI training", href: "/corporate-ai-training" }] },
       { title: "What working together looks like", paragraphs: ["Three steps. First, an audit that puts a rand value on the hours stuck with you. Second, we deploy systems that do that work the way you would. Third, we embed them and track the results monthly."] },
       { title: "Where Johannesburg owners start", paragraphs: ["There are three ways in. Pick the one that matches how ready you are.", "The Command Core is the full engagement, for owner-led firms from R5M to over R200M in revenue. We audit, deploy and embed across your departments.", "The one-day online workshop is for building your first systems yourself. Guided. Laptop open. Real work in hand.", "The free online class is a practical first hour on giving AI the context your business needs. All three run on the same idea. AI works when it starts from your knowledge, not a template."] },
       { title: "The work that waits in a Johannesburg business", paragraphs: ["I see the same pattern all over this city. Proposals queue behind the founder. Follow-ups wait until the evening. Admin only one person knows how to do. Those are the first tasks I look at. Because they cost you the most.", "Some of you still price every PPE quote. The quote sits until you touch it.", "Some of you still train every new hire. You still approve the work."], links: [{ index: 0, phrase: "Proposals", href: "/ai-proposal-automation" }, { index: 1, phrase: "price every PPE quote", href: "/guides/ppe-quotes-without-the-owner" }, { index: 2, phrase: "train every new hire", href: "/guides/stop-training-every-new-hire" }] },
@@ -612,8 +644,9 @@ export const SEARCH_PAGES: SearchPage[] = [
       { q: "Where is GrowthCred based?", a: "Rosebank, Johannesburg. GrowthCred (Pty) Ltd is registered in South Africa, registration number 2026/229279/07." },
       { q: "Can we meet in person in Johannesburg?", a: "The first Operator Intensive ran in person at WeWork Rosebank. For an engagement, ask on the call whether in-person sessions fit your scope." },
       { q: "Do you only work with Johannesburg businesses?", a: "No. The workshop and free class are online. We scope engagements outside Johannesburg and South Africa on the call." },
+      { q: "Do you run corporate AI training in Johannesburg?", a: "Yes. Corporate sessions can run in the room in Johannesburg, or online. We train on your reports. We quote per employee after a baseline." },
     ],
-    related: ["/stories/operators-intensive-wework-rosebank", "/ai-automation-south-africa", "/workshop", "/call"],
+    related: ["/corporate-ai-training", "/stories/operators-intensive-wework-rosebank", "/ai-automation-south-africa", "/workshop", "/call"],
   },
   {
     path: "/ai-automation-uk", kind: "service", published: SEO_PUBLISHED,
@@ -709,10 +742,11 @@ export const SEARCH_PAGES: SearchPage[] = [
     related: ["/call", "/stories", "/ai-admin-automation", "/guides/admin-assistant-vs-ai-automation"],
   },
   {
-    path: "/guides/admin-assistant-vs-ai-automation", kind: "guide", published: SEO_PUBLISHED,
-    title: "Hire an Admin Assistant or Automate With AI? A Guide",
-    description: "Should you hire an admin assistant, outsource admin or automate it with AI? An honest comparison of cost, control and fit for owner-led businesses.",
+    path: "/guides/admin-assistant-vs-ai-automation", kind: "guide", published: SEO_PUBLISHED, updated: SEO_UPDATED,
+    title: "Hire an Admin Assistant or Automate Admin with AI?",
+    description: "Hire a person for judgement and relationships. Automate admin that repeats. Or hire GrowthCred to build that automation. We quote after we see the work.",
     heading: "Hire an admin assistant or automate with AI?",
+    answer: "You hire a person when the work needs judgement or a relationship. You automate when the same admin repeats and the inputs are clear. You can also hire GrowthCred to build that automation for a South African firm. We quote after we see the work. A person still checks what goes out.",
     intro: "Buried in admin? The usual answer is to hire someone or outsource it. Sometimes that's right. Sometimes the better move is to automate the repetitive part and keep people for judgement. This guide helps you tell which, before you spend money.",
     sections: [
       { title: "Start with the work, not the solution", paragraphs: ["For two weeks, list the admin that waits for you. What it is. How often it happens. How long it takes. Then put a value on those hours with the admin time calculator.", "Your answer depends far more on the kind of work you're drowning in than on which option sounds modern."] },
@@ -834,10 +868,11 @@ export const SEARCH_PAGES: SearchPage[] = [
     related: ["/guides/staff-chatgpt-client-files-popia", "/guides/private-ai-popia", "/data-and-security", "/guides/ai-challenges-south-africa", "/guides/business-brain", "/call"],
   },
   {
-    path: "/guides/private-ai-popia", kind: "guide", published: "2026-10-13",
-    title: "How Private AI Can Help with POPIA | GrowthCred",
-    description: "Private AI can reduce some data exposure by keeping processing inside your business. It cannot make a workflow POPIA-compliant on its own.",
+    path: "/guides/private-ai-popia", kind: "guide", published: "2026-10-13", updated: SEO_UPDATED,
+    title: "ChatGPT, POPIA and Private AI in South Africa | GrowthCred",
+    description: "A paid ChatGPT plan does not make a workflow POPIA-compliant. Private AI can change where work runs. You still need a lawful workflow. Not legal advice.",
     heading: "How can private AI help with POPIA?",
+    answer: "Private AI does not make you POPIA-compliant. A paid ChatGPT plan does not either. Private AI can keep processing on equipment inside your business. That can reduce some exposure. You still need a lawful purpose, a limit on the data, and a person who checks the output. I am not your lawyer. Have one review your own workflow.",
     intro: "Private AI can help you control where business information is processed and who can reach it. That can reduce some data exposure. It does not make your business POPIA-compliant by itself. You still need a lawful, secure and well-governed workflow. Your setup must fit the information you use and the job you need done. You should assess the workflow before choosing the setup.",
     sections: [
       { title: "Start with the information, not the hardware", paragraphs: ["POPIA applies to personal information. Your client documents may also carry confidentiality, contractual or professional duties. List the information in the task, its purpose, who may use it and what the output will do. You need to include the connected tools too.", "Then decide what the system needs. Remove information the task doesn't need. Set who can access the files and outputs. Decide what gets kept, for how long and who checks the work. You choose the purpose and the people who may use it."] },
@@ -848,6 +883,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     guide: { after: 1, line: "The AI Implementation Guide helps you give a system useful business context. Start there, then decide which information the task is allowed to use." },
     close: { line: "Private is a design choice. Compliance is the work around it.", ask: "Map the information and the workflow before you deploy.", cta: { to: "/data-and-security", label: "Read our data and security page" } },
     faq: [
+      { q: "Does ChatGPT comply with POPIA?", a: "No plan makes a workflow compliant on its own. Check the purpose, the data, the safeguards and where the file goes. Private AI can change the location. A lawyer still reviews your case." },
       { q: "Does on-premise AI make us POPIA-compliant?", a: "No. It can change where some processing happens and help you control access. You still need to assess purpose, lawful processing, minimisation, safeguards, operators, retention and any transfers for the whole workflow." },
       { q: "Does private AI mean no data leaves the building?", a: "That depends on the complete design and operating arrangements, including connected tools, support, backups and access. Define and verify the data flows before making that claim about a system." },
       { q: "What should we review before a private AI pilot?", a: "Choose the information and purpose, approved users, access controls, retention, security measures, output review, operator agreements, transfer routes and failure process. Ask your privacy or legal adviser to assess your obligations." },

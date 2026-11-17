@@ -14,16 +14,18 @@
       "title": "Private AI South Africa: Own Your Intelligence | GrowthCred",
       "description": "Your own AI, on your own equipment, set up around your business. Why firms are moving AI in-house, what owning costs, and when it's the wrong call.",
       "index": true,
+      "published": "2026-09-29",
       "modified": "2026-09-29",
       "file": "private-ai.html",
       "prerendered": true
     },
     {
       "path": "/corporate-ai-training",
-      "title": "Corporate AI Training for Teams in South Africa | GrowthCred",
-      "description": "Corporate AI training that gets every employee producing documents and reports 3× faster. Live workshops, role playbooks, measured ROI, priced per head.",
+      "title": "Corporate AI Training in South Africa | GrowthCred",
+      "description": "Live AI training for South African teams. Onsite in Johannesburg or online. We time your reports, then measure. Quoted per person. Not a video course.",
       "index": true,
-      "modified": "2026-09-25",
+      "published": "2026-09-25",
+      "modified": "2026-11-17",
       "file": "corporate-ai-training.html",
       "prerendered": true
     },
@@ -56,10 +58,10 @@
     },
     {
       "path": "/ai-training-south-africa",
-      "title": "Practical AI Training for Business Owners | GrowthCred",
-      "description": "Explore practical AI training for South African business owners. Build business context, practise real tasks and choose between training and implementation.",
+      "title": "AI Training for Business Owners in South Africa | GrowthCred",
+      "description": "Hands-on AI training for South African business owners. One-day online workshop, R990. You practise on your own work. Team training is quoted separately.",
       "index": true,
-      "modified": "2026-09-20",
+      "modified": "2026-11-17",
       "file": "ai-training-south-africa.html",
       "prerendered": true
     },
@@ -77,16 +79,16 @@
       "title": "AI Consulting in South Africa | GrowthCred",
       "description": "AI consulting for South African owner-led firms. We find where your week goes, build your own private AI around it, and train your team. Rosebank, Joburg.",
       "index": true,
-      "modified": "2026-10-26",
+      "modified": "2026-11-17",
       "file": "ai-consulting-south-africa.html",
       "prerendered": true
     },
     {
       "path": "/about",
       "title": "About GrowthCred and Founder Phila Ngwenya | Johannesburg",
-      "description": "Meet Phila Ngwenya, founder of GrowthCred. Practical AI workshops and business workflow support from Rosebank, Johannesburg.",
+      "description": "Phila Ngwenya runs GrowthCred (Pty) Ltd from Rosebank, Johannesburg. AI training and automation. We are not Growth Credit Ltd.",
       "index": true,
-      "modified": "2026-09-20",
+      "modified": "2026-11-17",
       "file": "about.html",
       "prerendered": true
     },
@@ -101,10 +103,11 @@
     },
     {
       "path": "/guides/ai-training-cost-south-africa",
-      "title": "AI Training Costs in South Africa: What to Compare",
-      "description": "Understand workshop fees, team quotes, tool subscriptions and support before choosing AI training for your South African business.",
+      "title": "AI Training Cost in South Africa: From R990 | GrowthCred",
+      "description": "No single AI training price in South Africa. Compare the workshop, VAT and tools. Team training is quoted per person. Not a recorded video.",
       "index": true,
-      "modified": "2026-09-20",
+      "modified": "2026-11-17",
+      "published": "2026-09-20",
       "file": "guides/ai-training-cost-south-africa.html",
       "prerendered": true
     },
@@ -114,6 +117,7 @@
       "description": "Build a clear business context document for AI: services, customers, voice, approved facts and review rules. Includes a practical starting template.",
       "index": true,
       "modified": "2026-09-20",
+      "published": "2026-09-20",
       "file": "guides/business-brain.html",
       "prerendered": true
     },
@@ -123,6 +127,7 @@
       "description": "A practical proposal and follow-up workflow: prepare context, draft, check facts and approve before sending. Includes an illustrative briefing example.",
       "index": true,
       "modified": "2026-09-20",
+      "published": "2026-09-20",
       "file": "guides/ai-proposals-and-follow-ups.html",
       "prerendered": true
     },
@@ -132,6 +137,7 @@
       "description": "Compare learning to build AI workflows with hiring implementation support. Understand effort, scope, ownership and ongoing maintenance.",
       "index": true,
       "modified": "2026-09-20",
+      "published": "2026-09-20",
       "file": "guides/ai-training-vs-automation.html",
       "prerendered": true
     },
@@ -141,6 +147,7 @@
       "description": "Understand AI automation setup costs, subscriptions, testing and maintenance. Use a scoping checklist before requesting a South African business quote.",
       "index": true,
       "modified": "2026-09-20",
+      "published": "2026-09-20",
       "file": "guides/ai-automation-cost-south-africa.html",
       "prerendered": true
     },
@@ -150,6 +157,7 @@
       "description": "A practical AI proposal workflow built from your business brief, discovery notes and approved commercial rules—not a generic write-my-proposal prompt.",
       "index": true,
       "modified": "2026-09-25",
+      "published": "2026-09-25",
       "file": "guides/ai-business-proposals-faster.html",
       "prerendered": true
     },
@@ -159,6 +167,7 @@
       "description": "Skip the best-AI-tools list. Score your bottleneck, choose the smallest tool category that fits and prove it on ten real examples before expanding.",
       "index": true,
       "modified": "2026-09-25",
+      "published": "2026-09-25",
       "file": "guides/choose-ai-tools-small-business.html",
       "prerendered": true
     },
@@ -168,6 +177,7 @@
       "description": "A South African AI implementation guide covering POPIA, mobile-first workflows, resilience, skills and professional review without imported assumptions.",
       "index": true,
       "modified": "2026-09-25",
+      "published": "2026-09-25",
       "file": "guides/ai-challenges-south-africa.html",
       "prerendered": true
     },
@@ -182,10 +192,11 @@
     },
     {
       "path": "/stories/mne-waste",
-      "title": "MNE Waste: An Operator's Brain Built in One Day | GrowthCred",
-      "description": "Sandile runs MNE Waste, a South African waste management company. He built his Operator's Brain in one day at GrowthCred's first Operator Intensive.",
+      "title": "MNE Waste Case Study by GrowthCred | AI in One Day",
+      "description": "A GrowthCred case study, not the MNE Waste website. Sandile built his Operator's Brain in one day at our Rosebank intensive. He is now fully operational.",
       "index": true,
-      "modified": "2026-09-24",
+      "modified": "2026-11-17",
+      "published": "2026-09-24",
       "file": "stories/mne-waste.html",
       "prerendered": true
     },
@@ -195,6 +206,7 @@
       "description": "Macaela Oor runs Demure International (Enigma Essentials), a beauty and cosmetics business. After one GrowthCred session, her AI started working better.",
       "index": true,
       "modified": "2026-09-24",
+      "published": "2026-09-24",
       "file": "stories/demure-international.html",
       "prerendered": true
     },
@@ -204,6 +216,7 @@
       "description": "GrowthCred's first Operator Intensive sold out all five seats at WeWork Rosebank. Owners whose businesses depended on them left with working AI systems.",
       "index": true,
       "modified": "2026-09-24",
+      "published": "2026-09-24",
       "file": "stories/operators-intensive-wework-rosebank.html",
       "prerendered": true
     },
@@ -227,10 +240,10 @@
     },
     {
       "path": "/ai-admin-automation",
-      "title": "AI Admin Automation for Small Businesses | GrowthCred SA",
-      "description": "An alternative to outsourcing admin: AI systems built from your own business knowledge that take on repetitive admin, with people reviewing the output.",
+      "title": "Hire Someone to Automate Admin with AI | GrowthCred",
+      "description": "Hire GrowthCred to automate repetitive admin in South Africa. Built from your knowledge. A person still reviews. First result within 14 days.",
       "index": true,
-      "modified": "2026-09-24",
+      "modified": "2026-11-17",
       "file": "ai-admin-automation.html",
       "prerendered": true
     },
@@ -254,10 +267,10 @@
     },
     {
       "path": "/ai-for-financial-services",
-      "title": "AI Workflows for Finance Teams & FSPs | GrowthCred SA",
-      "description": "Practical AI workflows for South African finance teams, accounting firms and FSPs: controlled reporting, review packs and client admin with human sign-off.",
+      "title": "Finance Automation in South Africa | GrowthCred",
+      "description": "AI workflows for South African finance teams and FSPs. Draft packs and updates from approved figures. A professional still signs off. Not financial advice.",
       "index": true,
-      "modified": "2026-09-25",
+      "modified": "2026-11-17",
       "file": "ai-for-financial-services.html",
       "prerendered": true
     },
@@ -272,10 +285,10 @@
     },
     {
       "path": "/ai-automation-johannesburg",
-      "title": "AI Automation in Johannesburg | GrowthCred, Rosebank",
-      "description": "Founder-led AI automation and training from Rosebank, Johannesburg. The first Operator Intensive sold out at WeWork Rosebank. Apply to work with us.",
+      "title": "AI Automation in Johannesburg, Rosebank | GrowthCred",
+      "description": "AI automation from Rosebank, Johannesburg. In-person sessions or online across Gauteng. Proposals, admin and corporate team training for owner-led firms.",
       "index": true,
-      "modified": "2026-09-24",
+      "modified": "2026-11-17",
       "file": "ai-automation-johannesburg.html",
       "prerendered": true
     },
@@ -321,15 +334,17 @@
       "description": "What happens after you apply: the call, the audit, the first result in 14 days and monthly tracking. How a GrowthCred AI engagement runs from day one.",
       "index": true,
       "modified": "2026-09-24",
+      "published": "2026-09-24",
       "file": "guides/how-we-work-first-30-days.html",
       "prerendered": true
     },
     {
       "path": "/guides/admin-assistant-vs-ai-automation",
-      "title": "Hire an Admin Assistant or Automate With AI? A Guide",
-      "description": "Should you hire an admin assistant, outsource admin or automate it with AI? An honest comparison of cost, control and fit for owner-led businesses.",
+      "title": "Hire an Admin Assistant or Automate Admin with AI?",
+      "description": "Hire a person for judgement and relationships. Automate admin that repeats. Or hire GrowthCred to build that automation. We quote after we see the work.",
       "index": true,
-      "modified": "2026-09-24",
+      "modified": "2026-11-17",
+      "published": "2026-09-24",
       "file": "guides/admin-assistant-vs-ai-automation.html",
       "prerendered": true
     },
@@ -339,6 +354,7 @@
       "description": "You work eight hours and get paid for 2.4. Where law firm billing leaks, what it costs a R50M practice, and the AI system that stops it.",
       "index": true,
       "modified": "2026-09-28",
+      "published": "2026-09-28",
       "file": "guides/law-firm-billing-leakage.html",
       "prerendered": true
     },
@@ -348,15 +364,17 @@
       "description": "POPIA does not give a blanket yes or no. Check purpose, authority, safeguards, operators, cross-border transfers and your client duties first.",
       "index": true,
       "modified": "2026-10-13",
+      "published": "2026-10-13",
       "file": "guides/can-staff-paste-client-files-into-chatgpt.html",
       "prerendered": true
     },
     {
       "path": "/guides/private-ai-popia",
-      "title": "How Private AI Can Help with POPIA | GrowthCred",
-      "description": "Private AI can reduce some data exposure by keeping processing inside your business. It cannot make a workflow POPIA-compliant on its own.",
+      "title": "ChatGPT, POPIA and Private AI in South Africa | GrowthCred",
+      "description": "A paid ChatGPT plan does not make a workflow POPIA-compliant. Private AI can change where work runs. You still need a lawful workflow. Not legal advice.",
       "index": true,
-      "modified": "2026-10-13",
+      "modified": "2026-11-17",
+      "published": "2026-10-13",
       "file": "guides/private-ai-popia.html",
       "prerendered": true
     },
@@ -366,6 +384,7 @@
       "description": "You still price every PPE and uniform quote. A Quote Engine drafts from your list and your rules. You approve the price, the promise and the send.",
       "index": true,
       "modified": "2026-10-25",
+      "published": "2026-10-25",
       "file": "guides/ppe-quotes-without-the-owner.html",
       "prerendered": true
     },
@@ -375,6 +394,7 @@
       "description": "You suspect staff already paste client files into ChatGPT. POPIA gives no blanket yes. Read the checks, then have a lawyer review your own workflow.",
       "index": true,
       "modified": "2026-10-25",
+      "published": "2026-10-25",
       "file": "guides/staff-chatgpt-client-files-popia.html",
       "prerendered": true
     },
@@ -384,6 +404,7 @@
       "description": "You still train every new person yourself. A New Hire Trainer teaches one role from your own notes. You still check the work. No time promise.",
       "index": true,
       "modified": "2026-10-25",
+      "published": "2026-10-25",
       "file": "guides/stop-training-every-new-hire.html",
       "prerendered": true
     },
@@ -438,6 +459,7 @@
       "description": "Before you pay for another marketing or analytics tool, check the free ones from Google, Meta, Microsoft and others. The list we open first for SA owners.",
       "index": true,
       "modified": "2026-10-29",
+      "published": "2026-10-29",
       "file": "guides/free-marketing-tools-before-you-buy.html",
       "prerendered": true
     },

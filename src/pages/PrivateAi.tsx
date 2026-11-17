@@ -64,17 +64,20 @@ function Cite({ source, dark = false }: { source: Source; dark?: boolean }) {
   );
 }
 
-function Photo({ photo, className = "" }: { photo: { src: string; alt: string; width: number; height: number }; className?: string }) {
+function Photo({ photo, className = "" }: { photo: { src: string; alt: string; width: number; height: number; webp?: string }; className?: string }) {
   return (
-    <img
-      src={photo.src}
-      alt={photo.alt}
-      width={photo.width}
-      height={photo.height}
-      loading="lazy"
-      decoding="async"
-      className={`w-full rounded-3xl object-cover shadow-[0_30px_80px_-40px_rgba(26,26,36,0.45)] ${className}`}
-    />
+    <picture>
+      {photo.webp && <source type="image/webp" srcSet={photo.webp} />}
+      <img
+        src={photo.src}
+        alt={photo.alt}
+        width={photo.width}
+        height={photo.height}
+        loading="lazy"
+        decoding="async"
+        className={`w-full rounded-3xl object-cover shadow-[0_30px_80px_-40px_rgba(26,26,36,0.45)] ${className}`}
+      />
+    </picture>
   );
 }
 
@@ -264,15 +267,18 @@ export default function PrivateAi() {
             ))}
           </dl>
           <figure className="mx-auto mt-14 grid max-w-[860px] items-center gap-8 md:grid-cols-[240px_1fr]">
-            <img
-              src={PHOTOS.phila.src}
-              alt={PHOTOS.phila.alt}
-              width={PHOTOS.phila.width}
-              height={PHOTOS.phila.height}
-              loading="lazy"
-              decoding="async"
-              className="mx-auto aspect-[3/4] w-full max-w-[240px] rounded-3xl object-cover"
-            />
+            <picture>
+              <source type="image/webp" srcSet={PHOTOS.phila.webp} sizes="240px" />
+              <img
+                src={PHOTOS.phila.src}
+                alt={PHOTOS.phila.alt}
+                width={PHOTOS.phila.width}
+                height={PHOTOS.phila.height}
+                loading="lazy"
+                decoding="async"
+                className="mx-auto aspect-[3/4] w-full max-w-[240px] rounded-3xl object-cover"
+              />
+            </picture>
             <figcaption className="font-display text-2xl font-extrabold leading-snug tracking-[-0.03em] text-midnight md:text-3xl">
               {EVIDENCE.own}
             </figcaption>
@@ -401,6 +407,8 @@ export default function PrivateAi() {
             ))}
           </ol>
           <figure className="mt-16 grid items-center gap-8 md:grid-cols-[1.1fr_0.9fr]">
+            <picture>
+              <source type="image/webp" srcSet={PHOTOS.session.webp} />
             <img
               src={PHOTOS.session.src}
               alt={PHOTOS.session.alt}
@@ -410,6 +418,7 @@ export default function PrivateAi() {
               decoding="async"
               className="aspect-[4/3] w-full rounded-3xl object-cover"
             />
+            </picture>
             <figcaption className="text-lg leading-relaxed text-cream/75">
               {PHOTOS.session.caption}
             </figcaption>
@@ -444,15 +453,18 @@ export default function PrivateAi() {
 
       {/* ---------- Close ---------- */}
       <section id="close" data-tone="dark" className="relative isolate overflow-hidden bg-midnight py-24 text-center text-cream md:py-36">
-        <img
-          src={PHOTOS.joburg.src}
-          alt={PHOTOS.joburg.alt}
-          width={PHOTOS.joburg.width}
-          height={PHOTOS.joburg.height}
-          loading="lazy"
-          decoding="async"
-          className="absolute inset-0 -z-20 h-full w-full object-cover"
-        />
+        <picture className="absolute inset-0 -z-20">
+          <source type="image/webp" srcSet={PHOTOS.joburg.webp} />
+          <img
+            src={PHOTOS.joburg.src}
+            alt={PHOTOS.joburg.alt}
+            width={PHOTOS.joburg.width}
+            height={PHOTOS.joburg.height}
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-cover"
+          />
+        </picture>
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-midnight/80" />
         <div className={WRAP}>
           <PrivateAiScene name="key" className="mx-auto mb-6 h-32 w-48 text-cream/75" />

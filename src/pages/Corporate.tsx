@@ -82,6 +82,7 @@ export default function Corporate() {
             <h1 className="mt-6 max-w-[13ch] text-[length:clamp(2.75rem,7.5vw,6rem)] leading-[0.98] tracking-[-0.055em] text-midnight">
               {HERO.headlineLead} <span className="cc-marker whitespace-nowrap">{HERO.headlineMark}</span>
             </h1>
+            <p data-direct-answer className="mt-6 max-w-[62ch] border-l-2 border-gold pl-4 text-base leading-relaxed text-ink">{HERO.answer}</p>
             <p className="mt-8 max-w-[52ch] text-lg leading-relaxed text-ink md:text-xl">{HERO.sub}</p>
             <div className="mt-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-8">
               <PillLink to={ENQUIRE_ANCHOR} className="w-full sm:w-auto">
@@ -111,15 +112,18 @@ export default function Corporate() {
           <figure className="mx-auto w-full max-w-[520px]">
             <div className="relative">
               <div aria-hidden="true" className="absolute inset-0 translate-x-4 translate-y-4 rounded-3xl border border-gold/60" />
-              <img
-                src={HERO.photo.src}
-                alt={HERO.photo.alt}
-                width={HERO.photo.width}
-                height={HERO.photo.height}
-                fetchPriority="high"
-                decoding="async"
-                className="relative aspect-[4/3] w-full rounded-3xl object-cover shadow-[0_40px_90px_-40px_rgba(26,26,36,0.6)]"
-              />
+              <picture>
+                <source type="image/webp" srcSet={HERO.photo.webp} />
+                <img
+                  src={HERO.photo.src}
+                  alt={HERO.photo.alt}
+                  width={HERO.photo.width}
+                  height={HERO.photo.height}
+                  fetchPriority="high"
+                  decoding="async"
+                  className="relative aspect-[4/3] w-full rounded-3xl object-cover shadow-[0_40px_90px_-40px_rgba(26,26,36,0.6)]"
+                />
+              </picture>
             </div>
             <figcaption className="mt-8 font-mono text-[12px] uppercase tracking-[0.14em] text-muted">
               {HERO.photo.caption}
@@ -525,6 +529,7 @@ export default function Corporate() {
             })}
           </Reveal>
           <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.14em] text-cream/45">{PRICING.note}</p>
+          <p className="mt-4 text-sm leading-relaxed text-cream/70">The owner workshop is a different price. <Link to="/guides/ai-training-cost-south-africa" className="text-gold">Read what AI training costs in South Africa.</Link></p>
         </div>
       </section>
 

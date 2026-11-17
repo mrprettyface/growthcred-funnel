@@ -1,17 +1,35 @@
 User-agent: *
 Allow: /
 
-# Search discovery is separate from model-training crawls.
+# Search and answer engines may read the public site.
 User-agent: Bingbot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Extended
 Allow: /
 
 User-agent: OAI-SearchBot
 Allow: /
 
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
 User-agent: Claude-SearchBot
 Allow: /
 
+User-agent: ClaudeBot
+Allow: /
+
 User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot-Extended
 Allow: /
 
 Sitemap: https://growthcred.co.za/sitemap.xml

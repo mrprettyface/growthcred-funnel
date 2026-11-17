@@ -17,6 +17,8 @@
  *   carries (see src/lib/home.ts), and nothing more.
  */
 
+import { CORPORATE_ANSWER } from "./corporateSeo";
+
 /** In-page anchors. Plain <a href="#…">, because the router does not scroll to hashes. */
 export const ENQUIRE_ANCHOR = "#enquire";
 
@@ -29,12 +31,14 @@ export const HERO = {
   /** One static <h1>: "Every employee. Every report. 3× faster." */
   headlineLead: "Every employee. Every report.",
   headlineMark: "3× faster.",
+  answer: CORPORATE_ANSWER,
   sub: "Your people already have the AI licence. What they don't have is a method for the documents they produce every week. So I train your teams hands-on, in live workshops, with packs they follow along. We time how long your people take today. We train them on their own reports, proposals and board packs. Then we measure again. You pay per employee, against the capacity it returns.",
   cta: "Request a team proposal",
   secondary: "Model your ROI",
   chips: ["Live workshops, in the room or online", "A playbook for every role", "Measured before and after"],
   photo: {
     src: "/images/stories/operators-intensive-session.jpg",
+    webp: "/images/stories/operators-intensive-session.webp",
     alt: "Phila Ngwenya facilitating a GrowthCred working session while a participant asks a question",
     width: 1200,
     height: 900,

@@ -22,8 +22,14 @@ export function Metadata() {
     set('meta[name="description"]','meta',{name:'description',content:meta.description});
     set('meta[name="robots"]','meta',{name:'robots',content:meta.index?'index, follow, max-image-preview:large':'noindex, follow'});
     set('link[rel="canonical"]','link',{rel:'canonical',href:SITE+(meta.canonical??meta.path)});
-    for(const [property,content] of Object.entries({'og:title':meta.title,'og:description':meta.description,'og:url':SITE+(meta.canonical??meta.path),'og:image':`${SITE}/images/search-share.png`,'og:type':meta.path.startsWith('/guides/')?'article':'website'})) set(`meta[property="${property}"]`,'meta',{property,content});
+    for(const [property,content] of Object.entries({'og:title':meta.title,'og:description':meta.description,'og:url':SITE+(meta.canonical??meta.path),'og:image':`${SITE}/images/search-share.png`,'og:image:alt':'GrowthCred: practical AI for South African business owners','og:site_name':'GrowthCred','og:locale':'en_ZA','og:type':meta.published?'article':'website'})) set(`meta[property="${property}"]`,'meta',{property,content});
     for(const [name,content] of Object.entries({'twitter:card':'summary_large_image','twitter:title':meta.title,'twitter:description':meta.description,'twitter:image':`${SITE}/images/search-share.png`})) set(`meta[name="${name}"]`,'meta',{name,content});
+    for(const property of ['article:published_time','article:modified_time','article:author']){
+      const selector=`meta[property="${property}"]`;
+      if(!meta.published){document.head.querySelector(selector)?.remove();continue;}
+      const content=property==='article:author'?'Phila Ngwenya':property==='article:published_time'?meta.published:(meta.modified??meta.published);
+      set(selector,'meta',{property,content});
+    }
     let json=document.getElementById('site-schema');
     if(!json){json=document.createElement('script');json.id='site-schema';json.setAttribute('type','application/ld+json');document.head.appendChild(json);}
     json.textContent=JSON.stringify(structuredData(meta));

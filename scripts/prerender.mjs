@@ -9,6 +9,9 @@ async function writePage(meta){
   const prerendered=!interactive.has(meta.path);
   const content=prerendered?await render(meta.path):'<noscript><p>JavaScript is needed for this interactive page. <a href="/contact">Contact GrowthCred</a> for help registering.</p></noscript>';
   const canonical=SITE+(meta.canonical??meta.path);
+  const article=meta.published?`<meta property="article:published_time" content="${escape(meta.published)}" />
+    <meta property="article:modified_time" content="${escape(meta.modified??meta.published)}" />
+    <meta property="article:author" content="Phila Ngwenya" />`:"";
   const tags=`<title>${escape(meta.title)}</title>
     <meta name="description" content="${escape(meta.description)}" />
     <meta name="robots" content="${meta.index?'index, follow, max-image-preview:large':'noindex, follow'}" />
@@ -16,7 +19,7 @@ async function writePage(meta){
     <meta property="og:title" content="${escape(meta.title)}" />
     <meta property="og:description" content="${escape(meta.description)}" />
     <meta property="og:url" content="${escape(canonical)}" />
-    <meta property="og:type" content="${meta.path.startsWith('/guides/')?'article':'website'}" />
+    <meta property="og:type" content="${meta.published?'article':'website'}" />
     <meta property="og:site_name" content="GrowthCred" />
     <meta property="og:locale" content="en_ZA" />
     <meta property="og:image" content="${SITE}/images/search-share.png" />
@@ -26,6 +29,7 @@ async function writePage(meta){
     <meta name="twitter:title" content="${escape(meta.title)}" />
     <meta name="twitter:description" content="${escape(meta.description)}" />
     <meta name="twitter:image" content="${SITE}/images/search-share.png" />
+    ${article}
     <script id="site-schema" type="application/ld+json">${JSON.stringify(structuredData(meta)).replaceAll('<','\\u003c')}</script>`;
   const html=template.replace(/<title>[\s\S]*?<\/title>/,'').replace(/<meta name="description"[^>]*>/,'').replace('</head>',tags+'\n  </head>').replace('<div id="root"></div>',`<div id="root"${prerendered?` data-prerendered="${escape(meta.path)}"`:''}>${content}</div>`);
   const file=meta.path==='/'?'index.html':meta.path.slice(1)+'.html';
