@@ -55,6 +55,8 @@ const BrainPage = lazy(() => import("./pages/Brain"));
 const WorkshopExperience = lazy(() => import("./pages/WorkshopExperience"));
 /** The lead magnet funnel. Small page, lazy for the same reason as the rest. */
 const PlaybookPage = lazy(() => import("./pages/Playbook"));
+/** The JCCI members' toolkit: an opt-in gate, then the whole kit, guided. */
+const ToolkitPage = lazy(() => import("./pages/Toolkit"));
 /**
  * The legal pages are long, rarely opened, and were sitting in the main bundle
  * where the money page paid for them on every first load. Split out: they now
@@ -202,6 +204,21 @@ export default function App() {
               </Layout>
             }
           />
+          {/* The JCCI webinar's resource vault. Bare: its own top bar and
+              footer, because the only job here is using the kit. /jcci and
+              /intensive (the link printed inside the PDFs) are aliases. */}
+          <Route
+            path="/toolkit"
+            element={
+              <Layout bare>
+                <Suspense fallback={<WebinarLoading />}>
+                  <ToolkitPage />
+                </Suspense>
+              </Layout>
+            }
+          />
+          <Route path="/jcci" element={<Navigate to="/toolkit" replace />} />
+          <Route path="/intensive" element={<Navigate to="/call" replace />} />
           <Route path="/ai-implementation-guide" element={<Layout><GuidePage /></Layout>} />
           <Route path="/webinar-plain" element={<Navigate to="/webinar" replace />} />
           {/* THE LANDING PAGE — repositioned.

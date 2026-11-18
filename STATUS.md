@@ -1,5 +1,25 @@
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
+> **18 November 2026 — `/toolkit` is the JCCI members' kit.** The 10 Hours
+> Back System (resources 01–11 and 17, PDF + Word + Excel, plus a one-click
+> zip) behind a soft opt-in gate: first name, email, and a required tick for
+> one email a day. Rows land in `magnet_signups` (magnet
+> `jcci-toolkit-2026-11`, source `toolkit_jcci`, whatsapp empty) and `leads`.
+> Unlocked, the page asks what is eating your week and what kind of business
+> it is, names the file to open first, shows the kit's own 10-day route, and
+> gives every file a guide (where it fits, steps, what you get, ideas, by
+> industry). Copy and files: `src/lib/toolkit.ts`, `public/downloads/toolkit/`
+> (rebuild the zip with `scripts/build-toolkit-zip.sh`). Resources 12–16 are
+> internal build records and are deliberately NOT published. `/jcci` 301s to
+> `/toolkit`; `/intensive` (printed in every PDF) 301s to `/call` until a real
+> Intensive page exists. noindex. The GuideOffer popup is suppressed there.
+> Every choice and click is logged to `toolkit_events` (`src/lib/toolkitTrack.ts`,
+> batched REST inserts, no supabase-js; run `supabase/toolkit-events.sql` once).
+> The Command dashboard's **Toolkit insights** page ranks pains, industries,
+> downloads, guides and tabs, and draws a click heatmap per screen.
+> **Nothing sends the daily email yet** — the consent is stored; connect the
+> rows to an email tool with an unsubscribe link before the first send.
+
 > **11 November 2026 — `/webinar` is the JCCI registration funnel.** Phila's
 > brief for the JCCI × GrowthCred webinar on **Wednesday 18 November 2026,
 > 18:00 SAST** on Microsoft Teams is built. `/webinar` was an undated
