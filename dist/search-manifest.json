@@ -487,6 +487,14 @@
       "prerendered": true
     },
     {
+      "path": "/toolkit",
+      "title": "The 10 Hours Back System: JCCI Members’ Toolkit | GrowthCred",
+      "description": "The playbooks, templates and trackers from the JCCI × GrowthCred webinar, with a guide to where, when and how to use each one in your business.",
+      "index": false,
+      "file": "toolkit.html",
+      "prerendered": true
+    },
+    {
       "path": "/ai-implementation-guide",
       "title": "The AI Implementation Guide | GrowthCred",
       "description": "Seven steps to put AI to work in your business without changing the way you work or the platforms you work in.",
@@ -587,6 +595,8 @@
     "/agency": "/ai-automation-south-africa",
     "/webinar-plain": "/webinar",
     "/class": "/webinar",
-    "/tools/content-compass": "/resources"
+    "/tools/content-compass": "/resources",
+    "/jcci": "/toolkit",
+    "/intensive": "/call"
   }
 }

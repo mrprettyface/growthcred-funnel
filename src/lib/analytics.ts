@@ -34,6 +34,13 @@ type FunnelStep =
   /** The parallel funnel: a lead magnet opt-in. */
   | "magnet_view"
   | "magnet_signup"
+  /** /toolkit: the JCCI members' kit. Gate seen, unlocked, used. */
+  | "toolkit_gate_view"
+  | "toolkit_unlock"
+  | "toolkit_view"
+  | "toolkit_download"
+  | "toolkit_whatsapp"
+  | "toolkit_apply"
   /** Referral loop: a registrant sharing their invite link. */
   | "referral_share"
   | "workshop_view"

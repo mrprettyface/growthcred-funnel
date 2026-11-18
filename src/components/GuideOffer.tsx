@@ -37,7 +37,7 @@ const REST_DAYS = 14;
 /** Pages where a form or a purchase is already the point, and the guide itself. */
 const SKIP = [
   "/call", "/checkout", "/upsell", "/downsell", "/build", "/thank-you",
-  "/class", "/webinar", "/playbook", "/brain", "/contact", GUIDE_PATH,
+  "/class", "/webinar", "/playbook", "/brain", "/contact", "/toolkit", GUIDE_PATH,
   "/terms", "/privacy", "/refunds",
 ];
 

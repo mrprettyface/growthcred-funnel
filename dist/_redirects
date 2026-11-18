@@ -4,6 +4,8 @@ https://www.growthcred.co.za/* https://growthcred.co.za/:splat 301!
 /webinar-plain /webinar 301
 /class /webinar 301
 /tools/content-compass /resources 301
+/jcci /toolkit 301
+/intensive /call 301
 /private-ai /private-ai.html 200
 /corporate-ai-training /corporate-ai-training.html 200
 /workshop /workshop.html 200
@@ -57,6 +59,7 @@ https://www.growthcred.co.za/* https://growthcred.co.za/:splat 301!
 /webinar/thanks /webinar/thanks.html 200
 /webinar/vip /webinar/vip.html 200
 /playbook /playbook.html 200
+/toolkit /toolkit.html 200
 /ai-implementation-guide /ai-implementation-guide.html 200
 /brain /brain.html 200
 /call /call.html 200
