@@ -2,6 +2,7 @@ import { useEffect, useId, useMemo, useState, type FormEvent, type ReactNode } f
 import { Link } from "react-router-dom";
 import { cn } from "../components/ui";
 import { BrandIcon } from "../components/BrandIcons";
+import { HeroGraph } from "../components/home/HeroGraph";
 import { captureLead, captureMagnetSignup } from "../lib/supabase";
 import { track } from "../lib/analytics";
 import { whatsappUrl } from "../lib/contact";
@@ -36,28 +37,28 @@ import {
 const INDUSTRY_KEY = "gc_toolkit_industry";
 
 const field =
-  "w-full rounded-xl border border-cream/20 bg-white/[0.06] px-4 py-3.5 text-lg text-cream placeholder:text-cream/35 outline-none transition focus:border-gold focus:bg-white/[0.09]";
+  "w-full rounded-xl border border-midnight/15 bg-white px-4 py-3.5 text-lg text-midnight placeholder:text-faint outline-none transition focus:border-gold";
 
 const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
 
 function TopBar({ onLeave }: { onLeave?: () => void }) {
   return (
-    <div className="relative z-10 border-b border-cream/10 bg-midnight">
-      <div className="mx-auto flex w-[min(1180px,calc(100%-2.5rem))] items-center justify-between gap-4 py-4">
-        <Link to="/" className="flex items-center gap-2 no-underline">
-          <span className="font-display text-xl font-extrabold tracking-[-0.04em] text-cream">
-            GrowthCred<span className="text-gold">.</span>
+    <div className="relative z-10 border-b border-midnight/10 bg-paper/90 backdrop-blur-sm">
+      <div className="mx-auto flex w-[min(1180px,calc(100%-2.5rem))] items-center justify-between gap-4 py-5">
+        <Link to="/" className="no-underline">
+          <span className="font-display text-xl font-extrabold tracking-[-0.04em] text-midnight">
+            Growth<span className="text-gold">Cred.</span>
           </span>
         </Link>
-        <div className="flex items-center gap-4">
-          <span className="hidden font-mono text-[11px] uppercase tracking-[0.18em] text-cream/50 sm:inline">
+        <div className="flex items-center gap-5">
+          <span className="hidden font-mono text-[11px] uppercase tracking-[0.18em] text-muted sm:inline">
             {TOOLKIT.partner} &times; GrowthCred &middot; Members&rsquo; toolkit
           </span>
           {onLeave ? (
             <button
               type="button"
               onClick={onLeave}
-              className="font-mono text-[11px] uppercase tracking-[0.16em] text-cream/45 underline-offset-4 hover:text-gold hover:underline"
+              className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted underline-offset-4 hover:text-gold hover:underline"
             >
               Not you?
             </button>
@@ -144,36 +145,31 @@ function Gate({ onUnlock }: { onUnlock: (a: ToolkitAccess) => void }) {
   );
 
   return (
-    <div className="relative isolate overflow-hidden bg-midnight text-cream">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="cc-grid absolute inset-0 opacity-60" />
-        <div className="cc-glow absolute -top-[26rem] left-1/2 h-[52rem] w-[52rem] max-w-none -translate-x-1/2" />
-      </div>
+    <div className="min-h-screen bg-paper text-midnight">
       <TopBar />
-
-      <div className="mx-auto grid w-[min(1180px,calc(100%-2.5rem))] gap-10 pb-20 pt-10 md:pt-20 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-x-16 lg:gap-y-0">
-        <div className="lg:col-start-1">
-          <span className="inline-flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.2em] text-gold">
+      <section className="relative isolate overflow-hidden">
+        <HeroGraph />
+        <div className="mx-auto flex w-[min(760px,calc(100%-2.5rem))] flex-col items-center pb-16 pt-12 text-center md:pb-24 md:pt-20">
+          <span className="inline-flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.2em] text-muted">
             <span aria-hidden="true" className="h-px w-8 bg-gold" />
             For the people who were in the room
+            <span aria-hidden="true" className="h-px w-8 bg-gold" />
           </span>
-          <h1 className="mt-6 text-[2.6rem] leading-[1.02] text-cream md:text-6xl">
-            {TOOLKIT.headline}
+          <h1 className="mt-6 text-[length:clamp(2.3rem,5.4vw,4.4rem)] leading-[1.02] tracking-[-0.045em] text-midnight">
+            {TOOLKIT.headlineLead} <span className="cc-marker">{TOOLKIT.headlineMark}</span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-cream/75 md:text-xl">{TOOLKIT.sub}</p>
-        </div>
+          <p className="mt-7 max-w-[46ch] text-lg leading-relaxed text-ink md:text-xl">{TOOLKIT.sub}</p>
 
-        <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:pt-6">
           <form
             onSubmit={submit}
             noValidate
-            className="rounded-3xl border border-cream/15 bg-midnight-soft/80 p-6 shadow-[0_40px_100px_-30px_rgba(0,0,0,0.8)] md:p-8 lg:sticky lg:top-8"
+            className="mt-10 w-full max-w-[520px] rounded-3xl border border-midnight/10 bg-white p-6 text-left shadow-[0_30px_80px_-40px_rgba(26,26,36,0.35)] md:p-8"
           >
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">Two fields. Then it&rsquo;s yours.</p>
-            <h2 className="mt-3 text-2xl text-cream md:text-3xl">Open the toolkit</h2>
-            <p className="mt-2 text-cream/60">Everything opens on the next screen. No waiting for an email.</p>
+            <h2 className="mt-2 text-2xl md:text-3xl">Open the toolkit</h2>
+            <p className="mt-2 text-muted">Everything opens on the next screen. No waiting for an email.</p>
 
-            <label htmlFor={`${uid}-name`} className="mt-7 block text-sm font-semibold text-cream/80">
+            <label htmlFor={`${uid}-name`} className="mt-6 block text-sm font-semibold text-midnight">
               First name
             </label>
             <input
@@ -184,9 +180,9 @@ function Gate({ onUnlock }: { onUnlock: (a: ToolkitAccess) => void }) {
               onChange={(e) => setName(e.target.value)}
               placeholder="Your first name"
             />
-            {touched && !name.trim() ? <p className="mt-1.5 text-sm text-gold">Your first name, so we know who it&rsquo;s for.</p> : null}
+            {touched && !name.trim() ? <p className="mt-1.5 text-sm text-red-700">Your first name, so we know who it&rsquo;s for.</p> : null}
 
-            <label htmlFor={`${uid}-email`} className="mt-5 block text-sm font-semibold text-cream/80">
+            <label htmlFor={`${uid}-email`} className="mt-5 block text-sm font-semibold text-midnight">
               Email
             </label>
             <input
@@ -199,9 +195,9 @@ function Gate({ onUnlock }: { onUnlock: (a: ToolkitAccess) => void }) {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@yourbusiness.co.za"
             />
-            {touched && !emailOk(email) ? <p className="mt-1.5 text-sm text-gold">That email doesn&rsquo;t look right yet.</p> : null}
+            {touched && !emailOk(email) ? <p className="mt-1.5 text-sm text-red-700">That email doesn&rsquo;t look right yet.</p> : null}
 
-            <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-xl border border-cream/15 bg-white/[0.03] p-4 text-[15px] leading-snug text-cream/80">
+            <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-xl border border-midnight/10 bg-paper p-4 text-[15px] leading-snug text-ink">
               <input
                 type="checkbox"
                 checked={consent}
@@ -209,64 +205,61 @@ function Gate({ onUnlock }: { onUnlock: (a: ToolkitAccess) => void }) {
                 className="mt-0.5 h-5 w-5 shrink-0 accent-[#c8a04a]"
               />
               <span>
-                Yes, send me <strong className="text-cream">one short email a day</strong> from Phila at GrowthCred: one AI
-                idea I can use in my business that day. I can unsubscribe with one click, any time.
+                Yes, send me <strong className="text-midnight">one short email a day</strong> from Phila at GrowthCred: one
+                AI idea I can use in my business that day. I can unsubscribe with one click, any time.
               </span>
             </label>
             {touched && !consent ? (
-              <p className="mt-1.5 text-sm text-gold">Tick the box to open the kit. That daily email is the deal.</p>
+              <p className="mt-1.5 text-sm text-red-700">Tick the box to open the kit. That daily email is the deal.</p>
             ) : null}
 
             <button
               type="submit"
               disabled={state === "sending"}
-              className="cc-shine mt-6 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-gold px-8 font-body text-base font-semibold text-midnight shadow-[0_10px_40px_-10px_rgba(200,160,74,0.7)] transition hover:bg-gold-soft disabled:opacity-60"
+              className="cc-shine group mt-6 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-gold px-8 font-body text-base font-semibold text-midnight shadow-[0_10px_40px_-10px_rgba(200,160,74,0.7)] transition hover:bg-gold-soft disabled:opacity-60"
             >
               {state === "sending" ? "Opening…" : "Open my toolkit"}
-              <span aria-hidden="true" className="grid h-7 w-7 place-items-center rounded-full bg-midnight text-sm text-gold">
+              <span aria-hidden="true" className="grid h-7 w-7 place-items-center rounded-full bg-midnight text-sm text-gold transition-transform group-hover:translate-x-0.5">
                 &#8599;
               </span>
             </button>
-            <p className="mt-4 text-center text-[13px] text-cream/45">
-              We keep your details private. See our <Link to="/privacy" className="text-cream/70 underline">privacy policy</Link>.
+            <p className="mt-4 text-center text-[13px] text-muted">
+              We keep your details private. See our <Link to="/privacy" className="text-midnight underline">privacy policy</Link>.
             </p>
           </form>
-        </div>
 
-        <div className="lg:col-start-1 lg:row-start-2 lg:mt-10">
-          <dl className="grid max-w-xl grid-cols-3 gap-px overflow-hidden rounded-2xl border border-cream/10 bg-cream/10">
+          <dl className="mt-10 grid w-full max-w-[520px] grid-cols-3 divide-x divide-midnight/10 rounded-2xl border border-midnight/10 bg-white/70">
             {[
               [String(counts.total), "playbooks & tools"],
-              [String(counts.files), "PDF, Word & Excel files"],
+              [String(counts.files), "PDF, Word & Excel"],
               ["R0", "for you tonight"],
             ].map(([n, l]) => (
-              <div key={l} className="bg-midnight px-4 py-5">
+              <div key={l} className="px-3 py-4">
                 <dt className="sr-only">{l}</dt>
-                <dd className="font-display text-3xl font-extrabold tracking-[-0.04em] text-cream md:text-4xl">
-                  {n}
-                </dd>
-                <dd className="mt-1 font-mono text-[11px] uppercase tracking-[0.14em] text-cream/50">{l}</dd>
+                <dd className="font-display text-3xl font-extrabold tracking-[-0.04em] text-midnight">{n}</dd>
+                <dd className="mt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-muted md:text-[11px]">{l}</dd>
               </div>
             ))}
           </dl>
-
-          <div className="mt-10 max-w-xl">
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-cream/45">What&rsquo;s behind the door</p>
-            <ul className="mt-4 grid gap-2">
-              {GROUPS.map((g) => (
-                <li key={g.key} className="flex items-start gap-3 rounded-xl border border-cream/10 bg-white/[0.03] px-4 py-3">
-                  <span aria-hidden="true" className="mt-0.5 text-gold">&#9670;</span>
-                  <span>
-                    <span className="font-semibold text-cream">{g.title}</span>
-                    <span className="text-cream/55"> &middot; {g.teaser}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
+      </section>
 
-      </div>
+      <section className="border-t border-midnight/10 py-14 md:py-20">
+        <div className="mx-auto w-[min(1000px,calc(100%-2.5rem))]">
+          <p className="text-center font-mono text-[12px] uppercase tracking-[0.18em] text-muted">What&rsquo;s behind the door</p>
+          <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+            {GROUPS.map((g) => (
+              <li key={g.key} className="rounded-2xl border border-midnight/10 bg-white p-6">
+                <p className="flex items-center gap-2 font-display text-xl font-extrabold tracking-[-0.03em] text-midnight">
+                  <span aria-hidden="true" className="text-gold">&#9670;</span>
+                  {g.title}
+                </p>
+                <p className="mt-2 text-ink">{g.line}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
     </div>
   );
 }
@@ -500,47 +493,47 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
   return (
     <>
       {/* Welcome */}
-      <div className="relative isolate overflow-hidden bg-midnight text-cream">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-          <div className="cc-grid absolute inset-0 opacity-50" />
-          <div className="cc-glow absolute -top-[30rem] left-1/2 h-[52rem] w-[52rem] max-w-none -translate-x-1/2" />
-        </div>
+      <div className="bg-paper text-midnight">
         <TopBar onLeave={onLeave} />
-        <div className="mx-auto w-[min(1180px,calc(100%-2.5rem))] pb-16 pt-12 md:pb-20 md:pt-16">
-          <span className="inline-flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.2em] text-gold">
-            <span aria-hidden="true" className="h-px w-8 bg-gold" />
-            You&rsquo;re in
-          </span>
-          <h1 className="mt-5 max-w-4xl text-[2.5rem] leading-[1.02] text-cream md:text-6xl">
-            Welcome, {first}. <span className="text-cream/45">{TOOLKIT.welcomeTail}</span>
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-cream/75">{TOOLKIT.welcomeSub}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#start"
-              className="cc-shine inline-flex min-h-13 items-center gap-3 rounded-full bg-gold px-7 py-3.5 font-body text-base font-semibold text-midnight no-underline hover:bg-gold-soft"
-            >
-              Tell me where to start <span aria-hidden="true">&darr;</span>
-            </a>
-            {ZIP_FILE ? (
+        <section className="relative isolate overflow-hidden">
+          <HeroGraph />
+          <div className="mx-auto w-[min(1180px,calc(100%-2.5rem))] pb-16 pt-12 md:pb-20 md:pt-20">
+            <span className="inline-flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.2em] text-muted">
+              <span aria-hidden="true" className="h-px w-8 bg-gold" />
+              You&rsquo;re in
+            </span>
+            <h1 className="mt-5 max-w-[20ch] text-[length:clamp(2.3rem,5vw,4.35rem)] leading-[1.02] tracking-[-0.045em] text-midnight">
+              Welcome, {first}. <span className="cc-marker">{TOOLKIT.welcomeTail}</span>
+            </h1>
+            <p className="mt-7 max-w-[52ch] text-lg leading-relaxed text-ink md:text-xl">{TOOLKIT.welcomeSub}</p>
+            <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
               <a
-                href={ZIP_FILE.href}
-                download
-                onClick={() => track("toolkit_download", { file: ZIP_FILE!.href, kind: "zip" })}
-                className="inline-flex min-h-13 items-center gap-3 rounded-full border border-cream/30 px-7 py-3.5 font-body text-base font-semibold text-cream no-underline hover:border-gold hover:text-gold"
+                href="#start"
+                className="cc-shine group inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-gold px-8 font-body text-base font-semibold text-midnight no-underline shadow-[0_10px_40px_-10px_rgba(200,160,74,0.7)] hover:bg-gold-soft"
               >
-                Download everything <span className="font-mono text-[11px] text-cream/50">{ZIP_FILE.size}</span>
+                Tell me where to start
+                <span aria-hidden="true" className="grid h-7 w-7 place-items-center rounded-full bg-midnight text-sm text-gold">&darr;</span>
               </a>
-            ) : null}
+              {ZIP_FILE ? (
+                <a
+                  href={ZIP_FILE.href}
+                  download
+                  onClick={() => track("toolkit_download", { file: ZIP_FILE!.href, kind: "zip" })}
+                  className="inline-flex min-h-11 items-center gap-2 self-start border-b-2 border-midnight font-semibold text-midnight no-underline hover:border-gold hover:text-gold sm:self-auto"
+                >
+                  Download everything <span className="font-mono text-[11px] text-muted">.zip &middot; {ZIP_FILE.size}</span>
+                </a>
+              ) : null}
+            </div>
+            <p className="mt-6 font-mono text-[12px] uppercase tracking-[0.16em] text-muted">
+              Bookmark this page. It remembers you on this device.
+            </p>
           </div>
-          <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.16em] text-cream/40">
-            Bookmark this page. It remembers you on this device.
-          </p>
-        </div>
+        </section>
       </div>
 
       {/* Start here */}
-      <section id="start" className="scroll-mt-4 bg-paper py-16 md:py-24">
+      <section id="start" className="scroll-mt-4 border-t border-midnight/10 bg-paper py-16 md:py-24">
         <div className="mx-auto w-[min(1180px,calc(100%-2.5rem))]">
           <SectionHead
             eyebrow="Start here · 60 seconds"

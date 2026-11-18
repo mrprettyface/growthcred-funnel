@@ -50,7 +50,8 @@ export const TOOLKIT = {
   partner: "JCCI",
   when: "18 November 2026",
   name: "The 10 Hours Back System",
-  headline: "You came for the talk. Take the whole system home.",
+  headlineLead: "You came for the talk.",
+  headlineMark: "Take the whole system home.",
   sub: "The 10 Hours Back System: the playbooks, templates and trackers behind tonight’s session. It’s normally a paid GrowthCred package. If you were in the room, it’s yours.",
   welcomeTail: "Your kit is ready.",
   welcomeSub:
