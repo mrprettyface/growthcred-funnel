@@ -13,6 +13,10 @@
 > internal build records and are deliberately NOT published. `/jcci` 301s to
 > `/toolkit`; `/intensive` (printed in every PDF) 301s to `/call` until a real
 > Intensive page exists. noindex. The GuideOffer popup is suppressed there.
+> Every choice and click is logged to `toolkit_events` (`src/lib/toolkitTrack.ts`,
+> batched REST inserts, no supabase-js; run `supabase/toolkit-events.sql` once).
+> The Command dashboard's **Toolkit insights** page ranks pains, industries,
+> downloads, guides and tabs, and draws a click heatmap per screen.
 > **Nothing sends the daily email yet** — the consent is stored; connect the
 > rows to an email tool with an unsubscribe link before the first send.
 

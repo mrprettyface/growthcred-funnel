@@ -6,6 +6,7 @@ import { HeroGraph } from "../components/home/HeroGraph";
 import { captureLead, captureMagnetSignup } from "../lib/supabase";
 import { track } from "../lib/analytics";
 import { whatsappUrl } from "../lib/contact";
+import { trackToolkit, startToolkitHeatmap, setTrackState, setTrackIndustry } from "../lib/toolkitTrack";
 import { loadAccess, saveAccess, clearAccess, TOOLKIT_SLUG, type ToolkitAccess } from "../lib/toolkitAccess";
 import {
   TOOLKIT,
@@ -43,7 +44,7 @@ const emailOk = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
 
 function TopBar({ onLeave }: { onLeave?: () => void }) {
   return (
-    <div className="relative z-10 border-b border-midnight/10 bg-paper/90 backdrop-blur-sm">
+    <div data-hm="topbar" className="relative z-10 border-b border-midnight/10 bg-paper/90 backdrop-blur-sm">
       <div className="mx-auto flex w-[min(1180px,calc(100%-2.5rem))] items-center justify-between gap-4 py-5">
         <Link to="/" className="no-underline">
           <span className="font-display text-xl font-extrabold tracking-[-0.04em] text-midnight">
@@ -69,7 +70,7 @@ function TopBar({ onLeave }: { onLeave?: () => void }) {
   );
 }
 
-function FileButtons({ files, compact = false, label }: { files: FileRef[]; compact?: boolean; label: string }) {
+function FileButtons({ files, compact = false, label, id }: { files: FileRef[]; compact?: boolean; label: string; id: string }) {
   return (
     <div className="flex flex-wrap gap-2">
       {files.map((f) => (
@@ -77,10 +78,14 @@ function FileButtons({ files, compact = false, label }: { files: FileRef[]; comp
           key={f.href}
           href={f.href}
           download
-          onClick={() => track("toolkit_download", { file: f.href, kind: f.kind })}
+          data-track={`download:${id}:${f.kind}`}
+          onClick={() => {
+            track("toolkit_download", { file: f.href, kind: f.kind });
+            trackToolkit({ event: "download", target: id, detail: f.kind });
+          }}
           aria-label={`Download ${label} as ${f.kind.toUpperCase()}`}
           className={cn(
-            "inline-flex items-center gap-2 rounded-full no-underline transition",
+            "gc-press group inline-flex items-center gap-2 rounded-full no-underline transition hover:-translate-y-0.5",
             f.kind === "pdf"
               ? "bg-midnight text-cream hover:bg-midnight-soft"
               : "border border-midnight/15 bg-white text-midnight hover:border-gold",
@@ -90,7 +95,7 @@ function FileButtons({ files, compact = false, label }: { files: FileRef[]; comp
         >
           <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-gold">{f.kind}</span>
           {f.cta}
-          <span aria-hidden="true">&darr;</span>
+          <span aria-hidden="true" className="transition-transform duration-200 group-hover:translate-y-0.5">&darr;</span>
         </a>
       ))}
     </div>
@@ -106,7 +111,7 @@ function Gate({ onUnlock }: { onUnlock: (a: ToolkitAccess) => void }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
-  const [state, setState] = useState<"idle" | "sending">("idle");
+  const [state, setState] = useState<"idle" | "sending" | "done">("idle");
   const [touched, setTouched] = useState(false);
 
   const ready = name.trim().length > 0 && emailOk(email) && consent;
@@ -114,7 +119,7 @@ function Gate({ onUnlock }: { onUnlock: (a: ToolkitAccess) => void }) {
   async function submit(e: FormEvent) {
     e.preventDefault();
     setTouched(true);
-    if (!ready || state === "sending") return;
+    if (!ready || state !== "idle") return;
     setState("sending");
     const row = {
       magnet: TOOLKIT_SLUG,
@@ -133,10 +138,14 @@ function Gate({ onUnlock }: { onUnlock: (a: ToolkitAccess) => void }) {
       captureLead({ email: row.email, source: "toolkit_jcci" }),
     ]);
     track("toolkit_unlock", { saved: signup.ok });
+    trackToolkit({ event: "unlock", target: signup.ok ? "saved" : "not_saved" });
     if (!signup.ok) console.error("[toolkit] signup not saved:", signup.error);
     const access = { name: row.name, email: row.email, at: new Date().toISOString() };
     saveAccess(access);
-    onUnlock(access);
+    setState("done");
+    /* A beat to see the door open, then in. Instant under reduced motion. */
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    window.setTimeout(() => onUnlock(access), reduce ? 0 : 520);
   }
 
   const counts = useMemo(
@@ -149,21 +158,23 @@ function Gate({ onUnlock }: { onUnlock: (a: ToolkitAccess) => void }) {
       <TopBar />
       <section className="relative isolate overflow-hidden">
         <HeroGraph />
-        <div className="mx-auto flex w-[min(760px,calc(100%-2.5rem))] flex-col items-center pb-16 pt-12 text-center md:pb-24 md:pt-20">
-          <span className="inline-flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.2em] text-muted">
+        <div data-hm="gate-hero" className="mx-auto flex w-[min(760px,calc(100%-2.5rem))] flex-col items-center pb-16 pt-12 text-center md:pb-24 md:pt-20">
+          <span style={{ ["--i" as string]: 0 }} className="gc-hero-rise inline-flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.2em] text-muted">
             <span aria-hidden="true" className="h-px w-8 bg-gold" />
             For the people who were in the room
             <span aria-hidden="true" className="h-px w-8 bg-gold" />
           </span>
-          <h1 className="mt-6 text-[length:clamp(2.3rem,5.4vw,4.4rem)] leading-[1.02] tracking-[-0.045em] text-midnight">
+          <h1 style={{ ["--i" as string]: 1 }} className="gc-hero-settle mt-6 text-[length:clamp(2.3rem,5.4vw,4.4rem)] leading-[1.02] tracking-[-0.045em] text-midnight">
             {TOOLKIT.headlineLead} <span className="cc-marker">{TOOLKIT.headlineMark}</span>
           </h1>
-          <p className="mt-7 max-w-[46ch] text-lg leading-relaxed text-ink md:text-xl">{TOOLKIT.sub}</p>
+          <p style={{ ["--i" as string]: 2 }} className="gc-hero-rise mt-7 max-w-[46ch] text-lg leading-relaxed text-ink md:text-xl">{TOOLKIT.sub}</p>
 
           <form
             onSubmit={submit}
             noValidate
-            className="mt-10 w-full max-w-[520px] rounded-3xl border border-midnight/10 bg-white p-6 text-left shadow-[0_30px_80px_-40px_rgba(26,26,36,0.35)] md:p-8"
+            data-hm="gate-form"
+            style={{ ["--i" as string]: 3 }}
+            className="gc-hero-frame mt-10 w-full max-w-[520px] rounded-3xl border border-midnight/10 bg-white p-6 text-left shadow-[0_30px_80px_-40px_rgba(26,26,36,0.35)] md:p-8"
           >
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">Two fields. Then it&rsquo;s yours.</p>
             <h2 className="mt-2 text-2xl md:text-3xl">Open the toolkit</h2>
@@ -215,12 +226,13 @@ function Gate({ onUnlock }: { onUnlock: (a: ToolkitAccess) => void }) {
 
             <button
               type="submit"
-              disabled={state === "sending"}
-              className="cc-shine group mt-6 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-gold px-8 font-body text-base font-semibold text-midnight shadow-[0_10px_40px_-10px_rgba(200,160,74,0.7)] transition hover:bg-gold-soft disabled:opacity-60"
+              disabled={state !== "idle"}
+              data-track="unlock-button"
+              className="cc-shine gc-press group mt-6 inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-gold px-8 font-body text-base font-semibold text-midnight shadow-[0_10px_40px_-10px_rgba(200,160,74,0.7)] transition hover:bg-gold-soft disabled:opacity-60"
             >
-              {state === "sending" ? "Opening…" : "Open my toolkit"}
-              <span aria-hidden="true" className="grid h-7 w-7 place-items-center rounded-full bg-midnight text-sm text-gold transition-transform group-hover:translate-x-0.5">
-                &#8599;
+              {state === "done" ? "Unlocked. Opening your kit…" : state === "sending" ? "Opening…" : "Open my toolkit"}
+              <span aria-hidden="true" className={cn("grid h-7 w-7 place-items-center rounded-full bg-midnight text-sm text-gold transition-transform duration-300 group-hover:translate-x-0.5", state === "done" && "rotate-[360deg] scale-110")}>
+                {state === "done" ? <>&#10003;</> : <>&#8599;</>}
               </span>
             </button>
             <p className="mt-4 text-center text-[13px] text-muted">
@@ -228,7 +240,7 @@ function Gate({ onUnlock }: { onUnlock: (a: ToolkitAccess) => void }) {
             </p>
           </form>
 
-          <dl className="mt-10 grid w-full max-w-[520px] grid-cols-3 divide-x divide-midnight/10 rounded-2xl border border-midnight/10 bg-white/70">
+          <dl data-hm="gate-stats" className="gc-reveal mt-10 grid w-full max-w-[520px] grid-cols-3 divide-x divide-midnight/10 rounded-2xl border border-midnight/10 bg-white/70">
             {[
               [String(counts.total), "playbooks & tools"],
               [String(counts.files), "PDF, Word & Excel"],
@@ -244,12 +256,12 @@ function Gate({ onUnlock }: { onUnlock: (a: ToolkitAccess) => void }) {
         </div>
       </section>
 
-      <section className="border-t border-midnight/10 py-14 md:py-20">
+      <section data-hm="gate-door" className="border-t border-midnight/10 py-14 md:py-20">
         <div className="mx-auto w-[min(1000px,calc(100%-2.5rem))]">
           <p className="text-center font-mono text-[12px] uppercase tracking-[0.18em] text-muted">What&rsquo;s behind the door</p>
           <ul className="mt-8 grid gap-4 sm:grid-cols-2">
-            {GROUPS.map((g) => (
-              <li key={g.key} className="rounded-2xl border border-midnight/10 bg-white p-6">
+            {GROUPS.map((g, gi) => (
+              <li key={g.key} style={{ ["--i" as string]: gi }} className="gc-rise rounded-2xl border border-midnight/10 bg-white p-6 transition hover:-translate-y-1 hover:border-gold/60 hover:shadow-[0_20px_50px_-30px_rgba(26,26,36,0.4)]">
                 <p className="flex items-center gap-2 font-display text-xl font-extrabold tracking-[-0.03em] text-midnight">
                   <span aria-hidden="true" className="text-gold">&#9670;</span>
                   {g.title}
@@ -268,14 +280,15 @@ function Gate({ onUnlock }: { onUnlock: (a: ToolkitAccess) => void }) {
 /* Unlocked                                                            */
 /* ------------------------------------------------------------------ */
 
-function Chip({ active, onClick, children }: { active: boolean; onClick: () => void; children: ReactNode }) {
+function Chip({ active, onClick, children, track: t }: { active: boolean; onClick: () => void; children: ReactNode; track?: string }) {
   return (
     <button
       type="button"
       aria-pressed={active}
+      data-track={t}
       onClick={onClick}
       className={cn(
-        "min-h-11 rounded-full border px-4 text-left text-[15px] font-semibold transition",
+        "gc-press min-h-11 rounded-full border px-4 text-left text-[15px] font-semibold transition duration-200",
         active
           ? "border-gold bg-gold text-midnight"
           : "border-midnight/15 bg-white text-midnight hover:border-midnight/40",
@@ -288,7 +301,7 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
 
 function SectionHead({ eyebrow, title, sub }: { eyebrow: string; title: ReactNode; sub?: ReactNode }) {
   return (
-    <div className="max-w-2xl">
+    <div className="gc-reveal max-w-2xl">
       <span className="inline-flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.2em] text-muted">
         <span aria-hidden="true" className="h-px w-8 bg-gold" />
         {eyebrow}
@@ -308,15 +321,17 @@ const TABS = [
 ] as const;
 type TabKey = (typeof TABS)[number][0];
 
-function ResourceCard({ r, industry, open, onToggle }: { r: Resource; industry: IndustryKey | null; open: boolean; onToggle: () => void }) {
+function ResourceCard({ r, industry, open, onToggle, i }: { r: Resource; industry: IndustryKey | null; open: boolean; onToggle: () => void; i: number }) {
   const [tab, setTab] = useState<TabKey>("how");
   const ind = industry ? INDUSTRIES.find((i) => i.key === industry) : null;
   return (
     <article
       id={`r-${r.id}`}
+      style={{ ["--i" as string]: i % 4 }}
       className={cn(
+        "gc-rise",
         "min-w-0 scroll-mt-24 rounded-2xl border bg-white transition",
-        open ? "border-gold shadow-[0_24px_60px_-28px_rgba(26,26,36,0.45)]" : "border-midnight/10 hover:border-midnight/25",
+        open ? "border-gold shadow-[0_24px_60px_-28px_rgba(26,26,36,0.45)]" : "border-midnight/10 hover:-translate-y-0.5 hover:border-midnight/25 hover:shadow-[0_18px_44px_-30px_rgba(26,26,36,0.4)]",
       )}
     >
       <div className="p-5 md:p-7">
@@ -342,14 +357,18 @@ function ResourceCard({ r, industry, open, onToggle }: { r: Resource; industry: 
         </div>
 
         <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-          <FileButtons files={r.files} compact label={r.title} />
+          <FileButtons files={r.files} compact label={r.title} id={r.id} />
           <button
             type="button"
-            onClick={onToggle}
+            onClick={() => {
+              if (!open) trackToolkit({ event: "guide_open", target: r.id });
+              onToggle();
+            }}
+            data-track={`guide:${r.id}`}
             aria-expanded={open}
             aria-controls={`r-${r.id}-guide`}
             className={cn(
-              "inline-flex min-h-10 items-center gap-2 rounded-full border px-4 font-body text-sm font-semibold transition",
+              "gc-press inline-flex min-h-10 items-center gap-2 rounded-full border px-4 font-body text-sm font-semibold transition",
               open ? "border-midnight/15 text-midnight hover:border-midnight" : "border-gold bg-gold/10 text-midnight hover:bg-gold/20",
             )}
           >
@@ -360,7 +379,7 @@ function ResourceCard({ r, industry, open, onToggle }: { r: Resource; industry: 
       </div>
 
       {open ? (
-        <div id={`r-${r.id}-guide`} className="border-t border-midnight/10 bg-paper/70 px-5 pb-6 pt-4 md:px-7">
+        <div id={`r-${r.id}-guide`} className="gc-step-in border-t border-midnight/10 bg-paper/70 px-5 pb-6 pt-4 md:px-7">
           <div role="tablist" aria-label={`${r.title} guide`} className="-mx-1 flex gap-1 overflow-x-auto pb-1">
             {TABS.map(([k, label]) => (
               <button
@@ -368,7 +387,11 @@ function ResourceCard({ r, industry, open, onToggle }: { r: Resource; industry: 
                 role="tab"
                 type="button"
                 aria-selected={tab === k}
-                onClick={() => setTab(k)}
+                data-track={`tab:${r.id}:${k}`}
+                onClick={() => {
+                  setTab(k);
+                  trackToolkit({ event: "tab", target: r.id, detail: k });
+                }}
                 className={cn(
                   "shrink-0 rounded-full px-3.5 py-2 text-[13px] font-semibold transition",
                   tab === k ? "bg-midnight text-cream" : "text-ink hover:bg-midnight/5",
@@ -379,7 +402,7 @@ function ResourceCard({ r, industry, open, onToggle }: { r: Resource; industry: 
             ))}
           </div>
 
-          <div role="tabpanel" className="mt-4 text-[16px] leading-relaxed text-ink">
+          <div role="tabpanel" key={tab} className="gc-step-in mt-4 text-[16px] leading-relaxed text-ink">
             {tab === "where" ? (
               <>
                 <p>{r.where}</p>
@@ -454,6 +477,93 @@ function ResourceCard({ r, industry, open, onToggle }: { r: Resource; industry: 
   );
 }
 
+/** A thin gold line across the top that fills as you read. Transform only. */
+function ScrollProgress() {
+  const [p, setP] = useState(0);
+  useEffect(() => {
+    let raf = 0;
+    const on = () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(() => {
+        raf = 0;
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        setP(max > 0 ? Math.min(1, window.scrollY / max) : 0);
+      });
+    };
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    window.addEventListener("resize", on);
+    return () => {
+      window.removeEventListener("scroll", on);
+      window.removeEventListener("resize", on);
+      if (raf) window.cancelAnimationFrame(raf);
+    };
+  }, []);
+  return (
+    <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 top-0 z-50 h-[3px] bg-transparent">
+      <div className="h-full origin-left bg-gold" style={{ transform: `scaleX(${p})` }} />
+    </div>
+  );
+}
+
+const SECTIONS = [
+  ["start", "Start here"],
+  ["route", "10-day route"],
+  ["kit", "The kit"],
+  ["help", "Help"],
+] as const;
+
+/** Sticky pills that show where you are and jump you anywhere in one tap. */
+function SectionNav() {
+  const [active, setActive] = useState<string>("start");
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const els = SECTIONS.map(([id]) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) setActive(e.target.id);
+      },
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    const start = document.getElementById("start");
+    const onScroll = () => setShown(start ? start.getBoundingClientRect().top < 120 : false);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+  return (
+    <nav
+      aria-label="Toolkit sections"
+      data-hm="v-nav"
+      className={cn(
+        "fixed inset-x-0 top-3 z-40 flex justify-center px-3 transition duration-300",
+        shown ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-4 opacity-0",
+      )}
+    >
+      <div className="flex max-w-full gap-1 overflow-x-auto rounded-full border border-midnight/10 bg-white/95 p-1 shadow-[0_14px_40px_-20px_rgba(26,26,36,0.45)]">
+        {SECTIONS.map(([id, label]) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            data-track={`nav:${id}`}
+            onClick={() => trackToolkit({ event: "nav", target: id })}
+            className={cn(
+              "gc-press shrink-0 rounded-full px-3.5 py-2 text-[13px] font-semibold no-underline transition-colors duration-200",
+              active === id ? "bg-midnight text-cream" : "text-ink hover:bg-midnight/5",
+            )}
+          >
+            {label}
+          </a>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
 function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void }) {
   const first = access.name.split(" ")[0] || "friend";
   const [industry, setIndustry] = useState<IndustryKey | null>(null);
@@ -463,7 +573,10 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
   useEffect(() => {
     try {
       const saved = window.localStorage.getItem(INDUSTRY_KEY) as IndustryKey | null;
-      if (saved && INDUSTRIES.some((i) => i.key === saved)) setIndustry(saved);
+      if (saved && INDUSTRIES.some((i) => i.key === saved)) {
+        setIndustry(saved);
+        setTrackIndustry(saved);
+      }
     } catch {
       /* fine */
     }
@@ -473,6 +586,8 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
   function pickIndustry(k: IndustryKey) {
     const next = industry === k ? null : k;
     setIndustry(next);
+    setTrackIndustry(next);
+    if (next) trackToolkit({ event: "industry", target: next });
     try {
       if (next) window.localStorage.setItem(INDUSTRY_KEY, next);
       else window.localStorage.removeItem(INDUSTRY_KEY);
@@ -481,7 +596,8 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
     }
   }
 
-  function jumpTo(id: string) {
+  function jumpTo(id: string, from = "") {
+    if (from) trackToolkit({ event: from, target: id });
     setOpenId(id);
     requestAnimationFrame(() => document.getElementById(`r-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" }));
   }
@@ -492,24 +608,27 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
 
   return (
     <>
+      <ScrollProgress />
+      <SectionNav />
       {/* Welcome */}
       <div className="bg-paper text-midnight">
         <TopBar onLeave={onLeave} />
         <section className="relative isolate overflow-hidden">
           <HeroGraph />
-          <div className="mx-auto w-[min(1180px,calc(100%-2.5rem))] pb-16 pt-12 md:pb-20 md:pt-20">
-            <span className="inline-flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.2em] text-muted">
+          <div data-hm="v-welcome" className="mx-auto w-[min(1180px,calc(100%-2.5rem))] pb-16 pt-12 md:pb-20 md:pt-20">
+            <span style={{ ["--i" as string]: 0 }} className="gc-hero-rise inline-flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.2em] text-muted">
               <span aria-hidden="true" className="h-px w-8 bg-gold" />
               You&rsquo;re in
             </span>
-            <h1 className="mt-5 max-w-[20ch] text-[length:clamp(2.3rem,5vw,4.35rem)] leading-[1.02] tracking-[-0.045em] text-midnight">
+            <h1 style={{ ["--i" as string]: 1 }} className="gc-hero-settle mt-5 max-w-[20ch] text-[length:clamp(2.3rem,5vw,4.35rem)] leading-[1.02] tracking-[-0.045em] text-midnight">
               Welcome, {first}. <span className="cc-marker">{TOOLKIT.welcomeTail}</span>
             </h1>
-            <p className="mt-7 max-w-[52ch] text-lg leading-relaxed text-ink md:text-xl">{TOOLKIT.welcomeSub}</p>
-            <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+            <p style={{ ["--i" as string]: 2 }} className="gc-hero-rise mt-7 max-w-[52ch] text-lg leading-relaxed text-ink md:text-xl">{TOOLKIT.welcomeSub}</p>
+            <div style={{ ["--i" as string]: 3 }} className="gc-hero-rise mt-9 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
               <a
                 href="#start"
-                className="cc-shine group inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-gold px-8 font-body text-base font-semibold text-midnight no-underline shadow-[0_10px_40px_-10px_rgba(200,160,74,0.7)] hover:bg-gold-soft"
+                data-track="where-to-start"
+                className="cc-shine gc-press group inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-gold px-8 font-body text-base font-semibold text-midnight no-underline shadow-[0_10px_40px_-10px_rgba(200,160,74,0.7)] hover:bg-gold-soft"
               >
                 Tell me where to start
                 <span aria-hidden="true" className="grid h-7 w-7 place-items-center rounded-full bg-midnight text-sm text-gold">&darr;</span>
@@ -518,7 +637,11 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
                 <a
                   href={ZIP_FILE.href}
                   download
-                  onClick={() => track("toolkit_download", { file: ZIP_FILE!.href, kind: "zip" })}
+                  data-track="download:all:zip"
+                  onClick={() => {
+                    track("toolkit_download", { file: ZIP_FILE!.href, kind: "zip" });
+                    trackToolkit({ event: "download", target: "all", detail: "zip" });
+                  }}
                   className="inline-flex min-h-11 items-center gap-2 self-start border-b-2 border-midnight font-semibold text-midnight no-underline hover:border-gold hover:text-gold sm:self-auto"
                 >
                   Download everything <span className="font-mono text-[11px] text-muted">.zip &middot; {ZIP_FILE.size}</span>
@@ -533,7 +656,7 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
       </div>
 
       {/* Start here */}
-      <section id="start" className="scroll-mt-4 border-t border-midnight/10 bg-paper py-16 md:py-24">
+      <section id="start" data-hm="v-start" className="scroll-mt-16 border-t border-midnight/10 bg-paper py-16 md:py-24">
         <div className="mx-auto w-[min(1180px,calc(100%-2.5rem))]">
           <SectionHead
             eyebrow="Start here · 60 seconds"
@@ -548,7 +671,15 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
               </p>
               <div className="mt-4 flex flex-col gap-2">
                 {PAINS.map((p) => (
-                  <Chip key={p.key} active={pain === p.key} onClick={() => setPain(pain === p.key ? null : p.key)}>
+                  <Chip
+                    key={p.key}
+                    track={`pain:${p.key}`}
+                    active={pain === p.key}
+                    onClick={() => {
+                      if (pain !== p.key) trackToolkit({ event: "pain", target: p.key, detail: p.start });
+                      setPain(pain === p.key ? null : p.key);
+                    }}
+                  >
                     {p.label}
                   </Chip>
                 ))}
@@ -560,7 +691,7 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {INDUSTRIES.map((i) => (
-                  <Chip key={i.key} active={industry === i.key} onClick={() => pickIndustry(i.key)}>
+                  <Chip key={i.key} track={`industry:${i.key}`} active={industry === i.key} onClick={() => pickIndustry(i.key)}>
                     {i.label}
                   </Chip>
                 ))}
@@ -573,7 +704,7 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
 
           <div aria-live="polite" className="mt-10">
             {pick && chosenPain ? (
-              <div className="grid gap-6 rounded-3xl bg-midnight p-6 text-cream md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:p-9">
+              <div key={`${pick.id}-${industry ?? ""}`} data-hm="v-pick" className="gc-step-in grid gap-6 rounded-3xl bg-midnight p-6 text-cream md:grid-cols-[minmax(0,1fr)_auto] md:items-center md:p-9">
                 <div>
                   <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-gold">Your starting file</p>
                   <h3 className="mt-2 text-2xl text-cream md:text-3xl">
@@ -587,12 +718,12 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
                 <div className="flex flex-col gap-3">
                   <button
                     type="button"
-                    onClick={() => jumpTo(pick.id)}
+                    onClick={() => jumpTo(pick.id, "pick_open")}
                     className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-gold px-6 font-body text-sm font-semibold text-midnight hover:bg-gold-soft"
                   >
                     Open its guide <span aria-hidden="true">&darr;</span>
                   </button>
-                  <FileButtons files={pick.files.filter((f) => f.kind === "pdf").slice(0, 1)} label={pick.title} />
+                  <FileButtons files={pick.files.filter((f) => f.kind === "pdf").slice(0, 1)} label={pick.title} id={pick.id} />
                 </div>
               </div>
             ) : (
@@ -605,7 +736,7 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
       </section>
 
       {/* The first week */}
-      <section className="bg-white py-16 md:py-24">
+      <section id="route" data-hm="v-route" className="scroll-mt-16 bg-white py-16 md:py-24">
         <div className="mx-auto w-[min(1180px,calc(100%-2.5rem))]">
           <SectionHead
             eyebrow="The route · from the Quick Start"
@@ -613,17 +744,21 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
             sub="One small job a day, in the order that pays back fastest. Do Day 0 tonight while the talk is fresh. Tap any day to open the file it uses."
           />
           <ol className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {FIRST_WEEK.map((d) => {
+            {FIRST_WEEK.map((d, di) => {
               const r = resourceById(d.resource);
               return (
-                <li key={d.day} className="flex flex-col rounded-2xl border border-midnight/10 bg-paper p-5">
+                <li key={d.day} style={{ ["--i" as string]: di % 4 }} className="gc-rise flex flex-col rounded-2xl border border-midnight/10 bg-paper p-5 transition hover:-translate-y-1 hover:border-gold/60">
                   <span className="font-mono text-[12px] uppercase tracking-[0.16em] text-gold">{d.day}</span>
                   <p className="mt-2 font-display text-lg font-extrabold leading-snug tracking-[-0.02em] text-midnight">{d.task}</p>
                   <p className="mt-2 flex-1 text-[15px] text-ink">{d.detail}</p>
                   {r ? (
                     <button
                       type="button"
-                      onClick={() => jumpTo(r.id)}
+                      data-track={`route:${d.day}`}
+                      onClick={() => {
+                        trackToolkit({ event: "route_day", target: d.day, detail: r.id });
+                        jumpTo(r.id);
+                      }}
                       className="mt-4 self-start font-mono text-[11px] uppercase tracking-[0.14em] text-midnight underline decoration-gold decoration-2 underline-offset-4 hover:text-gold"
                     >
                       Uses {r.num} &middot; {r.short} &rarr;
@@ -637,7 +772,7 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
       </section>
 
       {/* The vault */}
-      <section className="bg-paper py-16 md:py-24">
+      <section id="kit" className="scroll-mt-16 bg-paper py-16 md:py-24">
         <div className="mx-auto w-[min(1180px,calc(100%-2.5rem))]">
           <SectionHead
             eyebrow="The whole kit"
@@ -655,7 +790,7 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
             const items = RESOURCES.filter((r) => r.group === g.key);
             if (!items.length) return null;
             return (
-              <div key={g.key} className="mt-14">
+              <div key={g.key} data-hm={`v-kit-${g.key}`} className="mt-14">
                 <div className="flex flex-wrap items-end justify-between gap-3 border-b border-midnight/10 pb-4">
                   <div>
                     <h3 className="text-2xl md:text-3xl">{g.title}</h3>
@@ -666,12 +801,13 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
                   </span>
                 </div>
                 <div className="mt-6 grid grid-cols-1 gap-4">
-                  {items.map((r) => (
+                  {items.map((r, idx) => (
                     <ResourceCard
                       key={r.id}
                       r={r}
                       industry={industry}
                       open={openId === r.id}
+                      i={idx}
                       onToggle={() => setOpenId(openId === r.id ? null : r.id)}
                     />
                   ))}
@@ -683,7 +819,7 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
       </section>
 
       {/* Help + next step */}
-      <section className="relative isolate overflow-hidden bg-midnight py-16 text-cream md:py-24">
+      <section id="help" data-hm="v-help" className="scroll-mt-16 relative isolate overflow-hidden bg-midnight py-16 text-cream md:py-24">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
           <div className="cc-grid absolute inset-0 opacity-50" />
           <div className="cc-glow absolute -bottom-[30rem] left-1/2 h-[52rem] w-[52rem] max-w-none -translate-x-1/2" />
@@ -700,7 +836,11 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
               href={whatsappUrl(`Hi Phila, I'm ${first} from the ${TOOLKIT.partner} webinar. I'm stuck on the toolkit: `)}
               target="_blank"
               rel="noreferrer"
-              onClick={() => track("toolkit_whatsapp", {})}
+              data-track="whatsapp"
+              onClick={() => {
+                track("toolkit_whatsapp", {});
+                trackToolkit({ event: "whatsapp" });
+              }}
               className="mt-7 inline-flex min-h-12 items-center gap-3 rounded-full border border-cream/30 px-6 font-body text-sm font-semibold text-cream no-underline hover:border-gold hover:text-gold"
             >
               <BrandIcon name="whatsapp" className="h-5 w-5" /> Message Phila
@@ -712,7 +852,11 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
             <p className="mt-4 text-midnight/80">{TOOLKIT.closeBody}</p>
             <Link
               to="/call"
-              onClick={() => track("toolkit_apply", {})}
+              data-track="apply"
+              onClick={() => {
+                track("toolkit_apply", {});
+                trackToolkit({ event: "apply" });
+              }}
               className="mt-7 inline-flex min-h-12 items-center gap-3 rounded-full bg-midnight px-6 font-body text-sm font-semibold text-cream no-underline hover:bg-midnight-soft"
             >
               Apply to work with us <span aria-hidden="true">&#8599;</span>
@@ -722,12 +866,18 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
       </section>
 
       {/* FAQ */}
-      <section className="bg-paper py-16 md:py-20">
+      <section data-hm="v-faq" className="bg-paper py-16 md:py-20">
         <div className="mx-auto w-[min(820px,calc(100%-2.5rem))]">
           <h2 className="text-3xl md:text-4xl">Quick answers</h2>
           <div className="mt-8 divide-y divide-midnight/10 border-y border-midnight/10">
             {TOOLKIT_FAQ.map((f) => (
-              <details key={f.q} className="group py-2">
+              <details
+                key={f.q}
+                className="group py-2"
+                onToggle={(e) => {
+                  if ((e.currentTarget as HTMLDetailsElement).open) trackToolkit({ event: "faq", target: f.q });
+                }}
+              >
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-3 font-display text-lg font-bold tracking-[-0.02em] text-midnight">
                   {f.q}
                   <span aria-hidden="true" className="text-gold transition-transform group-open:rotate-45">+</span>
@@ -739,7 +889,7 @@ function Vault({ access, onLeave }: { access: ToolkitAccess; onLeave: () => void
         </div>
       </section>
 
-      <footer className="bg-midnight py-10 text-cream/55">
+      <footer data-hm="v-footer" className="bg-midnight py-10 text-cream/55">
         <div className="mx-auto flex w-[min(1180px,calc(100%-2.5rem))] flex-wrap items-center justify-between gap-4 text-sm">
           <span className="w-full text-cream/40">{TOOLKIT.promiseLine}</span>
           <span>
@@ -764,9 +914,20 @@ export default function Toolkit() {
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    setAccess(loadAccess());
+    const a = loadAccess();
+    setTrackState(a ? "vault" : "gate");
+    setAccess(a);
     setChecked(true);
   }, []);
+
+  /* The heatmap listener restarts with each screen, so scroll depth is
+     counted per screen and every click carries the right page state. */
+  useEffect(() => {
+    if (!checked) return;
+    setTrackState(access ? "vault" : "gate");
+    trackToolkit({ event: "view", target: access ? "vault" : "gate" });
+    return startToolkitHeatmap();
+  }, [checked, Boolean(access)]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (checked && !access) track("toolkit_gate_view", {});
