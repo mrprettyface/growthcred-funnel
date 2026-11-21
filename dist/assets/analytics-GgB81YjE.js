@@ -1,1 +1,0 @@
-import{a4 as e}from"./index-Dad3xP2h.js";function o(t,n={}){const a={event:`gc_${t}`,...n,ts:new Date().toISOString()};typeof window<"u"&&(window.dataLayer=window.dataLayer??[],window.dataLayer.push(a),e(t,n))}export{o as t};

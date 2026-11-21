@@ -25,7 +25,7 @@ export function Figure({
   legs?: string;
 }) {
   return (
-    <g transform={`translate(${x} ${y})`}>
+    <g data-figure="" transform={`translate(${x} ${y})`}>
       <circle cx="0" cy="-9" r="8.5" />
       <path d="M0 0 V40" />
       <path d={arms} />

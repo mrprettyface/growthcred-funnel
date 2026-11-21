@@ -1,4 +1,4 @@
-import { PageScene } from "./PageScenes";
+import { PAGE_SCENES } from "./PageScenes";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { PillLink, cn } from "./ui";
@@ -23,27 +23,61 @@ export function Brand({ dark = true }: { dark?: boolean }) {
 }
 
 /**
- * The stick figure for a menu item: the destination page's own drawing
- * (src/components/PageScenes.tsx), so each item shows where it leads.
+ * The icon for a menu item: the destination page's own drawing
+ * (src/components/PageScenes.tsx) with the person taken out, so only the
+ * symbol is left (the document, the bin, the signpost). Phila, 22 Nov 2026:
+ * "smaller, and just the symbol". The person is the sceneKit <Figure>, tagged
+ * data-figure and hidden here only. The view is then cropped to the symbol,
+ * measured in the browser, so each icon sits centred; until it is measured,
+ * the right-hand part of the scene (where every symbol is drawn) is shown.
+ * Lines keep one on-screen weight at any crop (non-scaling stroke).
  * Decorative (aria-hidden); the label carries the meaning. Every NAV target
  * must have a scene: scripts/verify-menu-scenes.mjs checks it.
  */
 function MenuScene({ path, light, small = false }: { path: string; light: boolean; small?: boolean }) {
+  const scene = PAGE_SCENES[path];
+  const ref = useRef<SVGGElement>(null);
+  const [box, setBox] = useState("78 18 112 112");
+  useEffect(() => {
+    const g = ref.current;
+    if (!g) return;
+    try {
+      const b = g.getBBox();
+      if (!b.width || !b.height) return;
+      const side = Math.max(b.width, b.height) * 1.14;
+      const next = `${(b.x + b.width / 2 - side / 2).toFixed(1)} ${(b.y + b.height / 2 - side / 2).toFixed(1)} ${side.toFixed(1)} ${side.toFixed(1)}`;
+      if (next !== box) setBox(next);
+    } catch {
+      /* getBBox throws while the svg is not rendered (a closed panel); keep the default crop. */
+    }
+  });
+  /* No dependency list on purpose: a dropdown is hidden when the page loads,
+     so the symbol can only be measured once it is open. Opening re-renders
+     the header, which re-measures; the comparison above stops the loop. */
+  if (!scene) return null;
   return (
     <span
       aria-hidden="true"
       className={cn(
-        "grid shrink-0 place-items-center rounded-xl border",
-        small ? "h-11 w-14" : "h-[4.5rem] w-24",
+        "grid shrink-0 place-items-center rounded-lg border",
+        small ? "h-8 w-8" : "h-10 w-10",
         light ? "border-midnight/10 bg-white text-midnight" : "border-cream/10 bg-midnight-soft text-cream/80",
       )}
     >
-      {/* Drawn at a fraction of its size, so the lines are thickened here only:
-          at 2px they would fall below one screen pixel. */}
-      <PageScene
-        path={path}
-        className={cn(small ? "h-10 w-[3.25rem] [&_*]:[stroke-width:4.5px]" : "h-16 w-[5.5rem] [&_*]:[stroke-width:3.6px]")}
-      />
+      <svg
+        viewBox={box}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className={cn(
+          "[&_*]:[vector-effect:non-scaling-stroke] [&_*]:[stroke-width:1.5px] [&_[data-figure]]:hidden",
+          small ? "h-5 w-5" : "h-6 w-6",
+        )}
+      >
+        <g ref={ref}>{scene}</g>
+      </svg>
     </span>
   );
 }
