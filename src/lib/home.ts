@@ -113,6 +113,8 @@ export const RENTING = {
   eyebrow: "The rented way",
   heading: "Renting AI doesn't fix it either.",
   lead: "Most firms rent their AI. A seat for every person. Every month. So what are you actually paying for?",
+  /** Source markers (SOURCES below) shown after the lead. */
+  leadCite: ["seat-pricing"] as SourceId[],
   items: [
     {
       t: "The bill grows with your team.",
@@ -120,6 +122,7 @@ export const RENTING = {
     },
     {
       t: "Your documents leave the building.",
+      cite: ["popia-21", "popia-72"] as SourceId[],
       b: "Client files, contracts and numbers go to someone else's servers to be processed. Under POPIA, what happens to them is still on you.",
     },
     {
@@ -289,6 +292,7 @@ export const STORIES = {
   eyebrow: "Client stories",
   heading: "This isn't theory.",
   sub: "These are owners who worked with us through our training and builds. Same method. Different industries.",
+  subCite: ["stories"] as SourceId[],
   all: "Read all client stories",
   items: [
     {
@@ -441,3 +445,54 @@ export const FAQ: { q: string; a: string }[] = [
     a: "Check the free ones first. Our free tools guide lists the ones we open before we recommend you pay for anything. A tool shows you the numbers. It doesn't take the work off your desk. That part we build.",
   },
 ];
+
+/* ---------------- Sources (22 Nov 2026) ----------------
+   Phila asked for sources behind the homepage's claims. Every public source
+   below was opened and checked on 22 Nov 2026 for the exact point it backs.
+   Not used: the Information Regulator's Condition 7 page (an index only, it
+   does not state the rule) and Microsoft's Copilot pricing (did not load).
+   First-party claims (the WeWork talks, Parliament, the logos, our own
+   deployment) have no public record linked yet: they wait on Phila's links. */
+
+export type SourceId = "seat-pricing" | "popia-21" | "popia-72" | "stories";
+
+export type Source = { id: SourceId; label: string; publisher: string; href: string; backs: string };
+
+export const SOURCES = {
+  eyebrow: "Sources",
+  heading: "Where our claims come from.",
+  lead: "Public facts link to the page they came from. Client results link to the client's story. None of these sources endorses us.",
+  items: [
+    {
+      id: "seat-pricing",
+      label: "ChatGPT plans and pricing",
+      publisher: "OpenAI",
+      href: "https://chatgpt.com/pricing",
+      backs: "Paid ChatGPT plans are priced per user, per month.",
+    },
+    {
+      id: "popia-21",
+      label: "POPIA section 21: information processed by an operator",
+      publisher: "popia.co.za",
+      href: "https://popia.co.za/section-21-security-measures-regarding-information-processed-by-operator/",
+      backs: "You must make sure an outside processor keeps your data safe. It takes a written contract.",
+    },
+    {
+      id: "popia-72",
+      label: "POPIA section 72: sending personal information abroad",
+      publisher: "popia.co.za",
+      href: "https://popia.co.za/section-72-transfers-of-personal-information-outside-republic/",
+      backs: "Personal information can't go to a foreign third party unless the Act allows it.",
+    },
+    {
+      id: "stories",
+      label: "Client stories",
+      publisher: "GrowthCred",
+      href: "/stories",
+      backs: "MNE Waste, Demure International, TaiAscend and the Operator Intensive, in the clients' own words.",
+    },
+  ] satisfies Source[],
+};
+
+/** The number a source shows on the page: its place in SOURCES.items. */
+export const sourceNumber = (id: SourceId) => SOURCES.items.findIndex((s) => s.id === id) + 1;

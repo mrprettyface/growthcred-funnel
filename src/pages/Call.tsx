@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { Section, Eyebrow, H1, Faint, CheckList } from "../components/ui";
+import { CheckList } from "../components/ui";
+import { Bento, Sticker, Tile } from "../components/bento";
 import { ApplicationForm } from "../components/ApplicationForm";
 import { track } from "../lib/analytics";
 
@@ -14,55 +15,59 @@ export default function CallPage() {
   const scheduler = import.meta.env.VITE_SCHEDULER_URL;
 
   return (
-    <>
-      {/* The form first: whoever clicked "Apply" is ready now, so nothing
-          stands between them and sending it. The detail follows below. */}
-      <Section className="pb-10 pt-8 md:pb-14 md:pt-12">
-        <div className="mx-auto grid max-w-[1040px] items-start gap-8 lg:grid-cols-[1fr_440px] lg:gap-14">
-          <div className="text-center lg:pt-6 lg:text-left">
-            <Eyebrow>The Command Core</Eyebrow>
-            <H1 className="mx-auto mt-4 max-w-[16ch] text-[length:clamp(2.25rem,6vw,4.5rem)] lg:mx-0">
-              We Take It All <Faint>Off Your Plate.</Faint>
-            </H1>
-            <p className="mx-auto mt-5 max-w-[46ch] text-lg text-ink lg:mx-0">
+    <div className="bg-paper">
+      {/* ---- Bento (22 Nov 2026): the same words and the same form, laid out
+          like the homepage. The form still sits first on the right, so whoever
+          clicked "Apply" can send it without scrolling. ---- */}
+      <section className="mx-auto w-[min(1240px,calc(100%-1.5rem))] pb-6 pt-5 md:pt-8">
+        <Bento>
+          <Tile tone="gold" className="flex flex-col justify-center overflow-visible text-center lg:col-span-7 lg:px-12 lg:py-14 lg:text-left">
+            <Sticker i={0} tone="night" shape="circle" className="-top-5 right-4 hidden rotate-[10deg] sm:block lg:-right-3" chipClassName="h-24 w-24 text-base">
+              Today, not next week
+            </Sticker>
+            <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-midnight/70">The Command Core</p>
+            <h1 className="mx-auto mt-4 max-w-[14ch] text-[length:clamp(2.25rem,5.4vw,4.5rem)] leading-[1.1] text-midnight lg:mx-0">
+              We Take It All{" "}
+              <span className="rounded-[0.5rem] bg-white px-[0.18em] [-webkit-box-decoration-break:clone] [box-decoration-break:clone]">
+                Off Your Plate.
+              </span>
+            </h1>
+            <p className="mx-auto mt-6 max-w-[46ch] text-lg text-midnight/85 lg:mx-0">
               Let us help you own your intelligence. Leave your number. We'll talk to you today, not next week.
             </p>
-            <p className="mx-auto mt-4 hidden max-w-[50ch] text-ink lg:mx-0 lg:block">
+            <p className="mx-auto mt-4 hidden max-w-[50ch] text-midnight/75 lg:mx-0 lg:block">
               You do not build it, learn it, or run it. We map it, build it, and run it with your team,
               so the time comes back without you lifting a finger.
             </p>
+          </Tile>
+          <div className="min-w-0 lg:col-span-5 [&>div]:rounded-[2rem] [&>form]:h-full [&>form]:rounded-[2rem] [&>form]:shadow-none">
+            <ApplicationForm schedulerUrl={scheduler} />
           </div>
-          <ApplicationForm schedulerUrl={scheduler} />
-        </div>
-      </Section>
 
-      {/* 5.2 What the engagement includes */}
-      <Section className="pb-10 pt-0 md:pb-14 md:pt-0">
-        <div className="mx-auto max-w-[760px] rounded-2xl bg-midnight p-6 text-cream md:p-9">
-          <Eyebrow dark>The engagement</Eyebrow>
-          <h2 className="mt-4 text-2xl text-cream md:text-3xl">We take it all off your plate.</h2>
-          <p className="mt-4 text-cream/85">
-            We build, wire, and hand over the systems that run your business without you. Your brain,
-            your workers, your overnight routines, done for you and tuned to how you actually
-            operate. You stay in your business as the owner, not the operator.
-          </p>
-          <p className="mt-4 text-cream/85">
-            What we are accountable to is simple: your time back, measured. We agree the hours we are
-            freeing up before we start, and we are on the hook for them. This is not a project we
-            hand over and disappear from. It is an outcome we own with you.
-          </p>
-          <p className="mt-4 text-cream/85">
-            The fit, the scope, and what it costs, we work out on the call. Leave your number above
-            and let us see if this is right for you.
-          </p>
-        </div>
-      </Section>
+          {/* What the engagement includes */}
+          <Tile tone="night" className="flex flex-col lg:col-span-7 lg:row-span-2 lg:p-12">
+            <p className="font-mono text-[12px] uppercase tracking-[0.22em] text-gold">The engagement</p>
+            <h2 className="mt-4 text-3xl text-cream md:text-4xl">We take it all off your plate.</h2>
+            <p className="mt-5 leading-relaxed text-cream/80">
+              We build, wire, and hand over the systems that run your business without you. Your brain,
+              your workers, your overnight routines, done for you and tuned to how you actually
+              operate. You stay in your business as the owner, not the operator.
+            </p>
+            <p className="mt-4 leading-relaxed text-cream/80">
+              What we are accountable to is simple: your time back, measured. We agree the hours we are
+              freeing up before we start, and we are on the hook for them. This is not a project we
+              hand over and disappear from. It is an outcome we own with you.
+            </p>
+            <div aria-hidden="true" className="hidden min-h-6 flex-1 lg:block" />
+            <p className="mt-6 rounded-[1.5rem] bg-gold-soft p-6 font-medium leading-relaxed text-midnight lg:mt-auto">
+              The fit, the scope, and what it costs, we work out on the call. Leave your number above
+              and let us see if this is right for you.
+            </p>
+          </Tile>
 
-      {/* 5.1 Who this is for, and who it is not for */}
-      <Section className="pb-10 pt-0 md:pb-14 md:pt-0">
-        <div className="mx-auto grid max-w-[820px] gap-4 md:grid-cols-2">
-          <div className="rounded-2xl border border-midnight/10 bg-white p-6 md:p-8">
-            <h3 className="text-xl">This is for you if</h3>
+          {/* Who this is for, and who it is not for */}
+          <Tile tone="white" className="lg:col-span-5">
+            <h3 className="text-xl text-midnight">This is for you if</h3>
             <CheckList
               className="mt-5"
               items={[
@@ -72,9 +77,9 @@ export default function CallPage() {
                 "You are ready to move now, not “sometime next quarter”",
               ]}
             />
-          </div>
-          <div className="rounded-2xl border border-midnight/10 bg-midnight/[0.03] p-6 md:p-8">
-            <h3 className="text-xl">This is not for you if</h3>
+          </Tile>
+          <Tile tone="dashed" className="lg:col-span-5">
+            <h3 className="text-xl text-midnight">This is not for you if</h3>
             <ul className="mt-5 grid gap-3">
               {[
                 "You are looking for a magic button that needs nothing from you",
@@ -93,10 +98,10 @@ export default function CallPage() {
               We would rather tell you now if this is not a fit than take a call that wastes your
               time.
             </p>
-          </div>
-        </div>
-      </Section>
-
-    </>
+          </Tile>
+        </Bento>
+      </section>
+      <div className="h-12 md:h-20" />
+    </div>
   );
 }

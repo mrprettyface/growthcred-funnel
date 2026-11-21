@@ -27,6 +27,9 @@ import {
   GUIDES,
   FAQ,
   SITUATIONS,
+  SOURCES,
+  sourceNumber,
+  type SourceId,
   type HomeStory,
 } from "../lib/home";
 
@@ -59,6 +62,25 @@ function Label({ children, dark = false }: { children: ReactNode; dark?: boolean
       <span aria-hidden="true" className="h-px w-8 bg-gold" />
       {children}
     </p>
+  );
+}
+
+/** Numbered source markers after a claim, linking to the #sources block. */
+function Cite({ ids, dark = false }: { ids?: readonly SourceId[]; dark?: boolean }) {
+  if (!ids?.length) return null;
+  return (
+    <sup className="ml-0.5 whitespace-nowrap font-mono text-[0.7em]">
+      {ids.map((id, i) => (
+        <a
+          key={id}
+          href={`#source-${id}`}
+          aria-label={`Source ${sourceNumber(id)}`}
+          className={`no-underline hover:underline ${dark ? "text-gold-soft" : "text-gold"} ${i ? "ml-1" : ""}`}
+        >
+          [{sourceNumber(id)}]
+        </a>
+      ))}
+    </sup>
   );
 }
 
@@ -177,7 +199,10 @@ export default function Home() {
           <div className="max-w-[44ch]">
             <Label dark>{RENTING.eyebrow}</Label>
             <h2 className="mt-5 text-[length:clamp(2.5rem,6vw,4.5rem)] text-cream">{RENTING.heading}</h2>
-            <p className="mt-6 text-lg leading-relaxed text-cream/75 md:text-xl">{RENTING.lead}</p>
+            <p className="mt-6 text-lg leading-relaxed text-cream/75 md:text-xl">
+              {RENTING.lead}
+              <Cite ids={RENTING.leadCite} dark />
+            </p>
           </div>
           <Reveal className="mt-12">
             <Bento>
@@ -194,7 +219,10 @@ export default function Home() {
                   </div>
                   <div>
                     <h3 className={`mt-6 text-cream ${i === 0 ? "text-3xl md:text-4xl" : "text-2xl"}`}>{item.t}</h3>
-                    <p className="mt-3 max-w-[46ch] leading-relaxed text-cream/70">{item.b}</p>
+                    <p className="mt-3 max-w-[46ch] leading-relaxed text-cream/70">
+                      {item.b}
+                      <Cite ids={"cite" in item ? item.cite : undefined} dark />
+                    </p>
                   </div>
                 </Tile>
               ))}
@@ -339,7 +367,10 @@ export default function Home() {
             <div className="max-w-[40ch]">
               <Label>{STORIES.eyebrow}</Label>
               <h2 className="mt-5 text-[length:clamp(2.5rem,6vw,4.5rem)]">{STORIES.heading}</h2>
-              <p className="mt-5 text-lg leading-relaxed text-ink">{STORIES.sub}</p>
+              <p className="mt-5 text-lg leading-relaxed text-ink">
+                {STORIES.sub}
+                <Cite ids={STORIES.subCite} />
+              </p>
             </div>
             <Link
               to="/stories"
@@ -575,6 +606,46 @@ export default function Home() {
               </Link>
             ))}
           </Reveal>
+        </div>
+      </section>
+
+      {/* ---------- 10b. Sources: where the claims come from ----------
+          The same idea as "Sources behind this page" on the guides. Public
+          sources open in a new tab; the stories link stays on the site. */}
+      <section id="sources" className="scroll-mt-28 bg-paper pb-16 md:pb-24">
+        <div className={BWRAP}>
+          <Tile tone="dashed" className="lg:px-12 lg:py-12">
+            <div className="grid gap-8 lg:grid-cols-12">
+              <div className="lg:col-span-4">
+                <Label>{SOURCES.eyebrow}</Label>
+                <h2 className="mt-5 text-[length:clamp(1.9rem,3.4vw,2.75rem)]">{SOURCES.heading}</h2>
+                <p className="mt-4 leading-relaxed text-ink">{SOURCES.lead}</p>
+              </div>
+              <ol className="grid gap-4 sm:grid-cols-2 lg:col-span-8">
+                {SOURCES.items.map((source, i) => {
+                  const external = source.href.startsWith("http");
+                  return (
+                    <li key={source.id} id={`source-${source.id}`} className="scroll-mt-28 rounded-[1.5rem] border border-midnight/10 bg-white p-5">
+                      <p className="flex items-center gap-3 font-mono text-[12px] uppercase tracking-[0.14em] text-muted">
+                        <span className="grid h-7 w-7 place-items-center rounded-full bg-gold-soft text-midnight">{i + 1}</span>
+                        {source.publisher}
+                      </p>
+                      {external ? (
+                        <a href={source.href} target="_blank" rel="noopener noreferrer" className="mt-3 block font-semibold text-midnight hover:text-gold">
+                          {source.label} <span aria-hidden="true">&#8599;</span>
+                        </a>
+                      ) : (
+                        <Link to={source.href} className="mt-3 block font-semibold text-midnight no-underline hover:text-gold">
+                          {source.label} <span aria-hidden="true">&rarr;</span>
+                        </Link>
+                      )}
+                      <p className="mt-2 text-sm leading-relaxed text-ink">{source.backs}</p>
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
+          </Tile>
         </div>
       </section>
 
