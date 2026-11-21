@@ -13,6 +13,47 @@ import { Figure, GOLD, Scene } from "./sceneKit";
 const INK = "#1a1a24";
 
 export const PAGE_SCENES: Record<string, ReactElement> = {
+  /* The Command Core (/) — the owner stands back; the business runs on its own core. */
+  "/": (
+    <>
+      <Figure x={44} y={62} arms="M0 10 l-13 12 M0 10 l13 12" />
+      <rect x="98" y="34" width="62" height="74" rx="6" />
+      <path d="M108 50h42M108 92h42" />
+      <circle cx="129" cy="71" r="10" fill={GOLD} stroke="none" />
+    </>
+  ),
+
+  /* Private AI — the AI moves in-house: the chip sits inside your own building. */
+  "/private-ai": (
+    <>
+      <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l26 -6" />
+      <path d="M90 70l40-34 40 34M98 64v48h64V64" />
+      <rect x="120" y="80" width="20" height="20" rx="3" fill={GOLD} stroke="none" />
+    </>
+  ),
+
+  /* Free tools before you buy — look hard at the price tag before you pay. */
+  "/guides/free-marketing-tools-before-you-buy": (
+    <>
+      <Figure x={40} y={62} arms="M0 10 l-13 12 M0 10 l30 -4" />
+      <path d="M92 46h44l22 24-22 24H92z" />
+      <circle cx="104" cy="70" r="4" />
+      <g stroke={GOLD} strokeWidth={3}>
+        <circle cx="138" cy="62" r="12" />
+        <path d="M147 71l12 12" />
+      </g>
+    </>
+  ),
+
+  /* Contact — say hello: one message, and the first line is yours. */
+  "/contact": (
+    <>
+      <Figure x={46} y={62} arms="M0 10 l-13 12 M0 10 l14 -16" />
+      <path d="M96 36h70v44h-38l-14 14V80H96z" />
+      <path d="M110 52h42M110 64h28" stroke={GOLD} strokeWidth={3} />
+    </>
+  ),
+
   /* AI training — you, a laptop, and the first task on the list already lit. */
   "/ai-training-south-africa": (
     <>

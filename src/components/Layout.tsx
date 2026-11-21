@@ -1,3 +1,4 @@
+import { PageScene } from "./PageScenes";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { PillLink, cn } from "./ui";
@@ -18,6 +19,32 @@ export function Brand({ dark = true }: { dark?: boolean }) {
       Growth<span className="text-gold">Cred</span>
       <span className="text-gold">.</span>
     </Link>
+  );
+}
+
+/**
+ * The stick figure for a menu item: the destination page's own drawing
+ * (src/components/PageScenes.tsx), so each item shows where it leads.
+ * Decorative (aria-hidden); the label carries the meaning. Every NAV target
+ * must have a scene: scripts/verify-menu-scenes.mjs checks it.
+ */
+function MenuScene({ path, light, small = false }: { path: string; light: boolean; small?: boolean }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={cn(
+        "grid shrink-0 place-items-center rounded-xl border",
+        small ? "h-11 w-14" : "h-[4.5rem] w-24",
+        light ? "border-midnight/10 bg-white text-midnight" : "border-cream/10 bg-midnight-soft text-cream/80",
+      )}
+    >
+      {/* Drawn at a fraction of its size, so the lines are thickened here only:
+          at 2px they would fall below one screen pixel. */}
+      <PageScene
+        path={path}
+        className={cn(small ? "h-10 w-[3.25rem] [&_*]:[stroke-width:4.5px]" : "h-16 w-[5.5rem] [&_*]:[stroke-width:3.6px]")}
+      />
+    </span>
   );
 }
 
@@ -207,7 +234,12 @@ export function Header({
                       light ? "border-midnight/10 bg-paper" : "border-cream/10 bg-midnight",
                     )}
                   >
-                    <div className="mx-auto grid w-[min(1120px,calc(100%-2.5rem))] grid-cols-2 gap-x-16 gap-y-2 py-10">
+                    <div
+                      className={cn(
+                        "mx-auto grid w-[min(1120px,calc(100%-2.5rem))] gap-y-2 py-10",
+                        item.menu.length > 2 ? "grid-cols-3 gap-x-10" : "grid-cols-2 gap-x-16",
+                      )}
+                    >
                       {item.menu.map((col, c) => (
                         <div key={c}>
                           {col.heading ? (
@@ -222,14 +254,17 @@ export function Header({
                                   to={link.to}
                                   onClick={() => setOpenGroup(null)}
                                   className={cn(
-                                    "group block rounded-xl px-3 py-3 no-underline -mx-3",
+                                    "group flex items-center gap-4 rounded-xl px-3 py-2.5 no-underline -mx-3",
                                     light ? "hover:bg-midnight/[0.04]" : "hover:bg-cream/[0.05]",
                                   )}
                                 >
-                                  <span className={cn("block font-display text-lg font-bold tracking-[-0.02em] group-hover:text-gold", light ? "text-midnight" : "text-cream")}>
-                                    {link.label}
+                                  <MenuScene path={link.to} light={light} />
+                                  <span className="min-w-0">
+                                    <span className={cn("block font-display text-lg font-bold tracking-[-0.02em] group-hover:text-gold", light ? "text-midnight" : "text-cream")}>
+                                      {link.label}
+                                    </span>
+                                    <span className={cn("mt-1 block text-sm leading-relaxed", light ? "text-ink" : "text-cream/60")}>{link.blurb}</span>
                                   </span>
-                                  <span className={cn("mt-1 block text-sm leading-relaxed", light ? "text-ink" : "text-cream/60")}>{link.blurb}</span>
                                 </Link>
                               </li>
                             ))}
@@ -280,8 +315,9 @@ export function Header({
                     key={link.to}
                     to={link.to}
                     onClick={() => setMenuOpen(false)}
-                    className={cn("flex min-h-11 items-center pl-3 text-base no-underline", light ? "text-midnight" : "text-cream")}
+                    className={cn("flex min-h-12 items-center gap-3 pl-1 text-base no-underline", light ? "text-midnight" : "text-cream")}
                   >
+                    <MenuScene path={link.to} light={light} small />
                     {link.label}
                   </Link>
                 ))}
@@ -292,10 +328,11 @@ export function Header({
                 to={item.to}
                 onClick={() => setMenuOpen(false)}
                 className={cn(
-                  "flex min-h-12 items-center border-b font-mono text-[12px] uppercase tracking-[0.16em] no-underline",
+                  "flex min-h-14 items-center gap-3 border-b pl-1 font-mono text-[12px] uppercase tracking-[0.16em] no-underline",
                   light ? "border-midnight/10 text-midnight" : "border-cream/10 text-cream",
                 )}
               >
+                <MenuScene path={item.to} light={light} small />
                 {item.label}
               </Link>
             ),
@@ -303,8 +340,9 @@ export function Header({
           <Link
             to="/contact"
             onClick={() => setMenuOpen(false)}
-            className={cn("flex min-h-12 items-center font-mono text-[12px] uppercase tracking-[0.16em] no-underline", light ? "text-midnight" : "text-cream")}
+            className={cn("flex min-h-14 items-center gap-3 pl-1 font-mono text-[12px] uppercase tracking-[0.16em] no-underline", light ? "text-midnight" : "text-cream")}
           >
+            <MenuScene path="/contact" light={light} small />
             Contact
           </Link>
         </nav>
