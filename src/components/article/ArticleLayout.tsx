@@ -6,6 +6,7 @@ import { Button, ButtonLink, Eyebrow, Faq, Section } from "../ui";
 import { GUIDE_OFFER, requestGuide } from "../../lib/guide";
 import { linkPhrase, linkPhrases } from "../PhraseLink";
 import { ArticleFigure, type ArtName } from "./ArticleFigures";
+import { sceneAfter } from "./articleScenes";
 import { articleArt } from "./articleArt";
 import { lessonsFor } from "./articleLessons";
 import { pickQuickAnswer } from "../../content/geminiOverlay";
@@ -132,6 +133,20 @@ export function ArticleLayout({ page }: { page: Page }) {
   const hero = page.article?.hero
     ? { name: page.article.hero.name as ArtName, alt: page.article.hero.alt, caption: page.article.hero.caption }
     : art.hero;
+  /* Each section's drawing, chosen once, so no scene repeats the one above it
+     (the hero counts as the first). */
+  let prevScene: ArtName | undefined = hero.name;
+  const drawings = page.sections.map((section, i) => {
+    const fromCopy = section.figure;
+    const drawing = fromCopy
+      ? { name: fromCopy.name as ArtName, alt: fromCopy.alt, caption: fromCopy.caption, motion: fromCopy.motion }
+      : art.inline[i] ?? art.inline[i % art.inline.length];
+    if (!drawing) return drawing;
+    const caption = section.figureCaption ?? drawing.caption ?? "";
+    const name = sceneAfter(prevScene, drawing.name, caption);
+    prevScene = name;
+    return { ...drawing, name };
+  });
   const minutes = page.article?.minutes ?? Math.max(1, Math.round(wordsOf(page) / 220));
   const split = page.intro.match(/^(.+?[.!?])\s+([\s\S]+)$/);
   const pain = page.article?.pain ?? (page.answer ? page.intro : (split?.[1] ?? page.intro));
@@ -198,7 +213,7 @@ export function ArticleLayout({ page }: { page: Page }) {
           <div className="mt-5">
             <Byline date={page.published ?? REVIEWED} label={page.published ? "Published" : "Reviewed"} />
           </div>
-          <ArticleFigure name={hero.name} alt={hero.alt} caption={hero.caption} idSuffix="hero" slot="hero-figure" seed={`${page.path}-hero`} />
+          <ArticleFigure name={hero.name} alt={hero.alt} caption={hero.caption} idSuffix="hero" slot="hero-figure" />
         </header>
       </Section>
 
@@ -211,10 +226,7 @@ export function ArticleLayout({ page }: { page: Page }) {
             </details>
 
             {page.sections.map((section, i) => {
-              const fromCopy = section.figure;
-              const drawing = fromCopy
-                ? { name: fromCopy.name as ArtName, alt: fromCopy.alt, caption: fromCopy.caption, motion: fromCopy.motion }
-                : art.inline[i] ?? art.inline[i % art.inline.length];
+              const drawing = drawings[i];
               const caption = section.figureCaption ?? drawing?.caption ?? "";
               return (
                 <section data-slot="section" id={`section-${i + 1}`} key={section.title} className="scroll-mt-24 border-t border-midnight/10 py-10 first:border-t-0 first:pt-0">
@@ -223,7 +235,7 @@ export function ArticleLayout({ page }: { page: Page }) {
                     {section.mark && <span className="mt-1 grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold/15 text-gold"><FaqMark name={section.mark} /></span>}
                     <span>{section.titleLink ? linkPhrase(section.title, section.titleLink.phrase, section.titleLink.href) : section.title}</span>
                   </h2>
-                  {drawing && <ArticleFigure name={drawing.name} alt={drawing.alt} caption={caption} idSuffix={`s${i}`} seed={`${page.path}-s${i}`} motion={drawing.motion ?? "pointer"} />}
+                  {drawing && <ArticleFigure name={drawing.name} alt={drawing.alt} caption={caption} idSuffix={`s${i}`} motion={drawing.motion ?? "pointer"} />}
                   {section.points && (
                     <>
                       <PointPair slot="problem" label="The problem" points={section.points.problem} />
