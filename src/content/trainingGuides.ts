@@ -3,6 +3,9 @@ import type { SearchPage } from "./searchPages";
 /** New training guides and the councils page. Published 21 November 2026. */
 export const TRAINING_PUBLISHED = "2026-11-21";
 
+/** The why-listen block from the first Gemini batch. Same facts, in the site voice. */
+const WHY = "GrowthCred is a Johannesburg AI implementation and training company. I teach AI at Melsoft Academy. I helped build an isiZulu and English speech AI system. It was presented at Parliament in Cape Town.";
+
 export const TRAINING_PAGES: SearchPage[] = [
   {
     path: "/guides/what-to-expect-corporate-ai-training-south-africa",
@@ -10,77 +13,109 @@ export const TRAINING_PAGES: SearchPage[] = [
     published: TRAINING_PUBLISHED,
     title: "What to Expect From Corporate AI Training | GrowthCred",
     description: "Live corporate AI training for a South African team. In Johannesburg or online. You practise on real documents. A person checks the draft. Quoted per person.",
-    heading: "What should you expect from corporate AI training?",
+    heading: "Slow reports and risky chat tabs end with practical corporate AI training in South Africa.",
     answer: "Corporate AI training at GrowthCred is a live session for your team. It runs in Johannesburg, or online. You practise on the documents you already produce. A person still checks the draft. We quote per person after a short call. The one-day owner workshop is R990. This is not an accredited course. We are not Growth Credit Ltd.",
     intro: "Your people already have the licence. Monday's report still takes as long as it did in March. Or someone is pasting a client file into a public chat because the deadline did not wait. You do not need a lecture. You need the team working on the real document, with a person still signing it.",
+    article: {
+      pain: "Your team already has the tool open. Monday's reports still drag. Sensitive files still slip into public chats.",
+      wayOut: "A live working session on your real documents builds one clear habit. You still sign the work.",
+      learnItems: [
+        "You see how live practice on your own documents replaces guesswork and risky copy-pasting.",
+        "You see what changes when your team sets one check rule before any draft goes out.",
+      ],
+      why: WHY,
+      minutes: 4,
+      mentions: [
+        { text: "Want to see if live corporate training fits your team? Ask for a quote after a short call. There is no public team price. We look at your real tasks, your confidentiality rule and who signs off. You commit only when the fit is clear.", phrase: "Ask for a quote", href: "/call" },
+        { text: "If you are the owner, and you want one live day online, that is the R990 founding rate. Confirm the date, VAT and any tool costs before you pay.", phrase: "R990 founding rate", href: "/workshop" },
+      ],
+    },
     sections: [
       {
-        title: "The quiet risk is the unguided chat",
-        paragraphs: [
-          "Someone in HR drafts a policy note in a browser tab. Someone in operations tidies the meeting notes. Someone in finance tries to speed up a reply.",
-          "That looks helpful. It is also how a name, an ID number or a salary leaves the building.",
-          "One person gets a useful draft. The next person gets a confident paragraph that is wrong. Nobody shares a rule for what gets checked.",
-          "Good training does not ban the tool. It gives the team one habit. Brief the work. Check the result. Keep personal information out of a public chat.",
-        ],
+        title: "Unguided chat tabs leak details and waste Monday mornings",
+        paragraphs: [],
+        figureCaption: "One quick paste into an unapproved chat can expose details you meant to keep in-house.",
+        points: {
+          problem: [
+            "Your staff paste client files, names, ID numbers or salaries into public chat tabs to beat a deadline.",
+            "You get uneven drafts and wrong claims. Nobody shares a rule for what gets checked.",
+          ],
+          fix: [
+            "You keep personal information out of unapproved public chats. Use a stripped example instead.",
+            "You give the team one habit. Brief the work clearly. Check the result before anything leaves.",
+          ],
+        },
+        line: "Good training does not ban the tool. It gives your team one clear habit: brief the work, then check it.",
       },
       {
-        title: "What the live session actually is",
-        paragraphs: [
-          "We do not hand you a shelf of videos and hope someone watches them on Friday.",
-          "The session is live. In the room in Johannesburg, or online if your people sit in more than one place.",
-          "Before the day, we look at the work your people already do. An HR team and an operations team do not use information the same way.",
-          "You bring two or three real tasks. A routine letter. A long document that needs a summary. A report. A checklist. A first draft that a person will still review.",
-          "People only see where the tool fails when they try it on their own work. That is the point of being in the room.",
-        ],
+        title: "Live sessions beat recorded videos because teams practise on real tasks",
+        paragraphs: [],
+        figureCaption: "Practising on real tasks shows where a draft needs fixing before it reaches a client.",
+        points: {
+          problem: [
+            "The recorded videos you bought sit unfinished once a busy week takes over. Generic examples miss your work.",
+            "Your teams handle information differently. One video leaves gaps in your daily habit.",
+          ],
+          fix: [
+            "You run a live session in Johannesburg or online. Use two or three real tasks your team already does.",
+            "You let people test where the tool stumbles on real letters, summaries, reports or checklists. Someone is there.",
+          ],
+        },
+        line: "You only spot where the tool fails when your people test it on their own real work.",
       },
       {
-        title: "What we will not promise you",
-        paragraphs: [
-          "You will hear big claims about teams getting dramatically faster. I will not hand you a number before I have seen the work.",
-          "3× faster is the target we train to on corporate work. We time a sample of your real documents first. Thirty days later we time them again. Your report shows the measured number.",
-          "What you should leave with is plainer. A faster start on a blank page. A habit of checking names, dates and figures. A rule for what never goes into the tool. A next step for the Monday after.",
-          "If someone promises magic with no effort from your team, be careful. The gain comes from the habit, and from a person who still signs the work.",
-        ],
-        links: [{ index: 1, phrase: "3× faster", href: "/corporate-ai-training" }],
+        title: "Real speed comes from checking habits, not empty promises",
+        paragraphs: [],
+        figureCaption: "Real gains come from measured checks and a person who still signs.",
+        points: {
+          problem: [
+            "A big speed claim, before anyone sees your documents, is guesswork.",
+            "Fast text you get in ten seconds can still carry a wrong name, date, figure or South African detail.",
+          ],
+          fix: [
+            "We time a sample of your real documents first. Thirty days later we time them again. 3× faster is the target we train to on corporate work. Your report shows the measured number.",
+            "You still have a person check names, dates, figures and the POPIA rule. Training alone does not make a workflow POPIA-compliant. Your policies and your lawyer still decide.",
+          ],
+        },
+        line: "A neat paragraph in ten seconds is useless if you do not have a person check the facts.",
       },
       {
-        title: "POPIA and the draft stay with a person",
-        paragraphs: [
-          "A neat paragraph in ten seconds is not an accurate one. The tool can miss a South African detail a manager would catch.",
-          "So the draft stays a draft until someone qualified reads it. Sensitive information stays inside the rules you already have.",
-          "Training does not make a workflow POPIA-compliant. Your policies and your lawyer still decide. I am not your lawyer.",
-          "I have given seven AI talks at WeWork Johannesburg. The rule in the room is the same. You practise on work you are allowed to use. A person checks what leaves.",
-        ],
-        links: [{ index: 2, phrase: "POPIA-compliant", href: "/guides/private-ai-popia" }],
+        title: "Light prep keeps desks covered and sets clear sign-off",
+        paragraphs: [],
+        figureCaption: "Smaller groups and a named reviewer keep the desk open.",
+        points: {
+          problem: [
+            "If you pull everyone away at once, your desks sit empty. Vague prep wastes your live session.",
+            "If you name nobody to own the sign-off, your staff do not know who approves a draft or which confidentiality rule applies.",
+          ],
+          fix: [
+            "You group overlapping roles, or you rotate smaller groups. Bring two or three slow jobs and the confidentiality rule you already use.",
+            "You name who signs the work after the session. Every draft stays a draft until that review.",
+          ],
+        },
+        line: "A short prep list keeps your desk covered. Sign-off stays in a person's hands.",
       },
       {
-        title: "What to prepare before the day",
-        paragraphs: [
-          "You do not need a technical project. You do need a little homework.",
-          "Pick people whose week overlaps. Or run the day in groups, so the desk is not empty.",
-          "List two or three slow jobs. The report. The letter. The document that keeps coming back.",
-          "Bring the confidentiality rule you already use. Name the person who signs the work after the session.",
-          "Then we can tell you whether the day fits. Corporate training is quoted per person after that conversation. There is no public team price.",
-        ],
-      },
-      {
-        title: "The owner workshop is a different offer",
-        paragraphs: [
-          "If you are the owner, and you want one live day for yourself, that is the online workshop. The founding rate is R990. Confirm the date, VAT and any tool costs before you pay.",
-          "If the whole team needs the same habit, that is corporate training. Live. In Johannesburg or online. Quoted per person.",
-          "We are GrowthCred (Pty) Ltd. We train teams and build systems from Rosebank. We are not Growth Credit Ltd. We do not lend money.",
-        ],
-        links: [
-          { index: 0, phrase: "online workshop", href: "/workshop" },
-          { index: 1, phrase: "corporate training", href: "/corporate-ai-training" },
-        ],
+        title: "Pick the right format for a team or a business owner",
+        paragraphs: [],
+        figureCaption: "One format is for the team. One is a live day for the owner.",
+        points: {
+          problem: [
+            "Team training is the wrong buy if you only want one day for yourself. A solo workshop will not line up a whole department.",
+            "If you guess the cost before anyone sees your real tasks, you cannot tell what the session covers.",
+          ],
+          fix: [
+            "You choose live corporate training, in Johannesburg or online, when your whole team needs one shared habit. We quote it per person after a short call.",
+            "You choose the one-day online owner workshop if you want one live day for yourself. The founding rate is R990. Confirm the date, VAT and any tool costs before you pay.",
+          ],
+        },
+        line: "You match the format to the room. One shared habit for your team, or one live day for you.",
       },
     ],
     faq: [
-      { q: "Is corporate AI training at GrowthCred an accredited qualification?", a: "No. It is a practical workplace session. Your people work on real tasks. A person still reviews the draft. We do not claim an accreditation." },
-      { q: "Do you train onsite in Johannesburg or online?", a: "Either. Live sessions run in the room in Johannesburg, or online if your teams sit elsewhere in South Africa." },
-      { q: "How is corporate AI training priced?", a: "We quote per person after a short call. There is no published team price. The one-day online workshop for an owner is R990 at the founding rate." },
-      { q: "Does the training replace human review or make us POPIA-compliant?", a: "No. Staff treat the output as a draft. A person checks it. Training does not make a workflow compliant. Your lawyer still reviews your own case." },
+      { q: "What should you expect from corporate AI training?", a: "It is a live session in Johannesburg or online. Your team practises on documents they already produce. A person still checks every draft. It is not an accredited course. GrowthCred (Pty) Ltd is not Growth Credit Ltd. We do not lend money." },
+      { q: "How is corporate AI training priced?", a: "There is no public team price. We quote per person after a short call, once we have seen the tasks, the group and who signs off. The separate one-day online owner workshop is R990 at the founding rate. Confirm the date, VAT and any tool costs before you pay." },
+      { q: "Does AI training make our workflows POPIA-compliant?", a: "No. Training does not make a workflow POPIA-compliant. Your own policies and your lawyer still decide." },
     ],
     ctas: [
       { to: "/corporate-ai-training", label: "Ask about team training" },
@@ -88,8 +123,8 @@ export const TRAINING_PAGES: SearchPage[] = [
     ],
     close: {
       line: "The licence is already on the desk. The habit is not.",
-      ask: "Want the team in the room, or online? Ask for a quote.",
-      cta: { to: "/corporate-ai-training", label: "Ask about team training" },
+      ask: "Want your team to practise on real documents in Johannesburg or online? Ask for a quote.",
+      cta: { to: "/call", label: "Ask for a quote" },
     },
     related: ["/corporate-ai-training", "/guides/ai-training-cost-south-africa", "/workshop", "/guides/popia-safe-ai-policy-staff-training-checklist", "/data-and-security", "/contact"],
   },
@@ -99,75 +134,123 @@ export const TRAINING_PAGES: SearchPage[] = [
     published: TRAINING_PUBLISHED,
     title: "POPIA-Safe AI Policy & Staff Training Checklist | GrowthCred",
     description: "A plain checklist for South African teams. What staff must keep out of a public AI chat, who checks the draft, and how live training builds the habit.",
-    heading: "Can your staff use AI without breaking POPIA?",
+    heading: "Stop risky copy-pasting with a POPIA-safe AI policy and staff training checklist.",
     answer: "POPIA does not ban AI. It does make you responsible for personal information. Do not paste names, ID numbers or client files into a public chat until you have approved that exact workflow. A person still checks the draft. This page is not legal advice. We are not Growth Credit Ltd.",
     intro: "If your staff already use AI at work, you already have a POPIA question. You may not have written the rule yet. The leak is rarely a dramatic hack. It is a busy person pasting a client email, an employee record or an ID number into a chat box.",
     introLink: { phrase: "POPIA", href: "/guides/private-ai-popia" },
+    article: {
+      pain: "A busy person pasting an ID number or a client file into a chat box is more common than a dramatic hack. That is a POPIA question.",
+      wayOut: "A short rule your staff can repeat, plus live practice on stripped work, is how you stay careful.",
+      learnItems: [
+        "You get five short rules your staff can repeat on a busy afternoon.",
+        "You see how to run the checklist and a live session before you open the chat tools.",
+      ],
+      why: WHY,
+      minutes: 4,
+      mentions: [
+        { text: "Want the team to practise stripping examples and checking drafts together? Ask for a quote for a live session in Johannesburg or online. We use your real tasks and the confidentiality rule you already have. You do not get a canned template you still have to adapt.", phrase: "Ask for a quote", href: "/call" },
+        { text: "This page is practical guidance, not legal advice. You can start the working checklist before a formal sign-off. Your Information Officer and your lawyer should still review your facts before you roll it out.", phrase: "Information Officer", href: "/data-and-security" },
+      ],
+    },
     sections: [
       {
-        title: "A chat box is not a scratchpad",
-        paragraphs: [
-          "Most teams get into trouble because the box feels private. It is not your filing cabinet.",
-          "A name, a phone number, a home address, a disciplinary note or a client file can leave the building in one paste.",
-          "A paid plan does not answer where that text goes. Read the terms for the account your staff actually use.",
-          "Even with no personal information in the prompt, a wrong summary can land on a person's file. Someone still has to check it.",
-        ],
+        title: "Chat boxes are not private filing cabinets",
+        paragraphs: [],
+        figureCaption: "A chat box is not a scratchpad. A paste can leave your approved workflow.",
+        points: {
+          problem: [
+            "Your staff treat a browser chat box like a private scratchpad. They paste names, ID numbers, phone numbers, addresses, bank details or client files.",
+            "A paid plan does not settle where your text goes. A wrong summary, even with no personal data, can still land on someone's file.",
+          ],
+          fix: [
+            "You check the terms of the account your staff actually use. You ban raw personal information in a tool you have not approved.",
+            "You have a person check every draft before it is sent, filed or acted on.",
+          ],
+        },
+        line: "A chat box is not a scratchpad. A client file is not a test prompt.",
       },
       {
-        title: "Five rules your staff can repeat",
-        paragraphs: [
-          "A policy that lives in a shared drive does not change a busy afternoon. The rule has to fit in one breath.",
-          "First, no raw personal information in a tool you have not approved. That means ID numbers, phone numbers, bank details, HR records, and client or member files.",
-          "Second, if a made-up example is enough, use that. Strip the name, the account number and anything that points at a person.",
-          "Third, work stays on the account the organisation approved. A personal login is not the company rule.",
-          "Fourth, a person checks every draft before it is sent, filed or acted on.",
-          "Fifth, if you are not sure, you stop and ask. You do not guess.",
-        ],
-        links: [{ index: 2, phrase: "made-up example", href: "/guides/can-staff-paste-client-files-into-chatgpt" }],
+        title: "Short spoken rules beat a long policy on a shared drive",
+        paragraphs: [],
+        figureCaption: "Five clear habits give staff a fast check when the deadline is tight.",
+        points: {
+          problem: [
+            "A policy on a shared drive rarely stops your people when they are rushing a deadline.",
+            "If your rule is not plain, your staff guess. Or they use a personal login.",
+          ],
+          fix: [
+            "You keep five habits they can say in one breath. No raw personal data in an unapproved tool. Use a stripped or made-up example when that is enough. Stick to the approved account. Check every draft. If you are unsure, stop and ask.",
+            "Your staff stop and ask when they are unsure. They do not improvise.",
+          ],
+        },
+        line: "If your staff cannot repeat the rule on a busy afternoon, it will not hold.",
       },
       {
-        title: "The checklist",
-        paragraphs: ["Run this before you tell the team the chat box is allowed. It is a working list. It is not a legal opinion, and it is not a template I publish for download."],
+        title: "A twelve-point checklist sets the ground rules first",
+        paragraphs: [],
+        figureCaption: "Set the boundaries before everyday drafting begins.",
+        points: {
+          problem: [
+            "If you tell staff the chat is allowed before you name the owner, the tools, the forbidden data and the sign-off, you leave blind spots.",
+            "If you skip the review points, a bad summary, or a stale rule, stays in place.",
+          ],
+          fix: [
+            "You work through the twelve items before you allow the chat for everyday work.",
+            "This is your working list. It is not a downloadable policy, and it is not a legal opinion.",
+          ],
+        },
+        line: "Run the checklist before you allow the chat box for everyday work.",
         items: [
-          "Name who owns the AI rule.",
-          "Write the rule in words a busy person can repeat.",
-          "Name the tools that are allowed. Name the ones that are not.",
-          "Say what must never be pasted in.",
-          "Name who signs the draft.",
-          "Find who is already using a chat box.",
-          "Train live, on real tasks, in Johannesburg or online.",
-          "Practise stripping names before you draft.",
-          "Practise checking the draft against the source.",
-          "Give staff one way to ask when they are unsure.",
-          "Look again after the first month.",
-          "Update the rule when the tool or the work changes.",
+          "You name who owns the AI rule.",
+          "You write the rule in words a busy person can repeat.",
+          "You name the tools that are allowed. You name the ones that are not.",
+          "You say what must never be pasted in.",
+          "You name who signs the draft.",
+          "You find who is already using a chat box.",
+          "You train live, on real tasks, in Johannesburg or online.",
+          "You practise stripping names before you draft.",
+          "You practise checking the draft against the source.",
+          "You give staff one way to ask when they are unsure.",
+          "You look again after the first month.",
+          "You update the rule when the tool or the work changes.",
         ],
       },
       {
-        title: "Why the policy needs a live session",
-        paragraphs: [
-          "People under a deadline take the fastest path. If they have not practised stripping a file, they will paste it.",
-          "A live session is where you do that together. In Johannesburg, or online.",
-          "You rewrite one request so the structure comes back without the sensitive detail. You find the line the summary invented. A manager sees how to review the work without giving up the sign-off.",
-          "I have given seven AI talks at WeWork Johannesburg. The useful hour is always the same. Your work. Your rule. A person still checks.",
-        ],
-        links: [{ index: 1, phrase: "live session", href: "/corporate-ai-training" }],
+        title: "Live practice teaches staff to strip a file before they draft",
+        paragraphs: [],
+        figureCaption: "Live practice makes stripping and checking a habit.",
+        points: {
+          problem: [
+            "Under a deadline, your people take the fastest path. If they have never practised stripping a file, they paste the raw one.",
+            "Your managers miss an invented line, or a slip in tone, if they have not practised checking a draft against the source.",
+          ],
+          fix: [
+            "You practise together in a live session, in Johannesburg or online. You rewrite one request so the structure comes back without the sensitive detail.",
+            "You spot the invented line in the room. You show managers how to review the draft. Final sign-off stays with a person.",
+          ],
+        },
+        line: "Your staff will paste the whole file under pressure unless you practise stripping it first.",
       },
       {
-        title: "What this page will not do",
-        paragraphs: [
-          "I will not give you a downloadable policy and call it done. I do not publish one. You write the rule your own team can repeat.",
-          "I will not tell you that training makes you compliant. Have your Information Officer and a lawyer review your own facts.",
-          "We are GrowthCred (Pty) Ltd, from Rosebank. We are not Growth Credit Ltd. We do not lend money. This is practical training. It is not an accredited qualification.",
-        ],
-        links: [{ index: 1, phrase: "Information Officer", href: "/data-and-security" }],
+        title: "Know what this checklist and this training do not cover",
+        paragraphs: [],
+        figureCaption: "Habit-building stays separate from the legal review.",
+        points: {
+          problem: [
+            "A checklist or a training session is not legal POPIA compliance. Treating it as one is false confidence.",
+            "Practical training is not an accredited qualification. It is also not a lending service.",
+          ],
+          fix: [
+            "Your Information Officer and a lawyer review your own facts and policies. This page is not legal advice. Training does not make you compliant.",
+            "GrowthCred (Pty) Ltd, in Rosebank, provides practical training. It is not an accredited qualification. We are not Growth Credit Ltd. We do not lend money.",
+          ],
+        },
+        line: "Practical training builds safer habits. Your Information Officer and your lawyer own the legal question.",
       },
     ],
     faq: [
-      { q: "Does POPIA ban businesses from using AI tools?", a: "No. POPIA does not ban the tool. You still have to handle personal information lawfully. Keep it out of a chat you have not approved. A person still checks the output. Get advice for your own case." },
-      { q: "What should staff avoid pasting into a public AI chat?", a: "Names tied to a sensitive record. ID numbers. Contact details. HR or disciplinary notes. Bank details. Confidential client or member files. If a made-up example works, use that." },
-      { q: "How does staff training help with POPIA?", a: "It turns the rule into a habit. Staff practise keeping data out of the prompt, and checking the draft before it goes out. Training is not a compliance certificate." },
-      { q: "How do we get a quote for team training?", a: "Ask on the corporate training page, or contact us. We quote per person after a short call. There is no published team price." },
+      { q: "Does POPIA ban staff from using AI?", a: "No. POPIA does not ban AI. It does make you responsible for personal information. Your staff should not paste names, ID numbers or client files into an unapproved public chat. You still have a person check the draft." },
+      { q: "Does this page give a downloadable POPIA policy or a legal compliance guarantee?", a: "No. This page is not legal advice. It does not publish a downloadable policy. Training does not make a workflow POPIA-compliant. Your Information Officer and your lawyer must review your facts." },
     ],
     ctas: [
       { to: "/call", label: "Ask for a quote" },
@@ -175,10 +258,10 @@ export const TRAINING_PAGES: SearchPage[] = [
     ],
     close: {
       line: "A client file is not a test prompt.",
-      ask: "Want the team to practise the rule together? Ask for a quote.",
-      cta: { to: "/corporate-ai-training", label: "Ask about team training" },
+      ask: "Want your team to practise the rule on real tasks in Johannesburg or online? Ask for a quote.",
+      cta: { to: "/call", label: "Ask for a quote" },
     },
-    related: ["/corporate-ai-training", "/data-and-security", "/guides/private-ai-popia", "/guides/what-to-expect-corporate-ai-training-south-africa", "/guides/staff-chatgpt-client-files-popia", "/contact"],
+    related: ["/corporate-ai-training", "/data-and-security", "/guides/private-ai-popia", "/guides/what-to-expect-corporate-ai-training-south-africa", "/contact"],
   },
   {
     path: "/guides/live-vs-recorded-ai-training-for-teams",
@@ -186,58 +269,92 @@ export const TRAINING_PAGES: SearchPage[] = [
     published: TRAINING_PUBLISHED,
     title: "Live vs Recorded AI Training for Your Team | GrowthCred",
     description: "A recorded course leaves each person alone. Live training runs in Johannesburg or online. The owner day is separate. Team training is quoted per person.",
-    heading: "Should your team sit a live session, or watch a video?",
+    heading: "Stalled video courses or shared team habits: live vs recorded AI training.",
     answer: "GrowthCred does not sell a recorded training video. Live training is a session in Johannesburg, or online, on work your team already does. A person still checks the draft. Owners can take the one-day online workshop at R990. Team training is quoted per person. Neither is an accredited course.",
     intro: "You will see two offers. A library of videos people watch alone. Or a live session where the team works on a real document together. They do not leave the same habit behind.",
+    article: {
+      pain: "A library of recorded videos often stalls on your busy week. Your staff leave with different habits.",
+      wayOut: "A live session on your real work gets everyone practising the same check together.",
+      learnItems: [
+        "You see where a recorded course stalls for your team, and where a live session builds one shared habit.",
+        "You see how to pick the format without buying videos your team will not finish.",
+      ],
+      why: WHY,
+      minutes: 4,
+      mentions: [
+        { text: "Want the team to build one shared habit, rather than watch separate videos? Ask for a quote after a short call. We plan around the group size and the desk cover, so you do not have to empty the office.", phrase: "Ask for a quote", href: "/call" },
+        { text: "If you only want one live day for yourself, take the online workshop at the R990 founding rate. You do not have to buy a library of recorded videos you will not finish.", phrase: "R990 founding rate", href: "/workshop" },
+      ],
+    },
     sections: [
       {
-        title: "What a recorded course usually is",
-        paragraphs: [
-          "It is videos, slides and a quiz. People watch when they can.",
-          "That can suit one person who wants a look at an idea after hours, and who will actually finish it.",
-          "For a team, it often stalls. The operational week wins. The module sits there.",
-          "The examples are generic. They do not know your documents, your POPIA duties, or who signs your work.",
-          "A video cannot answer when someone asks whether this file is safe to try. People who watch alone can leave with different habits.",
-        ],
+        title: "Recorded videos often stall when the week gets busy",
+        paragraphs: [],
+        figureCaption: "A solo video stalls when a real deadline hits the desk.",
+        points: {
+          problem: [
+            "Videos, slides and quizzes you leave for when people have time often sit unfinished once your normal work takes over.",
+            "Generic examples ignore your documents, your POPIA duties and who signs your work. A video cannot answer when someone asks you if a file is safe to try.",
+          ],
+          fix: [
+            "A solo after-hours video can suit you if you will finish it. Watching alone often leaves your team with uneven habits.",
+            "You choose a shared working format when your whole team needs the same safe routine.",
+          ],
+        },
+        line: "A video can sit unfinished. Your live working session cannot.",
       },
       {
-        title: "What the live session is",
-        paragraphs: [
-          "Your team is in the room, or on the call, at the same time. You can ask. You can try. You can fix a bad draft while someone is there.",
-          "The tasks are the ones you already do. A report. Notes. A summary. Routine admin. A person still reviews what goes out.",
-          "When the team trains together, the manager and the staff share one rule. That is harder to get from separate videos.",
-          "You do have to plan the cover. Field staff and shift teams cannot all leave at once. Smaller groups keep the desk open.",
-        ],
-        links: [{ index: 0, phrase: "in the room", href: "/corporate-ai-training" }],
+        title: "Live sessions let the whole team test real tasks at once",
+        paragraphs: [],
+        figureCaption: "Practising together lines up how staff draft and how you review.",
+        points: {
+          problem: [
+            "Your people who watch separate videos can leave with clashing habits on drafting, checking and confidentiality.",
+            "If you pull the whole team away at once, you can leave a desk, a field role or a shift short.",
+          ],
+          fix: [
+            "You bring the team together live, in Johannesburg or online. You practise on real reports, notes, summaries or routine admin. Someone is there to fix a bad draft. A person still reviews what goes out.",
+            "You run smaller groups, or you rotate staff, so your field and frontline cover stays in place.",
+          ],
+        },
+        line: "When your team trains live together, your managers and your staff leave with one shared rule.",
       },
       {
-        title: "How to choose",
-        paragraphs: [
-          "Ask who you are training. You pick the format. You do not have to buy a pile of videos.",
-          "A team that needs one safe habit should sit the live session. That is corporate training. We quote it per person after a short call.",
-          "An owner who wants one live day for themselves can take the online workshop. The founding rate is R990. It is not a video you watch later.",
-          "A cheap background video, with no shared rule, may suit a solo learner. I do not sell that. I will not pretend it lines a team up.",
-          "I will not promise you a speed gain before we time your work. Any gain depends on the baseline, and on whether your people keep the habit. I have given seven AI talks at WeWork Johannesburg. The teams that move are the ones who practise, then check.",
-        ],
-        links: [
-          { index: 1, phrase: "corporate training", href: "/corporate-ai-training" },
-          { index: 2, phrase: "online workshop", href: "/workshop" },
-        ],
+        title: "Match the format to the person or the group you are training",
+        paragraphs: [],
+        figureCaption: "Pick the format for a team, or for one owner.",
+        points: {
+          problem: [
+            "A pile of videos rarely gives your team one habit. A full team session is the wrong buy if you are one owner alone.",
+            "If you expect a speed gain before you time the work, and before your habit sticks, you will be disappointed.",
+          ],
+          fix: [
+            "You use live corporate training, in Johannesburg or online, when your team needs one shared habit. We quote it per person after a short call. Or you use the one-day online owner workshop, at the R990 founding rate, when you want one live day alone.",
+            "You skip a background video if you want your team lined up. GrowthCred does not sell recorded training videos. You measure any speed gain against your own baseline, and against whether your habit stays.",
+          ],
+        },
+        line: "You do not have to buy a pile of videos to get a working habit.",
       },
       {
-        title: "What we are, and what we are not",
-        paragraphs: [
-          "We are GrowthCred (Pty) Ltd, from Rosebank, Johannesburg. Phila Ngwenya is the founder.",
-          "We are not Growth Credit Ltd. We do not lend money.",
-          "The training is practical. It is not an accredited qualification.",
-        ],
+        title: "Keep a clear line on who we are and what the training covers",
+        paragraphs: [],
+        figureCaption: "The session is practical training. A person still checks the draft.",
+        points: {
+          problem: [
+            "Practical training is not an accredited qualification. A session does not replace your formal policies.",
+            "A similar name, or a lending service, is a different company.",
+          ],
+          fix: [
+            "You treat the session as hands-on training. A person still checks every draft. It is not an accredited qualification.",
+            "GrowthCred (Pty) Ltd operates from Rosebank, Johannesburg. Phila Ngwenya is the founder. We are not Growth Credit Ltd. We do not lend money.",
+          ],
+        },
+        line: "The teams that move are the ones who practise on your real work, then you check every draft.",
       },
     ],
     faq: [
-      { q: "Why does GrowthCred use live training instead of a recorded course?", a: "Staff can ask, try a real task, and leave with one shared rule for checking the work. A video cannot answer the question in the room." },
-      { q: "Can the live session be online?", a: "Yes. Corporate training runs in Johannesburg or online. The owner workshop is online." },
-      { q: "Is there a live option for an owner, not a whole team?", a: "Yes. The one-day online workshop is R990 at the founding rate. Confirm the date and VAT before you pay." },
-      { q: "What does team training cost?", a: "We quote per person after a short call. There is no published team price. We do not sell a recorded course at a set price." },
+      { q: "Should a team choose live AI training or a recorded video course?", a: "A live session is the better fit for your team. Your people work on real tasks at the same time and leave with one shared rule and a human review. Solo videos often stall and leave you with uneven habits. GrowthCred does not sell you recorded training videos." },
+      { q: "How much do live team training and the owner workshop cost?", a: "Live corporate team training is quoted per person after a short call. It runs in Johannesburg or online. Your one-day online workshop is R990 at the founding rate. Neither is an accredited course." },
     ],
     ctas: [
       { to: "/corporate-ai-training", label: "Ask about team training" },
@@ -245,8 +362,8 @@ export const TRAINING_PAGES: SearchPage[] = [
     ],
     close: {
       line: "A video can sit unfinished. A live day cannot.",
-      ask: "Want the team in one session? Ask for a quote.",
-      cta: { to: "/corporate-ai-training", label: "Ask about team training" },
+      ask: "Want the team practising together in one live session? Ask for a quote.",
+      cta: { to: "/call", label: "Ask for a quote" },
     },
     related: ["/corporate-ai-training", "/guides/ai-training-cost-south-africa", "/workshop", "/guides/ai-training-vs-automation", "/contact"],
   },
@@ -256,86 +373,101 @@ export const TRAINING_PAGES: SearchPage[] = [
     published: TRAINING_PUBLISHED,
     title: "Bargaining Council AI Training in South Africa | GrowthCred",
     description: "Live AI training for bargaining councils, statutory bodies and institutes. Accurate drafts, POPIA habits, smaller groups. Quoted per person. Not accredited.",
-    heading: "AI training for councils, statutory bodies and institutes.",
+    heading: "Sloppy minutes and leaked member files stop with AI training for bargaining councils and statutory bodies.",
     answer: "This is live training for a bargaining council, a statutory body or a professional institute. Your people practise on reports, minutes and letters. A person checks every figure before it is used. Personal information stays out of a public chat. Sessions run in Johannesburg or online, in smaller groups. We quote per person. We are not Growth Credit Ltd.",
     intro: "Your reports, notices, minutes and letters feed a formal process. A sloppy sentence is not a small mistake. You still sign them. A leaked member file is worse. And your team is already stretched. Queries, research, records and the ordinary admin all land on the same desks.",
+    article: {
+      pain: "Formal notices, minutes, circulars and member records cannot take a careless draft or an exposed personal detail.",
+      wayOut: "Live practice by role, with a person still signing, lets you draft more safely. Smaller groups keep the desks covered.",
+      learnItems: [
+        "You see how your analysts, coordinators and administrators practise safe drafting on the documents their role already produces.",
+        "You see how to run live sessions in smaller rotating groups so your public desk or your member desk stays open.",
+      ],
+      why: WHY,
+      minutes: 5,
+      mentions: [
+        { text: "Want to test live practice with one team, without leaving the desks empty? Ask for a short call. We map the headcount, the roles and the rotation first. You move ahead only with a plan that fits the day.", phrase: "Ask for a short call", href: "/call" },
+        { text: "You do not need to hand over sensitive member files to scope the session. We work inside the confidentiality limits you already have, and on stripped examples. The one-day online workshop at the R990 founding rate is for an owner, not for this team.", phrase: "R990 founding rate", href: "/workshop" },
+      ],
+    },
     sections: [
       {
-        title: "The work that cannot be sloppy",
-        paragraphs: [
-          "A commercial firm can fix a clumsy email. Your notice, your circular or your minute may not get that chance.",
-          "So the session is not a demo of what a tool can do on a perfect example. It is practice on the documents your people already produce.",
-          "Reports. Summaries. Research notes. Routine letters. Agendas. Follow-ups. The tone stays measured. A person still signs.",
-          "I will not name a council or an institute here. Nobody has given me permission to do that. This page describes the job. It does not pretend we have already done yours.",
-        ],
+        title: "Formal documents cannot take a sloppy draft or a leaked file",
+        paragraphs: [],
+        figureCaption: "Formal records and member details need a hard line before any draft starts.",
+        points: {
+          problem: [
+            "Your notice, your circular, your minute, your report or your formal letter carries weight. A sloppy line, or a leaked member file, is worse than a clumsy email.",
+            "Your same desks handle queries, research, records and daily admin. Under pressure, your people take a shortcut.",
+          ],
+          fix: [
+            "You practise on the documents your people already produce. Reports, summaries, research notes, routine letters, agendas and follow-ups. You keep a measured tone.",
+            "You keep member, worker, employer, applicant and complaint details out of a tool you have not approved. Your lawyer reviews your facts. Training does not make you POPIA-compliant.",
+          ],
+        },
+        line: "In your formal process, a sloppy draft is not a small mistake. Your person still signs.",
       },
       {
-        title: "What people practise",
-        paragraphs: [
-          "Each person works on their own role. An analyst, a coordinator and an administrator do not need the same exercise.",
-          "They learn to brief the tool with the context of the organisation, and with the limits of the role.",
-          "A rough note can become a first draft of a summary. A research pile can become a list of questions to verify. A routine letter can start in the house tone.",
-          "You do not leave with a new product I have named for you. You leave with a way to start the draft, and a checklist for what you still check.",
-          "Every figure is still yours to check. The tool does not do the maths you will stand behind.",
-        ],
-        links: [{ index: 3, phrase: "checklist", href: "/guides/popia-safe-ai-policy-staff-training-checklist" }],
+        title: "Role practice turns rough notes into a checked first draft",
+        paragraphs: [],
+        figureCaption: "Match the exercise to the role. Then check every figure against a source you trust.",
+        points: {
+          problem: [
+            "Your analyst, your coordinator and your administrator do not do the same work. One generic exercise does not fit every desk you run.",
+            "A loose prompt can put a wrong figure, date or detail into a draft that looks finished to you.",
+          ],
+          fix: [
+            "You give each role an exercise from their own work. A rough note becomes a draft summary. A research pile becomes questions you verify. A routine letter starts in your house tone, on a stripped example.",
+            "You practise checking every figure, date, name, claim and the tone against a source you trust. The tool does not do the maths you will stand behind.",
+          ],
+        },
+        line: "A draft is not a decision until you have a person check the facts and sign it.",
       },
       {
-        title: "Member and worker information stays out",
-        paragraphs: [
-          "You handle details about workers, employers, members, applicants and complaints. POPIA applies to that.",
-          "Staff learn what counts as personal information. Names, ID numbers, contact details and case facts do not go into a tool you have not approved.",
-          "They practise on a stripped example. The structure of the task. Not the person it is about.",
-          "The session follows the confidentiality rules you already have. It does not replace them. And it does not make you compliant. Your lawyer still reviews your facts.",
-        ],
-        links: [{ index: 1, phrase: "POPIA", href: "/guides/private-ai-popia" }],
+        title: "Smaller rotating groups keep the desks and the queries covered",
+        paragraphs: [],
+        figureCaption: "One group practises. The desk that takes queries stays open.",
+        points: {
+          problem: [
+            "If you pull half the office out for a full day, your queries pile up.",
+            "Your frontline, field and admin teams still need cover while they get hands-on practice.",
+          ],
+          fix: [
+            "You run smaller groups, in Johannesburg or online, so your people can rotate. Your desks and your frontline queries stay covered.",
+            "You keep the practice on real work. Any speed gain is measured against your baseline. It is not a number I guess before I have seen your work.",
+          ],
+        },
+        line: "Smaller rotating groups let your team practise without letting the queries pile up.",
       },
       {
-        title: "A draft is not a decision",
-        paragraphs: [
-          "In a formal process, a mostly right draft can still be wrong in the one place that matters.",
-          "The tool can miss a nuance. It can invent a detail if the brief was loose.",
-          "So staff practise the check. Every figure. Every date. Every name. Every claim, against the source you trust.",
-          "They read the tone before it goes forward. A person signs anything that will be used in a proceeding, a notice or a letter that leaves the building.",
-          "Faster drafting is a target we measure against your baseline. It is not a promise I make before I have seen the work.",
-        ],
-      },
-      {
-        title: "Smaller groups, so the desk stays open",
-        paragraphs: [
-          "The fear is fair. If half the office leaves for a full day, the queries pile up.",
-          "We can run smaller groups. In Johannesburg, or online. People rotate. Field and frontline staff stay covered.",
-          "You still get hands-on practice. The day's work does not stop.",
-        ],
-      },
-      {
-        title: "How we quote",
-        paragraphs: [
-          "Every council, body and institute uses its own words and its own process. So there is no public price on this page.",
-          "We quote per person after a short call. The call tells us the headcount, the roles, the cover you need, and whether Johannesburg or online fits.",
-          "The one-day online workshop at R990 is for an owner, not for this team session.",
-          "I have given seven AI talks at WeWork Johannesburg. I am Phila Ngwenya. GrowthCred (Pty) Ltd is the company. We are not Growth Credit Ltd. We do not lend money. This training is not an accredited qualification.",
-        ],
-        links: [
-          { index: 2, phrase: "one-day online workshop", href: "/workshop" },
-          { index: 3, phrase: "WeWork Johannesburg", href: "/about" },
-        ],
+        title: "Scope the work, and name the boundary, before any quote",
+        paragraphs: [],
+        figureCaption: "A short call covers headcount, roles, cover and format before a per-person quote.",
+        points: {
+          problem: [
+            "Your council, statutory body or institute uses its own words and its own process. A flat public price does not fit you.",
+            "A team session is not your solo owner workshop. Practical training is not an accredited qualification, and it is not your legal sign-off.",
+          ],
+          fix: [
+            "We scope your team training per person after a short call. The call covers your headcount, your roles, your desk cover, and whether Johannesburg or online fits you. The R990 one-day online workshop is for an owner, not for your team session.",
+            "GrowthCred (Pty) Ltd is not Growth Credit Ltd. We do not lend you money. We do not name your council or your institute without permission. This is practical training, not an accredited qualification.",
+          ],
+        },
+        line: "Your council or body has its own process, so your quote follows a short call.",
       },
     ],
     faq: [
-      { q: "Can staff use AI on work that goes into a formal proceeding?", a: "They can organise notes and prepare an early draft. Personal information stays out of an unapproved tool. A qualified person checks every fact, figure and statement before it is used." },
-      { q: "How do you handle member or worker information under POPIA?", a: "We train people not to paste identifiable records into an unapproved tool. They practise on a stripped example. Your own governance rules still apply. This is not legal advice." },
-      { q: "Can we train in smaller groups so the front line keeps working?", a: "Yes. Sessions can run in groups, in Johannesburg or online, so field and frontline staff stay covered." },
-      { q: "What does this cost a council, a statutory body or an institute?", a: "We quote per person after a short call. There is no published team price. The R990 workshop is a separate one-day session for an owner." },
+      { q: "Who is this AI training built for?", a: "Bargaining councils, statutory bodies and professional institutes. Your staff draft reports, notices, circulars, minutes and letters. Personal information stays out of a tool you have not approved. A person checks the work and signs it." },
+      { q: "How is training priced for a council, a statutory body or an institute?", a: "There is no public team price. We quote per person after a short call on headcount, roles, cover and format. The R990 one-day online workshop is for an owner, not for this team session. GrowthCred (Pty) Ltd is not Growth Credit Ltd. We do not lend money." },
     ],
     ctas: [
-      { to: "/corporate-ai-training", label: "Ask about team training" },
+      { to: "/call", label: "Ask for a quote" },
       { to: "/contact", label: "Contact us" },
     ],
     close: {
       line: "The notice still needs a person behind it.",
-      ask: "Want a short call about one team? Ask for a quote.",
-      cta: { to: "/corporate-ai-training", label: "Ask about team training" },
+      ask: "Want a short call about one team in Johannesburg or online? Ask for a quote.",
+      cta: { to: "/call", label: "Ask for a quote" },
     },
     related: ["/corporate-ai-training", "/guides/popia-safe-ai-policy-staff-training-checklist", "/guides/what-to-expect-corporate-ai-training-south-africa", "/ai-for-law-firms", "/ai-for-financial-services", "/data-and-security", "/contact"],
   },

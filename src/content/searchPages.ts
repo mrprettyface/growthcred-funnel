@@ -1,5 +1,6 @@
 import { SITUATION_PAGES } from "./situationPages";
 import { TRAINING_PAGES } from "./trainingGuides";
+import { applyGeminiOverlay } from "./geminiOverlay";
 
 /** One existing phrase inside a heading or paragraph, linked without rewriting the sentence. */
 export type PhraseAnchor = { phrase: string; href: string };
@@ -16,6 +17,41 @@ export type SearchSection = {
   itemLinks?: ({ index: number } & PhraseAnchor)[];
   /** A comparison table. Cells are labels, not sentences. */
   table?: { caption: string; headers: string[]; rows: string[][] };
+  /**
+   * Caption slot for this section's drawing. Empty until the rewrite lands.
+   * The layout uses the existing drawing caption until this is set.
+   */
+  figureCaption?: string;
+  /**
+   * Becker 1-2 body slot. When set, the layout shows these four lines
+   * instead of `paragraphs`.
+   */
+  points?: { problem: string[]; fix: string[] };
+  /** The one line to bold in the section. */
+  line?: string;
+  /** Drawing for this section when the rewrite names one. */
+  figure?: { name: string; alt: string; caption: string; motion?: "pointer" | "bubble" | "ring" };
+};
+/** First-screen copy slots. Empty until a page's rewrite lands. The layout falls back to the current intro, answer and lessons. */
+export type ArticleSlots = {
+  /** Pain hook. Falls back to `intro` (first sentence when there is no answer). */
+  pain?: string;
+  /** The way out. Falls back to `answer`, then the rest of `intro`. */
+  wayOut?: string;
+  /** The single "You'll learn" line, paired with `get`. */
+  learn?: string;
+  /** The single "You'll get" line. */
+  get?: string;
+  /** Two "You'll learn" lines, when the copy has no separate "You'll get". */
+  learnItems?: [string, string];
+  /** Replaces the shared why-listen paragraph on this page. */
+  why?: string;
+  /** Named read time from the copy. Falls back to a count of the words. */
+  minutes?: number;
+  /** At most two soft mentions. Each one can link a phrase that is already in the sentence. */
+  mentions?: { text: string; phrase?: string; href?: string }[];
+  /** Hero drawing when the rewrite names one. The first screen does not animate it. */
+  hero?: { name: string; alt: string; caption: string };
 };
 export type StoryImage = { src: string; alt: string; width: number; height: number; caption?: string };
 export type SearchPage = {
@@ -52,6 +88,8 @@ export type SearchPage = {
   guide?: { after: number; line: string };
   /** The last word (VOICE.md, steps 7–8): one line that makes them act, then the ask. */
   close?: { line: string; ask: string; cta: { to: string; label: string } };
+  /** Becker first-screen slots. Leave unset until the rewritten copy arrives. */
+  article?: ArticleSlots;
 };
 export const REVIEWED = "2026-09-20";
 /** Client stories were published after the last review of the other pages. */
@@ -60,7 +98,7 @@ export const STORIES_PUBLISHED = "2026-09-24";
 export const SEO_PUBLISHED = "2026-09-24";
 /** Material SEO and answer-engine edits. Does not change the published byline. */
 export const SEO_UPDATED = "2026-11-17";
-export const SEARCH_PAGES: SearchPage[] = [
+const SEARCH_PAGE_SOURCE: SearchPage[] = [
   ...SITUATION_PAGES,
   {
     path: "/ai-training-south-africa", kind: "service", updated: SEO_UPDATED,
@@ -222,23 +260,39 @@ export const SEARCH_PAGES: SearchPage[] = [
     path: "/guides/ai-training-cost-south-africa", kind: "guide", updated: SEO_UPDATED,
     title: "AI Training Cost in South Africa: From R990 | GrowthCred",
     description: "No single AI training price in South Africa. Compare the workshop, VAT and tools. Team training is quoted per person. Not a recorded video.",
-    heading: "What does AI training cost in South Africa?",
+    heading: "Hidden extras and vague quotes end when you compare AI training cost in South Africa.",
     answer: "There is no single AI training price in South Africa. My one-day online workshop for owners is R990 at the founding rate. Confirm the date, VAT and any tool costs before you pay. Corporate training for a team is quoted per employee after we time your real documents. I do not sell a recorded training video at a published price.",
     intro: "There's no universal price for AI training. So what do you compare? The format. How many people. How much real work you do. And what support you get after. My one-day workshop is R990 at the founding rate. Confirm the next session and the full booking terms before you pay.",
+    article: {
+      pain: "There is no single price for AI training in South Africa. A per-person number, or a claim about hours saved, misleads you if the formats are not the same.",
+      wayOut: "Know what is included. Know how you will check the real output. That is how you avoid paying twice.",
+      learnItems: [
+        "You learn how to compare a recorded course, an owner workshop and a team session on the same footing.",
+        "You learn which cost questions to ask before you pay, so a subscription or an extra does not surprise you.",
+      ],
+      why: "GrowthCred is a Johannesburg AI implementation and training company. I teach AI at Melsoft Academy. I helped build an isiZulu and English speech AI system. It was presented at Parliament in Cape Town.",
+      minutes: 5,
+      mentions: [
+        { text: "Want to start small, without locking into more work afterwards? The live one-day online workshop is R990 at the founding rate. You test writing your business context into a real workflow. Confirm the date, VAT and any tool costs before you pay.", phrase: "R990 at the founding rate", href: "/workshop" },
+        { text: "Need a team session instead? We quote per person, in Johannesburg or online, after a short call and a look at your real documents. You get a scope for that work, not a generic guess.", phrase: "short call", href: "/call" },
+      ],
+    },
     sections: [
       {
-        title: "Three ways people buy the training",
-        paragraphs: [
-          "You will see three shapes. A recorded course you watch alone. A live day for an owner. A live session for a team.",
-          "I do not sell the recorded course. I will not invent its price. The provider sets that fee.",
-          "The owner workshop is live, online, and one day. The founding rate is R990. It is not a video, and it is not an accredited course.",
-          "Corporate training is live, in Johannesburg or online. We quote it per person after a short call. There is no public team price. A person still checks the draft.",
-          "We are GrowthCred (Pty) Ltd. We are not Growth Credit Ltd.",
-        ],
-        links: [
-          { index: 2, phrase: "owner workshop", href: "/workshop" },
-          { index: 3, phrase: "Corporate training", href: "/corporate-ai-training" },
-        ],
+        title: "Different formats buy different things, not the same hour",
+        paragraphs: [],
+        figureCaption: "Compare what each format delivers before you compare the price.",
+        points: {
+          problem: [
+            "A solo recorded course, a one-day owner workshop and a live team session are not the same purchase for you. If you compare them as if they were, you miss what each one includes.",
+            "A per-person rate is not your team total. A standalone illustration is not a market average. If you treat it as one, your comparison lies.",
+          ],
+          fix: [
+            "You compare who attends, how it runs and what you leave with. A recorded video is the provider's fee. Your live one-day online owner workshop is R990 at the founding rate. Your live team training, in Johannesburg or online, is quoted per person after a short call. It is not an accredited course.",
+            "You check the unit. Per seat, per team or per session. GrowthCred (Pty) Ltd is not Growth Credit Ltd.",
+          ],
+        },
+        line: "A price per person is not a price per team. A recorded video is not a live working day.",
         table: {
           caption: "Recorded courses, the R990 owner workshop, and corporate team training",
           headers: ["Compared", "Recorded course", "Owner workshop", "Corporate training"],
@@ -251,17 +305,71 @@ export const SEARCH_PAGES: SearchPage[] = [
           ],
         },
       },
-      { title: "Compare the same unit", paragraphs: ["A price per person isn't a price per team. A recorded video isn't a day spent building with a facilitator. So first ask: what does this amount actually buy me?", "Here's the maths. Say a team quote is R6,000 for six people. That's R1,000 each, before extras. Does that tell you it's good? No. It's just arithmetic. And it's an illustration, not our team quote or a market average."] },
-      { title: "Ask for the complete cost", paragraphs: ["Does the fee include materials? Build time? Support after? Is VAT in or on top? Do the tools need paid accounts? A workshop fee and a software subscription are two different purchases. Don't let one hide inside the other. Take this list to whoever you're comparing."], items: ["Is the rate per seat, per team or per session?", "Are the date, location and duration confirmed?", "Which tools and subscriptions are required?", "What support and materials are included?", "What are the cancellation and refund terms?"] },
-      { title: "What I offer right now", paragraphs: ["The R990 founding workshop is about writing down your business context and using it in real workflows. It runs online. You get the session details when you register. Check the tool requirements before you subscribe to anything.", "Done-for-you work is scoped separately. And buying the workshop doesn't commit you to anything after it. The refund terms are linked in the footer. Read them next to the offer.", "Got a team? Corporate AI training is live. It runs in Johannesburg or online. We quote per employee after a baseline. It is not a recorded video."], links: [{ index: 2, phrase: "Corporate AI training", href: "/corporate-ai-training" }] },
-      { title: "Judge what you'll use, not hours in a room", paragraphs: ["Pick one task you want to fix. Ask how the training helps you practise it. A good one leaves you with something you can run on Monday: a context document, a repeatable process and a way to check the output.", "And careful with the hours maths. An hour saved isn't cash. It's only worth money if you use it for paid work or it cuts a real cost. Anyone who quotes you results should tell you how they measured them."] },
+      {
+        title: "Ask five cost questions before you pay",
+        paragraphs: [],
+        figureCaption: "Ask what is included, so the training fee and the tool cost stay separate.",
+        points: {
+          problem: [
+            "Your workshop fee and a paid software subscription are two purchases. VAT, or an extra, can slip past your quick quote.",
+            "If cancellation, refunds or support after the session are unclear, you are guessing after you have paid.",
+          ],
+          fix: [
+            "You ask five questions before you pay. Is the rate per seat, per team or per session? Are the date, the place and the length confirmed? Which tools and paid subscriptions are required? What support and materials are included? What are your cancellation and refund terms?",
+            "You confirm the date, VAT and any tool costs before you register. You read the refund terms too.",
+          ],
+        },
+        line: "Do not let a software subscription, or a hidden extra, hide inside your training quote.",
+        items: [
+          "You ask if the rate is per seat, per team or per session.",
+          "You ask if the date, location and duration are confirmed.",
+          "You ask which tools and subscriptions are required.",
+          "You ask what support and materials are included.",
+          "You ask what the cancellation and refund terms are.",
+        ],
+      },
+      {
+        title: "Judge the Monday output, not hours saved on paper",
+        paragraphs: [],
+        figureCaption: "Useful training leaves a workflow you can run on Monday, and a way to check it.",
+        points: {
+          problem: [
+            "Hours in a room, or hours saved times a wage, is not cash. It is only money if you use the time for paid work, or it cuts a real cost.",
+            "A result with no measurement method does not tell you what changed.",
+          ],
+          fix: [
+            "You pick one task. You look for something you can run on Monday: a context document, a repeatable process and a way to check the output.",
+            "You ask how any quoted result was measured. Done-for-you work is scoped separately from your training.",
+          ],
+        },
+        line: "An hour you save is only worth money if it goes into your paid work, or it cuts a real cost.",
+      },
+      {
+        title: "Keep the owner workshop separate from a team session",
+        paragraphs: [],
+        figureCaption: "Match the scope to the goal, so you pay for the room you actually need.",
+        points: {
+          problem: [
+            "A solo owner session will not give the rest of your team the habit.",
+            "A full team session is too much if all you want right now is one day for yourself.",
+          ],
+          fix: [
+            "You use the R990 founding online workshop if you want one live day on writing your business context into a real workflow. Buying it does not commit you to anything after it.",
+            "You book live corporate training, in Johannesburg or online, if your team needs the practice and a person checking real work. We quote you per person after a baseline.",
+          ],
+        },
+        line: "You keep the owner workshop and the team training separate. You pay for the scope you need.",
+      },
     ],
     faq: [
-      { q: "What does AI training cost in South Africa?", a: "There is no single price. My one-day online workshop for owners is R990 at the founding rate. Confirm the date, VAT and tool costs before you pay. Team training is quoted per person." },
-      { q: "How much does a corporate training video cost in South Africa?", a: "I do not sell a recorded corporate training video at a published price. Corporate AI training is live. It runs in Johannesburg or online. We quote per employee after a baseline." },
-      { q: "Is the R990 workshop the same as corporate training?", a: "No. The workshop is one day, online, for an owner who wants to build. Corporate training is for a team, on your real reports, in the room or online, quoted after we time the work." },
-      { q: "Do you train teams onsite in Johannesburg?", a: "Yes. Corporate sessions can run in the room in Johannesburg. They can also run online if your people sit elsewhere in South Africa." },
+      { q: "Is there a standard price for AI training in South Africa?", a: "No. There is no single price for you. It depends on the format, the headcount, the live work and the support. Your one-day online owner workshop with us is R990 at the founding rate. Your team session is quoted per person after a call." },
+      { q: "What should I check before paying for an AI workshop or course?", a: "You check whether the fee is per seat, per team or per session. You check whether VAT and paid tool subscriptions are extra. You check what support or materials are included. You check the refund and cancellation terms." },
     ],
+    close: {
+      line: "A vague quote is how you pay twice.",
+      ask: "Want to compare the options, or get a clear scope for your team? Ask for a quote.",
+      cta: { to: "/call", label: "Ask for a quote" },
+    },
     related: ["/corporate-ai-training", "/workshop", "/guides/live-vs-recorded-ai-training-for-teams", "/guides/what-to-expect-corporate-ai-training-south-africa", "/ai-training-south-africa", "/contact"],
   },
   {
@@ -1110,4 +1218,5 @@ export const SEARCH_PAGES: SearchPage[] = [
     related: ["/guides/choose-ai-tools-small-business", "/guides/ai-automation-cost-south-africa", "/tools/admin-time-calculator", "/resources"],
   },
 ];
+export const SEARCH_PAGES: SearchPage[] = applyGeminiOverlay(SEARCH_PAGE_SOURCE);
 export const searchPage = (path: string) => SEARCH_PAGES.find(page => page.path === path);

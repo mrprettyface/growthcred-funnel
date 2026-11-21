@@ -187,6 +187,89 @@
   }
 }
 
+/* Guide drawings. The finished picture is the default, so a browser without
+   view timelines, or a reader who prefers less motion, still sees the whole
+   figure, the pointer and the bold sentence. Nothing here uses blur, and
+   nothing changes size, so the opening text stays the LCP and the page does
+   not jump. The hero figure does not get these classes. */
+@keyframes gcArticleDraw {
+  from { stroke-dashoffset: 1400; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes gcArticlePoke {
+  from { opacity: 0; translate: -8px 6px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@keyframes gcArticleMark {
+  from { background-size: 0% 100%; }
+  to { background-size: 100% 100%; }
+}
+
+@keyframes gcArticlePop {
+  from { opacity: 0; scale: 0.86; }
+  to { opacity: 1; scale: 1; }
+}
+
+@keyframes gcArticleRing {
+  from { opacity: 0; scale: 0.72; }
+  to { opacity: 1; scale: 1; }
+}
+
+@keyframes gcArticleStep {
+  from { opacity: 0; translate: 0 12px; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .gc-article-ink :is(path, line, circle, rect, polyline, ellipse) {
+      stroke-dasharray: 1400;
+      animation: gcArticleDraw linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 42%;
+    }
+    .gc-article-poke {
+      animation: gcArticlePoke linear both;
+      animation-timeline: view();
+      animation-range: entry 28% entry 62%;
+    }
+    .gc-article-bubble {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: gcArticlePop linear both;
+      animation-timeline: view();
+      animation-range: entry 30% entry 64%;
+    }
+    .gc-article-ring {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: gcArticleRing linear both;
+      animation-timeline: view();
+      animation-range: entry 16% entry 46%;
+    }
+    .gc-article-steps > li {
+      animation: gcArticleStep linear both;
+      animation-timeline: view();
+      animation-range: entry 12% entry 46%;
+    }
+    .gc-article-steps > li:nth-child(2) {
+      animation-range: entry 24% entry 60%;
+    }
+    .gc-article-mark {
+      background-image: linear-gradient(transparent 62%, rgb(200 160 74 / 0.45) 62% 92%, transparent 92%);
+      background-repeat: no-repeat;
+      background-position: left bottom;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+      animation: gcArticleMark linear both;
+      animation-timeline: view();
+      animation-range: entry 8% entry 40%;
+    }
+  }
+}
+
 .gc-flip-in {
   animation: gcFlipIn 0.45s ease both;
 }

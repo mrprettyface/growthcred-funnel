@@ -10,9 +10,11 @@ import { PageScene } from "../components/PageScenes";
 import { FaqMark } from "../components/FaqMarks";
 import { GUIDE_OFFER, requestGuide } from "../lib/guide";
 import { linkPhrase, linkPhrases } from "../components/PhraseLink";
+import { ArticleLayout, isArticlePage } from "../components/article/ArticleLayout";
 const labels:Record<string,string>={"/workshop":"Online AI workshop","/":"The Command Core","/call":"Discuss an implementation project","/brain":"Build your Business Brain","/contact":"Contact GrowthCred","/corporate-ai-training":"Corporate AI training for teams","/private-ai":"Private AI, explained","/playbook":"Start with a useful AI workflow."};
 export function SearchPage({page}:{page:Page}) {
   if (page.kind === "situation") return <SituationPage page={page} />;
+  if (isArticlePage(page)) return <ArticleLayout page={page} />;
   return <>
     <Section dark className="pt-10 md:pt-16">
       <nav aria-label="Breadcrumb" className="mb-8 font-mono text-[12px] uppercase tracking-[0.14em] text-cream/55 [&_a]:text-cream/75 [&_a]:no-underline [&_a:hover]:text-gold"><Link to="/">Home</Link>{page.kind==='guide'&&<> / <Link to="/resources">Resources</Link></>}{page.kind==='story'&&<> / <Link to="/stories">Stories</Link></>} / <span aria-current="page" className="inline-block max-w-[22rem] truncate align-bottom">{page.heading}</span></nav>
