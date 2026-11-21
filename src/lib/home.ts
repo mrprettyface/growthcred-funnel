@@ -58,6 +58,41 @@ export const LOGOS_LABEL = "Organisations we've worked with";
 export const PROOF_LINE =
   "7 AI talks at WeWork Johannesburg. AI system presented at Parliament, Cape Town.";
 
+/**
+ * The bento hero (22 Nov 2026, Phila's reference layout): a photo with
+ * stickers on it and a dashed proof card under the headline. Layout only.
+ * Every word below is lifted from copy already on the site, with its source
+ * beside it. No new number, client or result.
+ */
+export const HERO_BENTO = {
+  photo: {
+    /* Same photo and alt as /private-ai (src/lib/privateAi.ts). */
+    src: "/images/private-ai/joburg-skyline.jpg",
+    alt: "Johannesburg city skyline at golden hour",
+    width: 1200,
+    height: 727,
+  },
+  stickers: {
+    documents: "Your documents", // HERO.sub: "on your documents and your rules"
+    place: "Rosebank, Johannesburg", // the schema address and the footer
+    privateAi: "Private AI", // HERO.sub: "your own private AI"
+    data: "Your data stays in the building", // HERO.sub
+    owned: "Yours", // the slogan: "Own your intelligence."
+  },
+  /* PROOF_LINE, split so the number can lead the card. */
+  proof: {
+    figure: "7",
+    label: "AI talks at WeWork Johannesburg",
+    line: "AI system presented at Parliament, Cape Town.",
+    photos: [
+      /* Real event photos already on the site, with their existing alts. */
+      { src: "/images/phila-team-640.webp", alt: "Phila Ngwenya after an AI talk at WeWork Johannesburg, with the talk's slide on the screen behind" },
+      { src: "/images/stories/operators-intensive-session.jpg", alt: "Owners working through the first Operator Intensive at WeWork Rosebank" },
+      { src: "/images/phila-event-640.webp", alt: "Phila Ngwenya, founder of GrowthCred, at an event" },
+    ],
+  },
+} as const;
+
 export const CAPACITY = {
   heading: "The hours that wait on you are the expensive ones.",
   gap: "You price the quote. You train the new hire. You answer the question only you know. The decision that moves the business waits behind all of that.",

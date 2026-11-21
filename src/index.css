@@ -715,3 +715,41 @@
     scale: var(--gc-press, 0.97);
   }
 }
+
+/* ============================================================
+   Homepage bento hero stickers (src/components/home/BentoHero.tsx).
+
+   Same contract as the rest of the site: only inside
+   prefers-reduced-motion: no-preference, only scale / translate / opacity,
+   never blur. The tilt lives on the `rotate` property (Tailwind's rotate-*),
+   the pop on `scale`, the drift on `translate`, so the three never fight.
+   With motion off the stickers are simply there, tilted and still.
+   ============================================================ */
+@keyframes gcStickerPop {
+  from {
+    opacity: 0;
+    scale: 0.6;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+@keyframes gcStickerDrift {
+  from {
+    translate: 0 -5px;
+  }
+  to {
+    translate: 0 6px;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .gc-sticker {
+    animation:
+      gcStickerPop 620ms var(--gc-ease-out) both,
+      gcStickerDrift 5.5s ease-in-out infinite alternate;
+    animation-delay:
+      calc(200ms + var(--i, 0) * 90ms),
+      calc(var(--i, 0) * -1.3s);
+  }
+}

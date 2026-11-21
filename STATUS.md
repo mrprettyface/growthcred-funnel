@@ -1,3 +1,18 @@
+> **22 November 2026 — `/` is a bento page.** Layout only, from Phila's
+> reference shot (a "land plots" landing page). The hero is a gold headline card
+> cut into the Johannesburg skyline photo (reused from /private-ai), with
+> stickers and a dashed proof card (`src/components/home/BentoHero.tsx`). Every
+> other section is now a bento grid of rounded tiles in gold, white, midnight
+> and dashed. Every word, section and section order is unchanged; the only new
+> text is sticker phrases already on the page ("Yours", "Own your
+> intelligence", "Private AI"). The pieces are shared in
+> `src/components/bento.tsx` (`Bento`, `Tile`, `tileClass`, `Sticker`,
+> `StickerFrame`, `Num`, `ON_GOLD_BUTTON`) so other pages can reuse them.
+> Rules: headings need an explicit colour on dark tiles (base CSS sets them
+> midnight); never put the gold pill on a gold tile (use `ON_GOLD_BUTTON`);
+> a sticker may only repeat words already on the page. Gates:
+> [GATES-bento-hero.md](GATES-bento-hero.md). Not committed, not deployed.
+
 > September 2026 search release: see [release notes](docs/search/RELEASE.md) and [growth plan](docs/search/GROWTH-PLAN.md). Those documents supersede historical event dates, referral fulfilment and deployment assumptions below.
 
 > **18 November 2026 — `/toolkit` is the JCCI members' kit.** The 10 Hours
