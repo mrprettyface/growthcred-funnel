@@ -232,7 +232,7 @@ const SEARCH_PAGE_SOURCE: SearchPage[] = [
     path: "/about", kind: "about", updated: SEO_UPDATED,
     title: "About GrowthCred and Founder Phila Ngwenya | Johannesburg",
     description: "Phila Ngwenya runs GrowthCred (Pty) Ltd from Rosebank, Johannesburg. AI training and automation. We are not Growth Credit Ltd.",
-    heading: "Practical AI. A real person behind it.",
+    heading: "Practical AI from GrowthCred. Phila Ngwenya is the person behind it.",
     intro: "I'm Phila Ngwenya. I run GrowthCred from Rosebank, Johannesburg. I help South African owners get what's in their heads written down. Then I put AI to work on the repetitive stuff.",
     introLink: { phrase: "Johannesburg", href: "/ai-automation-johannesburg" },
     sections: [
@@ -262,7 +262,7 @@ const SEARCH_PAGE_SOURCE: SearchPage[] = [
     path: "/guides/ai-training-cost-south-africa", kind: "guide", updated: SEO_UPDATED,
     title: "AI Training Cost in South Africa: From R990 | GrowthCred",
     description: "No single AI training price in South Africa. Compare the workshop, VAT and tools. Team training is quoted per person. Not a recorded video.",
-    heading: "Hidden extras and vague quotes end when you compare AI training cost in South Africa.",
+    heading: "Hidden extras end when you compare AI training cost in South Africa.",
     answer: "There is no single AI training price in South Africa. My one-day online workshop for owners is R990 at the founding rate. Confirm the date, VAT and any tool costs before you pay. Corporate training for a team is quoted per employee after we time your real documents. I do not sell a recorded training video at a published price.",
     intro: "There's no universal price for AI training. So what do you compare? The format. How many people. How much real work you do. And what support you get after. My one-day workshop is R990 at the founding rate. Confirm the next session and the full booking terms before you pay.",
     article: {
@@ -1181,7 +1181,7 @@ const SEARCH_PAGE_SOURCE: SearchPage[] = [
     path: "/data-and-security", kind: "about", published: SEO_PUBLISHED,
     title: "Data Protection and Security at GrowthCred | POPIA",
     description: "How GrowthCred handles your information: POPIA, encryption, write-only website forms, cross-border transfers, and human review in every AI system we build.",
-    heading: "How we protect your information.",
+    heading: "How GrowthCred handles your data protection and security under POPIA.",
     intro: "GrowthCred holds no security certifications. I won't pretend otherwise. What I can do is tell you exactly how your information is handled. On this website, and in the systems we build with you.",
     sections: [
       { title: "The law we work under", paragraphs: ["GrowthCred (Pty) Ltd is the responsible party for personal information under South Africa's Protection of Personal Information Act (POPIA). I'm the Information Officer. You can reach me at info@growthcred.co.za. Every request reaches a person."] },

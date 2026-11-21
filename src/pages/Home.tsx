@@ -9,6 +9,7 @@ import { HomeScene, STAGE_SCENES, METHOD_SCENES, RENTING_SCENES, OWN_SCENES } fr
 import { HeroGraph } from "../components/home/HeroGraph";
 import { ClientLogos } from "../components/ClientLogos";
 import { ApplyButton, HomeFooter, HomeHeader } from "../components/home/HomeChrome";
+import { OfferFigures } from "../components/article/ArticleFigures";
 import { track } from "../lib/analytics";
 import {
   APPLY_HREF,
@@ -160,6 +161,12 @@ export default function Home() {
             <span aria-hidden="true" className="mr-2 text-gold">&#9670;</span>
             {PROOF_LINE}
           </p>
+        </div>
+      </section>
+
+      <section className="bg-paper pb-8 md:pb-12">
+        <div className={WRAP}>
+          <OfferFigures seed="home" captions={["Quotes still wait on you", "Hires still ask you", "Questions still find you"]} />
         </div>
       </section>
 

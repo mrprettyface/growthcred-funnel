@@ -14,7 +14,7 @@ const COUNCILS = "/ai-training-for-bargaining-councils-statutory-bodies";
 
 /** Guide pages, plus the councils page, which is written as an article. */
 export function isArticlePage(page: Page) {
-  return page.kind === "guide" || page.path === COUNCILS;
+  return page.kind === "guide" || page.kind === "about" || page.kind === "situation" || page.path === COUNCILS;
 }
 
 const labels: Record<string, string> = {
@@ -198,13 +198,13 @@ export function ArticleLayout({ page }: { page: Page }) {
           <div className="mt-5">
             <Byline date={page.published ?? REVIEWED} label={page.published ? "Published" : "Reviewed"} />
           </div>
-          <ArticleFigure name={hero.name} alt={hero.alt} caption={hero.caption} idSuffix="hero" slot="hero-figure" />
+          <ArticleFigure name={hero.name} alt={hero.alt} caption={hero.caption} idSuffix="hero" slot="hero-figure" seed={`${page.path}-hero`} />
         </header>
       </Section>
 
       <Section className="pt-0 md:pt-0">
         <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_15rem] lg:items-start lg:gap-12">
-          <article className="min-w-0 max-w-[72ch]">
+          <article className="min-w-0 max-w-[40rem]">
             <details className="mb-10 rounded-2xl border border-midnight/10 bg-white px-4 py-3 lg:hidden">
               <summary className="cursor-pointer font-mono text-[12px] uppercase tracking-[0.14em] text-midnight">On this page</summary>
               <div className="mt-4"><Toc page={page} /></div>
@@ -223,7 +223,7 @@ export function ArticleLayout({ page }: { page: Page }) {
                     {section.mark && <span className="mt-1 grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold/15 text-gold"><FaqMark name={section.mark} /></span>}
                     <span>{section.titleLink ? linkPhrase(section.title, section.titleLink.phrase, section.titleLink.href) : section.title}</span>
                   </h2>
-                  {drawing && <ArticleFigure name={drawing.name} alt={drawing.alt} caption={caption} idSuffix={`s${i}`} motion={drawing.motion ?? "pointer"} />}
+                  {drawing && <ArticleFigure name={drawing.name} alt={drawing.alt} caption={caption} idSuffix={`s${i}`} seed={`${page.path}-s${i}`} motion={drawing.motion ?? "pointer"} />}
                   {section.points && (
                     <>
                       <PointPair slot="problem" label="The problem" points={section.points.problem} />

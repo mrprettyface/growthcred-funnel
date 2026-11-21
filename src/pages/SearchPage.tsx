@@ -11,10 +11,27 @@ import { FaqMark } from "../components/FaqMarks";
 import { GUIDE_OFFER, requestGuide } from "../lib/guide";
 import { linkPhrase, linkPhrases } from "../components/PhraseLink";
 import { ArticleLayout, isArticlePage } from "../components/article/ArticleLayout";
+import { ArticleFigure } from "../components/article/ArticleFigures";
 const labels:Record<string,string>={"/workshop":"Online AI workshop","/":"The Command Core","/call":"Discuss an implementation project","/brain":"Build your Business Brain","/contact":"Contact GrowthCred","/corporate-ai-training":"Corporate AI training for teams","/private-ai":"Private AI, explained","/playbook":"Start with a useful AI workflow."};
+/** Sales and index pages in the main menu. Captions restate lines already on the page. */
+const MENU_DRAWINGS: Record<string, string[]> = {
+  "/ai-consulting-south-africa": ["Working systems for your firm", "You stay with the work", "Not a deck for you"],
+  "/ai-automation-south-africa": ["You pick one workflow", "We test it on your work", "You decide what stays"],
+  "/ai-training-south-africa": ["You bring your real work", "You practise one task", "You still check the send"],
+  "/quote-engine": ["Quotes from your prices", "You still approve", "Your number goes out"],
+  "/company-brain": ["Your team asks your files", "When you are out", "You can see the source"],
+  "/new-hire-trainer": ["One role from your notes", "You still sign off", "Your new hire starts here"],
+  "/ai-for-law-firms": ["Your fee earner rebuilds it", "You verify the draft", "You still sign off"],
+  "/ai-for-financial-services": ["You prepare the work", "Your adviser stays in charge", "You still check it"],
+  "/ai-for-waste-management": ["Your trucks and contracts", "You keep the compliance", "You still approve"],
+  "/ai-for-beauty-and-cosmetics": ["Your orders and bookings", "You keep the brand", "You still send it"],
+  "/stories": ["You read their words", "You see a named story", "You see what they reported"],
+  "/resources": ["You pick one guide", "Your next useful step", "You check the result"],
+  "/tools/admin-time-calculator": ["Your hours and your rate", "You put your own numbers in", "You choose one task"],
+};
 export function SearchPage({page}:{page:Page}) {
-  if (page.kind === "situation") return <SituationPage page={page} />;
   if (isArticlePage(page)) return <ArticleLayout page={page} />;
+  if (page.kind === "situation") return <SituationPage page={page} />;
   return <>
     <Section dark className="pt-10 md:pt-16">
       <nav aria-label="Breadcrumb" className="mb-8 font-mono text-[12px] uppercase tracking-[0.14em] text-cream/55 [&_a]:text-cream/75 [&_a]:no-underline [&_a:hover]:text-gold"><Link to="/">Home</Link>{page.kind==='guide'&&<> / <Link to="/resources">Resources</Link></>}{page.kind==='story'&&<> / <Link to="/stories">Stories</Link></>} / <span aria-current="page" className="inline-block max-w-[22rem] truncate align-bottom">{page.heading}</span></nav>
@@ -30,6 +47,15 @@ export function SearchPage({page}:{page:Page}) {
       <div aria-hidden="true" className="mx-auto w-full max-w-[320px] rounded-3xl border border-cream/10 bg-midnight-soft/70 p-5 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.8)] md:mx-0"><PageScene path={page.path} className="h-40 w-full text-cream/80 md:h-48" /></div>
       </div>
     </Section>
+    {MENU_DRAWINGS[page.path] && (
+      <Section className="py-6 md:py-8">
+        <div className="grid gap-4 md:grid-cols-3">
+          {MENU_DRAWINGS[page.path].map((caption, i) => (
+            <ArticleFigure key={caption} name="check" alt={caption} caption={caption} idSuffix={`menu-${i}`} seed={`${page.path}-menu-${i}-${page.sections[i]?.title ?? caption}`} motion="pointer" />
+          ))}
+        </div>
+      </Section>
+    )}
     {(page.quote||page.images)&&<Section className="pb-0 md:pb-0">
       {page.quote&&<figure className="max-w-[860px] border-l-4 border-gold pl-6 md:pl-8"><blockquote className="font-display text-2xl font-extrabold leading-snug tracking-[-0.03em] text-midnight md:text-4xl"><span aria-hidden="true" className="text-gold">&ldquo;</span>{page.quote.text}<span aria-hidden="true" className="text-gold">&rdquo;</span></blockquote><figcaption className="mt-4 font-mono text-[12px] uppercase tracking-[0.14em] text-muted">{page.quote.by}</figcaption></figure>}
       {page.images&&<div className={`grid gap-5 ${page.quote?'mt-10':''} ${page.images.length>1?'md:grid-cols-2':''}`}>{page.images.map(img=><figure key={img.src} className="overflow-hidden rounded-3xl border border-midnight/10 bg-white shadow-[0_30px_80px_-40px_rgba(26,26,36,0.35)]"><img src={img.src} alt={img.alt} width={img.width} height={img.height} loading="lazy" decoding="async" className="h-auto w-full"/>{img.caption&&<figcaption className="px-5 py-4 font-mono text-[12px] uppercase tracking-[0.14em] text-muted">{img.caption}</figcaption>}</figure>)}</div>}

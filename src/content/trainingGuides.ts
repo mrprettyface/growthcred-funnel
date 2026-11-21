@@ -13,7 +13,7 @@ export const TRAINING_PAGES: SearchPage[] = [
     published: TRAINING_PUBLISHED,
     title: "What to Expect From Corporate AI Training | GrowthCred",
     description: "Live corporate AI training for a South African team. In Johannesburg or online. You practise on real documents. A person checks the draft. Quoted per person.",
-    heading: "Slow reports and risky chat tabs end with practical corporate AI training in South Africa.",
+    heading: "What to expect from corporate AI training: slow reports and risky chat tabs get a practical fix.",
     answer: "Corporate AI training at GrowthCred is a live session for your team. It runs in Johannesburg, or online. You practise on the documents you already produce. A person still checks the draft. We quote per person after a short call. The one-day owner workshop is R990. This is not an accredited course. We are not Growth Credit Ltd.",
     intro: "Your people already have the licence. Monday's report still takes as long as it did in March. Or someone is pasting a client file into a public chat because the deadline did not wait. You do not need a lecture. You need the team working on the real document, with a person still signing it.",
     article: {

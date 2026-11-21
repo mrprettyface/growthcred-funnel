@@ -5,6 +5,7 @@ import { Button, DarkBackdrop, Faq, PillLink } from "../components/ui";
 import { Footer, Header } from "../components/Layout";
 import { AuthorBox, Byline } from "../components/AuthorBox";
 import { PrivateAiScene } from "../components/PrivateAiScenes";
+import { OfferFigures } from "../components/article/ArticleFigures";
 import { track } from "../lib/analytics";
 import { linkPhrase } from "../components/PhraseLink";
 import { GUIDE_OFFER, requestGuide } from "../lib/guide";
@@ -126,6 +127,12 @@ export default function PrivateAi() {
           <div className="mx-auto w-full max-w-[420px] rounded-[2rem] border border-midnight/10 bg-white p-6 shadow-[0_40px_90px_-40px_rgba(26,26,36,0.45)]">
             <PrivateAiScene name="hero" className="h-auto w-full text-midnight" />
           </div>
+        </div>
+      </section>
+
+      <section className="bg-paper pb-10 md:pb-14">
+        <div className="mx-auto w-[min(1120px,calc(100%-2.5rem))]">
+          <OfferFigures seed="private-ai" captions={["Stop renting the tool", "You own it", "On your own equipment"]} />
         </div>
       </section>
 

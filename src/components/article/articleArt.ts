@@ -180,6 +180,40 @@ const ART: Record<string, { hero: ArtSlot; inline: ArtSlot[] }> = {
       { name: "list", alt: "A scoping list with a pointer on the call", caption: "Headcount, roles, cover, format", motion: "pointer" },
     ],
   },
+  "/about": {
+    hero: { name: "live", alt: "A person beside a page of notes", caption: "I'm Phila Ngwenya" },
+    inline: [
+      { name: "check", alt: "A person checking a page", caption: "I built this method", motion: "pointer" },
+      { name: "list", alt: "A short list on a desk", caption: "You bring your real work", motion: "bubble" },
+      { name: "lock", alt: "A person next to a closed folder", caption: "You message us first", motion: "pointer" },
+      { name: "groups", alt: "A person reading a page", caption: "You read their stories", motion: "pointer" },
+    ],
+  },
+  "/data-and-security": {
+    hero: { name: "lock", alt: "A person beside a locked folder", caption: "Your data, under POPIA" },
+    inline: [
+      { name: "check", alt: "A person at a desk with a form", caption: "I am the Information Officer", motion: "pointer" },
+      { name: "lock", alt: "A form that only writes", caption: "Your forms stay write-only", motion: "bubble" },
+      { name: "paste", alt: "A person holding a file back from a chat box", caption: "You agree what it may use", motion: "ring" },
+      { name: "check", alt: "A person marking a notice", caption: "We tell you if it goes wrong", motion: "pointer" },
+    ],
+  },
+  "/quoting-uniforms-for-a-security-company": {
+    hero: { name: "quote", alt: "A person rebuilding a kit list", caption: "You rebuild every kit" },
+    inline: [
+      { name: "list", alt: "A kit list on a desk", caption: "The list sits with you", motion: "pointer" },
+      { name: "quote", alt: "A person signing a price", caption: "You still sign the price", motion: "bubble" },
+      { name: "check", alt: "One contract on a page", caption: "You start with one contract", motion: "pointer" },
+    ],
+  },
+  "/senior-dispatcher-on-leave": {
+    hero: { name: "groups", alt: "A desk with one person away", caption: "Your senior is out" },
+    inline: [
+      { name: "blank", alt: "A question with no file beside it", caption: "The answer sits in a head", motion: "pointer" },
+      { name: "check", alt: "A person reading a source page", caption: "Your team sees the source", motion: "bubble" },
+      { name: "live", alt: "One desk with a person", caption: "You start with one desk", motion: "pointer" },
+    ],
+  },
 };
 
 const FALLBACK: { hero: ArtSlot; inline: ArtSlot[] } = {

@@ -4,7 +4,7 @@ export type GeminiOverlay = Partial<SearchPage> & { dropFaq?: boolean };
 
 export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
   "/guides/admin-assistant-vs-ai-automation": {
-    "heading": "Drowning in repetitive admin? Spot when to hire vs AI automation before overspending.",
+    "heading": "Drowning in admin? Hire an admin assistant or automate admin with AI before you overspend.",
     "article": {
       "pain": "Hiring too early or automating a messy task wastes money fast.",
       "wayOut": "This guide helps you separate human judgement work from repeatable admin. You spend.",
@@ -167,7 +167,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": false
   },
   "/guides/ai-automation-cost-south-africa": {
-    "heading": "Surprised by AI automation cost? Scope setup, run fees and review before quoting.",
+    "heading": "Surprised by AI automation costs in South Africa? Scope setup, run fees and review before you quote.",
     "article": {
       "pain": "A drafting workflow and a connected operational system do not cost your same.",
       "wayOut": "This guide shows what drives AI automation cost in South Africa. You ask for a quote.",
@@ -332,7 +332,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": false
   },
   "/guides/ai-business-proposals-faster": {
-    "heading": "Slow proposals hurting sales? Fix your scattered brief, not just writing speed.",
+    "heading": "Slow sales? Write business proposals faster with AI by fixing your brief, not just the typing.",
     "article": {
       "pain": "Typing faster does not fix proposals when pricing.",
       "wayOut": "Scope and notes sit in different places. You build a repeatable source-bound proposal system that flags gaps early.",
@@ -519,7 +519,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": false
   },
   "/guides/ai-challenges-south-africa": {
-    "heading": "South Africa AI projects stalling? Fix imported workflows, not just tool stacks.",
+    "heading": "AI challenges for South African businesses start when imported workflows stall. Fix the workflow.",
     "article": {
       "pain": "Buying a global AI tool does not give your business a South African operating system.",
       "wayOut": "Adapt local data, channels, resilience. Human review to the work you actually run.",
@@ -684,7 +684,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": false
   },
   "/guides/ai-proposals-and-follow-ups": {
-    "heading": "Risky proposal or follow-up guesses? You keep facts, pricing and send control human.",
+    "heading": "Risky guesses? Use AI for proposals and follow-ups, and you keep the facts, the price and the send.",
     "article": {
       "pain": "AI can speed up proposal and follow-up drafts when fed approved facts.",
       "wayOut": "You keep prices, promises and the send button with a person. And measure your whole job including fixes.",
@@ -823,7 +823,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": false
   },
   "/guides/ai-training-vs-automation": {
-    "heading": "Stuck choosing AI training or automation? You pick the right route before spending.",
+    "heading": "Stuck choosing an AI workshop or done-for-you automation? You pick the route before you spend.",
     "article": {
       "pain": "Buying your wrong option wastes time, cash, or both.",
       "wayOut": "Here is how to match AI training or automation to your actual task. Business decisions stay yours.",
@@ -948,7 +948,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": false
   },
   "/guides/business-brain": {
-    "heading": "Tired of generic AI answers? You give it a business brain first.",
+    "heading": "Tired of generic answers? Give AI your business context before you ask it anything.",
     "article": {
       "pain": "AI gives generic replies.",
       "wayOut": "It does not know how your company operates. One clear reference document helps you brief AI consistently. Keeping checks in human hands.",
@@ -1071,7 +1071,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": false
   },
   "/guides/can-staff-paste-client-files-into-chatgpt": {
-    "heading": "Staff pasting client files into ChatGPT? Pause and check your route first.",
+    "heading": "Can staff paste client files into ChatGPT? Pause and check your route first.",
     "article": {
       "pain": "POPIA does not ban every AI use.",
       "wayOut": "But pasting identifiable client files into an unapproved tool creates real risk. You map what data moves, who handles it,. Where it goes before staff use it.",
@@ -1196,7 +1196,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": false
   },
   "/guides/choose-ai-tools-small-business": {
-    "heading": "Outdated AI tool lists waste money? Test the bottleneck before you buy.",
+    "heading": "How do you choose AI tools for a small business? Test the bottleneck before you buy.",
     "article": {
       "pain": "AI tool lists go stale fast,.",
       "wayOut": "Shiny demos rarely match messy daily operations. Score your bottleneck, pick the smallest tool type. And run a ten-example pilot before committing.",
@@ -1321,7 +1321,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": false
   },
   "/guides/free-marketing-tools-before-you-buy": {
-    "heading": "Paying for marketing software? Check free tools before you buy another one.",
+    "heading": "Paying for marketing software? Check the free marketing tools before you buy another one.",
     "article": {
       "pain": "Many business owners pay for tools that free options already cover.",
       "wayOut": "You check free tools by question first,. Remember that reporting tools do not do the follow-up work.",
@@ -1446,7 +1446,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": false
   },
   "/guides/how-we-work-first-30-days": {
-    "heading": "Blind AI rollouts waste cash, a clear 30-day plan protects your business.",
+    "heading": "Working with GrowthCred, your first 30 days need a plan. A blind rollout wastes your cash.",
     "article": {
       "pain": "Before you let anyone change how your business runs.",
       "wayOut": "You should know what happens next. Here is how GrowthCred runs from application to your first monthly review.",
@@ -1570,7 +1570,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": true
   },
   "/guides/law-firm-billing-leakage": {
-    "heading": "Working eight hours for 2.4 hours paid hurts, fix billing leakage now.",
+    "heading": "Law firm billing leakage, where your fees go: you work eight hours and get paid for 2.4.",
     "article": {
       "pain": "You did not go to law school to chase invoices at 10pm or guess Friday timesheets.",
       "wayOut": "Here is where billing leaks out and how to get paid faster.",
@@ -1716,7 +1716,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": true
   },
   "/guides/ppe-quotes-without-the-owner": {
-    "heading": "Bulk PPE quotes bottleneck on you, draft them from your rules.",
+    "heading": "Send PPE quotes faster without the owner. Draft them from your rules.",
     "article": {
       "pain": "Every bulk PPE or uniform quote still waits for you to price it.",
       "wayOut": "A Quote Engine drafts quotes from your price list. Rules while you approve the price, promise, and send.",
@@ -1840,7 +1840,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": true
   },
   "/guides/private-ai-popia": {
-    "heading": "Private AI does not make you POPIA-compliant, map data first.",
+    "heading": "ChatGPT, POPIA and private AI in South Africa. Private AI does not make you compliant. Map your data first.",
     "article": {
       "pain": "Private AI or a paid ChatGPT plan does not make you POPIA-compliant on its own.",
       "wayOut": "Keeping processing on local equipment can reduce some exposure. But you still need lawful purpose, data limits, and human checks.",
@@ -1964,7 +1964,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": true
   },
   "/guides/staff-chatgpt-client-files-popia": {
-    "heading": "Staff pasting client files into ChatGPT risks POPIA, check workflows first.",
+    "heading": "Staff, ChatGPT and client files under POPIA. Pasting them in is a risk. Check the workflow first.",
     "article": {
       "pain": "You run a South African law firm or accounting practice.",
       "wayOut": "Suspect staff paste client files into ChatGPT. There is no blanket yes or no, and you stay responsible. So review workflows with a lawyer first.",
@@ -2066,7 +2066,7 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
     "dropFaq": true
   },
   "/guides/stop-training-every-new-hire": {
-    "heading": "Hiring repeats the same job on you. A role trainer stops it.",
+    "heading": "Stop training every new hire yourself. A role trainer takes the repeat job off you.",
     "article": {
       "pain": "Every new hire still pulls answers out of your head one question at a time.",
       "wayOut": "A New Hire Trainer can teach one role from your own notes. Scripts and calls while you keep control.",
