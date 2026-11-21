@@ -13,6 +13,7 @@ import { VIDEOS } from "../lib/videos";
 import { activeSegment } from "../lib/segments";
 import { activeAttribution } from "../lib/utm";
 import { track } from "../lib/analytics";
+import { OfferFigures } from "../components/article/ArticleFigures";
 
 /**
  * The JCCI × GrowthCred registration page.
@@ -211,6 +212,10 @@ export default function JcciWebinar() {
             everyone who attends live
           </p>
         </div>
+      </Section>
+
+      <Section className="py-8 md:py-10">
+        <OfferFigures seed="webinar" captions={["Stop retyping the brief", "AI that knows your work", "A free live class"]} />
       </Section>
 
       {/* ---------------- THE FORM ----------------

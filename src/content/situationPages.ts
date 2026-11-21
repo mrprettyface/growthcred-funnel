@@ -22,7 +22,7 @@ export const SITUATION_PAGES: SearchPage[] = [
     description:
       "Quoting uniforms for a security company with guards on several sites. Keep each site's kit and your prices together. You still sign every quote.",
     heading:
-      "You supply a security company with guards on several sites, and every new contract means re-quoting kits by hand.",
+      "Quoting uniforms for a security company still means you rebuild every kit by hand.",
     intro:
       "Each site wants its own kit. Each role wears something else. Sizes change. The last order does not match the new one. So you build the quote again, by hand.",
     introLink: { phrase: "build the quote again", href: "/quote-engine" },
@@ -71,7 +71,7 @@ export const SITUATION_PAGES: SearchPage[] = [
     title: "When a Senior Dispatcher Is on Leave | GrowthCred",
     description:
       "What happens when your senior dispatcher is on leave. The know-how sits in a few heads. Your private AI answers from the source document, by role.",
-    heading: "You run a fleet, and when one senior person is on leave, half the questions stop moving.",
+    heading: "When a senior dispatcher is on leave, half the questions on your fleet stop moving.",
     intro:
       "Routes, drivers, the contract rule, the exception from last March. It sits in two heads. One of them is your senior dispatcher. They take leave. The questions queue.",
     sections: [

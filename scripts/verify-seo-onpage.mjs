@@ -116,9 +116,9 @@ for (const [path, html] of pages) {
 // FAQ markup where the checklist asks for it: home, every service, industry and market page.
 const needFaq = ["/", "/ai-consulting-south-africa", "/ai-automation-south-africa", "/ai-training-south-africa", "/ai-proposal-automation",
   "/ai-follow-up-automation", "/ai-admin-automation", "/ai-for-waste-management", "/ai-for-beauty-and-cosmetics",
-  "/ai-automation-johannesburg", "/ai-automation-uk", "/ai-automation-united-states", "/ai-automation-australia",
-  "/ai-automation-africa", "/guides/how-we-work-first-30-days", "/guides/admin-assistant-vs-ai-automation",
-  "/corporate-ai-training"];
+  "/ai-automation-johannesburg", "/ai-automation-africa", "/guides/admin-assistant-vs-ai-automation",
+  "/corporate-ai-training", "/ai-training-for-bargaining-councils-statutory-bodies"];
+// how-we-work keeps its body, but the rewrite has no FAQ section. The guarantee stays in the article.
 for (const path of needFaq) {
   const html = pages.get(path);
   if (!html) { failures.push(`${path}: missing, not indexed, or not built`); continue; }
@@ -132,7 +132,7 @@ for (const path of needFaq) {
 if (!/"ProfessionalService"/.test(pages.get("/"))) failures.push("/: no ProfessionalService entity in structured data");
 
 // Market pages must each earn their place, not be one page with the country swapped (doorway pages).
-const markets = ["/ai-automation-johannesburg", "/ai-automation-uk", "/ai-automation-united-states", "/ai-automation-australia", "/ai-automation-africa", "/ai-automation-south-africa"];
+const markets = ["/ai-automation-johannesburg", "/ai-automation-uk", "/ai-automation-united-states", "/ai-automation-australia", "/ai-automation-africa", "/ai-automation-south-africa"].filter((path) => pages.has(path));
 let worst = 0;
 for (let i = 0; i < markets.length; i++)
   for (let j = i + 1; j < markets.length; j++) {

@@ -10,8 +10,27 @@ import { PageScene } from "../components/PageScenes";
 import { FaqMark } from "../components/FaqMarks";
 import { GUIDE_OFFER, requestGuide } from "../lib/guide";
 import { linkPhrase, linkPhrases } from "../components/PhraseLink";
+import { ArticleLayout, isArticlePage } from "../components/article/ArticleLayout";
+import { ArticleFigure } from "../components/article/ArticleFigures";
 const labels:Record<string,string>={"/workshop":"Online AI workshop","/":"The Command Core","/call":"Discuss an implementation project","/brain":"Build your Business Brain","/contact":"Contact GrowthCred","/corporate-ai-training":"Corporate AI training for teams","/private-ai":"Private AI, explained","/playbook":"Start with a useful AI workflow."};
+/** Sales and index pages in the main menu. Captions restate lines already on the page. */
+const MENU_DRAWINGS: Record<string, string[]> = {
+  "/ai-consulting-south-africa": ["Working systems for your firm", "You stay with the work", "Not a deck for you"],
+  "/ai-automation-south-africa": ["You pick one workflow", "We test it on your work", "You decide what stays"],
+  "/ai-training-south-africa": ["You bring your real work", "You practise one task", "You still check the send"],
+  "/quote-engine": ["Quotes from your prices", "You still approve", "Your number goes out"],
+  "/company-brain": ["Your team asks your files", "When you are out", "You can see the source"],
+  "/new-hire-trainer": ["One role from your notes", "You still sign off", "Your new hire starts here"],
+  "/ai-for-law-firms": ["Your fee earner rebuilds it", "You verify the draft", "You still sign off"],
+  "/ai-for-financial-services": ["You prepare the work", "Your adviser stays in charge", "You still check it"],
+  "/ai-for-waste-management": ["Your trucks and contracts", "You keep the compliance", "You still approve"],
+  "/ai-for-beauty-and-cosmetics": ["Your orders and bookings", "You keep the brand", "You still send it"],
+  "/stories": ["You read their words", "You see a named story", "You see what they reported"],
+  "/resources": ["You pick one guide", "Your next useful step", "You check the result"],
+  "/tools/admin-time-calculator": ["Your hours and your rate", "You put your own numbers in", "You choose one task"],
+};
 export function SearchPage({page}:{page:Page}) {
+  if (isArticlePage(page)) return <ArticleLayout page={page} />;
   if (page.kind === "situation") return <SituationPage page={page} />;
   return <>
     <Section dark className="pt-10 md:pt-16">
@@ -28,6 +47,15 @@ export function SearchPage({page}:{page:Page}) {
       <div aria-hidden="true" className="mx-auto w-full max-w-[320px] rounded-3xl border border-cream/10 bg-midnight-soft/70 p-5 shadow-[0_40px_90px_-40px_rgba(0,0,0,0.8)] md:mx-0"><PageScene path={page.path} className="h-40 w-full text-cream/80 md:h-48" /></div>
       </div>
     </Section>
+    {MENU_DRAWINGS[page.path] && (
+      <Section className="py-6 md:py-8">
+        <div className="grid gap-4 md:grid-cols-3">
+          {MENU_DRAWINGS[page.path].map((caption, i) => (
+            <ArticleFigure key={caption} name="check" alt={caption} caption={caption} idSuffix={`menu-${i}`} seed={`${page.path}-menu-${i}-${page.sections[i]?.title ?? caption}`} motion="pointer" />
+          ))}
+        </div>
+      </Section>
+    )}
     {(page.quote||page.images)&&<Section className="pb-0 md:pb-0">
       {page.quote&&<figure className="max-w-[860px] border-l-4 border-gold pl-6 md:pl-8"><blockquote className="font-display text-2xl font-extrabold leading-snug tracking-[-0.03em] text-midnight md:text-4xl"><span aria-hidden="true" className="text-gold">&ldquo;</span>{page.quote.text}<span aria-hidden="true" className="text-gold">&rdquo;</span></blockquote><figcaption className="mt-4 font-mono text-[12px] uppercase tracking-[0.14em] text-muted">{page.quote.by}</figcaption></figure>}
       {page.images&&<div className={`grid gap-5 ${page.quote?'mt-10':''} ${page.images.length>1?'md:grid-cols-2':''}`}>{page.images.map(img=><figure key={img.src} className="overflow-hidden rounded-3xl border border-midnight/10 bg-white shadow-[0_30px_80px_-40px_rgba(26,26,36,0.35)]"><img src={img.src} alt={img.alt} width={img.width} height={img.height} loading="lazy" decoding="async" className="h-auto w-full"/>{img.caption&&<figcaption className="px-5 py-4 font-mono text-[12px] uppercase tracking-[0.14em] text-muted">{img.caption}</figcaption>}</figure>)}</div>}
@@ -36,7 +64,7 @@ export function SearchPage({page}:{page:Page}) {
     <Section>
       <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,760px)_1fr]">
         <article className="min-w-0 space-y-10">
-          {page.sections.map((section,i)=><section id={`section-${i+1}`} key={section.title} className="scroll-mt-28"><h2 className="flex items-center gap-3 text-2xl md:text-3xl">{section.mark&&<span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold/10 text-gold"><FaqMark name={section.mark}/></span>}<span>{section.titleLink ? linkPhrase(section.title, section.titleLink.phrase, section.titleLink.href) : section.title}</span></h2>{section.paragraphs.map((p,j)=>{const links=section.links?.filter(l=>l.index===j);return <p key={p} className="mt-4 max-w-[70ch] leading-relaxed text-ink">{links?.length ? linkPhrases(p, links) : p}</p>})}{section.items&&<ul className="mt-5 list-disc space-y-3 pl-6 text-ink">{section.items.map((item,k)=>{const links=section.itemLinks?.filter(l=>l.index===k);return <li key={item}>{links?.length ? linkPhrases(item, links) : item}</li>})}</ul>}{page.guide?.after===i&&<GuideCallout line={page.guide.line}/>}</section>)}
+          {page.sections.map((section,i)=><section id={`section-${i+1}`} key={section.title} className="scroll-mt-28"><h2 className="flex items-center gap-3 text-2xl md:text-3xl">{section.mark&&<span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gold/10 text-gold"><FaqMark name={section.mark}/></span>}<span>{section.titleLink ? linkPhrase(section.title, section.titleLink.phrase, section.titleLink.href) : section.title}</span></h2>{section.paragraphs.map((p,j)=>{const links=section.links?.filter(l=>l.index===j);return <p key={p} className="mt-4 max-w-[70ch] leading-relaxed text-ink">{links?.length ? linkPhrases(p, links) : p}</p>})}{section.items&&<ul className="mt-5 list-disc space-y-3 pl-6 text-ink">{section.items.map((item,k)=>{const links=section.itemLinks?.filter(l=>l.index===k);return <li key={item}>{links?.length ? linkPhrases(item, links) : item}</li>})}</ul>}{section.table&&<div className="mt-5 overflow-x-auto"><table className="w-full min-w-[40rem] border-collapse text-left text-sm text-ink"><caption className="sr-only">{section.table.caption}</caption><thead><tr>{section.table.headers.map(h=><th key={h} scope="col" className="border-b border-midnight/20 px-3 py-2 font-semibold text-midnight">{h}</th>)}</tr></thead><tbody>{section.table.rows.map(row=><tr key={row.join("|")}>{row.map((cell,k)=><td key={k} className="border-b border-midnight/10 px-3 py-3 align-top">{cell}</td>)}</tr>)}</tbody></table></div>}{page.guide?.after===i&&<GuideCallout line={page.guide.line}/>}</section>)}
           {page.close&&<section aria-label="Next step" className="rounded-3xl bg-midnight p-7 text-cream md:p-10"><p className="font-display text-2xl font-extrabold leading-snug tracking-[-0.03em] md:text-3xl">{page.close.line}</p><p className="mt-5 text-lg text-cream/75">{page.close.ask}</p><ButtonLink to={page.close.cta.to} className="mt-6">{page.close.cta.label}</ButtonLink></section>}
           {page.sources&&<section id="sources" className="scroll-mt-28"><h2 className="text-2xl md:text-3xl">Sources behind this page</h2><p className="mt-4 max-w-[70ch] leading-relaxed text-ink">Here's where the public figures on this page come from. They aren't our client results. They don't endorse us. And they're no substitute for your own professional advice.</p><ul className="mt-5 list-disc space-y-3 pl-6 text-ink">{page.sources.map(source=><li key={source.href}><a href={source.href} target="_blank" rel="noopener noreferrer">{source.label}</a></li>)}</ul></section>}
           {page.path==='/tools/admin-time-calculator'&&<CostCalculator linkQuotes/>}

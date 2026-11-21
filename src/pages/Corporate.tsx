@@ -12,6 +12,7 @@ import { IMESSAGE_DISPLAY, IMESSAGE_NUMBER, LINKEDIN_URL, WHATSAPP_DISPLAY, what
 import { BrandIcon } from "../components/BrandIcons";
 import { FOUNDER } from "../lib/home";
 import { AuthorBox, Byline } from "../components/AuthorBox";
+import { OfferFigures } from "../components/article/ArticleFigures";
 import { linkPhrase } from "../components/PhraseLink";
 import {
   PUBLISHED,
@@ -134,6 +135,12 @@ export default function Corporate() {
         <div className="border-t border-midnight/10 bg-paper/70 py-10 md:py-12">
           <p className="mb-8 text-center font-mono text-[12px] uppercase tracking-[0.18em] text-muted">{CLIENTS.label}</p>
           <ClientLogos />
+        </div>
+      </section>
+
+      <section className="bg-paper pb-10 md:pb-14">
+        <div className={WRAP}>
+          <OfferFigures seed="corporate" captions={["Reports still take the week", "The team in one session", "A person still checks"]} />
         </div>
       </section>
 
@@ -404,12 +411,26 @@ export default function Corporate() {
               </article>
             ))}
           </Reveal>
-          <Link
-            to={STAKEHOLDERS.dataLink.to}
-            className="mt-8 inline-flex min-h-11 items-center gap-2 font-semibold text-midnight no-underline hover:text-gold"
-          >
-            {STAKEHOLDERS.dataLink.label} <span aria-hidden="true">&rarr;</span>
-          </Link>
+          <div className="mt-8 flex flex-col items-start gap-3">
+            <Link
+              to={STAKEHOLDERS.dataLink.to}
+              className="inline-flex min-h-11 items-center gap-2 font-semibold text-midnight no-underline hover:text-gold"
+            >
+              {STAKEHOLDERS.dataLink.label} <span aria-hidden="true">&rarr;</span>
+            </Link>
+            <Link
+              to="/guides/what-to-expect-corporate-ai-training-south-africa"
+              className="inline-flex min-h-11 items-center gap-2 font-semibold text-midnight no-underline hover:text-gold"
+            >
+              What to expect from the training <span aria-hidden="true">&rarr;</span>
+            </Link>
+            <Link
+              to="/ai-training-for-bargaining-councils-statutory-bodies"
+              className="inline-flex min-h-11 items-center gap-2 font-semibold text-midnight no-underline hover:text-gold"
+            >
+              Councils, statutory bodies and institutes <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
         </div>
       </section>
 

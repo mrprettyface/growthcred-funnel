@@ -19,6 +19,7 @@ import { WORKSHOP_EVENT, PROOF, seatsLeft } from "../lib/workshopEvent";
 import { track } from "../lib/analytics";
 import { useReducedMotion, useIsMobile } from "../lib/motion";
 import { linkPhrase } from "../components/PhraseLink";
+import { OfferFigures } from "../components/article/ArticleFigures";
 
 /**
  * THE MONEY PAGE, as an experience — running at /workshop while the original
@@ -162,6 +163,10 @@ export default function WorkshopExperience() {
           <p><strong className="block text-gold">Format</strong>One day · Online</p><p><strong className="block text-gold">Price</strong>R990 founding rate</p><p><strong className="block text-gold">Session details</strong>Confirmed on registration</p>
           <p className="sm:col-span-3">Bring a laptop and a safe example of your work. Contact us to confirm required tools, any subscriptions and VAT treatment before paying.</p>
         </div>
+      </Section>
+
+      <Section className="py-8 md:py-10">
+        <OfferFigures seed="workshop" captions={["One day, online", "Built with you", "Your real work"]} />
       </Section>
 
       {/* ---------- 2. Quick book ---------- */}

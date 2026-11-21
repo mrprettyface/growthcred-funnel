@@ -1,4 +1,6 @@
 import { SITUATION_PAGES } from "./situationPages";
+import { TRAINING_PAGES } from "./trainingGuides";
+import { applyGeminiOverlay } from "./geminiOverlay";
 
 /** One existing phrase inside a heading or paragraph, linked without rewriting the sentence. */
 export type PhraseAnchor = { phrase: string; href: string };
@@ -13,6 +15,45 @@ export type SearchSection = {
   links?: ({ index: number } & PhraseAnchor)[];
   /** Link `phrase` inside `items[index]`. */
   itemLinks?: ({ index: number } & PhraseAnchor)[];
+  /** A comparison table. Cells are labels, not sentences. */
+  table?: { caption: string; headers: string[]; rows: string[][] };
+  /**
+   * Caption slot for this section's drawing. Empty until the rewrite lands.
+   * The layout uses the existing drawing caption until this is set.
+   */
+  figureCaption?: string;
+  /**
+   * Becker 1-2 body slot. When set, the layout shows these four lines
+   * instead of `paragraphs`.
+   */
+  points?: { problem: string[]; fix: string[] };
+  /** The one line to bold in the section. */
+  line?: string;
+  /** Drawing for this section when the rewrite names one. */
+  figure?: { name: string; alt: string; caption: string; motion?: "pointer" | "bubble" | "ring" };
+};
+/** First-screen copy slots. Empty until a page's rewrite lands. The layout falls back to the current intro, answer and lessons. */
+export type ArticleSlots = {
+  /** Pain hook. Falls back to `intro` (first sentence when there is no answer). */
+  pain?: string;
+  /** The way out. Falls back to `answer`, then the rest of `intro`. */
+  wayOut?: string;
+  /** The single "You'll learn" line, paired with `get`. */
+  learn?: string;
+  /** The single "You'll get" line. */
+  get?: string;
+  /** Two "You'll learn" lines, when the copy has no separate "You'll get". */
+  learnItems?: [string, string];
+  /** Replaces the shared why-listen paragraph on this page. */
+  why?: string;
+  /** Named read time from the copy. Falls back to a count of the words. */
+  minutes?: number;
+  /** One or two factual sentences that answer the page. Not the standfirst. */
+  quickAnswer?: string;
+  /** At most two soft mentions. Each one can link a phrase that is already in the sentence. */
+  mentions?: { text: string; phrase?: string; href?: string }[];
+  /** Hero drawing when the rewrite names one. The first screen does not animate it. */
+  hero?: { name: string; alt: string; caption: string };
 };
 export type StoryImage = { src: string; alt: string; width: number; height: number; caption?: string };
 export type SearchPage = {
@@ -42,11 +83,15 @@ export type SearchPage = {
   sources?: { label: string; href: string }[];
   /** Kept out of search and the sitemap until the owner confirms it. */
   draft?: boolean;
+  /** Reachable, but left out of the index and the sitemap. */
+  noindex?: boolean;
   /** Mid-article offer of the AI Implementation Guide (docs/editorial/VOICE.md,
    *  step 6), shown after section index `after`. Opens the opt-in card. */
   guide?: { after: number; line: string };
   /** The last word (VOICE.md, steps 7–8): one line that makes them act, then the ask. */
   close?: { line: string; ask: string; cta: { to: string; label: string } };
+  /** Becker first-screen slots. Leave unset until the rewritten copy arrives. */
+  article?: ArticleSlots;
 };
 export const REVIEWED = "2026-09-20";
 /** Client stories were published after the last review of the other pages. */
@@ -55,7 +100,7 @@ export const STORIES_PUBLISHED = "2026-09-24";
 export const SEO_PUBLISHED = "2026-09-24";
 /** Material SEO and answer-engine edits. Does not change the published byline. */
 export const SEO_UPDATED = "2026-11-17";
-export const SEARCH_PAGES: SearchPage[] = [
+const SEARCH_PAGE_SOURCE: SearchPage[] = [
   ...SITUATION_PAGES,
   {
     path: "/ai-training-south-africa", kind: "service", updated: SEO_UPDATED,
@@ -187,7 +232,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     path: "/about", kind: "about", updated: SEO_UPDATED,
     title: "About GrowthCred and Founder Phila Ngwenya | Johannesburg",
     description: "Phila Ngwenya runs GrowthCred (Pty) Ltd from Rosebank, Johannesburg. AI training and automation. We are not Growth Credit Ltd.",
-    heading: "Practical AI. A real person behind it.",
+    heading: "Practical AI from GrowthCred. Phila Ngwenya is the person behind it.",
     intro: "I'm Phila Ngwenya. I run GrowthCred from Rosebank, Johannesburg. I help South African owners get what's in their heads written down. Then I put AI to work on the repetitive stuff.",
     introLink: { phrase: "Johannesburg", href: "/ai-automation-johannesburg" },
     sections: [
@@ -210,28 +255,124 @@ export const SEARCH_PAGES: SearchPage[] = [
     heading: "Put AI to work, one useful task at a time.",
     intro: "Start with one question. One real task. And a way to check the result. These guides help you decide what to learn, what to build and where you still need a person checking the work.",
     sections: [{title:"Choose your next step", paragraphs:["Not sure whether to learn it or buy it? Compare training and implementation first. Then write down your business context with the business brain guide. Then try one proposal or follow-up with information you're allowed to share.", "The calculator helps you put a value on your time. It won't promise you a saving. Only measuring does that.", "Before you pay for another tool, check the free ones you already have. Our free tools guide lists the ones we open first."]}],
-    related: ["/quoting-uniforms-for-a-security-company", "/senior-dispatcher-on-leave", "/guides/ppe-quotes-without-the-owner", "/guides/staff-chatgpt-client-files-popia", "/guides/stop-training-every-new-hire", "/guides/can-staff-paste-client-files-into-chatgpt", "/guides/private-ai-popia", "/guides/law-firm-billing-leakage", "/guides/ai-business-proposals-faster", "/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/guides/ai-training-cost-south-africa", "/guides/business-brain", "/guides/ai-proposals-and-follow-ups", "/guides/ai-training-vs-automation", "/guides/ai-automation-cost-south-africa", "/tools/admin-time-calculator", "/guides/free-marketing-tools-before-you-buy", "/stories", "/playbook"],
+    related: ["/quoting-uniforms-for-a-security-company", "/senior-dispatcher-on-leave", "/guides/what-to-expect-corporate-ai-training-south-africa", "/guides/popia-safe-ai-policy-staff-training-checklist", "/guides/live-vs-recorded-ai-training-for-teams", "/guides/ppe-quotes-without-the-owner", "/guides/staff-chatgpt-client-files-popia", "/guides/stop-training-every-new-hire", "/guides/can-staff-paste-client-files-into-chatgpt", "/guides/private-ai-popia", "/guides/law-firm-billing-leakage", "/guides/ai-business-proposals-faster", "/guides/choose-ai-tools-small-business", "/guides/ai-challenges-south-africa", "/guides/ai-training-cost-south-africa", "/guides/business-brain", "/guides/ai-proposals-and-follow-ups", "/guides/ai-training-vs-automation", "/guides/ai-automation-cost-south-africa", "/tools/admin-time-calculator", "/guides/free-marketing-tools-before-you-buy", "/stories", "/playbook"],
   },
+  ...TRAINING_PAGES,
   {
     path: "/guides/ai-training-cost-south-africa", kind: "guide", updated: SEO_UPDATED,
     title: "AI Training Cost in South Africa: From R990 | GrowthCred",
     description: "No single AI training price in South Africa. Compare the workshop, VAT and tools. Team training is quoted per person. Not a recorded video.",
-    heading: "What does AI training cost in South Africa?",
+    heading: "Hidden extras end when you compare AI training cost in South Africa.",
     answer: "There is no single AI training price in South Africa. My one-day online workshop for owners is R990 at the founding rate. Confirm the date, VAT and any tool costs before you pay. Corporate training for a team is quoted per employee after we time your real documents. I do not sell a recorded training video at a published price.",
     intro: "There's no universal price for AI training. So what do you compare? The format. How many people. How much real work you do. And what support you get after. My one-day workshop is R990 at the founding rate. Confirm the next session and the full booking terms before you pay.",
+    article: {
+      pain: "There is no single price for AI training in South Africa. A per-person number, or a claim about hours saved, misleads you if the formats are not the same.",
+      wayOut: "Know what is included. Know how you will check the real output. That is how you avoid paying twice.",
+      learnItems: [
+        "You learn how to compare a recorded course, an owner workshop and a team session on the same footing.",
+        "You learn which cost questions to ask before you pay, so a subscription or an extra does not surprise you.",
+      ],
+      why: "GrowthCred is a Johannesburg AI implementation and training company. I teach AI at Melsoft Academy. I helped build an isiZulu and English speech AI system. It was presented at Parliament in Cape Town.",
+      minutes: 5,
+      mentions: [
+        { text: "Want to start small, without locking into more work afterwards? The live one-day online workshop is R990 at the founding rate. You test writing your business context into a real workflow. Confirm the date, VAT and any tool costs before you pay.", phrase: "R990 at the founding rate", href: "/workshop" },
+        { text: "Need a team session instead? We quote per person, in Johannesburg or online, after a short call and a look at your real documents. You get a scope for that work, not a generic guess.", phrase: "short call", href: "/call" },
+      ],
+    },
     sections: [
-      { title: "Compare the same unit", paragraphs: ["A price per person isn't a price per team. A recorded video isn't a day spent building with a facilitator. So first ask: what does this amount actually buy me?", "Here's the maths. Say a team quote is R6,000 for six people. That's R1,000 each, before extras. Does that tell you it's good? No. It's just arithmetic. And it's an illustration, not our team quote or a market average."] },
-      { title: "Ask for the complete cost", paragraphs: ["Does the fee include materials? Build time? Support after? Is VAT in or on top? Do the tools need paid accounts? A workshop fee and a software subscription are two different purchases. Don't let one hide inside the other. Take this list to whoever you're comparing."], items: ["Is the rate per seat, per team or per session?", "Are the date, location and duration confirmed?", "Which tools and subscriptions are required?", "What support and materials are included?", "What are the cancellation and refund terms?"] },
-      { title: "What I offer right now", paragraphs: ["The R990 founding workshop is about writing down your business context and using it in real workflows. It runs online. You get the session details when you register. Check the tool requirements before you subscribe to anything.", "Done-for-you work is scoped separately. And buying the workshop doesn't commit you to anything after it. The refund terms are linked in the footer. Read them next to the offer.", "Got a team? Corporate AI training is live. It runs in Johannesburg or online. We quote per employee after a baseline. It is not a recorded video."], links: [{ index: 2, phrase: "Corporate AI training", href: "/corporate-ai-training" }] },
-      { title: "Judge what you'll use, not hours in a room", paragraphs: ["Pick one task you want to fix. Ask how the training helps you practise it. A good one leaves you with something you can run on Monday: a context document, a repeatable process and a way to check the output.", "And careful with the hours maths. An hour saved isn't cash. It's only worth money if you use it for paid work or it cuts a real cost. Anyone who quotes you results should tell you how they measured them."] },
+      {
+        title: "Different formats buy different things, not the same hour",
+        paragraphs: [],
+        figureCaption: "Compare what each format delivers before you compare the price.",
+        points: {
+          problem: [
+            "A solo recorded course, a one-day owner workshop and a live team session are not the same purchase for you. If you compare them as if they were, you miss what each one includes.",
+            "A per-person rate is not your team total. A standalone illustration is not a market average. If you treat it as one, your comparison lies.",
+          ],
+          fix: [
+            "You compare who attends, how it runs and what you leave with. A recorded video is the provider's fee. Your live one-day online owner workshop is R990 at the founding rate. Your live team training, in Johannesburg or online, is quoted per person after a short call. It is not an accredited course.",
+            "You check the unit. Per seat, per team or per session. GrowthCred (Pty) Ltd is not Growth Credit Ltd.",
+          ],
+        },
+        line: "A price per person is not a price per team. A recorded video is not a live working day.",
+        table: {
+          caption: "Recorded courses, the R990 owner workshop, and corporate team training",
+          headers: ["Compared", "Recorded course", "Owner workshop", "Corporate training"],
+          rows: [
+            ["Best for", "One person, alone", "An owner", "A team"],
+            ["Format", "Pre-recorded video", "Live, one day, online", "Live, Johannesburg or online"],
+            ["Accredited", "Not ours to claim", "No", "No"],
+            ["What you get", "A general lesson", "A live day on your work", "A shared habit and a review"],
+            ["Price", "The provider's fee", "R990 founding rate", "Quoted per person"],
+          ],
+        },
+      },
+      {
+        title: "Ask five cost questions before you pay",
+        paragraphs: [],
+        figureCaption: "Ask what is included, so the training fee and the tool cost stay separate.",
+        points: {
+          problem: [
+            "Your workshop fee and a paid software subscription are two purchases. VAT, or an extra, can slip past your quick quote.",
+            "If cancellation, refunds or support after the session are unclear, you are guessing after you have paid.",
+          ],
+          fix: [
+            "You ask five questions before you pay. Is the rate per seat, per team or per session? Are the date, the place and the length confirmed? Which tools and paid subscriptions are required? What support and materials are included? What are your cancellation and refund terms?",
+            "You confirm the date, VAT and any tool costs before you register. You read the refund terms too.",
+          ],
+        },
+        line: "Do not let a software subscription, or a hidden extra, hide inside your training quote.",
+        items: [
+          "You ask if the rate is per seat, per team or per session.",
+          "You ask if the date, location and duration are confirmed.",
+          "You ask which tools and subscriptions are required.",
+          "You ask what support and materials are included.",
+          "You ask what the cancellation and refund terms are.",
+        ],
+      },
+      {
+        title: "Judge the Monday output, not hours saved on paper",
+        paragraphs: [],
+        figureCaption: "Useful training leaves a workflow you can run on Monday, and a way to check it.",
+        points: {
+          problem: [
+            "Hours in a room, or hours saved times a wage, is not cash. It is only money if you use the time for paid work, or it cuts a real cost.",
+            "A result with no measurement method does not tell you what changed.",
+          ],
+          fix: [
+            "You pick one task. You look for something you can run on Monday: a context document, a repeatable process and a way to check the output.",
+            "You ask how any quoted result was measured. Done-for-you work is scoped separately from your training.",
+          ],
+        },
+        line: "An hour you save is only worth money if it goes into your paid work, or it cuts a real cost.",
+      },
+      {
+        title: "Keep the owner workshop separate from a team session",
+        paragraphs: [],
+        figureCaption: "Match the scope to the goal, so you pay for the room you actually need.",
+        points: {
+          problem: [
+            "A solo owner session will not give the rest of your team the habit.",
+            "A full team session is too much if all you want right now is one day for yourself.",
+          ],
+          fix: [
+            "You use the R990 founding online workshop if you want one live day on writing your business context into a real workflow. Buying it does not commit you to anything after it.",
+            "You book live corporate training, in Johannesburg or online, if your team needs the practice and a person checking real work. We quote you per person after a baseline.",
+          ],
+        },
+        line: "You keep the owner workshop and the team training separate. You pay for the scope you need.",
+      },
     ],
     faq: [
-      { q: "What does AI training cost in South Africa?", a: "There is no single price. My one-day online workshop for owners is R990 at the founding rate. Confirm the date, VAT and tool costs before you pay. Team training is quoted per person." },
-      { q: "How much does a corporate training video cost in South Africa?", a: "I do not sell a recorded corporate training video at a published price. Corporate AI training is live. It runs in Johannesburg or online. We quote per employee after a baseline." },
-      { q: "Is the R990 workshop the same as corporate training?", a: "No. The workshop is one day, online, for an owner who wants to build. Corporate training is for a team, on your real reports, in the room or online, quoted after we time the work." },
-      { q: "Do you train teams onsite in Johannesburg?", a: "Yes. Corporate sessions can run in the room in Johannesburg. They can also run online if your people sit elsewhere in South Africa." },
+      { q: "Is there a standard price for AI training in South Africa?", a: "No. There is no single price for you. It depends on the format, the headcount, the live work and the support. Your one-day online owner workshop with us is R990 at the founding rate. Your team session is quoted per person after a call." },
+      { q: "What should I check before paying for an AI workshop or course?", a: "You check whether the fee is per seat, per team or per session. You check whether VAT and paid tool subscriptions are extra. You check what support or materials are included. You check the refund and cancellation terms." },
     ],
-    related: ["/corporate-ai-training", "/workshop", "/ai-training-south-africa", "/guides/ai-training-vs-automation", "/contact"],
+    close: {
+      line: "A vague quote is how you pay twice.",
+      ask: "Want to compare the options, or get a clear scope for your team? Ask for a quote.",
+      cta: { to: "/call", label: "Ask for a quote" },
+    },
+    related: ["/corporate-ai-training", "/workshop", "/guides/live-vs-recorded-ai-training-for-teams", "/guides/what-to-expect-corporate-ai-training-south-africa", "/ai-training-south-africa", "/contact"],
   },
   {
     path: "/guides/business-brain", kind: "guide",
@@ -578,7 +719,7 @@ export const SEARCH_PAGES: SearchPage[] = [
       { title: "Start with one controlled workflow", paragraphs: ["Pick a task that happens often, has clear source material and already ends with a person reviewing it. Record how long the whole task takes today, corrections included. Pilot it on representative redacted examples. Then compare elapsed time, review time, missing-input cases and errors before you expand.", "Where would I start with you? Management-pack commentary drafted from your approved figures, with every variance linked back to its source. Meeting notes turned into a summary and action register for a professional to approve.", "Onboarding or review checklists that flag missing information instead of filling the gap. And your recurring client or management updates, drafted from approved facts, with a person approving what gets sent."] },
       { title: "Where the boundary belongs", paragraphs: ["GrowthCred does not replace an accountant, a finance officer, a compliance function or a licensed financial adviser. We don't position a general AI model as the maker of credit decisions, investment recommendations, financial statements, filings or anything that affects a customer.", "Before we build, your firm decides which information may be used. Who may see it. What must be kept. What the system must never do. Who signs off. And installing a tool doesn't make a workflow compliant with POPIA or financial-sector rules. Nobody can sell you that."], links: [{ index: 1, phrase: "POPIA", href: "/guides/private-ai-popia" }] },
       { title: "Workshop or implementation?", mark: "diy", paragraphs: ["Take the one-day workshop if your team needs a shared method and wants to build the first controlled workflow themselves. Bring a made-up or redacted example. You leave with a mapped task, an approved context pack, a review checklist and a way to measure the pilot. Not just a list of prompts.", "Apply for implementation when the workflow crosses tools, needs permissions or repeatable input handling, or has to be handed over across a team. We scope one workflow. We define the acceptance tests. We build and test it with your reviewers. Then we agree ownership and support before wider use."] },
-      { title: "Who has the strongest fit", paragraphs: ["The clearest fit? An accounting, bookkeeping, outsourced-finance, fractional-CFO, advisory or brokerage team of roughly 3 to 50 people. Recurring document work. A professional reviewer you can name. Internal finance teams in owner-led businesses fit for the same reason.", "Large banks and insurers are investing heavily in AI. But their model-risk, procurement, security and integration requirements need a different kind of engagement. I'll only take on work that matches our capacity and your governance."] },
+      { title: "Who has the strongest fit", paragraphs: ["The clearest fit? An accounting, bookkeeping, outsourced-finance, fractional-CFO, advisory or brokerage team of roughly 3 to 50 people. Recurring document work. A professional reviewer you can name. Internal finance teams in owner-led businesses fit for the same reason.", "A bargaining council or a professional institute often has the same pressure. The report has to be accurate. The personal information has to stay put.", "Large banks and insurers are investing heavily in AI. But their model-risk, procurement, security and integration requirements need a different kind of engagement. I'll only take on work that matches our capacity and your governance."], links: [{ index: 1, phrase: "bargaining council", href: "/ai-training-for-bargaining-councils-statutory-bodies" }] },
       { title: "Who's telling you this", paragraphs: ["I'll be straight with you. I haven't published a finance case study yet, so I won't show you one. What I have done: I co-developed an AI system presented at Parliament. I've given seven AI talks at WeWork Johannesburg. And I build every workflow the same controlled way, with the professional at the controls."] },
     ],
     faq: [
@@ -609,7 +750,7 @@ export const SEARCH_PAGES: SearchPage[] = [
       { title: "Workshop or implementation?", mark: "diy", paragraphs: ["Take the one-day workshop when your partners and staff need one safe-use method and want to build the first workflow themselves. You'll work on a made-up or redacted matter. You leave with a mapped workflow, a source-and-verification checklist, escalation rules and a pilot scorecard.", "Apply for implementation when a practice group wants us to map, build, test and hand over a repeatable workflow. Intake, chronology, first draft or client update. Your nominated practitioner defines what counts as acceptable. And stays responsible for the professional output."] },
       { title: "Who has the strongest fit", paragraphs: ["Boutique and small-to-mid-sized teams fit best. Commercial, property, employment, family, conveyancing and litigation. Especially when you handle repeated matter patterns and partner review is the bottleneck. Start with something operational and bounded. Not your hardest point of law.", "National firms may have the appetite. But their information-security, conflicts, procurement and integration requirements are heavy. We only scope work that fits our capacity and your governance."] },
       { title: "Where the money leaks", paragraphs: ["Want the numbers? Clio's 2025 benchmarks say the average lawyer records 3.0 billable hours in an eight-hour day. And collects 2.4. I've written up where the rest goes in the law-firm billing guide."] },
-      { title: "Who's telling you this", paragraphs: ["I haven't published a law-firm case study yet, so I won't pretend. What I have done: I co-developed an AI system presented at Parliament. I've given seven AI talks at WeWork Johannesburg. And I build every workflow the same way, with the practitioner at the controls."] },
+      { title: "Who's telling you this", paragraphs: ["I haven't published a law-firm case study yet, so I won't pretend. What I have done: I co-developed an AI system presented at Parliament. I've given seven AI talks at WeWork Johannesburg. And I build every workflow the same way, with the practitioner at the controls.", "If you train a council or an institute, you still sign the work. Start on the councils page. Team training itself is corporate AI training."], links: [{ index: 1, phrase: "councils page", href: "/ai-training-for-bargaining-councils-statutory-bodies" }, { index: 1, phrase: "corporate AI training", href: "/corporate-ai-training" }] },
     ],
     faq: [
       { q: "Can the system do legal research for us?", a: "We don't offer unsupervised legal research or autonomous legal advice. Any research aid must point back to authoritative sources. And a legal practitioner verifies every authority and proposition before professional use." },
@@ -649,7 +790,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     related: ["/corporate-ai-training", "/stories/operators-intensive-wework-rosebank", "/ai-automation-south-africa", "/workshop", "/call"],
   },
   {
-    path: "/ai-automation-uk", kind: "service", published: SEO_PUBLISHED,
+    path: "/ai-automation-uk", kind: "service", published: SEO_PUBLISHED, noindex: true,
     title: "AI Automation Services for UK Businesses | GrowthCred",
     description: "Founder-led AI automation for owner-led UK businesses, delivered online from Johannesburg, only one to two hours ahead of UK time. Apply to work with us.",
     heading: "AI automation for UK businesses, one or two hours away.",
@@ -658,17 +799,17 @@ export const SEARCH_PAGES: SearchPage[] = [
       { title: "Your working day, almost exactly", paragraphs: ["South Africa doesn't change its clocks. So Johannesburg is two hours ahead of the UK in winter (GMT). And one hour ahead during British Summer Time. Your 10:00 call in London is 11:00 or 12:00 here. No early mornings. No late nights.", "In practice? Working sessions, reviews and handovers happen live, on video, in the same working day."] },
       { title: "Your data rules come first", paragraphs: ["Handling personal data in the UK means UK GDPR and the Data Protection Act 2018. Bring those requirements to the first call. We agree which information a system may use, who can see it and where a person reviews it. Before we build anything.", "Our own handling of personal information falls under South Africa's POPIA. The privacy policy explains how we protect information that crosses borders."] },
       { title: "Pricing", paragraphs: ["Prices on this site are in South African rand. For a UK engagement, we agree scope and price on the call. Before any work starts."] },
-      { title: "Why owner-led UK firms work with us", paragraphs: ["The bottleneck in London is the same as in Johannesburg. You're the only one who knows how proposals get priced, what was promised and how the business talks. I write that down. I build systems around it. Then I track the results with you every month."] },
+      { title: "Why owner-led UK firms work with us", paragraphs: ["The bottleneck in London is the same as in Johannesburg. You're the only one who knows how proposals get priced, what was promised and how the business talks. I write that down. I build systems around it. Then I track the results with you every month.", "If your team is in South Africa, start with corporate AI training, AI consulting, or the Johannesburg page."] , links: [{ index: 1, phrase: "corporate AI training", href: "/corporate-ai-training" }, { index: 1, phrase: "AI consulting", href: "/ai-consulting-south-africa" }, { index: 1, phrase: "Johannesburg page", href: "/ai-automation-johannesburg" }] },
     ],
     faq: [
       { q: "What is the time difference between the UK and South Africa?", a: "Johannesburg is two hours ahead of the UK in winter and one hour ahead during British Summer Time. South Africa doesn't change its clocks." },
       { q: "How do you handle UK GDPR?", a: "We agree which information a system may use, who can access it and where a person reviews it before we build anything. Bring your UK GDPR requirements to the first call." },
       { q: "Do you invoice in pounds?", a: "Prices on this site are in rand. We agree scope and price for UK engagements on the call, before work starts." },
     ],
-    related: ["/ai-admin-automation", "/ai-proposal-automation", "/stories", "/call", "/data-and-security"],
+    related: ["/corporate-ai-training", "/ai-consulting-south-africa", "/ai-training-south-africa", "/ai-automation-johannesburg", "/call", "/data-and-security"],
   },
   {
-    path: "/ai-automation-united-states", kind: "service", published: SEO_PUBLISHED,
+    path: "/ai-automation-united-states", kind: "service", published: SEO_PUBLISHED, noindex: true,
     title: "AI Automation Services for US Businesses | GrowthCred",
     description: "AI systems built from your own knowledge for owner-led US businesses, delivered online. Working hours overlap with the US East Coast every morning.",
     heading: "AI automation for owner-led US businesses.",
@@ -676,17 +817,17 @@ export const SEARCH_PAGES: SearchPage[] = [
     sections: [
       { title: "How the time zones work", paragraphs: ["Johannesburg is six hours ahead of New York during US daylight saving time. Seven in winter. So 09:00 in New York is 15:00 or 16:00 here. That's a reliable overlap every morning.", "The West Coast is harder. 09:00 in Los Angeles is already 18:00 or 19:00 here. So for West Coast teams, we plan fewer live sessions, prepare them well and do more of the build in between."] },
       { title: "Privacy and data", paragraphs: ["The US has no single federal privacy law. What applies depends on your state and your sector. California's consumer privacy law, for example.", "Tell us which rules apply to you on the first call. We agree what information each system may use, and where a person reviews it, before we build."] },
-      { title: "What you get", paragraphs: ["The same method I use everywhere. An audit that puts a value on the hours stuck with the founder. Systems that do that work the way the founder would. Then monthly tracking once they're embedded.", "Prices on this site are in South African rand. We scope and price US engagements on the call."] },
+      { title: "What you get", paragraphs: ["The same method I use everywhere. An audit that puts a value on the hours stuck with the founder. Systems that do that work the way the founder would. Then monthly tracking once they're embedded.", "Prices on this site are in South African rand. We scope and price US engagements on the call.", "If your team is in South Africa, start with corporate AI training, AI consulting, or the Johannesburg page."], links: [{ index: 2, phrase: "corporate AI training", href: "/corporate-ai-training" }, { index: 2, phrase: "AI consulting", href: "/ai-consulting-south-africa" }, { index: 2, phrase: "Johannesburg page", href: "/ai-automation-johannesburg" }] },
     ],
     faq: [
       { q: "What hours overlap with the US?", a: "Johannesburg is six to seven hours ahead of New York. So your East Coast mornings overlap with our afternoons. West Coast overlap is short, so we plan sessions around it." },
       { q: "Is the work done remotely?", a: "Yes. Engagements outside South Africa run online. We schedule live sessions inside the hours our time zones share." },
       { q: "How is pricing handled for US clients?", a: "Prices on this site are in South African rand. We agree scope and price for US engagements on the call, before work starts." },
     ],
-    related: ["/ai-follow-up-automation", "/ai-admin-automation", "/guides/how-we-work-first-30-days", "/call", "/data-and-security"],
+    related: ["/corporate-ai-training", "/ai-consulting-south-africa", "/ai-training-south-africa", "/ai-automation-johannesburg", "/call", "/data-and-security"],
   },
   {
-    path: "/ai-automation-australia", kind: "service", published: SEO_PUBLISHED,
+    path: "/ai-automation-australia", kind: "service", published: SEO_PUBLISHED, noindex: true,
     title: "AI Automation for Australian Businesses | GrowthCred",
     description: "Founder-led AI automation for owner-led Australian businesses, delivered online. Your afternoon is our morning, so live sessions fit your working day.",
     heading: "AI automation for Australian businesses.",
@@ -694,14 +835,14 @@ export const SEARCH_PAGES: SearchPage[] = [
     sections: [
       { title: "An afternoon-to-morning handover", paragraphs: ["Sydney is eight hours ahead of Johannesburg. Nine during Australian daylight saving. Perth is six hours ahead. So 08:00 here is mid-to-late afternoon on your east coast, and early afternoon in Perth.", "That rhythm works for you. You review and give feedback in your afternoon. The next version is ready when you start the next day."] },
       { title: "Privacy obligations", paragraphs: ["Many Australian businesses fall under the Privacy Act 1988 and the Australian Privacy Principles. Bring your obligations to the first call. We agree which information a system may use, who can see it and where a person reviews it. Before we build anything."] },
-      { title: "Scope and pricing", paragraphs: ["Prices on this site are in South African rand. For an Australian engagement, we agree scope and price on the call, before any work starts.", "The method's the one I use everywhere. Audit, deploy, embed. Tracked monthly."] },
+      { title: "Scope and pricing", paragraphs: ["Prices on this site are in South African rand. For an Australian engagement, we agree scope and price on the call, before any work starts.", "The method's the one I use everywhere. Audit, deploy, embed. Tracked monthly.", "If your team is in South Africa, start with corporate AI training, AI consulting, or the Johannesburg page."], links: [{ index: 2, phrase: "corporate AI training", href: "/corporate-ai-training" }, { index: 2, phrase: "AI consulting", href: "/ai-consulting-south-africa" }, { index: 2, phrase: "Johannesburg page", href: "/ai-automation-johannesburg" }] },
     ],
     faq: [
       { q: "What is the time difference between Australia and South Africa?", a: "Sydney is eight hours ahead of Johannesburg, or nine during Australian daylight saving. Perth is six hours ahead. Our mornings overlap with your afternoons." },
       { q: "How do you work across that gap?", a: "Live sessions sit in your afternoon. The build carries on through our day, so updates are ready for your next morning." },
       { q: "Do you work within the Australian Privacy Principles?", a: "We agree which information each system may use, and where a person reviews it, before we build anything. Bring your Privacy Act obligations to the first call." },
     ],
-    related: ["/ai-admin-automation", "/ai-proposal-automation", "/stories", "/call", "/data-and-security"],
+    related: ["/corporate-ai-training", "/ai-consulting-south-africa", "/ai-training-south-africa", "/ai-automation-johannesburg", "/call", "/data-and-security"],
   },
   {
     path: "/ai-automation-africa", kind: "service", published: SEO_PUBLISHED,
@@ -1040,7 +1181,7 @@ export const SEARCH_PAGES: SearchPage[] = [
     path: "/data-and-security", kind: "about", published: SEO_PUBLISHED,
     title: "Data Protection and Security at GrowthCred | POPIA",
     description: "How GrowthCred handles your information: POPIA, encryption, write-only website forms, cross-border transfers, and human review in every AI system we build.",
-    heading: "How we protect your information.",
+    heading: "How GrowthCred handles your data protection and security under POPIA.",
     intro: "GrowthCred holds no security certifications. I won't pretend otherwise. What I can do is tell you exactly how your information is handled. On this website, and in the systems we build with you.",
     sections: [
       { title: "The law we work under", paragraphs: ["GrowthCred (Pty) Ltd is the responsible party for personal information under South Africa's Protection of Personal Information Act (POPIA). I'm the Information Officer. You can reach me at info@growthcred.co.za. Every request reaches a person."] },
@@ -1079,4 +1220,5 @@ export const SEARCH_PAGES: SearchPage[] = [
     related: ["/guides/choose-ai-tools-small-business", "/guides/ai-automation-cost-south-africa", "/tools/admin-time-calculator", "/resources"],
   },
 ];
+export const SEARCH_PAGES: SearchPage[] = applyGeminiOverlay(SEARCH_PAGE_SOURCE);
 export const searchPage = (path: string) => SEARCH_PAGES.find(page => page.path === path);
