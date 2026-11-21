@@ -404,12 +404,26 @@ export default function Corporate() {
               </article>
             ))}
           </Reveal>
-          <Link
-            to={STAKEHOLDERS.dataLink.to}
-            className="mt-8 inline-flex min-h-11 items-center gap-2 font-semibold text-midnight no-underline hover:text-gold"
-          >
-            {STAKEHOLDERS.dataLink.label} <span aria-hidden="true">&rarr;</span>
-          </Link>
+          <div className="mt-8 flex flex-col items-start gap-3">
+            <Link
+              to={STAKEHOLDERS.dataLink.to}
+              className="inline-flex min-h-11 items-center gap-2 font-semibold text-midnight no-underline hover:text-gold"
+            >
+              {STAKEHOLDERS.dataLink.label} <span aria-hidden="true">&rarr;</span>
+            </Link>
+            <Link
+              to="/guides/what-to-expect-corporate-ai-training-south-africa"
+              className="inline-flex min-h-11 items-center gap-2 font-semibold text-midnight no-underline hover:text-gold"
+            >
+              What to expect from the training <span aria-hidden="true">&rarr;</span>
+            </Link>
+            <Link
+              to="/ai-training-for-bargaining-councils-statutory-bodies"
+              className="inline-flex min-h-11 items-center gap-2 font-semibold text-midnight no-underline hover:text-gold"
+            >
+              Councils, statutory bodies and institutes <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
         </div>
       </section>
 

@@ -345,6 +345,7 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
       ["/ai-for-law-firms", "Law firms"],
       ["/ai-for-waste-management", "Waste management"],
       ["/ai-for-beauty-and-cosmetics", "Beauty & cosmetics"],
+      ["/ai-training-for-bargaining-councils-statutory-bodies", "Councils and institutes"],
     ],
   },
   {

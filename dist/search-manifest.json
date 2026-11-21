@@ -102,6 +102,45 @@
       "prerendered": true
     },
     {
+      "path": "/guides/what-to-expect-corporate-ai-training-south-africa",
+      "title": "What to Expect From Corporate AI Training | GrowthCred",
+      "description": "Live corporate AI training for a South African team. In Johannesburg or online. You practise on real documents. A person checks the draft. Quoted per person.",
+      "index": true,
+      "modified": "2026-11-21",
+      "published": "2026-11-21",
+      "file": "guides/what-to-expect-corporate-ai-training-south-africa.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/popia-safe-ai-policy-staff-training-checklist",
+      "title": "POPIA-Safe AI Policy & Staff Training Checklist | GrowthCred",
+      "description": "A plain checklist for South African teams. What staff must keep out of a public AI chat, who checks the draft, and how live training builds the habit.",
+      "index": true,
+      "modified": "2026-11-21",
+      "published": "2026-11-21",
+      "file": "guides/popia-safe-ai-policy-staff-training-checklist.html",
+      "prerendered": true
+    },
+    {
+      "path": "/guides/live-vs-recorded-ai-training-for-teams",
+      "title": "Live vs Recorded AI Training for Your Team | GrowthCred",
+      "description": "A recorded course leaves each person alone. Live training runs in Johannesburg or online. The owner day is separate. Team training is quoted per person.",
+      "index": true,
+      "modified": "2026-11-21",
+      "published": "2026-11-21",
+      "file": "guides/live-vs-recorded-ai-training-for-teams.html",
+      "prerendered": true
+    },
+    {
+      "path": "/ai-training-for-bargaining-councils-statutory-bodies",
+      "title": "Bargaining Council AI Training in South Africa | GrowthCred",
+      "description": "Live AI training for bargaining councils, statutory bodies and institutes. Accurate drafts, POPIA habits, smaller groups. Quoted per person. Not accredited.",
+      "index": true,
+      "modified": "2026-11-21",
+      "file": "ai-training-for-bargaining-councils-statutory-bodies.html",
+      "prerendered": true
+    },
+    {
       "path": "/guides/ai-training-cost-south-africa",
       "title": "AI Training Cost in South Africa: From R990 | GrowthCred",
       "description": "No single AI training price in South Africa. Compare the workshop, VAT and tools. Team training is quoted per person. Not a recorded video.",
@@ -296,7 +335,7 @@
       "path": "/ai-automation-uk",
       "title": "AI Automation Services for UK Businesses | GrowthCred",
       "description": "Founder-led AI automation for owner-led UK businesses, delivered online from Johannesburg, only one to two hours ahead of UK time. Apply to work with us.",
-      "index": true,
+      "index": false,
       "modified": "2026-09-24",
       "file": "ai-automation-uk.html",
       "prerendered": true
@@ -305,7 +344,7 @@
       "path": "/ai-automation-united-states",
       "title": "AI Automation Services for US Businesses | GrowthCred",
       "description": "AI systems built from your own knowledge for owner-led US businesses, delivered online. Working hours overlap with the US East Coast every morning.",
-      "index": true,
+      "index": false,
       "modified": "2026-09-24",
       "file": "ai-automation-united-states.html",
       "prerendered": true
@@ -314,7 +353,7 @@
       "path": "/ai-automation-australia",
       "title": "AI Automation for Australian Businesses | GrowthCred",
       "description": "Founder-led AI automation for owner-led Australian businesses, delivered online. Your afternoon is our morning, so live sessions fit your working day.",
-      "index": true,
+      "index": false,
       "modified": "2026-09-24",
       "file": "ai-automation-australia.html",
       "prerendered": true

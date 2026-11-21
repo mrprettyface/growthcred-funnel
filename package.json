@@ -12,6 +12,7 @@
     "verify:search-behavior": "node scripts/verify-search-behavior.mjs",
     "preview:search": "node scripts/preview-search.mjs",
     "verify:http": "node scripts/verify-http.mjs",
+    "indexnow": "node scripts/indexnow.mjs",
     "dashboard": "node tools/growthcred-cockpit/dashboard.mjs",
     "decision": "node tools/growthcred-cockpit/decision.mjs"
   },
