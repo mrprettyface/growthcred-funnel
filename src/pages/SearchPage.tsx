@@ -12,6 +12,7 @@ import { GUIDE_OFFER, requestGuide } from "../lib/guide";
 import { linkPhrase, linkPhrases } from "../components/PhraseLink";
 import { ArticleLayout, isArticlePage } from "../components/article/ArticleLayout";
 import { ArticleFigure } from "../components/article/ArticleFigures";
+import { scenesForCaptions } from "../components/article/articleScenes";
 const labels:Record<string,string>={"/workshop":"Online AI workshop","/":"The Command Core","/call":"Discuss an implementation project","/brain":"Build your Business Brain","/contact":"Contact GrowthCred","/corporate-ai-training":"Corporate AI training for teams","/private-ai":"Private AI, explained","/playbook":"Start with a useful AI workflow."};
 /** Sales and index pages in the main menu. Captions restate lines already on the page. */
 const MENU_DRAWINGS: Record<string, string[]> = {
@@ -50,8 +51,8 @@ export function SearchPage({page}:{page:Page}) {
     {MENU_DRAWINGS[page.path] && (
       <Section className="py-6 md:py-8">
         <div className="grid gap-4 md:grid-cols-3">
-          {MENU_DRAWINGS[page.path].map((caption, i) => (
-            <ArticleFigure key={caption} name="check" alt={caption} caption={caption} idSuffix={`menu-${i}`} seed={`${page.path}-menu-${i}-${page.sections[i]?.title ?? caption}`} motion="pointer" />
+          {MENU_DRAWINGS[page.path].map((caption, i, all) => (
+            <ArticleFigure key={caption} name={scenesForCaptions(all)[i]} alt={caption} caption={caption} idSuffix={`menu-${i}`} motion />
           ))}
         </div>
       </Section>
