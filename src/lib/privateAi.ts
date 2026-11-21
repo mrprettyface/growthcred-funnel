@@ -39,12 +39,14 @@ export const APPLY = "/call";
 export const PHOTOS = {
   phila: {
     src: "/images/phila-event.jpg",
+    webp: "/images/phila-event-640.webp 640w, /images/phila-event-1200.webp 1200w",
     alt: "Phila Ngwenya, founder of GrowthCred, at an event",
     width: 1200,
     height: 1600,
   },
   session: {
     src: "/images/stories/operators-intensive-session.jpg",
+    webp: "/images/stories/operators-intensive-session.webp",
     alt: "Business owners working through a GrowthCred session at WeWork Rosebank while Phila answers a question",
     width: 1200,
     height: 900,
@@ -60,18 +62,21 @@ export const PHOTOS = {
    */
   team: {
     src: "/images/private-ai/team-laptop.jpg",
+    webp: "/images/private-ai/team-laptop.webp",
     alt: "Two colleagues looking at a laptop together in a bright office",
     width: 1200,
     height: 800,
   },
   files: {
     src: "/images/private-ai/stacks-of-files.jpg",
+    webp: "/images/private-ai/stacks-of-files.webp",
     alt: "Tall stacks of paper files and folders on an office desk",
     width: 1200,
     height: 800,
   },
   joburg: {
     src: "/images/private-ai/joburg-skyline.jpg",
+    webp: "/images/private-ai/joburg-skyline.webp",
     alt: "Johannesburg city skyline at golden hour",
     width: 1200,
     height: 727,

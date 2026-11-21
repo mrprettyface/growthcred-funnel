@@ -11,6 +11,10 @@ export const CORPORATE_PATH = "/corporate-ai-training";
 export const CORPORATE_SERVICE =
   "Hands-on AI training for corporate teams: live workshops with follow-along packs, measured before and after, priced per employee.";
 
+/** Visible under the corporate heading, and reused as the Course description. */
+export const CORPORATE_ANSWER =
+  "Corporate AI training at GrowthCred is live training for a South African team. We use the reports your people already write. Sessions run in Johannesburg, or online. You pay per employee after we time a baseline. 3× faster is the target we measure. It is not a result I have banked for you. This is not a recorded video course.";
+
 /** Visible on the page and emitted as FAQPage structured data, so the two must match. */
 export const FAQ: { q: string; a: string }[] = [
   {
@@ -44,5 +48,17 @@ export const FAQ: { q: string; a: string }[] = [
   {
     q: "Is the training accredited?",
     a: "No. This is practical workplace training, not an accredited qualification, and no accreditation is claimed.",
+  },
+  {
+    q: "How much does corporate AI training cost in South Africa?",
+    a: "We quote per employee after a baseline. There is no published per-head price. The R990 workshop is a separate one-day session for owners. It is not the team price.",
+  },
+  {
+    q: "Do you sell a recorded corporate training video?",
+    a: "No. This is live training, in the room in Johannesburg or online. Your people follow along on their own documents. A generic video is the thing this replaces.",
+  },
+  {
+    q: "Can you train senior staff to produce accurate reports?",
+    a: "Yes. We train on the reports, proposals and board packs your people already produce. We time them before, and again thirty days later. 3× faster is the target. Your report shows the measured number.",
   },
 ];

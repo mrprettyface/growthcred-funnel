@@ -7,6 +7,7 @@ import { SocialSection } from "../components/SocialSection";
 import { LiveDemo } from "../components/webinar/LiveDemo";
 import { CardStack } from "../components/webinar/CardStack";
 import { track } from "../lib/analytics";
+import { ResponsiveImage } from "../components/ResponsiveImage";
 
 /**
  * FRONT-END OFFER, the money page. Copy is finished.
@@ -80,10 +81,11 @@ export default function WorkshopPage() {
               on every one of them.
             </p>
           </div>
-          <img
+          <ResponsiveImage
             src="/images/the-drain.jpg"
             alt="Buried in busy work"
             loading="lazy"
+            sizes="(max-width: 767px) 100vw, 560px"
             className="aspect-[4/3] w-full rounded-2xl object-cover"
           />
         </div>
@@ -272,10 +274,11 @@ export default function WorkshopPage() {
           all four corners so it reads as a card rather than a banner. */}
       <Section className="pt-16 md:pt-16" reveal>
         <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
-          <img
+          <ResponsiveImage
             src="/images/phila-event.jpg"
             alt="Phila Ngwenya, Founder and CEO of GrowthCred"
             loading="lazy"
+            sizes="(max-width: 767px) 100vw, 520px"
             className="aspect-[4/5] w-full rounded-2xl object-cover object-[center_22%]"
           />
           <div>
@@ -300,10 +303,11 @@ export default function WorkshopPage() {
       <Section className="pt-0 md:pt-0" reveal>
         <div className="grid items-center gap-10 md:grid-cols-2 md:gap-16">
           <div className="md:order-2">
-            <img
+            <ResponsiveImage
               src="/images/the-outcome.jpg"
               alt="A calmer week, in control"
               loading="lazy"
+              sizes="(max-width: 767px) 100vw, 560px"
               className="aspect-[4/3] w-full rounded-2xl object-cover"
             />
           </div>
