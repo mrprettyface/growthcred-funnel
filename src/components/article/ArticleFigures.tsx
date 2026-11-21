@@ -80,12 +80,14 @@ const SCENES: Record<ArtName, ReactNode> = {
   ),
   scale: (
     <>
-      <path d="M150 36v96M110 132h80" />
-      <path d="M70 56h160" />
-      <path d="M70 56l-28 36h56z" />
-      <path d="M230 56l-28 36h56z" />
-      <circle cx="70" cy="100" r="6" fill={GOLD} stroke="none" />
-      <path d="M214 96h32M214 104h24" />
+      <path d="M158 52v80M126 132h64" />
+      <path d="M98 70h120" />
+      <path d="M98 70l-22 28h44z" />
+      <path d="M218 70l-22 28h44z" />
+      <circle cx="98" cy="106" r="5" fill={GOLD} stroke="none" />
+      <path d="M204 102h24M204 110h16" />
+      <Figure x={40} y={100} arms="M0 10 l18 2 M0 10 l-8 14" />
+      <rect x="22" y="122" width="20" height="14" rx="2" />
     </>
   ),
   table: (
@@ -120,13 +122,13 @@ const SCENES: Record<ArtName, ReactNode> = {
   ),
   paste: (
     <>
-      <rect x="36" y="40" width="70" height="90" rx="4" />
-      <path d="M50 62h42M50 78h34M50 94h38" />
-      <path d="M120 84h36" />
-      <path d="M148 72l12 12" />
-      <rect x="168" y="48" width="88" height="72" rx="8" />
-      <path d="M184 78h56M184 94h40" />
-      <circle cx="212" cy="64" r="5" fill={GOLD} stroke="none" />
+      <rect x="28" y="46" width="58" height="78" rx="4" />
+      <path d="M40 66h34M40 80h26M40 94h30" />
+      <Figure x={112} y={108} arms="M0 8 l20 -10 M0 8 l-8 14" />
+      <path d="M128 78h22" />
+      <rect x="156" y="46" width="96" height="70" rx="8" />
+      <path d="M170 76h64M170 92h40" />
+      <circle cx="204" cy="60" r="5" fill={GOLD} stroke="none" />
     </>
   ),
   blank: (
@@ -148,12 +150,12 @@ const SCENES: Record<ArtName, ReactNode> = {
   ),
   quote: (
     <>
-      <rect x="40" y="48" width="78" height="96" rx="4" />
-      <path d="M54 72h50M54 90h40M54 108h46" />
-      <path d="M132 96h28" />
-      <circle cx="196" cy="70" r="28" />
-      <path d="M184 70h24M196 58v24" stroke={GOLD} />
-      <path d="M176 110v28M216 110v28" />
+      <rect x="28" y="48" width="64" height="88" rx="4" />
+      <path d="M40 70h40M40 86h32M40 102h36" />
+      <Figure x={124} y={108} arms="M0 10 l18 -4 M0 10 l-10 12" />
+      <rect x="150" y="78" width="28" height="20" rx="2" />
+      <circle cx="214" cy="72" r="22" />
+      <path d="M204 72h20M214 62v20" stroke={GOLD} />
     </>
   ),
   hire: (
@@ -168,13 +170,13 @@ const SCENES: Record<ArtName, ReactNode> = {
   ),
   tools: (
     <>
-      <rect x="48" y="88" width="70" height="44" rx="4" />
-      <path d="M62 104h42" />
-      <rect x="140" y="70" width="52" height="62" rx="4" />
-      <path d="M154 90h24M154 106h18" />
-      <circle cx="230" cy="78" r="16" />
+      <Figure x={48} y={108} arms="M0 10 l16 4 M0 10 l-8 14" />
+      <rect x="78" y="86" width="62" height="40" rx="4" />
+      <path d="M90 102h36" />
+      <rect x="156" y="68" width="46" height="58" rx="4" />
+      <path d="M168 86h22M168 102h16" />
+      <circle cx="230" cy="78" r="14" />
       <path d="M230 70v16M222 78h16" stroke={GOLD} />
-      <path d="M214 110v22M246 110v22" />
     </>
   ),
   clock: (
@@ -189,21 +191,51 @@ const SCENES: Record<ArtName, ReactNode> = {
   ),
 };
 
+const TRAIL = new Set(["a", "an", "the", "from", "to", "of", "and", "or", "in", "on", "for", "with", "your", "you", "at", "by"]);
+
+/** A finished phrase of two to four words, never a chopped sentence. */
 function pokeLabel(caption: string) {
-  return caption.split(/[,.]/)[0].split(/\s+/).slice(0, 3).join(" ");
+  const words = caption.replace(/[.!?].*$/, "").split(/\s+/).map((word) => word.replace(/[^A-Za-z0-9'-]/g, "")).filter(Boolean).slice(0, 5);
+  let end = Math.min(4, words.length);
+  for (let i = 2; i < words.length; i += 1) {
+    if (TRAIL.has(words[i].toLowerCase().replace(/[^a-z]/g, ""))) {
+      end = i;
+      break;
+    }
+  }
+  while (end > 2 && TRAIL.has(words[end - 1].toLowerCase().replace(/[^a-z]/g, ""))) end -= 1;
+  return words.slice(0, Math.max(2, end)).join(" ");
 }
 
-/** A pointer and a small highlight, so the drawing reads like a note in an article. */
+/** A pointer and a highlight that stays inside the drawing. */
 function Poke({ label }: { label: string }) {
-  const width = Math.min(148, 18 + label.length * 7);
+  const words = label.split(/\s+/).slice(0, 4);
+  const lines = words.length <= 2 ? [words.join(" ")] : [words.slice(0, 2).join(" "), words.slice(2).join(" ")];
+  const longest = Math.max(...lines.map((line) => line.length));
+  const width = Math.min(156, Math.max(78, 26 + longest * 7.2));
+  const height = lines.length > 1 ? 34 : 24;
+  const x = 12;
+  const y = 8;
+  const tipX = Math.min(248, x + width + 16);
+  const tipY = y + height + 14;
   return (
     <g stroke="none">
-      <path d={`M${24 + width} 28 L${40 + width} 52`} stroke={GOLD} strokeWidth={2} fill="none" />
-      <path d={`M${40 + width} 52 l-10 -2 l2 8 z`} fill={GOLD} />
-      <rect x={16} y={8} width={width} height={24} rx={12} fill="#fff" stroke={GOLD} strokeWidth={1.5} />
-      <text x={16 + width / 2} y={24} textAnchor="middle" fontSize={11} fontFamily="ui-sans-serif, system-ui, sans-serif" fill="#1a1a24">
-        {label}
-      </text>
+      <path d={`M${x + width - 10} ${y + height - 1} L${tipX} ${tipY}`} stroke={GOLD} strokeWidth={2} fill="none" />
+      <path d={`M${tipX} ${tipY} l-9 -1 l3 7 z`} fill={GOLD} />
+      <rect x={x} y={y} width={width} height={height} rx={height / 2} fill="#fff" stroke={GOLD} strokeWidth={1.5} />
+      {lines.map((line, i) => (
+        <text
+          key={line}
+          x={x + width / 2}
+          y={y + (lines.length > 1 ? 14 + i * 13 : 16)}
+          textAnchor="middle"
+          fontSize={11}
+          fontFamily="ui-sans-serif, system-ui, sans-serif"
+          fill="#1a1a24"
+        >
+          {line}
+        </text>
+      ))}
     </g>
   );
 }
@@ -229,7 +261,7 @@ export function ArticleFigure({
   return (
     <figure data-slot={slot} className="my-6 overflow-hidden rounded-2xl border border-midnight/10 bg-white">
       <svg
-        viewBox="0 0 280 168"
+        viewBox="0 0 280 180"
         role="img"
         aria-labelledby={captionId}
         className="h-auto w-full bg-paper text-midnight"

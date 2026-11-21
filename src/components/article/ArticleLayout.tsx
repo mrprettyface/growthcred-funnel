@@ -8,6 +8,7 @@ import { linkPhrase, linkPhrases } from "../PhraseLink";
 import { ArticleFigure, type ArtName } from "./ArticleFigures";
 import { articleArt } from "./articleArt";
 import { lessonsFor } from "./articleLessons";
+import { pickQuickAnswer } from "../../content/geminiOverlay";
 
 const COUNCILS = "/ai-training-for-bargaining-councils-statutory-bodies";
 
@@ -34,12 +35,17 @@ function takeSentences(text: string, count: number) {
   return parts.slice(0, count).join(" ").replace(/\s+/g, " ").trim();
 }
 
+function stripLearn(item: string) {
+  const stripped = item.replace(/^you learn\s+/i, "").trim();
+  return stripped ? stripped.charAt(0).toUpperCase() + stripped.slice(1) : item;
+}
+
 function quickAnswerText(page: Page) {
-  const faq = page.faq?.[0]?.a ?? "";
-  const answer = page.answer ?? "";
-  const standfirstAlreadyShowsAnswer = !page.article?.wayOut && Boolean(answer);
-  const source = standfirstAlreadyShowsAnswer && faq ? faq : answer || faq || page.intro;
-  return takeSentences(source, 2);
+  if (page.article?.quickAnswer) return page.article.quickAnswer;
+  const picked = pickQuickAnswer(page);
+  const stand = `${page.article?.pain ?? ""} ${page.article?.wayOut ?? ""}`;
+  if (picked && !stand.toLowerCase().includes(picked.slice(0, 48).toLowerCase())) return picked;
+  return takeSentences(page.answer || page.faq?.[0]?.a || picked, 2);
 }
 
 function wordsOf(page: Page) {
@@ -172,7 +178,7 @@ export function ArticleLayout({ page }: { page: Page }) {
             <div data-slot="learn" className="mt-5 rounded-2xl border border-midnight/10 bg-white px-4 py-4">
               <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold">You&apos;ll learn</p>
               <ol className="mt-2 list-decimal space-y-2 pl-5 text-base leading-snug text-midnight">
-                {learnItems.map((item) => <li key={item}>{item}</li>)}
+                {learnItems.map((item) => <li key={item}>{stripLearn(item)}</li>)}
               </ol>
             </div>
           ) : (
@@ -180,7 +186,7 @@ export function ArticleLayout({ page }: { page: Page }) {
               {(["You'll learn", "You'll get"] as const).map((label, i) => (
                 <div key={label} data-slot={i === 0 ? "learn" : "get"} className="rounded-2xl border border-midnight/10 bg-white px-4 py-4">
                   <p className="font-mono text-[11px] uppercase tracking-[0.16em] text-gold">{label}</p>
-                  <p className="mt-2 text-base leading-snug text-midnight">{lessons[i]}</p>
+                  <p className="mt-2 text-base leading-snug text-midnight">{stripLearn(lessons[i])}</p>
                 </div>
               ))}
             </div>
@@ -197,8 +203,8 @@ export function ArticleLayout({ page }: { page: Page }) {
       </Section>
 
       <Section className="pt-0 md:pt-0">
-        <div className="lg:grid lg:grid-cols-[minmax(0,72ch)_15rem] lg:justify-center lg:gap-14">
-          <article className="min-w-0">
+        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_15rem] lg:items-start lg:gap-12">
+          <article className="min-w-0 max-w-[72ch]">
             <details className="mb-10 rounded-2xl border border-midnight/10 bg-white px-4 py-3 lg:hidden">
               <summary className="cursor-pointer font-mono text-[12px] uppercase tracking-[0.14em] text-midnight">On this page</summary>
               <div className="mt-4"><Toc page={page} /></div>
@@ -322,8 +328,8 @@ export function ArticleLayout({ page }: { page: Page }) {
             <AuthorBox className="mt-8" />
           </article>
 
-          <aside className="hidden lg:block">
-            <div className="sticky top-24 rounded-2xl border border-midnight/10 bg-white p-5">
+          <aside className="hidden lg:block lg:w-[15rem]">
+            <div className="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto rounded-2xl border border-midnight/10 bg-white p-5">
               <Toc page={page} />
             </div>
           </aside>

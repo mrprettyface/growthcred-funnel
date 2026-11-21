@@ -48,6 +48,8 @@ export type ArticleSlots = {
   why?: string;
   /** Named read time from the copy. Falls back to a count of the words. */
   minutes?: number;
+  /** One or two factual sentences that answer the page. Not the standfirst. */
+  quickAnswer?: string;
   /** At most two soft mentions. Each one can link a phrase that is already in the sentence. */
   mentions?: { text: string; phrase?: string; href?: string }[];
   /** Hero drawing when the rewrite names one. The first screen does not animate it. */

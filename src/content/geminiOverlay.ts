@@ -524,8 +524,8 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
       "pain": "Buying a global AI tool does not give your business a South African operating system.",
       "wayOut": "Adapt local data, channels, resilience. Human review to the work you actually run.",
       "learnItems": [
-        "You learn why local context, POPIA rules, channels, resilience and human oversight decide South African AI outcomes",
-        "You learn how to run a six-point readiness check and pick self-build or implementation safely"
+        "You learn why your local context, POPIA rules, channels, resilience and human oversight decide your South African AI outcomes",
+        "You learn how you run a six-point readiness check and pick a self-build or an implementation safely"
       ],
       "why": "GrowthCred is a Johannesburg AI implementation and training company. I teach AI at Melsoft Academy. I helped build an isiZulu and English speech AI system. It was presented at Parliament in Cape Town.",
       "minutes": 7,
@@ -689,8 +689,8 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
       "pain": "AI can speed up proposal and follow-up drafts when fed approved facts.",
       "wayOut": "You keep prices, promises and the send button with a person. And measure your whole job including fixes.",
       "learnItems": [
-        "You learn how to gather approved inputs, structure source-bound prompts and catch invented details before sending",
-        "You learn how to check commercial accuracy and measure full task time before automating sends"
+        "You learn how you gather your approved inputs, structure source-bound prompts and catch invented details before you send",
+        "You learn how you check commercial accuracy and measure your full task time before automating sends"
       ],
       "why": "GrowthCred is a Johannesburg AI implementation and training company. I teach AI at Melsoft Academy. I helped build an isiZulu and English speech AI system. It was presented at Parliament in Cape Town.",
       "minutes": 5,
@@ -2219,15 +2219,48 @@ export const GEMINI_OVERLAY: Record<string, GeminiOverlay> = {
   }
 };
 
+function plain(text: string) {
+  return text.toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+}
+
+function sentencesOf(text: string) {
+  return text.match(/[^.!?]+[.!?]+/g)?.map((sentence) => sentence.trim()).filter(Boolean) ?? [];
+}
+
+/** 1–2 factual sentences from the answer or FAQ. Skips anything already in the standfirst. */
+export function pickQuickAnswer(page: Pick<SearchPage, "answer" | "faq" | "intro" | "sections"> & { article?: SearchPage["article"] }) {
+  const stand = plain([page.article?.pain, page.article?.wayOut, page.intro].filter(Boolean).join(" "));
+  const repeats = (sentence: string) => {
+    const head = plain(sentence).split(" ").slice(0, 7).join(" ");
+    return head.length > 18 && stand.includes(head);
+  };
+  const pool = [
+    ...sentencesOf(page.answer ?? ""),
+    ...(page.faq ?? []).flatMap((item) => sentencesOf(item.a)),
+  ].filter((sentence) => !repeats(sentence) && plain(sentence).split(" ").length > 5 && !/^no\b/i.test(sentence.trim()));
+  const first = pool[0];
+  const fix = pool.find((sentence) => sentence !== first && /\b(prepar|drafts|person still|quoted per|still checks|still sign)\b/i.test(sentence) && !/north american|check your own/i.test(sentence));
+  const chosen = [first, fix && fix !== first ? fix : pool[1]].filter(Boolean).slice(0, 2) as string[];
+  if (chosen.length) return chosen.join(" ");
+  const fallback = page.sections.flatMap((section) => [...(section.points?.fix ?? []), section.line ?? ""]).find((sentence) => sentence && !repeats(sentence));
+  return sentencesOf(fallback ?? "").slice(0, 2).join(" ") || (fallback ?? "");
+}
+
 /** Keep titles, descriptions, answers, intros and sources. Swap in the rewrite. */
 export function applyGeminiOverlay(pages: SearchPage[]): SearchPage[] {
   return pages.map((page) => {
     const overlay = GEMINI_OVERLAY[page.path];
     if (!overlay) return page;
     const { dropFaq, ...rest } = overlay;
+    const quickAnswer = rest.article?.quickAnswer || pickQuickAnswer({
+      ...page,
+      faq: rest.faq ?? page.faq,
+      article: { ...page.article, ...rest.article },
+    });
     const next: SearchPage = {
       ...page,
       ...rest,
+      article: rest.article ? { ...rest.article, quickAnswer } : page.article,
       title: page.title,
       description: page.description,
       answer: page.answer,
