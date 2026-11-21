@@ -1,15 +1,11 @@
 import type { ReactNode } from "react";
 import { GOLD } from "../sceneKit";
 
-/**
- * One hand-drawn scene per section. The seed picks the pose, the marks and
- * where the subject sits, so two pages never share a composition. Palette
- * stays midnight line, cream paper and one gold blob.
- */
+/** Seated scenes. The blob is a cloud behind the cluster. The pointer aims at the mouth. */
 
+export type BubbleDir = "nw" | "ne";
 type Mood = "stressed" | "focused" | "relieved";
-type Pose = "stand" | "sit" | "point" | "type" | "hold" | "hands";
-type Theme = "desk" | "laptop" | "clock" | "invoice" | "chat" | "meeting" | "board" | "power";
+type Hair = 0 | 1 | 2 | 3;
 
 function hash(seed: string) {
   let h = 2166136261;
@@ -17,243 +13,262 @@ function hash(seed: string) {
   return h >>> 0;
 }
 
-function themeOf(text: string, n: number): Theme {
-  const t = text.toLowerCase();
-  if (/chat|paste|popia|chatgpt|file|client/.test(t)) return "chat";
-  if (/clock|hour|billing|leak|time|10/.test(t)) return "clock";
-  if (/invoice|quote|price|cost|fee|r990|pay/.test(t)) return "invoice";
-  if (/meet|team|council|group|staff|hire/.test(t)) return "meeting";
-  if (/board|workshop|train|learn|habit|class/.test(t)) return "board";
-  if (/power|load|eskom|outage|light|energy/.test(t)) return "power";
-  if (/laptop|tool|automat|workflow|report|admin/.test(t)) return "laptop";
-  return (["desk", "laptop", "clock", "invoice", "chat", "meeting", "board", "power"] as Theme[])[n % 8];
+function cloud(cx: number, cy: number, seed: number) {
+  const j = (i: number) => ((seed >> i) & 7) - 3;
+  const p = (x: number, y: number, i: number) => `${(x + j(i) * 4).toFixed(0)} ${(y + j(i + 2) * 3).toFixed(0)}`;
+  return `M${p(cx - 20, cy + 20, 1)}
+    C${p(cx - 110, cy - 10, 2)} ${p(cx - 70, cy - 70, 3)} ${p(cx - 10, cy - 48, 4)}
+    C${p(cx + 40, cy - 90, 5)} ${p(cx + 120, cy - 40, 6)} ${p(cx + 100, cy + 10, 7)}
+    C${p(cx + 140, cy + 50, 8)} ${p(cx + 40, cy + 80, 9)} ${p(cx - 20, cy + 55, 1)}
+    C${p(cx - 90, cy + 70, 3)} ${p(cx - 120, cy + 30, 5)} ${p(cx - 20, cy + 20, 1)} Z`;
 }
 
 function Face({ mood }: { mood: Mood }) {
-  const mouth = mood === "stressed" ? "M-3.2 5.5 q3.2 -3 6.4 0" : mood === "relieved" ? "M-3.2 4.5 q3.2 3.5 6.4 0" : "M-2.4 5 h4.8";
+  const brows = mood === "stressed" ? "M-9 -9 L-2 -5 M3 -5 L10 -9" : mood === "relieved" ? "M-9 -5 Q-5 -11 -1 -6 M2 -6 Q6 -11 10 -5" : "M-8 -8 H-2 M3 -8 H9";
+  const mouth = mood === "stressed" ? "M-6 7 Q0 2 6 7" : mood === "relieved" ? "M-6 5 Q0 11 6 5" : "M-4 6 H4";
   return (
-    <g strokeWidth={1.4}>
-      <circle cx={-3.1} cy={-1} r={0.9} fill="#1a1a24" stroke="none" />
-      <circle cx={3.1} cy={-1} r={0.9} fill="#1a1a24" stroke="none" />
-      <path d={mouth} />
+    <g>
+      <path d={brows} strokeWidth={2.5} />
+      <circle cx={-5} cy={-1.5} r={1.7} fill="#1a1a24" stroke="none" />
+      <circle cx={5} cy={-1.5} r={1.7} fill="#1a1a24" stroke="none" />
+      <path d={mouth} strokeWidth={2.4} />
     </g>
   );
 }
 
-function Person({
+function Hair({ style }: { style: Hair }) {
+  if (style === 1) {
+    return (
+      <g>
+        <path d="M-14 -4 Q0 -22 14 -4" strokeWidth={3.2} />
+        <path d="M-12 0 C-18 16 -12 30 -7 34" strokeWidth={2.8} />
+        <path d="M12 0 C18 16 12 30 7 34" strokeWidth={2.8} />
+      </g>
+    );
+  }
+  if (style === 2) return <path d="M-14 -2 Q-2 -24 15 -2" strokeWidth={3.5} />;
+  if (style === 3) {
+    return (
+      <g>
+        <path d="M-13 -2 Q0 -20 13 -2" strokeWidth={2.8} />
+        <circle cx={11} cy={-15} r={6.5} strokeWidth={2.5} />
+      </g>
+    );
+  }
+  return <path d="M-15 -2 Q0 -20 15 -2" strokeWidth={3.2} />;
+}
+
+/** Hip at (x,y). Thighs run forward, shins drop. Hands land on the given points. */
+function Seated({
   x,
   y,
-  pose,
+  flip,
   mood,
   hair,
   glasses,
   tie,
+  hand,
+  hand2,
 }: {
   x: number;
   y: number;
-  pose: Pose;
+  flip: boolean;
   mood: Mood;
-  hair: number;
+  hair: Hair;
   glasses: boolean;
   tie: boolean;
+  hand: [number, number];
+  hand2: [number, number];
 }) {
-  const arms =
-    pose === "point"
-      ? "M0 8 l22 -16 M0 8 l-8 14"
-      : pose === "type"
-        ? "M0 12 l16 6 M0 12 l-14 8"
-        : pose === "hold"
-          ? "M0 10 l12 12 M0 10 l-12 12"
-          : pose === "hands"
-            ? "M0 4 l-10 -8 M0 4 l10 -8"
-            : pose === "sit"
-              ? "M0 8 l14 6 M0 8 l-12 8"
-              : "M0 10 l16 8 M0 10 l-14 12";
-  const legs = pose === "sit" ? "M0 36 l-16 8 M0 36 l16 6" : "M0 40 l-9 18 M0 40 l9 18";
-  const hairPath = hair % 3 === 1 ? "M-9 -10 q9 -12 18 0" : hair % 3 === 2 ? "M-4 -12 q6 -8 10 0" : "";
+  const s = flip ? -1 : 1;
+  const elbow: [number, number] = [s * 24, -22];
+  const elbow2: [number, number] = [s * 10, -8];
   return (
-    <g transform={`translate(${x} ${y})`} strokeWidth={2.2}>
-      <circle cx={0} cy={-9} r={9} strokeWidth={2.2} />
-      {hairPath && <path d={hairPath} strokeWidth={2.4} />}
-      <Face mood={mood} />
-      {glasses && <path d="M-6 -1 h5 M1 -1 h5 M-1 -1 h2" strokeWidth={1.3} />}
-      <path d="M0 0 V40" />
-      {tie && <path d="M0 6 l4 10 l-4 3 l-4 -3 z" strokeWidth={1.3} />}
-      <path d={arms} />
-      <path d={legs} />
-      {pose === "hold" && <rect x={-8} y={20} width={16} height={12} rx={1.5} strokeWidth={1.5} />}
+    <g transform={`translate(${x} ${y})`}>
+      <path d={`M${s * -8} -6 V-52`} strokeWidth={3.4} />
+      <path d={`M${s * -18} 0 H${s * 22}`} strokeWidth={3.5} />
+      <path d={`M0 2 L${s * 34} 8 L${s * 30} 46`} strokeWidth={3} />
+      <path d={`M${s * 30} 46 H${s * 40}`} strokeWidth={2.6} />
+      <path d={`M-2 4 L${s * 16} 16 L${s * 14} 44`} strokeWidth={2.4} />
+      <path d="M2 0 L4 -40" strokeWidth={3.5} />
+      <path d={`M4 -32 L${elbow[0]} ${elbow[1]} L${hand[0]} ${hand[1]}`} strokeWidth={2.8} />
+      <path d={`M2 -28 L${elbow2[0]} ${elbow2[1]} L${hand2[0]} ${hand2[1]}`} strokeWidth={2.4} />
+      <circle cx={hand[0]} cy={hand[1]} r={3.6} strokeWidth={2.3} />
+      <circle cx={hand2[0]} cy={hand2[1]} r={3.2} strokeWidth={2.1} />
+      <path d="M4 -40 V-48" strokeWidth={2.5} />
+      <g transform="translate(4 -64)">
+        <circle r={17} strokeWidth={2.7} />
+        <Hair style={hair} />
+        <Face mood={mood} />
+        {glasses && (
+          <g strokeWidth={2}>
+            <circle cx={4} cy={-1} r={5.5} />
+            <path d="M9 -1 H16" />
+          </g>
+        )}
+        {tie && <path d="M0 16 l4.5 13 -4.5 3.5 -4.5 -3.5 z" fill={GOLD} stroke="#1a1a24" strokeWidth={1.4} />}
+      </g>
     </g>
   );
 }
 
-function Desk({ x, y }: { x: number; y: number }) {
+function mouthOf(x: number, y: number, flip: boolean) {
+  return { x: x + 4 + (flip ? 15 : -15), y: y - 64 + 6 };
+}
+
+function Desk({ x, y, w }: { x: number; y: number; w: number }) {
   return (
-    <g strokeWidth={1.7}>
-      <path d={`M${x} ${y} h92`} />
-      <path d={`M${x + 10} ${y} v16 M${x + 82} ${y} v16`} />
+    <g>
+      <path d={`M${x} ${y} H${x + w}`} strokeWidth={3.5} />
+      <path d={`M${x + 10} ${y} V${y + 40} M${x + w - 12} ${y} V${y + 40}`} strokeWidth={2.6} />
     </g>
   );
 }
 
 function Laptop({ x, y }: { x: number; y: number }) {
   return (
-    <g strokeWidth={1.6}>
-      <rect x={x} y={y} width={54} height={36} rx={3} />
-      <path d={`M${x + 8} ${y + 12} h28 M${x + 8} ${y + 20} h20 M${x + 8} ${y + 28} h24`} strokeWidth={1.2} />
-      <path d={`M${x - 6} ${y + 36} h66`} />
-    </g>
-  );
-}
-
-function Clock({ x, y }: { x: number; y: number }) {
-  return (
-    <g strokeWidth={1.7}>
-      <circle cx={x} cy={y} r={22} />
-      <path d={`M${x} ${y} v-12`} strokeWidth={1.4} />
-      <path d={`M${x} ${y} l-10 6`} stroke={GOLD} strokeWidth={2} />
+    <g>
+      <path d={`M${x - 6} ${y + 38} H${x + 66}`} strokeWidth={3.2} />
+      <rect x={x} y={y} width={54} height={38} rx={3} strokeWidth={2.5} />
+      <path d={`M${x + 7} ${y + 9} H${x + 38} M${x + 7} ${y + 17} H${x + 30} M${x + 7} ${y + 25} H${x + 34}`} strokeWidth={2} />
+      <rect x={x + 8} y={y + 30} width={16} height={4} rx={1} fill={GOLD} stroke="none" />
     </g>
   );
 }
 
 function Papers({ x, y }: { x: number; y: number }) {
   return (
-    <g strokeWidth={1.5}>
-      <rect x={x + 6} y={y + 6} width={28} height={36} rx={2} />
-      <rect x={x} y={y} width={28} height={36} rx={2} />
-      <path d={`M${x + 6} ${y + 12} h16 M${x + 6} ${y + 18} h12`} strokeWidth={1.1} />
+    <g strokeWidth={2.2}>
+      <rect x={x + 8} y={y + 6} width={32} height={42} rx={2} />
+      <rect x={x} y={y} width={32} height={42} rx={2} fill="#fff" />
+      <path d={`M${x + 6} ${y + 10} H${x + 24} M${x + 6} ${y + 18} H${x + 20}`} strokeWidth={2} />
+    </g>
+  );
+}
+
+function Clock({ x, y }: { x: number; y: number }) {
+  return (
+    <g>
+      <circle cx={x} cy={y} r={22} strokeWidth={2.7} />
+      <path d={`M${x} ${y - 6} V${y - 16}`} strokeWidth={2.2} />
+      <path d={`M${x} ${y - 4} L${x - 11} ${y - 10}`} stroke={GOLD} strokeWidth={3.4} />
+      <circle cx={x} cy={y - 4} r={2.2} fill={GOLD} stroke="none" />
     </g>
   );
 }
 
 function Invoice({ x, y }: { x: number; y: number }) {
   return (
-    <g strokeWidth={1.6}>
-      <rect x={x} y={y} width={36} height={46} rx={2} />
-      <path d={`M${x + 6} ${y + 12} h16 M${x + 6} ${y + 20} h22 M${x + 6} ${y + 28} h14`} strokeWidth={1.1} />
-      <text x={x + 18} y={y + 42} textAnchor="middle" fontSize={11} fill="#1a1a24" stroke="none">R</text>
+    <g strokeWidth={2.2}>
+      <rect x={x} y={y} width={32} height={42} rx={2} fill="#fff" />
+      <rect x={x} y={y} width={32} height={9} fill={GOLD} stroke="none" />
+      <path d={`M${x + 5} ${y + 18} H${x + 24} M${x + 5} ${y + 26} H${x + 18}`} strokeWidth={2} />
     </g>
   );
 }
 
-function Chat({ x, y }: { x: number; y: number }) {
+function ChatCard({ x, y }: { x: number; y: number }) {
   return (
-    <g strokeWidth={1.6}>
-      <rect x={x} y={y} width={78} height={52} rx={8} />
-      <path d={`M${x + 18} ${y + 52} l-8 12 v-12`} />
-      <path d={`M${x + 12} ${y + 16} h40 M${x + 12} ${y + 28} h28`} strokeWidth={1.2} />
-      <circle cx={x + 62} cy={y + 16} r={8} stroke={GOLD} strokeWidth={2} />
-      <path d={`M${x + 58} ${y + 16} h8`} stroke={GOLD} strokeWidth={2} />
-    </g>
-  );
-}
-
-function Table({ x, y }: { x: number; y: number }) {
-  return (
-    <g strokeWidth={1.7}>
-      <rect x={x} y={y} width={120} height={10} rx={2} fill={GOLD} stroke="none" />
-      <path d={`M${x + 16} ${y + 10} v16 M${x + 104} ${y + 10} v16`} />
+    <g strokeWidth={2.3}>
+      <rect x={x} y={y} width={72} height={48} rx={8} fill="#fff" />
+      <path d={`M${x + 14} ${y + 48} l-8 10 v-10`} />
+      <path d={`M${x + 10} ${y + 14} H${x + 42} M${x + 10} ${y + 24} H${x + 32}`} strokeWidth={2} />
+      <circle cx={x + 56} cy={y + 16} r={7} fill={GOLD} stroke="none" />
+      <path d={`M${x + 52} ${y + 16} H${x + 60}`} stroke="#1a1a24" strokeWidth={2.2} />
     </g>
   );
 }
 
 function Board({ x, y }: { x: number; y: number }) {
   return (
-    <g strokeWidth={1.6}>
-      <rect x={x} y={y} width={86} height={52} rx={3} />
-      <path d={`M${x + 12} ${y + 16} h28 M${x + 12} ${y + 28} h46 M${x + 12} ${y + 38} h20`} strokeWidth={1.2} />
+    <g strokeWidth={2.4}>
+      <rect x={x} y={y} width={100} height={72} rx={3} fill="#fff" />
+      <path d={`M${x + 10} ${y + 16} H${x + 46} M${x + 10} ${y + 30} H${x + 72} M${x + 10} ${y + 44} H${x + 36}`} strokeWidth={2.2} />
     </g>
   );
 }
 
-function Power({ x, y, candle }: { x: number; y: number; candle: boolean }) {
-  return candle ? (
-    <g strokeWidth={1.6}>
-      <path d={`M${x} ${y + 28} h16 l-2 -16 h-12 z`} />
-      <path d={`M${x + 8} ${y + 12} q4 -10 0 -16`} stroke={GOLD} />
-    </g>
-  ) : (
-    <g strokeWidth={1.6}>
-      <rect x={x} y={y} width={22} height={16} rx={2} />
-      <path d={`M${x + 6} ${y} v-8 M${x + 16} ${y} v-8`} />
-      <path d={`M${x + 28} ${y + 8} h16`} stroke={GOLD} />
-    </g>
-  );
+function marks(n: number) {
+  return {
+    mood: (["stressed", "focused", "relieved"] as Mood[])[n % 3],
+    hair: ((n >> 2) % 4) as Hair,
+    glasses: ((n >> 5) & 1) === 1,
+    tie: ((n >> 6) & 1) === 1,
+    alt: ((n >> 7) & 1) === 1,
+  };
 }
 
-export function composedScene(seed: string, hint: string): { node: ReactNode; aimX: number; aimY: number } {
+function themeOf(text: string) {
+  const t = text.toLowerCase();
+  if (/chat|paste|popia|chatgpt/.test(t)) return "chat";
+  if (/meet|council|team|hire|group|role/.test(t)) return "meet";
+  if (/quote|invoice|price|cost|fee|pay|billing|kit/.test(t)) return "invoice";
+  if (/board|train|learn|class|habit|workshop/.test(t)) return "board";
+  if (/hour|leave|night|late|one day/.test(t)) return "clock";
+  return "desk";
+}
+
+export function composedScene(seed: string, hint: string): { node: ReactNode; aimX: number; aimY: number; dir: BubbleDir } {
   const n = hash(seed);
-  const theme = themeOf(`${hint} ${seed}`, n);
-  const mood: Mood = (["stressed", "focused", "relieved"] as Mood[])[n % 3];
-  const pose: Pose = (["stand", "sit", "point", "type", "hold", "hands"] as Pose[])[(n >> 3) % 6];
-  const flip = (n >> 5) % 2 === 0;
-  const blobX = flip ? 90 : 180;
-  const aim = { x: flip ? 120 : 200, y: 92 };
+  const m = marks(n);
+  const theme = themeOf(hint);
+  const backdrop = <path d={cloud(160, 118, n)} fill={GOLD} fillOpacity={0.22} stroke="none" />;
 
-  let prop: ReactNode = null;
-  if (theme === "desk") {
-    prop = <><Desk x={flip ? 36 : 150} y={128} /><Papers x={flip ? 48 : 168} y={86} /></>;
-    aim.x = flip ? 70 : 190;
-    aim.y = 110;
-  } else if (theme === "laptop") {
-    prop = <Laptop x={flip ? 28 : 168} y={96} />;
-    aim.x = flip ? 55 : 195;
-    aim.y = 110;
-  } else if (theme === "clock") {
-    prop = <><Desk x={flip ? 24 : 150} y={132} /><Clock x={flip ? 70 : 210} y={78} /></>;
-    aim.x = flip ? 70 : 210;
-    aim.y = 78;
-  } else if (theme === "invoice") {
-    prop = <Invoice x={flip ? 36 : 176} y={78} />;
-    aim.x = flip ? 54 : 194;
-    aim.y = 100;
-  } else if (theme === "chat") {
-    prop = <><Papers x={flip ? 24 : 200} y={90} /><Chat x={flip ? 150 : 36} y={70} /></>;
-    aim.x = flip ? 210 : 90;
-    aim.y = 86;
-  } else if (theme === "meeting") {
-    prop = <Table x={90} y={124} />;
-    aim.x = 150;
-    aim.y = 124;
-  } else if (theme === "board") {
-    prop = <Board x={flip ? 28 : 176} y={64} />;
-    aim.x = flip ? 70 : 220;
-    aim.y = 90;
-  } else {
-    prop = <Power x={flip ? 40 : 190} y={96} candle={(n >> 7) % 2 === 0} />;
-    aim.x = flip ? 52 : 202;
-    aim.y = 110;
+  if (theme === "meet" || theme === "invoice") {
+    const left = { x: 168, y: 140 };
+    const right = { x: 286, y: 142 };
+    const mouth = mouthOf(left.x, left.y, false);
+    return {
+      aimX: mouth.x,
+      aimY: mouth.y,
+      dir: "nw",
+      node: (
+        <>
+          {backdrop}
+          <path d="M186 136 H250" strokeWidth={3.4} />
+          <path d="M196 136 V176 M240 136 V176" strokeWidth={2.5} />
+          <Invoice x={204} y={98} />
+          {m.alt && <circle cx={248} cy={128} r={7} strokeWidth={2.2} />}
+          <Seated x={left.x} y={left.y} flip={false} mood={m.mood} hair={m.hair} glasses={m.glasses} tie={m.tie} hand={[46, -36]} hand2={[28, -8]} />
+          <Seated x={right.x} y={right.y} flip mood={m.mood === "stressed" ? "focused" : "relieved"} hair={((m.hair + 2) % 4) as Hair} glasses={!m.glasses} tie={!m.tie} hand={[-52, -38]} hand2={[-28, -6]} />
+        </>
+      ),
+    };
   }
 
-  const px = theme === "meeting" ? 110 : flip ? Math.min(246, aim.x + 48) : Math.max(46, aim.x - 48);
-  const people = theme === "meeting"
-    ? [
-        { x: 110, y: 96, hair: n % 3, glasses: true, tie: false },
-        { x: 156, y: 102, hair: (n + 1) % 3, glasses: false, tie: true },
-        { x: 202, y: 96, hair: (n + 2) % 3, glasses: (n % 2) === 0, tie: false },
-      ]
-    : [{ x: px, y: theme === "laptop" || theme === "desk" ? 108 : 104, hair: n % 3, glasses: (n % 2) === 0, tie: (n % 3) === 0 }];
+  if (theme === "board") {
+    const hip = { x: 86, y: 140 };
+    const mouth = mouthOf(hip.x, hip.y, false);
+    return {
+      aimX: mouth.x,
+      aimY: mouth.y,
+      dir: "nw",
+      node: (
+        <>
+          {backdrop}
+          <Board x={176} y={28} />
+          <Papers x={18} y={112} />
+          <path d="M268 86 l10 22" stroke={GOLD} strokeWidth={3.4} />
+          <Seated x={hip.x} y={hip.y} flip={false} mood={m.mood} hair={m.hair} glasses={m.glasses} tie={false} hand={[96, -78]} hand2={[48, -6]} />
+        </>
+      ),
+    };
+  }
 
+  const hip = { x: theme === "chat" ? 96 : 108, y: 138 };
+  const mouth = mouthOf(hip.x, hip.y, false);
   return {
-    aimX: aim.x,
-    aimY: aim.y,
+    aimX: mouth.x,
+    aimY: mouth.y,
+    dir: "nw",
     node: (
       <>
-        <ellipse cx={blobX} cy={108} rx={58} ry={36} fill={GOLD} fillOpacity={0.18} stroke="none" />
-        <path d="M28 162 h264" strokeWidth={1.3} opacity={0.45} />
-        <ellipse cx={px} cy={166} rx={18} ry={3} fill="#1a1a24" fillOpacity={0.08} stroke="none" />
-        {prop}
-        {people.map((person, i) => (
-          <Person
-            key={i}
-            x={person.x}
-            y={person.y}
-            pose={theme === "meeting" ? (i === 1 ? "point" : "sit") : pose}
-            mood={i === 0 ? mood : "focused"}
-            hair={person.hair}
-            glasses={person.glasses}
-            tie={person.tie}
-          />
-        ))}
+        {backdrop}
+        <Desk x={150} y={146} w={156} />
+        {theme === "chat" ? <ChatCard x={214} y={36} /> : <Clock x={262} y={42} />}
+        <Laptop x={176} y={104} />
+        <Papers x={248} y={96} />
+        <Seated x={hip.x} y={hip.y} flip={false} mood={m.mood} hair={m.hair} glasses={m.glasses} tie={m.tie} hand={[78, -8]} hand2={[52, 2]} />
       </>
     ),
   };

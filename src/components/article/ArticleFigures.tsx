@@ -1,5 +1,5 @@
 import { GOLD } from "../sceneKit";
-import { composedScene } from "./ArticleScene";
+import { composedScene, type BubbleDir } from "./ArticleScene";
 
 /**
  * Inline drawings for articles and the main menu. Each one is a small SVG
@@ -38,27 +38,25 @@ function pokeLabel(caption: string) {
   return words.slice(0, Math.max(2, end)).join(" ");
 }
 
-/** A pointer and a highlight that stays inside the drawing. */
-function Poke({ label, aimX, aimY }: { label: string; aimX: number; aimY: number }) {
+/** A short pointer from the bubble to the mouth. The pill sits beside the face. */
+function Poke({ label, aimX, aimY, dir }: { label: string; aimX: number; aimY: number; dir: BubbleDir }) {
   const words = label.split(/\s+/).slice(0, 4);
   const lines = words.length <= 2 ? [words.join(" ")] : [words.slice(0, 2).join(" "), words.slice(2).join(" ")];
   const longest = Math.max(...lines.map((line) => line.length));
-  const width = Math.min(150, Math.max(72, 24 + longest * 7.4));
+  const width = Math.min(148, Math.max(72, 22 + longest * 7.2));
   const height = lines.length > 1 ? 34 : 24;
-  const x = 10;
-  const y = 8;
-  const fromX = x + width - 6;
-  const fromY = y + height - 1;
-  const dx = aimX - fromX;
-  const dy = aimY - fromY;
-  const len = Math.hypot(dx, dy) || 1;
-  const tipX = fromX + (dx / len) * Math.max(18, len - 16);
-  const tipY = fromY + (dy / len) * Math.max(18, len - 16);
+  const preferred = dir === "nw" ? aimX - width - 14 : aimX + 14;
+  const parked = preferred < 8 || preferred + width > 312;
+  const x = parked ? 8 : Math.max(6, Math.min(312 - width, preferred));
+  const y = parked ? 6 : Math.max(4, Math.min(168, aimY - height / 2));
+  const fromX = parked ? x + 22 : dir === "nw" ? x + width : x;
+  const fromY = parked ? y + height : y + height / 2;
+  const pointer = parked ? `M${fromX} ${fromY} L${fromX} ${aimY} L${aimX} ${aimY}` : `M${fromX} ${fromY} L${aimX} ${aimY}`;
   return (
     <g stroke="none">
-      <path d={`M${fromX} ${fromY} L${tipX} ${tipY}`} stroke={GOLD} strokeWidth={2} fill="none" />
-      <path d={`M${tipX} ${tipY} l-9 -1 l3 7 z`} fill={GOLD} />
-      <rect x={x} y={y} width={width} height={height} rx={height / 2} fill="#fff" stroke={GOLD} strokeWidth={1.5} />
+      <path d={pointer} stroke={GOLD} strokeWidth={2} fill="none" />
+      <path d={`M${aimX} ${aimY} l${dir === "nw" ? -8 : 8} -2 l${dir === "nw" ? 2 : -2} 7 z`} fill={GOLD} />
+      <rect x={x} y={y} width={width} height={height} rx={height / 2} fill="#fff" stroke={GOLD} strokeWidth={1.6} />
       {lines.map((line, i) => (
         <text
           key={line}
@@ -123,9 +121,9 @@ export function ArticleFigure({
         strokeLinejoin="round"
       >
         <g className={cue ? "gc-article-ink" : undefined}>{scene.node}</g>
-        {cue === "ring" && <circle className="gc-article-ring" cx={scene.aimX} cy={scene.aimY} r={18} stroke={GOLD} fill="none" />}
+        {cue === "ring" && <circle className="gc-article-ring" cx={scene.aimX} cy={scene.aimY} r={8} stroke={GOLD} fill="none" />}
         <g className={cue === "bubble" ? "gc-article-bubble" : cue ? "gc-article-poke" : undefined}>
-          <Poke label={pokeLabel(caption)} aimX={scene.aimX} aimY={scene.aimY} />
+          <Poke label={pokeLabel(caption)} aimX={scene.aimX} aimY={scene.aimY} dir={scene.dir} />
         </g>
       </svg>
       <figcaption id={captionId} data-slot="caption" className="border-t border-midnight/10 px-4 py-3 text-sm leading-snug text-midnight">
