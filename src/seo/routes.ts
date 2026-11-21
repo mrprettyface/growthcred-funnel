@@ -22,6 +22,7 @@ export const ROUTES: RouteMeta[] = [
   {path:"/webinar/thanks",title:"You’re In | GrowthCred",description:"Your seat at the free live AI webinar is saved. Take the Brain Builder, join the reminder group and add it to your calendar.",index:false,canonical:"/webinar"},
   {path:"/webinar/vip",title:"Your VIP Seat | GrowthCred",description:"The private hour before the live AI webinar: your Brain Builder reviewed live, and the recording.",index:false,canonical:"/webinar"},
   {path:"/playbook",title:"Free AI Business Resources and Guides | GrowthCred SA",description:"Read GrowthCred’s free practical AI guides for business owners and use the Business Brain builder. Downloadable packs are being prepared.",index:true,modified:REVIEWED},
+  {path:"/toolkit",title:"The 10 Hours Back System: JCCI Members’ Toolkit | GrowthCred",description:"The playbooks, templates and trackers from the JCCI × GrowthCred webinar, with a guide to where, when and how to use each one in your business.",index:false},
   {path:"/ai-implementation-guide",title:"The AI Implementation Guide | GrowthCred",description:"Seven steps to put AI to work in your business without changing the way you work or the platforms you work in.",index:false},
   {path:"/brain",title:"Free AI Business Brain Builder | GrowthCred",description:"Build a reusable business context document for AI. Answer practical questions, then copy or download your document.",index:false},
   {path:"/call",title:"Discuss Your AI Automation Project | GrowthCred",description:"Tell GrowthCred about your business workflow and discuss a scoped implementation engagement.",index:false},
@@ -31,7 +32,7 @@ export const ROUTES: RouteMeta[] = [
   {path:"/privacy",title:"Privacy | GrowthCred",description:"How GrowthCred uses what you type into our forms, who can see it, and how to ask us about your information. We never see your card number.",index:false},
   {path:"/refunds",title:"Refunds | GrowthCred",description:"Read GrowthCred’s refunds policy and contact us with questions.",index:false},
 ];
-export const ALIASES: Record<string,string> = {"/agency":"/ai-automation-south-africa", "/webinar-plain":"/webinar", "/class":"/webinar", "/tools/content-compass":"/resources"};
+export const ALIASES: Record<string,string> = {"/agency":"/ai-automation-south-africa", "/webinar-plain":"/webinar", "/class":"/webinar", "/tools/content-compass":"/resources", "/jcci":"/toolkit", "/intensive":"/call"};
 export const normalizePath = (p:string) => p.replace(/\/+$/, "") || "/";
 export function routeMeta(path:string): RouteMeta {
   const clean=normalizePath(path);
