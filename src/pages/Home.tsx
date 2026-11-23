@@ -6,7 +6,8 @@ import { Bento, Num, ON_GOLD_BUTTON, Sticker, TILE_TEXT, Tile, tileClass, type T
 import { PageScene } from "../components/PageScenes";
 import { SEARCH_PAGES } from "../content/searchPages";
 import { situationLinksOn } from "../content/situationLinks";
-import { HomeScene, STAGE_SCENES, METHOD_SCENES, RENTING_SCENES, OWN_SCENES } from "../components/HomeScenes";
+import { HomeScene, STAGE_SCENES, RENTING_SCENES, OWN_SCENES } from "../components/HomeScenes";
+import { HomeStickScene, METHOD_STICK_SCENES } from "../components/HomeStickScenes";
 import { BentoHero } from "../components/home/BentoHero";
 import { ApplyButton, HomeFooter, HomeHeader } from "../components/home/HomeChrome";
 import { track } from "../lib/analytics";
@@ -243,6 +244,7 @@ export default function Home() {
             <Label>{OWN.eyebrow}</Label>
             <h2 className="mt-5 text-[length:clamp(2.5rem,6vw,4.5rem)]">{OWN.heading}</h2>
             <p className="mt-6 text-lg leading-relaxed text-ink md:text-xl">{OWN.lead}</p>
+            <HomeStickScene name="homeOwn" className="mt-8 max-w-xl" />
           </div>
           <Reveal className="mt-12">
             <Bento>
@@ -400,8 +402,12 @@ export default function Home() {
                 <Tile key={step.t} as="li" tone={i === 1 ? "gold" : "nightSoft"} className="flex flex-col">
                   <div className="flex items-start justify-between gap-4">
                     <Num n={i + 1} dark={i !== 1} />
-                    <HomeScene name={METHOD_SCENES[i]} className={`h-20 w-28 ${i === 1 ? "text-midnight/80" : "text-cream/65"}`} />
                   </div>
+                  <HomeStickScene
+                    name={METHOD_STICK_SCENES[i]}
+                    size="tile"
+                    className="mt-5"
+                  />
                   <h3 className={`mt-8 text-3xl md:text-4xl ${i === 1 ? "text-midnight" : "text-cream"}`}>{step.t}</h3>
                   <p className={`mt-3 max-w-[34ch] leading-relaxed ${i === 1 ? "text-midnight/80" : "text-cream/70"}`}>{step.b}</p>
                 </Tile>
