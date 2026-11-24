@@ -4,6 +4,7 @@ import { ClientLogos } from "../ClientLogos";
 import { PillLink } from "../ui";
 import { ON_GOLD_BUTTON, StickerFrame } from "../bento";
 import { APPLY_HREF, HERO, HERO_BENTO, LOGOS_LABEL } from "../../lib/home";
+import { HomeStickScene } from "../HomeStickScenes";
 
 /**
  * The homepage's first screen as a bento (22 Nov 2026, Phila's reference).
@@ -173,6 +174,10 @@ export function BentoHero() {
             </p>
           </div>
         </div>
+      </div>
+
+      <div className="mx-auto w-[min(1240px,calc(100%-1.5rem))] pb-10 md:pb-12">
+        <HomeStickScene name="homeHats" size="hero" className="mx-auto max-w-xl shadow-[0_30px_70px_-40px_rgba(26,26,36,0.35)]" />
       </div>
 
       {/* The logo strip, as before. */}

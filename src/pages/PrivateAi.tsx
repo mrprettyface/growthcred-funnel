@@ -34,8 +34,10 @@ import {
  * Every word comes from src/lib/privateAi.ts; this file is layout only, built
  * from the same primitives as the homepage and the corporate page.
  *
- * Motion: none of its own. Reveal and cc-card are the shared CSS-only,
- * no-preference-only effects; the page reads completely with them off.
+ * Motion: the section drawings are stick-scene canvases that idle and play
+ * once when they scroll into view (and again on click). Reveal and cc-card
+ * stay the shared CSS-only, no-preference-only effects. With reduced motion,
+ * each scene shows one still frame and never plays; the page still reads.
  */
 
 const WRAP = "mx-auto w-[min(1120px,calc(100%-2.5rem))]";
@@ -124,8 +126,8 @@ export default function PrivateAi() {
           </div>
           <Byline date={PUBLISHED} label="Checked against sources" className="mt-10" />
           </div>
-          <div className="mx-auto w-full max-w-[420px] rounded-[2rem] border border-midnight/10 bg-white p-6 shadow-[0_40px_90px_-40px_rgba(26,26,36,0.45)]">
-            <PrivateAiScene name="hero" className="h-auto w-full text-midnight" />
+          <div className="mx-auto w-full max-w-[480px]">
+            <PrivateAiScene name="hero" size="hero" className="w-full shadow-[0_40px_90px_-40px_rgba(26,26,36,0.45)]" />
           </div>
         </div>
       </section>
@@ -151,7 +153,7 @@ export default function PrivateAi() {
             <Photo photo={PHOTOS.team} className="mt-10 aspect-[3/2]" />
           </div>
           <div className="rounded-3xl border border-cream/10 bg-midnight-soft/70 p-7 md:p-9">
-            <PrivateAiScene name="paste" className="mb-4 h-28 w-40 text-cream/75" />
+            <PrivateAiScene name="paste" size="card" className="mb-5 w-full" />
             <p className="cc-gold-text font-display text-7xl font-extrabold tracking-[-0.05em]">{PAIN.stat.figure}</p>
             <p className="mt-4 text-lg leading-relaxed text-cream/80">{PAIN.stat.line}</p>
             <div className="mt-5">
@@ -175,10 +177,10 @@ export default function PrivateAi() {
                 {p}
               </p>
             ))}
-            <PrivateAiScene name="meter" className="mt-8 h-32 w-48 text-midnight" />
+            <PrivateAiScene name="meter" size="card" className="mt-8 w-full max-w-[420px]" />
           </div>
           <div className="self-center rounded-3xl border border-midnight/10 bg-white p-7 shadow-[0_30px_80px_-40px_rgba(26,26,36,0.35)] md:p-9">
-            <PrivateAiScene name="border" className="mb-4 h-28 w-40 text-midnight" />
+            <PrivateAiScene name="border" size="card" className="mb-5 w-full" />
             <p className="font-display text-2xl font-extrabold tracking-[-0.03em] text-midnight">{RENT.popia.lead}</p>
             <p className="mt-4 leading-relaxed text-ink">{RENT.popia.body}</p>
             <div className="mt-5">
@@ -201,9 +203,7 @@ export default function PrivateAi() {
           <Reveal className="mt-12 grid gap-5 md:grid-cols-3">
             {FIXES.items.map((item, i) => (
               <article key={item.t} className="cc-card flex flex-col rounded-3xl border border-midnight/10 bg-paper p-7">
-                <div className="mb-5 grid place-items-center rounded-2xl bg-white py-3">
-                  <PrivateAiScene name={item.scene} className="h-24 w-36 text-midnight" />
-                </div>
+                <PrivateAiScene name={item.scene} size="card" className="mb-5 w-full" />
                 <span className="font-mono text-sm text-gold">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="mt-4 text-2xl text-midnight">{item.t}</h3>
                 <p className="mt-3 leading-relaxed text-ink">{item.b}</p>
@@ -226,7 +226,7 @@ export default function PrivateAi() {
           <Reveal className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-cream/10 bg-cream/10 md:grid-cols-3">
             {OWN.proofs.map((p) => (
               <div key={p.t} className="bg-midnight-soft p-7 md:p-8">
-                <PrivateAiScene name={p.scene} className="mb-4 h-24 w-36 text-cream/75" />
+                <PrivateAiScene name={p.scene} size="card" className="mb-5 w-full" />
                 <h3 className="text-2xl text-cream">{p.t}</h3>
                 <p className="mt-3 leading-relaxed text-cream/70">
                   {p.phraseLink ? linkPhrase(p.b, p.phraseLink.phrase, p.phraseLink.href, "dark") : p.b}
@@ -258,7 +258,7 @@ export default function PrivateAi() {
               <Label>{EVIDENCE.eyebrow}</Label>
               <h2 className={`mt-5 ${H2}`}>{EVIDENCE.heading}</h2>
             </div>
-            <PrivateAiScene name="market" className="h-32 w-48 shrink-0 text-midnight" />
+            <PrivateAiScene name="market" size="inline" className="w-full max-w-[380px] shrink-0" />
           </div>
           <dl className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-midnight/10 bg-midnight/10 md:grid-cols-3">
             {EVIDENCE.items.map((item) => (
@@ -294,7 +294,7 @@ export default function PrivateAi() {
       </section>
 
       {/* ---------- The maths ---------- */}
-      <section id="cost" data-tone="dark" className="relative isolate scroll-mt-16 bg-midnight py-20 text-cream md:py-32">
+      <section id="cost" data-tone="dark" className="relative isolate bg-midnight py-20 text-cream md:py-32">
         <DarkBackdrop />
         <div className={`${WRAP} grid gap-14 md:grid-cols-[1fr_1.1fr] md:items-center md:gap-20`}>
           <div>
@@ -304,7 +304,7 @@ export default function PrivateAi() {
             <p className="mt-4 text-lg leading-relaxed text-cream/75">{COST.study}</p>
           </div>
           <div className="rounded-3xl border border-cream/10 bg-midnight-soft/80 p-7 md:p-9">
-            <PrivateAiScene name="breakeven" className="mb-5 h-32 w-48 text-cream/75" />
+            <PrivateAiScene name="breakeven" size="card" className="mb-5 w-full" />
             <p className="font-mono text-[12px] uppercase tracking-[0.16em] text-cream/55">{COST.label}</p>
             <ul className="mt-6 divide-y divide-cream/10 border-y border-cream/10">
               {COST.rows.map((row) => (
@@ -337,9 +337,7 @@ export default function PrivateAi() {
             {WHO.items.map((item) => {
               const inner = (
                 <>
-                  <div className="mb-5 grid place-items-center rounded-2xl bg-paper py-3">
-                    <PrivateAiScene name={item.scene} className="h-24 w-36 text-midnight" />
-                  </div>
+                  <PrivateAiScene name={item.scene} size="inline" className="mb-5 w-full" />
                   <h3 className="text-2xl text-midnight">{item.t}</h3>
                   <p className="mt-3 flex-1 leading-relaxed text-ink">{item.b}</p>
                   {item.href ? (
@@ -375,8 +373,8 @@ export default function PrivateAi() {
           </div>
           <ul className="mt-12 divide-y divide-midnight/10 border-y border-midnight/10">
             {WRONG.items.map((item) => (
-              <li key={item.t} className="grid items-center gap-4 py-7 md:grid-cols-[140px_0.8fr_1.2fr] md:gap-10">
-                <PrivateAiScene name={item.scene} className="h-24 w-36 text-midnight" />
+              <li key={item.t} className="grid items-center gap-4 py-7 md:grid-cols-[minmax(0,240px)_0.8fr_1.2fr] md:gap-8">
+                <PrivateAiScene name={item.scene} size="inline" className="w-full" />
                 <h3 className="text-2xl text-midnight">{item.t}</h3>
                 <p className="leading-relaxed text-ink">
                   {item.b}{" "}
@@ -402,12 +400,10 @@ export default function PrivateAi() {
           <ol className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
             {HOW.steps.map((step, i) => (
               <li key={step.t}>
-                <div className="flex items-center gap-5">
-                  <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full border border-gold/50 font-mono text-sm text-gold">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <PrivateAiScene name={step.scene} className="h-20 w-28 text-cream/70" />
-                </div>
+                <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full border border-gold/50 font-mono text-sm text-gold">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <PrivateAiScene name={step.scene} size="inline" className="mt-5 w-full" />
                 <h3 className="mt-6 text-3xl text-cream">{step.t}</h3>
                 <p className="mt-3 max-w-[34ch] leading-relaxed text-cream/70">{step.b}</p>
               </li>
@@ -474,7 +470,7 @@ export default function PrivateAi() {
         </picture>
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-midnight/80" />
         <div className={WRAP}>
-          <PrivateAiScene name="key" className="mx-auto mb-6 h-32 w-48 text-cream/75" />
+          <PrivateAiScene name="key" size="inline" className="mx-auto mb-8 w-full max-w-[420px]" />
           <h2 className="mx-auto max-w-[18ch] text-[length:clamp(2.25rem,5.5vw,4.5rem)] text-cream">{CLOSE.heading}</h2>
           <p className="mx-auto mt-6 max-w-[40ch] text-lg text-cream/75">{CLOSE.sub}</p>
           <PillLink to={APPLY} className="mt-10 whitespace-nowrap px-5 sm:px-8">

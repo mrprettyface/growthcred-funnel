@@ -1,0 +1,3 @@
+Vendored from https://github.com/nilbuild/stick-scene (MIT © Kamran Ahmed).
+Source commit: ca84311177a020c2dff7dfd9cb2e7b786288c1ab (2026-11-16).
+Leave stick.js unchanged. See LICENSE-stick-scene.txt.
