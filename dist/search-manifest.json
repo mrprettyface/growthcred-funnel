@@ -30,6 +30,36 @@
       "prerendered": true
     },
     {
+      "path": "/shop",
+      "title": "GrowthCred Shop | Tees Printed in South Africa",
+      "description": "GC Mark and Dream tees from GrowthCred. Printed on demand in South Africa. Ships in 5 to 7 working days. Sizes S to 3XL.",
+      "index": true,
+      "published": "2026-11-25",
+      "modified": "2026-11-25",
+      "file": "shop.html",
+      "prerendered": true
+    },
+    {
+      "path": "/shop/gc-mark-tee",
+      "title": "GC Mark Tee R549 | GrowthCred Shop South Africa",
+      "description": "Washed black oversized heavyweight tee with the GrowthCred chest mark. R549. Printed on demand in South Africa. Sizes S to 3XL.",
+      "index": true,
+      "published": "2026-11-25",
+      "modified": "2026-11-25",
+      "file": "shop/gc-mark-tee.html",
+      "prerendered": true
+    },
+    {
+      "path": "/shop/dream-tee",
+      "title": "Dream Tee R699 | GrowthCred Shop South Africa",
+      "description": "Black tee with the GrowthCred chest mark and dream quote on the back. R699. Printed on demand in South Africa. Sizes S to 3XL.",
+      "index": true,
+      "published": "2026-11-25",
+      "modified": "2026-11-25",
+      "file": "shop/dream-tee.html",
+      "prerendered": true
+    },
+    {
       "path": "/workshop",
       "title": "Online AI Workshop for Business Owners | GrowthCred SA",
       "description": "Build practical AI workflows in GrowthCred’s one-day online workshop for South African business owners. R990. Session details confirmed on registration.",
