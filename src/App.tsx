@@ -27,6 +27,9 @@ const Home = lazy(() => import("./pages/Home"));
 const CorporatePage = lazy(() => import("./pages/Corporate"));
 /** The long-form private AI sales page: the Command Core, explained. */
 const PrivateAiPage = lazy(() => import("./pages/PrivateAi"));
+/** Merch storefront: /shop and /shop/:slug. */
+const ShopPage = lazy(() => import("./pages/Shop"));
+const ShopProductPage = lazy(() => import("./pages/ShopProduct"));
 const CheckoutPage = lazy(() => import("./pages/Checkout"));
 const UpsellPage = lazy(() => import("./pages/Upsell"));
 const DownsellPage = lazy(() => import("./pages/Downsell"));
@@ -273,6 +276,26 @@ export default function App() {
               <Layout bare>
                 <Suspense fallback={<LegalLoading />}>
                   <PrivateAiPage />
+                </Suspense>
+              </Layout>
+            }
+          />
+          <Route
+            path="/shop"
+            element={
+              <Layout bare>
+                <Suspense fallback={<LegalLoading />}>
+                  <ShopPage />
+                </Suspense>
+              </Layout>
+            }
+          />
+          <Route
+            path="/shop/:slug"
+            element={
+              <Layout bare>
+                <Suspense fallback={<LegalLoading />}>
+                  <ShopProductPage />
                 </Suspense>
               </Layout>
             }

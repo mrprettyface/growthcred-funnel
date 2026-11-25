@@ -541,6 +541,17 @@ export const PAGE_SCENES: Record<string, ReactElement> = {
       <path d="M130 80a5 5 0 1 1 0 10v8" stroke={GOLD} strokeWidth={3.5} />
     </>
   ),
+
+  /* Shop — a tee on a hanger, gold mark on the chest. */
+  "/shop": (
+    <>
+      <Figure x={40} y={62} arms="M0 10 l-12 12 M0 10 l18 -6" />
+      <path d="M108 46h54M120 46v8M150 46v8" />
+      <path d="M112 54h16l10 14v58h-36V68zM158 54h16l-10 14v58h-16V68z" />
+      <path d="M122 68h36v58H122z" />
+      <circle cx="140" cy="92" r="6" fill={GOLD} stroke="none" />
+    </>
+  ),
 };
 
 export function PageScene({ path, className }: { path: string; className?: string }) {

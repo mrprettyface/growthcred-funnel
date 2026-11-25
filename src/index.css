@@ -788,3 +788,36 @@ h1, h2, h3,
       calc(var(--i, 0) * -1.3s);
   }
 }
+
+/* ============================================================
+   Shop (/shop). Mark float + tee lift. Transform/opacity only.
+   No blur filters. Complete without motion.
+   ============================================================ */
+@keyframes shopMarkFloat {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}
+@keyframes shopTeeLift {
+  from { transform: translateY(12px); opacity: 0.85; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes shopGlassShift {
+  from { opacity: 0.35; transform: translate3d(-2%, 0, 0); }
+  to { opacity: 0.55; transform: translate3d(2%, 0, 0); }
+}
+.shop-hero-glass {
+  background:
+    radial-gradient(ellipse 50% 40% at 70% 20%, rgb(200 160 74 / 0.16), transparent 60%),
+    radial-gradient(ellipse 40% 35% at 20% 80%, rgb(232 224 208 / 0.08), transparent 55%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .shop-mark-float {
+    animation: shopMarkFloat 4.5s ease-in-out infinite alternate;
+  }
+  .shop-tee-lift {
+    animation: shopTeeLift 700ms ease both;
+  }
+  .shop-hero-glass {
+    animation: shopGlassShift 9s ease-in-out infinite alternate;
+  }
+}
