@@ -47,7 +47,7 @@ export default function ShopProduct() {
         <section
           id="product"
           data-tone="dark"
-          className="relative isolate overflow-x-clip bg-midnight pb-16 pt-10 text-cream md:pb-24 md:pt-16"
+          className="relative isolate overflow-x-clip bg-midnight pb-14 pt-8 text-cream md:pb-20 md:pt-12"
         >
           <DarkBackdrop />
           <div className="mx-auto w-[min(1120px,calc(100%-2.5rem))]">
@@ -59,9 +59,9 @@ export default function ShopProduct() {
               <span aria-current="page">{product.name}</span>
             </nav>
 
-            <div className="mt-10 grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
+            <div className="mt-6 grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
               <div>
-                <div className="relative overflow-hidden rounded-[2rem] bg-[#16161e] px-4 pb-2 pt-6 md:px-8 md:pt-10">
+                <div className="relative overflow-hidden rounded-[2rem] bg-[#16161e] px-4 pb-2 pt-4 md:px-8 md:pt-6">
                   <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_40%_10%,rgba(200,160,74,0.14),transparent_50%)]"
@@ -93,18 +93,18 @@ export default function ShopProduct() {
 
               <div>
                 <Eyebrow dark>Merch</Eyebrow>
-                <H1 className="mt-4 text-cream">{product.name}</H1>
-                <p className="mt-3 font-display text-3xl font-bold tracking-[-0.03em] text-gold">
+                <H1 className="mt-3 text-cream">{product.name}</H1>
+                <p className="mt-2 font-display text-3xl font-bold tracking-[-0.03em] text-gold">
                   {shopPrice(product)}
                 </p>
-                <p className="mt-5 max-w-[40ch] text-lg leading-relaxed text-cream/70">{product.blurb}</p>
-                <p className="mt-3 text-sm text-cream/50">{product.fabric}</p>
-                <p className="mt-3 text-sm text-cream/50">{SHOP_SHIPPING}</p>
-                <p className="mt-3 text-sm text-cream/50">
+                <p className="mt-4 max-w-[40ch] text-base leading-relaxed text-cream/70 md:text-lg">{product.blurb}</p>
+                <p className="mt-2 text-sm text-cream/50">{product.fabric}</p>
+                <p className="mt-2 text-sm text-cream/50">{SHOP_SHIPPING}</p>
+                <p className="mt-2 text-sm text-cream/50">
                   You pick your size. I print it for you. No warehouse pile.
                 </p>
 
-                <fieldset className="mt-8">
+                <fieldset className="mt-6">
                   <legend className="font-mono text-[12px] uppercase tracking-[0.18em] text-cream/55">
                     Size
                   </legend>
@@ -128,7 +128,7 @@ export default function ShopProduct() {
                   </div>
                 </fieldset>
 
-                <BuyButton product={product} size={size} className="mt-8 max-w-md" />
+                <BuyButton product={product} size={size} className="mt-6 max-w-md" />
 
                 {product.backQuote ? (
                   <blockquote className="mt-10 max-w-[28ch] border-l-2 border-gold pl-5 font-display text-xl font-semibold leading-snug tracking-[-0.03em] text-cream/85">
