@@ -1,13 +1,10 @@
-> **25 November 2026 — `/shop` merch storefront.** Two tees: GC Mark Tee at
-> R549 (chest mark only) and Dream Tee at R699 (chest plus back quote). Prices,
-> sizes S–3XL, shipping copy and Paystack/Yoco payment-link placeholders live
-> in `src/lib/shop.ts`. While a payment link is empty, Buy opens a WhatsApp
-> order message (mailto as secondary). Tee mockups are CSS/SVG and use the
-> official GrowthCred mark from `resources/logo/` (cream G + gold stop). There
-> is no GC arrow mark in the repo, so the invent-an-arrow brief was not
-> followed. Shop is in the header nav and footer. Gates:
-> [GATES-shop.md](GATES-shop.md), `node scripts/verify-shop.mjs`. Dist rebuilt
-> for cPanel. Not merged, not deployed.
+> **25 November 2026 — `/shop` merch storefront (revised).** White, minimal
+> storefront. Three tees, each Black or White: GC Mark Tee R549 (chest only),
+> Dream Tee R699 (stacked Bebas Neue back quote), FREE WiFi Tee R699 (FREE WiFi
+> + real QR to growthcred.co.za). Config in `src/lib/shop.ts`. Buy falls back to
+> WhatsApp while Paystack/Yoco links are empty. Chest mark stays the existing
+> repo logo until the GC arrow mark arrives. Gates: [GATES-shop.md](GATES-shop.md).
+> Dist rebuilt for cPanel. Not merged, not deployed.
 
 > **22 November 2026 — `/` is a bento page.** Layout only, from Phila's
 > reference shot (a "land plots" landing page). The hero is a gold headline card
@@ -414,7 +411,7 @@ Repo: https://github.com/mrprettyface/growthcred-funnel (public, no secrets)
 | `/build` | Custom System — application, no price | — | — |
 | `/thank-you` | Confirmation, "watch your email" | — | — |
 | `/call` | Done-for-you, stepped application | — | — |
-| `/shop` | Merch: GC Mark Tee / Dream Tee | R549 / R699 | Paystack/Yoco links in `src/lib/shop.ts` (placeholders) |
+| `/shop` | Merch: GC Mark / Dream / FREE WiFi | R549 / R699 / R699 | Paystack/Yoco links in `src/lib/shop.ts` (placeholders) |
 
 Route flow: checkout → upsell → (accept ⇒ build) / (decline ⇒ downsell → build)
 → thank-you. `/upsell`, `/downsell`, `/build`, `/thank-you` are gated: no order
