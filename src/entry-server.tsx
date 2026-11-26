@@ -9,10 +9,18 @@ export { chatTrapCost } from "./lib/jcciWebinar";
 export { cleanPage, safeEventPayload, validGaId } from "./lib/searchAnalytics";
 export async function render(path:string):Promise<string> {
   await new Promise((resolve,reject)=>{
-    const output=new PassThrough();let html='';let failed=false;
+    const output=new PassThrough();let html='';let failed=false;let piped=false;
     output.on('data',chunk=>{html+=chunk.toString();});output.on('end',()=>{clearTimeout(timeout);if(!failed)resolve(html);});output.on('error',reject);
     const stream=renderToPipeableStream(<StaticRouter location={path}><App /></StaticRouter>,{
-      onAllReady(){stream.pipe(output);},onError(error){failed=true;clearTimeout(timeout);reject(error);}
+      /* Guard: when a lazy chunk is already warm (e.g. /shop/gc-mark-tee then
+         /shop/dream-tee share ShopProduct), onAllReady can fire in a way that
+         would call pipe twice. React allows only one pipe per stream. */
+      onAllReady(){
+        if(piped)return;
+        piped=true;
+        stream.pipe(output);
+      },
+      onError(error){failed=true;clearTimeout(timeout);reject(error);}
     });
     const timeout=setTimeout(()=>{stream.abort();reject(new Error(`Prerender timed out: ${path}`));},20000);
   });

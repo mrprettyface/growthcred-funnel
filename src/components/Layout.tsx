@@ -136,6 +136,7 @@ const NAV = [
     ],
   },
   { label: "Customers", to: "/stories" },
+  { label: "Shop", to: "/shop" },
   { label: "Security", to: "/data-and-security" },
   {
     label: "Resources",
@@ -436,6 +437,7 @@ const FOOTER: { title: string; links: [string, string][] }[] = [
     links: [
       ["/about", "About Phila"],
       ["/stories", "Client stories"],
+      ["/shop", "Shop"],
       ["/guides/how-we-work-first-30-days", "How we work"],
       ["/resources", "AI guides"],
       ["/quoting-uniforms-for-a-security-company", "Security uniform quotes"],

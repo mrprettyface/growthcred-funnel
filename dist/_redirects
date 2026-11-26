@@ -8,6 +8,10 @@ https://www.growthcred.co.za/* https://growthcred.co.za/:splat 301!
 /intensive /call 301
 /private-ai /private-ai.html 200
 /corporate-ai-training /corporate-ai-training.html 200
+/shop /shop.html 200
+/shop/gc-mark-tee /shop/gc-mark-tee.html 200
+/shop/dream-tee /shop/dream-tee.html 200
+/shop/free-wifi-tee /shop/free-wifi-tee.html 200
 /workshop /workshop.html 200
 /quoting-uniforms-for-a-security-company /quoting-uniforms-for-a-security-company.html 200
 /senior-dispatcher-on-leave /senior-dispatcher-on-leave.html 200

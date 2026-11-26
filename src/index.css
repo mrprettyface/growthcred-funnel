@@ -788,3 +788,20 @@ h1, h2, h3,
       calc(var(--i, 0) * -1.3s);
   }
 }
+
+/* ============================================================
+   Shop (/shop). White, minimal. Tee lift only. No blur.
+   ============================================================ */
+@keyframes shopTeeLift {
+  from { transform: translateY(10px); opacity: 0.88; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.shop-card-surface {
+  border-radius: 1.75rem;
+  background: #f7f5f1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .shop-tee-lift {
+    animation: shopTeeLift 650ms ease both;
+  }
+}

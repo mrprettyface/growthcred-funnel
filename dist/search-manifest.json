@@ -30,6 +30,46 @@
       "prerendered": true
     },
     {
+      "path": "/shop",
+      "title": "GrowthCred Shop | Tees Printed in South Africa",
+      "description": "GC Mark, Dream and FREE WiFi tees from GrowthCred. Printed on demand in South Africa. Ships in 5 to 7 working days. S to 3XL.",
+      "index": true,
+      "published": "2026-11-25",
+      "modified": "2026-11-25",
+      "file": "shop.html",
+      "prerendered": true
+    },
+    {
+      "path": "/shop/gc-mark-tee",
+      "title": "GC Mark Tee R549 | GrowthCred Shop South Africa",
+      "description": "Black heavyweight tee with the GrowthCred chest mark. R549. Printed on demand in South Africa. Sizes S to 3XL. Official photos.",
+      "index": true,
+      "published": "2026-11-25",
+      "modified": "2026-11-26",
+      "file": "shop/gc-mark-tee.html",
+      "prerendered": true
+    },
+    {
+      "path": "/shop/dream-tee",
+      "title": "Dream Tee R699 | GrowthCred Shop South Africa",
+      "description": "Dream Tee with the dream line on the back. Black or White. R699. Printed on demand in South Africa. Sizes S to 3XL. Official photos.",
+      "index": true,
+      "published": "2026-11-25",
+      "modified": "2026-11-26",
+      "file": "shop/dream-tee.html",
+      "prerendered": true
+    },
+    {
+      "path": "/shop/free-wifi-tee",
+      "title": "FREE WiFi Tee R699 | GrowthCred Shop South Africa",
+      "description": "FREE WiFi Tee with QR to growthcred.co.za. Black or White. R699. Printed on demand in South Africa. Sizes S to 3XL. Official photos.",
+      "index": true,
+      "published": "2026-11-25",
+      "modified": "2026-11-26",
+      "file": "shop/free-wifi-tee.html",
+      "prerendered": true
+    },
+    {
       "path": "/workshop",
       "title": "Online AI Workshop for Business Owners | GrowthCred SA",
       "description": "Build practical AI workflows in GrowthCred’s one-day online workshop for South African business owners. R990. Session details confirmed on registration.",

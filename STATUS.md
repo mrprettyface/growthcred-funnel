@@ -1,3 +1,10 @@
+> **26 November 2026 — `/shop` uses Phila's official photos.** White, minimal
+> storefront. 23 `.webp` files in `public/shop/`. GC Mark Tee R549 (Black only),
+> Dream Tee R699 (Black/White), FREE WiFi Tee R699 (Black/White). Product pages
+> have clickable photo galleries. No SVG tee mockups. Buy falls back to WhatsApp
+> while Paystack/Yoco links are empty in `src/lib/shop.ts`. Gates:
+> [GATES-shop.md](GATES-shop.md). Dist rebuilt for cPanel. Not merged.
+
 > **22 November 2026 — `/` is a bento page.** Layout only, from Phila's
 > reference shot (a "land plots" landing page). The hero is a gold headline card
 > cut into the Johannesburg skyline photo (reused from /private-ai), with
@@ -403,6 +410,7 @@ Repo: https://github.com/mrprettyface/growthcred-funnel (public, no secrets)
 | `/build` | Custom System — application, no price | — | — |
 | `/thank-you` | Confirmation, "watch your email" | — | — |
 | `/call` | Done-for-you, stepped application | — | — |
+| `/shop` | Merch: GC Mark (Black) / Dream / FREE WiFi | R549 / R699 / R699 | Official `.webp` photos; Paystack/Yoco links in `src/lib/shop.ts` (placeholders) |
 
 Route flow: checkout → upsell → (accept ⇒ build) / (decline ⇒ downsell → build)
 → thank-you. `/upsell`, `/downsell`, `/build`, `/thank-you` are gated: no order
