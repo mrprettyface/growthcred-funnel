@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Footer, Header } from "../components/Layout";
-import { TeeMockup } from "../components/shop/TeeMockup";
 import { ButtonLink, Eyebrow, H1, H2 } from "../components/ui";
 import { track } from "../lib/analytics";
 import {
@@ -12,7 +11,7 @@ import {
 } from "../lib/shop";
 
 /**
- * /shop — simple white merch storefront. Product detail at /shop/:slug.
+ * /shop — white, minimal merch storefront using Phila's official photos.
  */
 export default function Shop() {
   useEffect(() => {
@@ -55,9 +54,9 @@ export default function Shop() {
           <div className="mx-auto w-[min(1120px,calc(100%-2.5rem))]">
             <div className="mx-auto max-w-xl text-center">
               <Eyebrow>The drop</Eyebrow>
-              <H2 className="mt-3">Three tees. Your colour.</H2>
+              <H2 className="mt-3">Three tees.</H2>
               <p className="mt-3 text-ink">
-                You pick Black or White on the product page. I take payment when the link is live. Until then, Buy opens a WhatsApp order to me.
+                You pick a size on the product page. Dream and FREE WiFi come in Black or White. I take payment when the link is live. Until then, Buy opens a WhatsApp order to me.
               </p>
             </div>
 
@@ -69,8 +68,16 @@ export default function Shop() {
                     className="group block no-underline"
                     data-product-card={product.id}
                   >
-                    <div className="shop-card-surface relative px-4 pb-2 pt-6 transition duration-500 group-hover:-translate-y-1">
-                      <TeeMockup product={product} colour="Black" face="front" className="shop-tee-lift relative" />
+                    <div className="shop-card-surface overflow-hidden transition duration-500 group-hover:-translate-y-1">
+                      <img
+                        src={product.cardImage.src}
+                        alt={product.cardImage.alt}
+                        width={720}
+                        height={900}
+                        className="shop-tee-lift aspect-[4/5] w-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
                     </div>
                     <div className="mt-6 flex items-baseline justify-between gap-3">
                       <h3 className="font-display text-xl font-extrabold tracking-[-0.04em] text-midnight">
@@ -82,7 +89,7 @@ export default function Shop() {
                     </div>
                     <p className="mt-2 text-sm leading-relaxed text-ink">{product.blurb}</p>
                     <span className="mt-4 inline-flex items-center gap-2 font-body text-sm font-semibold text-gold">
-                      View · Black or White · S to 3XL
+                      View · {product.colours.join(" or ")} · S to 3XL
                       <span aria-hidden="true" className="transition group-hover:translate-x-0.5">
                         →
                       </span>

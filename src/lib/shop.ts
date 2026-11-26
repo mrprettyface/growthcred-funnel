@@ -1,5 +1,6 @@
 /**
- * Merch storefront: prices, colours, sizes, shipping and payment links.
+ * Merch storefront: prices, colours, sizes, shipping, payment links and
+ * Phila's official product photos in /shop/*.webp.
  *
  * Swap PAYMENT_LINKS when Phila has Paystack or Yoco URLs. Empty strings keep
  * the Buy button on the WhatsApp / mailto order fallback — never a dead href.
@@ -17,14 +18,11 @@ export const SHOP_COLOURS = ["Black", "White"] as const;
 export type ShopColour = (typeof SHOP_COLOURS)[number];
 
 /**
- * Printed-on-demand copy. Exact wording from the brief.
+ * Printed-on-demand copy.
  * TODO(Phila): change only if the print partner's lead time changes.
  */
 export const SHOP_SHIPPING =
   "Printed on demand in South Africa. Ships in 5 to 7 working days.";
-
-/** Real QR target printed on the FREE WiFi Tee back. */
-export const SHOP_QR_URL = "https://growthcred.co.za";
 
 /**
  * Paystack or Yoco payment-link URLs per product.
@@ -40,22 +38,34 @@ export const PAYMENT_LINKS = {
 
 export type ShopProductId = keyof typeof PAYMENT_LINKS;
 
-export type ShopPrint = "chest" | "dream-back" | "wifi-back";
+export type ShopImage = {
+  src: string;
+  alt: string;
+  label: string;
+};
 
 export type ShopProduct = {
   id: ShopProductId;
   slug: string;
   name: string;
   shortName: string;
-  /** Cents (ZAR). Must match the live payment link once it exists. */
+  /** Cents (ZAR). */
   amountCents: number;
   blurb: string;
   fabric: string;
-  prints: ShopPrint;
-  /** Dream back: stacked all-caps lines. DREAM is rendered largest in the mockup. */
-  dreamLines?: readonly string[];
+  colours: readonly ShopColour[];
+  /** Flat-lay front used on the /shop card (matches storefront/index.html). */
+  cardImage: ShopImage;
+  /** Gallery views keyed by colour. Order matches the storefront kit. */
+  galleries: Partial<Record<ShopColour, readonly ShopImage[]>>;
   path: string;
 };
+
+const img = (file: string, label: string, alt: string): ShopImage => ({
+  src: `/shop/${file}`,
+  label,
+  alt,
+});
 
 export const SHOP_PRODUCTS: ShopProduct[] = [
   {
@@ -65,9 +75,17 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     shortName: "GC Mark",
     amountCents: 54900, // R549
     blurb:
-      "A heavyweight tee with a small left-chest GrowthCred mark. Black or white. I print the mark from the logo we use today. The GC arrow mark comes later.",
+      "A pared-back black tee with the GrowthCred mark on the left chest. Heavyweight cotton. Oversized fit.",
     fabric: "Heavyweight cotton. Oversized fit.",
-    prints: "chest",
+    colours: ["Black"],
+    cardImage: img("gc-black-front.webp", "Front", "GC Mark Tee, Black, front"),
+    galleries: {
+      Black: [
+        img("gc-black-front.webp", "Front", "GC Mark Tee, Black, front"),
+        img("gc-black-detail.webp", "Detail", "GC Mark Tee, Black, chest detail"),
+        img("gc-black-on-model.webp", "On model", "GC Mark Tee, Black, on model"),
+      ],
+    },
     path: "/shop/gc-mark-tee",
   },
   {
@@ -77,10 +95,26 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     shortName: "Dream",
     amountCents: 69900, // R699
     blurb:
-      "Chest mark on the front. On the back, a bold stacked question. How big would you dream if you knew you could not fail? Black or white.",
+      "Chest mark on the front. On the back, the dream line. How big would you dream if you knew you could not fail? Black or white.",
     fabric: "Heavyweight cotton. Soft hand.",
-    prints: "dream-back",
-    dreamLines: ["HOW BIG", "WOULD YOU", "DREAM", "IF YOU KNEW YOU", "COULD NOT FAIL?"],
+    colours: ["Black", "White"],
+    cardImage: img("dream-black-front.webp", "Front", "Dream Tee, Black, front"),
+    galleries: {
+      Black: [
+        img("dream-black-front.webp", "Front", "Dream Tee, Black, front"),
+        img("dream-black-back.webp", "Back", "Dream Tee, Black, back"),
+        img("dream-black-front-detail.webp", "Chest detail", "Dream Tee, Black, chest detail"),
+        img("dream-black-back-detail.webp", "Back detail", "Dream Tee, Black, back detail"),
+        img("dream-black-on-model.webp", "On model", "Dream Tee, Black, on model"),
+      ],
+      White: [
+        img("dream-white-front.webp", "Front", "Dream Tee, White, front"),
+        img("dream-white-back.webp", "Back", "Dream Tee, White, back"),
+        img("dream-white-front-detail.webp", "Chest detail", "Dream Tee, White, chest detail"),
+        img("dream-white-back-detail.webp", "Back detail", "Dream Tee, White, back detail"),
+        img("dream-white-on-model.webp", "On model", "Dream Tee, White, on model"),
+      ],
+    },
     path: "/shop/dream-tee",
   },
   {
@@ -90,9 +124,26 @@ export const SHOP_PRODUCTS: ShopProduct[] = [
     shortName: "FREE WiFi",
     amountCents: 69900, // R699
     blurb:
-      "Small chest mark on the front. On the back, FREE WiFi over a real QR to growthcred.co.za. Black with gold type, or white with red type.",
+      "Small chest mark on the front. On the back, FREE WiFi over a QR. Black or white.",
     fabric: "Heavyweight cotton. Soft hand.",
-    prints: "wifi-back",
+    colours: ["Black", "White"],
+    cardImage: img("wifi-black-front.webp", "Front", "FREE WiFi Tee, Black, front"),
+    galleries: {
+      Black: [
+        img("wifi-black-front.webp", "Front", "FREE WiFi Tee, Black, front"),
+        img("wifi-black-back.webp", "Back", "FREE WiFi Tee, Black, back"),
+        img("wifi-black-front-detail.webp", "Chest detail", "FREE WiFi Tee, Black, chest detail"),
+        img("wifi-black-back-detail.webp", "Back detail", "FREE WiFi Tee, Black, back detail"),
+        img("wifi-black-on-model.webp", "On model", "FREE WiFi Tee, Black, on model"),
+      ],
+      White: [
+        img("wifi-white-front.webp", "Front", "FREE WiFi Tee, White, front"),
+        img("wifi-white-back.webp", "Back", "FREE WiFi Tee, White, back"),
+        img("wifi-white-front-detail.webp", "Chest detail", "FREE WiFi Tee, White, chest detail"),
+        img("wifi-white-back-detail.webp", "Back detail", "FREE WiFi Tee, White, back detail"),
+        img("wifi-white-on-model.webp", "On model", "FREE WiFi Tee, White, on model"),
+      ],
+    },
     path: "/shop/free-wifi-tee",
   },
 ];
@@ -103,6 +154,12 @@ export const SHOP_BY_SLUG: Record<string, ShopProduct> = Object.fromEntries(
 
 export function shopPrice(product: ShopProduct): string {
   return formatPrice(product.amountCents);
+}
+
+export function galleryFor(product: ShopProduct, colour: ShopColour): readonly ShopImage[] {
+  const views = product.galleries[colour];
+  if (views?.length) return views;
+  return product.galleries[product.colours[0]] ?? [];
 }
 
 /**
@@ -121,7 +178,7 @@ export function buyHref(
   return { href: whatsappUrl(message), mode: "message" };
 }
 
-/** Mailto fallback if WhatsApp is unavailable; kept for the gate and copy. */
+/** Mailto fallback if WhatsApp is unavailable. */
 export function buyMailto(product: ShopProduct, size: ShopSize, colour: ShopColour): string {
   const subject = encodeURIComponent(`Order: ${product.name} (${colour}, ${size})`);
   const body = encodeURIComponent(
@@ -138,6 +195,6 @@ export const SHOP_STORY = {
   story: [
     "I build AI systems for owners who are still the bottleneck. You know the feeling. Every quote, hire and question still runs through you.",
     "I care about where your business goes next. Not the tools under the hood. Same idea on a tee.",
-    "I print these on demand in South Africa. You get yours in 5 to 7 working days. Sizes S to 3XL. Black or white.",
+    "I print these on demand in South Africa. You get yours in 5 to 7 working days. Sizes S to 3XL.",
   ],
 } as const;
